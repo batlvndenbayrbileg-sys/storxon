@@ -1,36 +1,38 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Storxon — landing page
 
-## Getting Started
+storxon.online-ийн урьдчилсан бүртгэлийн landing page. Next.js 16 (App Router) + Tailwind v4.
 
-First, run the development server:
+## Ажиллуулах
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+cp .env.example .env.local   # Supabase түлхүүрээ бөглө
+npm run dev                  # http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Supabase тохиргоо
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. Supabase дээр шинэ төсөл үүсгэнэ.
+2. SQL Editor дээр `supabase/schema.sql`-ийг ажиллуулна.
+3. Project Settings → API хэсгээс `URL` болон `service_role` түлхүүрийг `.env.local`-д хуулна.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Service role түлхүүр зөвхөн сервер талын `/api/preorder` route-д ашиглагдана. Browser руу хэзээ ч гарахгүй.
 
-## Learn More
+Бүртгэлүүдийг Supabase-ийн Table Editor → `preorders` дээрээс харна. `status` баганыг `new → invoiced → paid` гэж гараар шинэчилнэ.
 
-To learn more about Next.js, take a look at the following resources:
+## Агуулга засах
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Бүх текст, үнэ, огноо, модулийн жагсаалт `src/lib/content.ts`-д байна.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Deploy (Vercel)
 
-## Deploy on Vercel
+1. Repo-г GitHub руу push хийнэ.
+2. Vercel → New Project → repo сонгоно.
+3. Environment Variables хэсэгт `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY` нэмнэ.
+4. Domains хэсэгт `storxon.online`-ийг холбоно.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Дараагийн алхам
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- [ ] Багшийн фото зураг оруулах (`Teacher` хэсэг)
+- [ ] Демо пүүзний дэлгүүрийн бодит дэлгэцийн зургаар `StoreMock`-ийг солих
+- [ ] Бүртгэл бүрт QPay нэхэмжлэх автоматаар үүсгэх (өөрийн gateway-тэй холбох)
