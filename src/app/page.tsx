@@ -1,7 +1,8 @@
 import Image from "next/image";
 import {
   ArrowRight,
-  Bot,
+  Check,
+  MousePointer2,
   CheckCircle2,
   GraduationCap,
   MessageCircle,
@@ -15,15 +16,21 @@ import { PRESALE, audiences, faqs, fmt, modules, plans } from "@/lib/content";
 
 const audienceIcons = [School, GraduationCap, ShoppingBag, RefreshCw];
 
-function Mascot({ className = "", priority = false }: { className?: string; priority?: boolean }) {
+const SPRITES = {
+  cart: [442, 454], chart: [480, 458], code: [514, 536], desk: [954, 594], fly: [460, 436],
+  flybig: [616, 548], laptop: [532, 442], sleep: [632, 474], tablet: [376, 438], wave: [390, 442], wink: [348, 458],
+} as const;
+
+function Sprite({ name, className = "", alt = "" }: { name: keyof typeof SPRITES; className?: string; alt?: string }) {
+  const [w, h] = SPRITES[name];
   return (
     <Image
-      src="/mascot.webp"
-      alt="Storxon-ий mascot робот"
-      width={980}
-      height={1020}
-      priority={priority}
-      className={`mascot-fade select-none ${className}`}
+      src={`/kit/${name}.webp`}
+      alt={alt}
+      aria-hidden={alt ? undefined : true}
+      width={w}
+      height={h}
+      className={`pointer-events-none select-none drop-shadow-[0_18px_30px_rgba(91,76,240,0.18)] ${className}`}
     />
   );
 }
@@ -51,92 +58,112 @@ function Nav() {
   );
 }
 
-function StoreMock() {
-  const items = [
-    { name: "Air Steppe 01", price: "289,000₮", hue: "from-blue-500/80 to-blue-300/20" },
-    { name: "Gobi Runner", price: "315,000₮", hue: "from-violet-500/80 to-violet-300/20" },
-    { name: "Khangai Low", price: "249,000₮", hue: "from-indigo-500/70 to-indigo-200/20" },
-    { name: "Tuul Court", price: "199,000₮", hue: "from-sky-400/70 to-sky-200/20" },
-  ];
+function Banner() {
   return (
-    <div className="overflow-hidden rounded-3xl border border-white/80 bg-white/90 shadow-2xl shadow-violet-500/15">
-      <div className="flex items-center gap-2 border-b border-line px-4 py-2.5">
-        <span className="size-2.5 rounded-full bg-rose-400" />
-        <span className="size-2.5 rounded-full bg-amber-300" />
-        <span className="size-2.5 rounded-full bg-emerald-400" />
-        <span className="ml-3 truncate rounded-md bg-ink-3 px-3 py-1 font-mono text-xs text-muted">tanii-delguur.mn</span>
+    <section className="relative overflow-hidden bg-[#2f5cf6]">
+      <div className="relative mx-auto max-w-[1536px]">
+        <Image
+          src="/hero-banner.webp"
+          alt="Storxon робот зөөврийн компьютер дээр онлайн дэлгүүр бүтээж байна"
+          width={1536}
+          height={891}
+          priority
+          sizes="100vw"
+          className="h-auto w-full"
+        />
+        <div className="absolute inset-x-0 top-0 flex justify-end px-[4%] pt-[6%]">
+          <div className="w-[46%] text-right text-white">
+            <h1 className="text-[clamp(1.35rem,6.4vw,6rem)] font-black uppercase italic leading-[0.92] tracking-tight drop-shadow-[0_4px_18px_rgba(20,40,160,0.35)]">
+              <span className="mr-[0.15em] inline-block text-[0.55em] align-[0.35em] not-italic">✦</span>
+              Create
+              <br />
+              your store
+            </h1>
+            <p className="mt-[0.9em] text-[clamp(0.6rem,1.75vw,1.6rem)] font-medium uppercase leading-snug tracking-wide">
+              AI × E-commerce
+              <br />
+              course
+            </p>
+            <p className="mt-[0.4em] text-[clamp(0.55rem,1.1vw,1rem)] text-white/85">Turn your ideas into reality.</p>
+          </div>
+        </div>
+        <p className="absolute right-[3.5%] top-[49%] hidden -rotate-6 text-[clamp(0.8rem,1.7vw,1.5rem)] font-semibold italic leading-tight text-white/90 sm:block">
+          Өөрийн
+          <br />
+          брэндээ
+          <br />
+          бүтээ!
+        </p>
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[16%] bg-gradient-to-b from-transparent to-white" />
       </div>
-      <div className="p-4">
-        <div className="mb-3 flex items-center justify-between">
-          <span className="text-sm font-bold">STEPPE KICKS</span>
-          <span className="rounded-full bg-ink-3 px-2.5 py-1 text-xs text-muted">Сагс · 2</span>
-        </div>
-        <div className="grid grid-cols-2 gap-3">
-          {items.map((it) => (
-            <div key={it.name} className="rounded-2xl border border-line bg-ink-2 p-3">
-              <div className={`mb-3 aspect-[4/3] rounded-xl bg-gradient-to-br ${it.hue}`} />
-              <p className="truncate text-xs font-medium">{it.name}</p>
-              <p className="text-xs text-muted">{it.price}</p>
-            </div>
-          ))}
-        </div>
-        <div className="mt-3 flex items-center justify-between rounded-xl bg-brand px-3 py-2.5">
-          <span className="text-xs">QPay-ээр төлөх</span>
-          <span className="font-mono text-xs font-semibold">538,000₮</span>
-        </div>
-      </div>
+    </section>
+  );
+}
+
+function CheckStrip() {
+  const checks = ["100% практик", "0-ээс эхлэгчдэд", "AI туслахтай", "Өөрийн онлайн дэлгүүртэй болно"];
+  return (
+    <div className="bg-white">
+      <ul className="mx-auto flex max-w-5xl flex-wrap items-center justify-center gap-x-10 gap-y-3 px-4 py-5 text-sm sm:text-base">
+        {checks.map((c) => (
+          <li key={c} className="flex items-center gap-2">
+            <span className="grid size-5 place-items-center rounded-full bg-brand">
+              <Check className="size-3.5" strokeWidth={3} />
+            </span>
+            {c}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }
 
 function Hero() {
-  const checks = ["100% практик", "0-ээс эхлэгчдэд", "AI туслахтай", "QPay-ээр бодит төлбөр"];
   return (
-    <section className="soft-bg relative overflow-hidden">
-      <div className="mx-auto grid max-w-6xl items-center gap-12 px-4 pb-20 pt-14 sm:px-6 md:grid-cols-[1.05fr_1fr] md:pt-20">
+    <section className="relative overflow-hidden bg-white">
+      <div className="pointer-events-none absolute -right-40 top-10 size-[38rem] rounded-full bg-violet-200/40 blur-3xl" />
+      <div className="relative mx-auto grid max-w-6xl items-center gap-10 px-4 py-14 sm:px-6 md:grid-cols-[1fr_1.05fr] md:py-20">
         <div>
-          <p className="mb-5 inline-flex items-center gap-2 rounded-full border border-violet-200 bg-white/70 px-3 py-1 text-xs font-medium text-violet-700">
-            <Bot className="size-3.5" />
-            AI + Код · E-commerce сургалт
+          <h2 className="text-[clamp(3rem,8vw,5.5rem)] font-black leading-[0.95] tracking-tight">
+            Hello,
+            <span className="ml-2 inline-block align-top text-[0.45em] text-amber-400">✦</span>
+            <br />
+            <span className="relative my-2 mr-3 inline-block border-2 border-blue-500 px-3 py-1">
+              <span className="text-brand">Storxon</span>
+              {(["-left-1.5 -top-1.5", "-right-1.5 -top-1.5", "-left-1.5 -bottom-1.5", "-right-1.5 -bottom-1.5"] as const).map((pos) => (
+                <span key={pos} className={`absolute ${pos} size-2.5 rounded-[2px] border-2 border-blue-500 bg-white`} />
+              ))}
+              <MousePointer2 className="absolute -bottom-6 -right-5 size-7 fill-paper text-paper" />
+            </span>
+            is
+            <br />
+            coming
+          </h2>
+          <p className="mt-7 max-w-md text-xl leading-relaxed text-muted">
+            Өөрийн онлайн дэлгүүрийг AI-тай хамт 0-ээс бүтээж сурах бүрэн сургалт удахгүй.
           </p>
-          <h1 className="text-4xl font-black leading-[1.08] tracking-tight sm:text-5xl lg:text-[3.6rem]">
-            Өөрийн онлайн дэлгүүрийг <span className="text-brand">AI-тай хамт</span>{" "}
-            <span className="whitespace-nowrap">0-ээс бүтээ</span>
-          </h1>
-          <p className="mt-6 max-w-xl text-lg text-muted">
-            Програмчлалын мэдлэггүй ч болно. 6 долоо хоногт QPay-ээр төлбөр авдаг, өөрийн домэйнтой
-            дэлгүүрийг алхам алхмаар бүтээж сурна.
-          </p>
-          <ul className="mt-6 grid max-w-md grid-cols-2 gap-x-6 gap-y-2 text-sm">
-            {checks.map((c) => (
-              <li key={c} className="flex items-center gap-2">
-                <CheckCircle2 className="size-4 text-blue-600" />
-                {c}
-              </li>
-            ))}
-          </ul>
           <div className="mt-8 flex flex-wrap gap-3">
             <a href="#register" className="inline-flex items-center gap-2 rounded-full bg-brand px-6 py-3.5 font-semibold shadow-lg shadow-violet-500/30 hover:opacity-90">
-              Урьдчилж бүртгүүлэх −50% <ArrowRight className="size-4" />
+              Сургалтад бүртгүүлэх <ArrowRight className="size-4" />
             </a>
             <a href="#modules" className="inline-flex items-center gap-2 rounded-full border border-line bg-white px-6 py-3.5 font-semibold hover:border-violet-300">
-              Хөтөлбөр үзэх <PlayCircle className="size-4 text-violet-600" />
+              Хөтөлбөр үзэх <PlayCircle className="size-5 text-blue-600" />
             </a>
           </div>
           <p className="mt-8 text-sm text-muted">
-            Эхний <span className="font-semibold text-paper">{PRESALE.seats} хүнд</span> урьдчилсан үнэ ·
-            бүртгэл {PRESALE.closes} хүртэл
+            Эхний <span className="font-semibold text-paper">{PRESALE.seats} хүнд −50%</span> · урьдчилсан бүртгэл{" "}
+            {PRESALE.closes} хүртэл
           </p>
         </div>
-
-        <div className="relative mx-auto w-full max-w-md md:max-w-none">
-          <div className="absolute -inset-10 -z-0 rounded-full bg-violet-300/30 blur-3xl" />
-          <div className="relative ml-auto w-[82%]">
-            <StoreMock />
-          </div>
-          <div className="animate-float absolute -bottom-14 -left-2 w-[50%] sm:-left-16">
-            <Mascot priority />
-          </div>
+        <div className="relative">
+          <Image
+            src="/mascot-hello.webp"
+            alt="Гараа даллаж буй Storxon робот"
+            width={870}
+            height={825}
+            priority
+            className="edge-fade animate-float mx-auto h-auto w-full max-w-xl select-none"
+          />
         </div>
       </div>
     </section>
@@ -197,7 +224,9 @@ function Audience() {
 function Modules() {
   return (
     <section id="modules" className="bg-ink-2">
-      <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
+      <div className="relative mx-auto max-w-6xl px-4 py-20 sm:px-6">
+        <Sprite name="code" className="animate-float absolute right-4 top-10 hidden w-36 lg:block" />
+        <Sprite name="cart" className="animate-float absolute left-4 top-16 hidden w-28 lg:block [animation-delay:-2s]" />
         <SectionHead
           eyebrow="Сургалтын хөтөлбөр · 10 модуль · ~20 цаг"
           title="Бүрэн, практик, алхам алхмаар"
@@ -245,6 +274,7 @@ function Teacher() {
             <p className="text-3xl font-black">Д. Бямбадолгор</p>
             <p className="mt-1 text-white/80">Багш · Хөгжүүлэгч · Botxon</p>
           </div>
+          <Sprite name="tablet" className="absolute -bottom-2 right-6 w-[34%]" />
           <span className="glass absolute right-5 top-5 rounded-2xl px-4 py-3 text-sm font-semibold text-violet-700 shadow-md">
             AI · Next.js · QPay
           </span>
@@ -273,8 +303,10 @@ function Teacher() {
 
 function Pricing() {
   return (
-    <section id="pricing" className="soft-bg">
-      <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
+    <section id="pricing" className="soft-bg overflow-hidden">
+      <div className="relative mx-auto max-w-6xl px-4 py-20 sm:px-6">
+        <Sprite name="flybig" className="animate-float absolute -left-6 top-6 hidden w-52 lg:block" />
+        <Sprite name="chart" className="animate-float absolute right-2 top-14 hidden w-36 lg:block [animation-delay:-2.5s]" />
         <SectionHead
           eyebrow="Төлбөрийн сонголт"
           title="Өөрт тохирох багцаа сонго"
@@ -348,7 +380,7 @@ function Faq() {
           ))}
         </div>
         <div className="soft-bg sticky top-24 overflow-hidden rounded-3xl border border-white p-6 text-center shadow-sm">
-          <Mascot className="animate-float mx-auto w-52" />
+          <Sprite name="sleep" alt="Storxon робот" className="animate-float mx-auto w-60" />
           <h3 className="mt-2 text-xl font-bold">Асуулт байна уу?</h3>
           <p className="mt-2 text-sm text-muted">Instagram-аар бичээрэй, бид хурдан хариулна.</p>
           <a
@@ -388,7 +420,7 @@ function Register() {
               <dd className="mt-1 font-semibold">{PRESALE.firstModules}</dd>
             </div>
           </dl>
-          <Mascot className="animate-float mt-4 hidden w-56 md:block" />
+          <Sprite name="laptop" alt="Зөөврийн компьютер дээр ажиллаж буй Storxon робот" className="animate-float mt-6 hidden w-64 md:block" />
         </div>
         <div className="glass relative rounded-3xl border border-white p-6 shadow-xl shadow-violet-500/10 sm:p-8">
           <PreorderForm />
@@ -417,6 +449,8 @@ export default function Home() {
     <>
       <Nav />
       <main>
+        <Banner />
+        <CheckStrip />
         <Hero />
         <Stack />
         <Audience />
