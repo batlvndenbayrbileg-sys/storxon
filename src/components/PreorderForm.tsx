@@ -33,7 +33,7 @@ export default function PreorderForm({ defaultPlan = "standard" }: { defaultPlan
   if (status === "done") {
     return (
       <div className="rounded-2xl border border-volt/40 bg-volt/10 p-6 text-center">
-        <p className="text-lg font-semibold text-volt">Бүртгэл амжилттай!</p>
+        <p className="text-lg font-semibold text-brand">Бүртгэл амжилттай!</p>
         <p className="mt-2 text-sm text-muted">
           24 цагийн дотор төлбөрийн мэдээллийг утсаар чинь илгээнэ.
         </p>
@@ -85,7 +85,7 @@ export default function PreorderForm({ defaultPlan = "standard" }: { defaultPlan
       <button
         type="submit"
         disabled={status === "sending"}
-        className="w-full rounded-xl bg-volt px-5 py-3.5 font-semibold text-volt-ink transition hover:brightness-95 disabled:opacity-60"
+        className="w-full rounded-xl bg-brand px-5 py-3.5 font-semibold transition hover:opacity-90 disabled:opacity-60"
       >
         {status === "sending" ? "Илгээж байна…" : "Урьдчилж бүртгүүлэх"}
       </button>
