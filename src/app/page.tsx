@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import PreorderForm from "@/components/PreorderForm";
 import { PRESALE, audiences, faqs, fmt, modules, plans } from "@/lib/content";
+import { isPresale, priceList } from "@/lib/pricing";
 
 const audienceIcons = [School, GraduationCap, ShoppingBag, RefreshCw];
 
@@ -50,9 +51,14 @@ function Nav() {
           <a href="#pricing" className="hover:text-paper">Үнэ</a>
           <a href="#faq" className="hover:text-paper">FAQ</a>
         </nav>
-        <a href="#register" className="rounded-full bg-brand px-4 py-2 text-sm font-semibold shadow-md shadow-violet-500/25 hover:opacity-90">
-          Бүртгүүлэх
-        </a>
+        <div className="flex items-center gap-2">
+          <a href="/learn" className="rounded-full border border-line bg-white px-4 py-2 text-sm font-semibold hover:border-violet-300">
+            Нэвтрэх
+          </a>
+          <a href="#register" className="rounded-full bg-brand px-4 py-2 text-sm font-semibold shadow-md shadow-violet-500/25 hover:opacity-90">
+            Бүртгүүлэх
+          </a>
+        </div>
       </div>
     </header>
   );
@@ -150,10 +156,12 @@ function Hero() {
               Хөтөлбөр үзэх <PlayCircle className="size-5 text-blue-600" />
             </a>
           </div>
-          <p className="mt-8 text-sm text-muted">
-            Эхний <span className="font-semibold text-paper">{PRESALE.seats} хүнд −50%</span> · урьдчилсан бүртгэл{" "}
-            {PRESALE.closes} хүртэл
-          </p>
+          {isPresale() && (
+            <p className="mt-8 text-sm text-muted">
+              Эхний <span className="font-semibold text-paper">{PRESALE.seats} хүнд −50%</span> · урьдчилсан бүртгэл{" "}
+              {PRESALE.closes} хүртэл
+            </p>
+          )}
         </div>
         <div className="relative">
           <Image
@@ -302,6 +310,7 @@ function Teacher() {
 }
 
 function Pricing() {
+  const price = new Map(priceList().map((p) => [p.id, p]));
   return (
     <section id="pricing" className="soft-bg overflow-hidden">
       <div className="relative mx-auto max-w-6xl px-4 py-20 sm:px-6">
@@ -310,7 +319,11 @@ function Pricing() {
         <SectionHead
           eyebrow="Төлбөрийн сонголт"
           title="Өөрт тохирох багцаа сонго"
-          sub={`Эхний ${PRESALE.seats} хүнд 50% хямдрал. Нэг удаагийн төлбөрөөр насан туршийн хандалт.`}
+          sub={
+            isPresale()
+              ? `Эхний ${PRESALE.seats} хүнд 50% хямдрал. Нэг удаагийн төлбөрөөр насан туршийн хандалт.`
+              : "Нэг удаагийн төлбөрөөр насан туршийн хандалт."
+          }
         />
         <div className="mx-auto grid max-w-4xl gap-6 md:grid-cols-2">
           {plans.map((p) => (
@@ -327,8 +340,10 @@ function Pricing() {
               )}
               <h3 className="text-xl font-bold">{p.name}</h3>
               <div className="mt-4 flex items-baseline gap-3">
-                <span className="text-brand text-4xl font-black">{fmt(p.presale)}</span>
-                <span className="text-muted line-through">{fmt(p.price)}</span>
+                <span className="text-brand text-4xl font-black">{fmt(price.get(p.id)!.amount)}</span>
+                {price.get(p.id)!.was !== null && (
+                  <span className="text-muted line-through">{fmt(price.get(p.id)!.was!)}</span>
+                )}
               </div>
               <ul className="mt-6 flex-1 space-y-3">
                 {p.features.map((f) => (
@@ -407,8 +422,8 @@ function Register() {
             Өөрийн онлайн дэлгүүрээ <span className="text-brand">өнөөдрөөс</span> бүтээж эхэл
           </h2>
           <p className="mt-5 text-muted">
-            Бүртгүүлсний дараа QPay-ийн нэхэмжлэхийг утсаар чинь илгээнэ. Төлбөр хийгдсэнээр хямдралтай үнэ тань
-            баталгаажна.
+            Бүртгүүлэхэд QPay QR шууд гарна. Төлбөр хийгдмэгц{isPresale() ? " хямдралтай үнэ тань баталгаажиж," : ""} видео
+            хичээл рүү нэвтрэх холбоос имэйлээр очно.
           </p>
           <dl className="mt-6 grid max-w-sm grid-cols-2 gap-3">
             <div className="rounded-2xl bg-white/80 p-4">
@@ -423,7 +438,7 @@ function Register() {
           <Sprite name="laptop" alt="Зөөврийн компьютер дээр ажиллаж буй Storxon робот" className="animate-float mt-6 hidden w-64 md:block" />
         </div>
         <div className="glass relative rounded-3xl border border-white p-6 shadow-xl shadow-violet-500/10 sm:p-8">
-          <PreorderForm />
+          <PreorderForm prices={priceList()} />
         </div>
       </div>
     </section>

@@ -31,8 +31,35 @@ Service role түлхүүр зөвхөн сервер талын `/api/preorder`
 3. Environment Variables хэсэгт `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY` нэмнэ.
 4. Domains хэсэгт `storxon.online`-ийг холбоно.
 
+## Видео хичээл ба төлбөр (QPay → имэйл → /learn)
+
+```
+#register форм   нэр, имэйл, утас, багц → /api/checkout → QPay QR (үнийг ЗӨВХӨН server тооцоолно)
+/api/qpay/callback   QPay дуудна → нууц токен шалгаад QPay-ээс төлбөрийг ДАХИН шалгана
+/api/orders/:id      форм 4 сек тутам асууна (callback алдагдсан ч ажиллана)
+төлбөр орсон         enrollments-д имэйл нэмэгдэж, нэвтрэх холбоос имэйлээр очно
+/login               төлбөр төлсөн имэйлээр нэвтрэх холбоос дахин авах
+/learn               видео хичээлүүд: нэвтэрсэн + төлбөртэй хүнд л нээгдэнэ (private/course.html)
+/logout
+```
+
+### Тохиргоо
+1. Supabase SQL Editor дээр `supabase/schema.sql`-ийг дахин ажиллуул (orders, enrollments нэмэгдэнэ; preorders хэвээр).
+2. Supabase → Authentication → URL Configuration: Site URL `https://storxon.online`, Redirect URL `https://storxon.online/auth/callback`.
+3. Бодит хэрэглээнд Authentication → Emails дээр өөрийн SMTP холбо (үнэгүй имэйл цагт цөөн илгээдэг).
+4. Vercel → Environment Variables: `.env.example` дахь бүх утга (Supabase anon + service_role, QPay username/password/invoice code, `NEXT_PUBLIC_SITE_URL`).
+5. Хамгийн хямд багцаар өөрөө нэг удаа төлж, имэйл ирэх, `/learn` нээгдэхийг шалга.
+
+### Видео хичээлийг шинэчлэх
+Курсын тоглуулагч нэг HTML файл: `private/course.html` (public биш, шууд хаягаар нээгдэхгүй).
+Шинэ хувилбараа энэ файлаар солиод push хийнэ. Маскотын зургууд `public/kit/` дотор.
+
+### Гараар хийх
+- Буцаалт: QPay дээрээс буцааж, Supabase → `enrollments`-аас тэр имэйлийн мөрийг устга.
+- `PRESALE=false` болгосны дараа Redeploy.
+
 ## Дараагийн алхам
 
 - [ ] Багшийн фото зураг оруулах (`Teacher` хэсэг)
 - [ ] Демо пүүзний дэлгүүрийн бодит дэлгэцийн зургаар `StoreMock`-ийг солих
-- [ ] Бүртгэл бүрт QPay нэхэмжлэх автоматаар үүсгэх (өөрийн gateway-тэй холбох)
+- [x] Бүртгэл бүрт QPay нэхэмжлэх автоматаар үүсгэх, төлбөр орвол видео хичээл нээх
