@@ -12,10 +12,12 @@ export default function PreorderForm({ prices, defaultPlan = "standard" }: { pri
   const [status, setStatus] = useState<Status>("idle");
   const [message, setMessage] = useState("");
   const [inv, setInv] = useState<Invoice | null>(null);
+  const [email, setEmail] = useState("");
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const data = Object.fromEntries(new FormData(e.currentTarget).entries());
+    setEmail(String(data.email || "").trim().toLowerCase());
     setStatus("sending");
     setMessage("");
     try {
@@ -54,11 +56,17 @@ export default function PreorderForm({ prices, defaultPlan = "standard" }: { pri
       <div className="rounded-2xl border border-volt/40 bg-volt/10 p-6 text-center">
         <p className="text-lg font-semibold text-brand">Төлбөр амжилттай!</p>
         <p className="mt-2 text-sm text-muted">
-          Таны имэйл рүү сургалт руу нэвтрэх холбоос илгээлээ. Холбоос дээр дарахад видео хичээлүүд нээгдэнэ.
+          Одоо энэ имэйлээрээ бүртгэл үүсгэнэ үү. Нууц үгээ тохируулмагц видео хичээлүүд нээгдэнэ.
         </p>
-        <a href="/login" className="mt-5 inline-block rounded-full bg-brand px-5 py-3 text-sm font-semibold hover:opacity-90">
-          Холбоос ирээгүй бол энд дарна уу
+        <a
+          href={`/signup?email=${encodeURIComponent(email)}`}
+          className="mt-5 inline-block rounded-full bg-brand px-5 py-3 text-sm font-semibold hover:opacity-90"
+        >
+          Бүртгэл үүсгэх
         </a>
+        <p className="mt-3 text-xs text-muted">
+          Бүртгэлтэй болсон бол <a href="/login" className="font-semibold text-violet-700">нэвтрэх</a>.
+        </p>
       </div>
     );
   }

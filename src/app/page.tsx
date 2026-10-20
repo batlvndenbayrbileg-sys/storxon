@@ -364,13 +364,9 @@ function Pricing() {
             </div>
           ))}
         </div>
-        <div className="mx-auto mt-6 grid max-w-4xl gap-4 text-sm text-muted sm:grid-cols-2">
+        <div className="mx-auto mt-6 max-w-4xl text-sm text-muted">
           <p className="rounded-2xl border border-line bg-white/70 p-4">
             <span className="font-semibold text-paper">Найзтайгаа:</span> 3 хүн хамт бүртгүүлбэл нэмэлт 20% хямдрал.
-          </p>
-          <p className="rounded-2xl border border-line bg-white/70 p-4">
-            <span className="font-semibold text-paper">Баталгаа:</span> Эхний 2 модулийг үзээд таалагдаагүй бол 7
-            хоногийн дотор мөнгөө бүтнээр нь буцааж авна.
           </p>
         </div>
       </div>

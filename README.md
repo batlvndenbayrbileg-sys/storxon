@@ -37,18 +37,19 @@ Service role түлхүүр зөвхөн сервер талын `/api/preorder`
 #register форм   нэр, имэйл, утас, багц → /api/checkout → QPay QR (үнийг ЗӨВХӨН server тооцоолно)
 /api/qpay/callback   QPay дуудна → нууц токен шалгаад QPay-ээс төлбөрийг ДАХИН шалгана
 /api/orders/:id      форм 4 сек тутам асууна (callback алдагдсан ч ажиллана)
-төлбөр орсон         enrollments-д имэйл нэмэгдэж, нэвтрэх холбоос имэйлээр очно
-/login               төлбөр төлсөн имэйлээр нэвтрэх холбоос дахин авах
-/learn               видео хичээлүүд: нэвтэрсэн + төлбөртэй хүнд л нээгдэнэ (private/course.html)
+төлбөр орсон         enrollments-д имэйл нэмэгдэнэ (эрхийн эх сурвалж)
+/signup              төлбөр төлсөн имэйлээрээ нууц үгтэй бүртгэл үүсгэнэ
+/login               имэйл + нууц үгээр нэвтэрнэ
+/learn               видео хичээлүүд: нэвтэрсэн + төлбөртэй (enrollments-тэй) хүнд л нээгдэнэ (private/course.html)
 /logout
 ```
 
 ### Тохиргоо
 1. Supabase SQL Editor дээр `supabase/schema.sql`-ийг дахин ажиллуул (orders, enrollments нэмэгдэнэ; preorders хэвээр).
-2. Supabase → Authentication → URL Configuration: Site URL `https://storxon.online`, Redirect URL `https://storxon.online/auth/callback`.
-3. Бодит хэрэглээнд Authentication → Emails дээр өөрийн SMTP холбо (үнэгүй имэйл цагт цөөн илгээдэг).
+2. Supabase → Authentication → Providers → Email: **Confirm email-ийг УНТРАА**. Тэгвэл бүртгэл үүсмэгц шууд нэвтэрнэ (SMTP хэрэггүй). Хэрэв асаалттай орхивол Supabase → Authentication → Emails дээр SMTP холбох шаардлагатай.
+3. Supabase → Authentication → URL Configuration: Site URL `https://storxon.online` (имэйл баталгаажуулалт асаалттай үед Redirect URL `https://storxon.online/auth/callback`).
 4. Vercel → Environment Variables: `.env.example` дахь бүх утга (Supabase anon + service_role, QPay username/password/invoice code, `NEXT_PUBLIC_SITE_URL`).
-5. Хамгийн хямд багцаар өөрөө нэг удаа төлж, имэйл ирэх, `/learn` нээгдэхийг шалга.
+5. Хамгийн хямд багцаар өөрөө нэг удаа төлж, тэр имэйлээрээ `/signup` дээр бүртгэл үүсгэж, `/learn` нээгдэхийг шалга.
 
 ### Видео хичээлийг шинэчлэх
 Курсын тоглуулагч нэг HTML файл: `private/course.html` (public биш, шууд хаягаар нээгдэхгүй).

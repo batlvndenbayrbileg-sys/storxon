@@ -8,8 +8,8 @@ export type OrderRow = { id: string; email: string; name: string; plan: PlanId; 
 export const site = () => (process.env.NEXT_PUBLIC_SITE_URL || "https://storxon.online").replace(/\/$/, "");
 
 /**
- * Re-checks the invoice with QPay and, if fully paid, marks the order paid (once),
- * opens the course for that email and e-mails a sign-in link.
+ * Re-checks the invoice with QPay and, if fully paid, marks the order paid (once)
+ * and records a paid enrollment for that e-mail (which is what opens /learn).
  * Safe to call many times (callback + polling): only the first pending→paid transition does work.
  */
 export async function settle(orderId: string): Promise<OrderRow["status"]> {
@@ -31,7 +31,7 @@ export async function settle(orderId: string): Promise<OrderRow["status"]> {
   const plan: PlanId = prev?.plan === "pro" ? "pro" : o.plan;
   await db.from("enrollments").upsert({ email, plan, order_id: o.id });
 
-  // magic link straight into the course
-  await db.auth.signInWithOtp({ email, options: { emailRedirectTo: `${site()}/auth/callback?next=/learn`, shouldCreateUser: true } });
+  // Account + sign-in is email+password (/signup, /login); access to /learn is gated
+  // by this enrollment row, so there is nothing to e-mail here.
   return "paid";
 }
