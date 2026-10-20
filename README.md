@@ -16,7 +16,9 @@ npm run dev                  # http://localhost:3000
 2. SQL Editor дээр `supabase/schema.sql`-ийг ажиллуулна.
 3. Project Settings → API хэсгээс `URL` болон `service_role` түлхүүрийг `.env.local`-д хуулна.
 
-Service role түлхүүр зөвхөн сервер талын `/api/preorder` route-д ашиглагдана. Browser руу хэзээ ч гарахгүй.
+Service role түлхүүр зөвхөн сервер талд ашиглагдана. Browser руу хэзээ ч гарахгүй.
+
+Төлбөрийг **Botxon Gateway** (botxon.chat) дамжуулна. QPay merchant данс/түлхүүр хэрэггүй — зөвхөн merchant-ийн `BOTXON_API_KEY` + `BOTXON_WEBHOOK_SECRET`. Botxon дотроо QPay-тэй холбогдож төлбөрийг тухайн merchant-ийн данс руу шууд оруулна.
 
 Бүртгэлүүдийг Supabase-ийн Table Editor → `preorders` дээрээс харна. `status` баганыг `new → invoiced → paid` гэж гараар шинэчилнэ.
 
@@ -34,9 +36,9 @@ Service role түлхүүр зөвхөн сервер талын `/api/preorder`
 ## Видео хичээл ба төлбөр (QPay → имэйл → /learn)
 
 ```
-#register форм   нэр, имэйл, утас, багц → /api/checkout → QPay QR (үнийг ЗӨВХӨН server тооцоолно)
-/api/qpay/callback   QPay дуудна → нууц токен шалгаад QPay-ээс төлбөрийг ДАХИН шалгана
-/api/orders/:id      форм 4 сек тутам асууна (callback алдагдсан ч ажиллана)
+#register форм   нэр, имэйл, утас, багц → /api/checkout → Botxon Gateway QR (үнийг ЗӨВХӨН server тооцоолно)
+/api/botxon/webhook  Botxon дуудна → HMAC гарын үсэг шалгаад төлбөрийг Botxon-оос ДАХИН шалгана
+/api/orders/:id      форм 4 сек тутам асууна (webhook алдагдсан ч ажиллана)
 төлбөр орсон         enrollments-д имэйл нэмэгдэнэ (эрхийн эх сурвалж)
 /signup              төлбөр төлсөн имэйлээрээ нууц үгтэй бүртгэл үүсгэнэ
 /login               имэйл + нууц үгээр нэвтэрнэ
@@ -48,7 +50,7 @@ Service role түлхүүр зөвхөн сервер талын `/api/preorder`
 1. Supabase SQL Editor дээр `supabase/schema.sql`-ийг дахин ажиллуул (orders, enrollments нэмэгдэнэ; preorders хэвээр).
 2. Supabase → Authentication → Providers → Email: **Confirm email-ийг УНТРАА**. Тэгвэл бүртгэл үүсмэгц шууд нэвтэрнэ (SMTP хэрэггүй). Хэрэв асаалттай орхивол Supabase → Authentication → Emails дээр SMTP холбох шаардлагатай.
 3. Supabase → Authentication → URL Configuration: Site URL `https://storxon.online` (имэйл баталгаажуулалт асаалттай үед Redirect URL `https://storxon.online/auth/callback`).
-4. Vercel → Environment Variables: `.env.example` дахь бүх утга (Supabase anon + service_role, QPay username/password/invoice code, `NEXT_PUBLIC_SITE_URL`).
+4. Vercel → Environment Variables: `.env.example` дахь бүх утга (Supabase anon + service_role, `BOTXON_API_KEY`, `BOTXON_WEBHOOK_SECRET`, `NEXT_PUBLIC_SITE_URL`). Botxon → Gateway → тухайн merchant дээр webhook URL-ээ `https://www.storxon.online/api/botxon/webhook` болгож тохируул, webhook secret-ийг хуулж ав.
 5. Хамгийн хямд багцаар өөрөө нэг удаа төлж, тэр имэйлээрээ `/signup` дээр бүртгэл үүсгэж, `/learn` нээгдэхийг шалга.
 
 ### Видео хичээлийг шинэчлэх

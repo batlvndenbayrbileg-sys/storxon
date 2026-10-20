@@ -1,6 +1,6 @@
 import "server-only";
 import { supabaseAdmin } from "@/lib/supabase/admin";
-import { paidAmount } from "@/lib/qpay";
+import { getInvoice } from "@/lib/botxon";
 import type { PlanId } from "@/lib/pricing";
 
 export type OrderRow = { id: string; email: string; name: string; plan: PlanId; amount: number; status: "pending" | "paid" | "cancelled"; qpay_invoice_id: string | null; callback_token: string };
@@ -8,7 +8,7 @@ export type OrderRow = { id: string; email: string; name: string; plan: PlanId; 
 export const site = () => (process.env.NEXT_PUBLIC_SITE_URL || "https://storxon.online").replace(/\/$/, "");
 
 /**
- * Re-checks the invoice with QPay and, if fully paid, marks the order paid (once)
+ * Re-checks the invoice with Botxon and, if paid, marks the order paid (once)
  * and records a paid enrollment for that e-mail (which is what opens /learn).
  * Safe to call many times (callback + polling): only the first pending→paid transition does work.
  */
@@ -18,8 +18,8 @@ export async function settle(orderId: string): Promise<OrderRow["status"]> {
   if (!o) return "cancelled";
   if (o.status !== "pending" || !o.qpay_invoice_id) return o.status;
 
-  const paid = await paidAmount(o.qpay_invoice_id);
-  if (paid < o.amount) return "pending";
+  const inv = await getInvoice(o.qpay_invoice_id);
+  if (inv.status !== "paid" || Number(inv.amount) < o.amount) return "pending";
 
   // pending → paid exactly once (guards against callback + poll racing)
   const { data: flipped } = await db.from("orders").update({ status: "paid", paid_at: new Date().toISOString() }).eq("id", o.id).eq("status", "pending").select("id");

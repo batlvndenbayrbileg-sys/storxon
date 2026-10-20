@@ -1,9 +1,8 @@
 import { NextResponse } from "next/server";
 import { randomBytes } from "node:crypto";
 import { supabaseAdmin } from "@/lib/supabase/admin";
-import { createInvoice } from "@/lib/qpay";
+import { createInvoice } from "@/lib/botxon";
 import { priceOf, planName, type PlanId } from "@/lib/pricing";
-import { site } from "@/lib/access";
 
 const PLANS = new Set(["standard", "pro"]);
 const SEGMENTS = new Set(["highschool", "student", "business", "career", "other"]);
@@ -50,18 +49,24 @@ export async function POST(req: Request) {
   }
 
   try {
+    // Botxon decides nothing about the price; it just issues a QR for `amount`.
+    // orderRef lets the webhook find this order; payment settles to the merchant's bank.
     const inv = await createInvoice({
-      orderId: order.id,
       amount,
       description: `Storxon ${planName(plan as PlanId)} багц`,
-      receiver: phone,
-      callbackUrl: `${site()}/api/qpay/callback?order=${order.id}&t=${callback_token}`,
+      orderRef: order.id,
     });
-    await db.from("orders").update({ qpay_invoice_id: inv.invoice_id }).eq("id", order.id);
-    return NextResponse.json({ orderId: order.id, amount, qr: inv.qr_image, banks: (inv.urls || []).map((u) => ({ name: u.name, logo: u.logo ?? null, link: u.link })) });
+    await db.from("orders").update({ qpay_invoice_id: inv.invoiceId }).eq("id", order.id);
+    const qr = /^(data:|https?:)/.test(inv.qrImage) ? inv.qrImage : `data:image/png;base64,${inv.qrImage}`;
+    return NextResponse.json({
+      orderId: order.id,
+      amount,
+      qr,
+      banks: (inv.urls || []).map((u) => ({ name: u.name, logo: u.logo ?? null, link: u.link })),
+    });
   } catch (e) {
     await db.from("orders").update({ status: "cancelled" }).eq("id", order.id);
     console.error(e);
-    return NextResponse.json({ error: "QPay нэхэмжлэх үүсгэж чадсангүй. Түр хүлээгээд дахин оролдоно уу." }, { status: 502 });
+    return NextResponse.json({ error: "Төлбөрийн QR үүсгэж чадсангүй. Түр хүлээгээд дахин оролдоно уу." }, { status: 502 });
   }
 }

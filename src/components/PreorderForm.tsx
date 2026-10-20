@@ -36,7 +36,7 @@ export default function PreorderForm({ prices, defaultPlan = "standard" }: { pri
     }
   }
 
-  // After the QR is shown, ask the server every 4 s whether QPay has the payment (stops after 15 min).
+  // After the QR is shown, ask the server every 4 s whether the gateway has the payment (stops after 15 min).
   useEffect(() => {
     if (status !== "qr" || !inv) return;
     const started = Date.now();
@@ -77,7 +77,7 @@ export default function PreorderForm({ prices, defaultPlan = "standard" }: { pri
         <p className="text-lg font-semibold">QPay-ээр төлөх · {fmt(inv.amount)}</p>
         <p className="mt-1 text-sm text-muted">Банкны аппаараа QR-ыг уншуулна уу.</p>
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={`data:image/png;base64,${inv.qr}`} alt="QPay QR" className="mx-auto mt-4 size-56 rounded-2xl border border-line bg-white" />
+        <img src={inv.qr} alt="Төлбөрийн QR" className="mx-auto mt-4 size-56 rounded-2xl border border-line bg-white" />
         <p className="mt-4 flex items-center justify-center gap-2 text-sm text-muted">
           <span className="size-2.5 animate-pulse rounded-full bg-amber-400" /> Төлбөр хүлээж байна…
         </p>
