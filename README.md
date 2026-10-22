@@ -53,6 +53,12 @@ Service role түлхүүр зөвхөн сервер талд ашиглагд�
 4. Vercel → Environment Variables: `.env.example` дахь бүх утга (Supabase anon + service_role, `BOTXON_API_KEY`, `BOTXON_WEBHOOK_SECRET`, `NEXT_PUBLIC_SITE_URL`). Botxon → Gateway → тухайн merchant дээр webhook URL-ээ `https://www.storxon.online/api/botxon/webhook` болгож тохируул, webhook secret-ийг хуулж ав.
 5. Хамгийн хямд багцаар өөрөө нэг удаа төлж, тэр имэйлээрээ `/signup` дээр бүртгэл үүсгэж, `/learn` нээгдэхийг шалга.
 
+### Админ самбар (/admin)
+`ADMIN_EMAILS` (таслалаар) дахь имэйлээр нэвтэрсэн хүнд `/admin` нээгдэнэ — бүх захиалга, урьдчилсан бүртгэл, сургалтын эрхийг нэг дор харна. Тохируулах:
+1. Supabase → Authentication → Users → **Add user**: имэйл `storxon@gmail.com`, нууц үгээ өөрөө сонго, **Auto Confirm** асаа. (Эсвэл тэр имэйлээр `/signup` дээр бүртгэл үүсгэ.)
+2. Vercel → Environment Variables: `ADMIN_EMAILS=storxon@gmail.com` (хэд хэдэн админ бол таслалаар).
+3. `storxon.online/admin` руу ороод тэр имэйл/нууц үгээрээ нэвтэр.
+
 ### Видео хичээлийг шинэчлэх
 Курсын тоглуулагч нэг HTML файл: `private/course.html` (public биш, шууд хаягаар нээгдэхгүй).
 Шинэ хувилбараа энэ файлаар солиод push хийнэ. Маскотын зургууд `public/kit/` дотор.
