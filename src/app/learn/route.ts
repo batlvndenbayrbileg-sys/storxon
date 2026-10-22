@@ -2,6 +2,7 @@ import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { NextResponse } from "next/server";
 import { supabaseServer } from "@/lib/supabase/server";
+import { isAdmin } from "@/lib/admin";
 
 /**
  * The course player. Served only to a signed-in user whose e-mail has a paid enrollment.
@@ -12,9 +13,10 @@ export async function GET(req: Request) {
   const { data: { user } } = await sb.auth.getUser();
   if (!user) return NextResponse.redirect(new URL("/login?next=/learn", req.url));
 
-  // RLS policy "own enrollment" lets a user read only their own row
+  // RLS policy "own enrollment" lets a user read only their own row.
+  // Admins get in without a paid enrollment.
   const { data: enr } = await sb.from("enrollments").select("plan").maybeSingle<{ plan: string }>();
-  if (!enr) return NextResponse.redirect(new URL("/#register", req.url));
+  if (!enr && !isAdmin(user.email)) return NextResponse.redirect(new URL("/#register", req.url));
 
   let html = await readFile(path.join(process.cwd(), "private", "course.html"), "utf8");
   const acct = `<a class="acct" href="/logout" title="${escapeHtml(user.email || "")}">Гарах</a>`;
