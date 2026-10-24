@@ -19,13 +19,18 @@ function Stat({ label, value }: { label: string; value: string | number }) {
   );
 }
 
-function Pill({ s }: { s: string }) {
+function StatusSelect({ value, options, onChange }: { value: string; options: string[]; onChange: (v: string) => void }) {
   const tone =
-    s === "paid" ? "bg-emerald-100 text-emerald-700"
-    : s === "pending" || s === "new" ? "bg-amber-100 text-amber-700"
-    : s === "invoiced" ? "bg-blue-100 text-blue-700"
-    : "bg-zinc-200 text-zinc-600";
-  return <span className={`rounded-full px-2 py-0.5 text-xs font-semibold ${tone}`}>{s}</span>;
+    value === "paid" ? "border-emerald-300 text-emerald-700"
+    : value === "pending" || value === "new" ? "border-amber-300 text-amber-700"
+    : value === "invoiced" ? "border-blue-300 text-blue-700"
+    : "border-line text-muted";
+  return (
+    <select value={value} onChange={(e) => onChange(e.target.value)}
+      className={`rounded-lg border bg-white px-2 py-1 text-xs font-semibold outline-none ${tone}`}>
+      {options.map((o) => <option key={o} value={o}>{o}</option>)}
+    </select>
+  );
 }
 
 export default function Admin() {
@@ -72,6 +77,12 @@ export default function Admin() {
   async function revoke(targetEmail: string) {
     if (!confirm(`${targetEmail} хүний эрхийг хасах уу?`)) return;
     await fetch(`/api/admin/enroll?email=${encodeURIComponent(targetEmail)}`, { method: "DELETE" });
+    await load();
+  }
+
+  async function setStatus(table: "orders" | "preorders", id: string, status: string) {
+    if (status === "paid" && table === "orders" && !confirm("Энэ захиалгыг ТӨЛСӨН болгож, сургалтын эрх олгох уу?")) return;
+    await fetch("/api/admin/status", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ table, id, status }) });
     await load();
   }
 
@@ -145,7 +156,7 @@ export default function Admin() {
             {data.orders.map((o) => (
               <tr key={o.id} className="border-t border-line">
                 <Td>{dt(o.created_at)}</Td><Td>{o.name}</Td><Td>{o.email}</Td><Td>{o.phone}</Td>
-                <Td>{o.plan}</Td><Td>{fmt(o.amount)}</Td><Td><Pill s={o.status} /></Td><Td>{dt(o.paid_at)}</Td>
+                <Td>{o.plan}</Td><Td>{fmt(o.amount)}</Td><Td><StatusSelect value={o.status} options={["pending", "paid", "cancelled"]} onChange={(v) => setStatus("orders", o.id, v)} /></Td><Td>{dt(o.paid_at)}</Td>
               </tr>
             ))}
           </Table>
@@ -156,7 +167,7 @@ export default function Admin() {
             {data.preorders.map((p) => (
               <tr key={p.id} className="border-t border-line">
                 <Td>{dt(p.created_at)}</Td><Td>{p.name}</Td><Td>{p.phone}</Td>
-                <Td>{p.plan}</Td><Td>{p.segment}</Td><Td><Pill s={p.status} /></Td>
+                <Td>{p.plan}</Td><Td>{p.segment}</Td><Td><StatusSelect value={p.status} options={["new", "invoiced", "paid", "cancelled"]} onChange={(v) => setStatus("preorders", p.id, v)} /></Td>
               </tr>
             ))}
           </Table>

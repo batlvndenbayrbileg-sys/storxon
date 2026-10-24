@@ -52,7 +52,7 @@ function Nav() {
           <a href="#faq" className="hover:text-paper">FAQ</a>
         </nav>
         <div className="flex items-center gap-2">
-          <a href="/learn" className="rounded-full border border-line bg-white px-4 py-2 text-sm font-semibold hover:border-violet-300">
+          <a href="/login" className="rounded-full border border-line bg-white px-4 py-2 text-sm font-semibold hover:border-violet-300">
             Нэвтрэх
           </a>
           <a href="#register" className="rounded-full bg-brand px-4 py-2 text-sm font-semibold shadow-md shadow-violet-500/25 hover:opacity-90">
