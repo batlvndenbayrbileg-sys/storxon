@@ -57,6 +57,9 @@ export default function Login() {
             placeholder="Нууц үг"
             className="w-full rounded-xl border border-line bg-ink px-4 py-3 text-paper outline-none transition focus:border-volt"
           />
+          <div className="-mt-1 text-right">
+            <a href="/forgot" className="text-xs font-semibold text-muted hover:text-violet-700">Нууц үгээ мартсан уу?</a>
+          </div>
           {err && <p className="text-sm text-ember" role="alert">{err}</p>}
           <button disabled={busy} className="w-full rounded-xl bg-brand px-5 py-3.5 font-semibold transition hover:opacity-90 disabled:opacity-60">
             {busy ? "Нэвтэрч байна…" : "Нэвтрэх"}

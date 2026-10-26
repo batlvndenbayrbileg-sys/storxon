@@ -136,10 +136,13 @@ export default function Dashboard() {
           {NAV.map((n) => <NavLink key={n.href} {...n} />)}
           {me.isAdmin && <NavLink label="Админ" href="/admin" icon="M12 2l8 4v6c0 5-3.5 8-8 10-4.5-2-8-5-8-10V6l8-4z" />}
         </nav>
-        <div className="mt-auto rounded-2xl border border-line bg-ink-2 p-3">
+        <a href="/account" className="mt-auto block rounded-2xl border border-line bg-ink-2 p-3 transition hover:border-violet-300">
           <p className="truncate text-sm font-semibold">{firstName(me.email)}</p>
           <p className="truncate text-xs text-muted">{me.email}</p>
-          <a href="/logout" className="mt-2 block rounded-lg border border-line bg-ink px-3 py-1.5 text-center text-xs font-semibold text-muted hover:text-paper">Гарах</a>
+        </a>
+        <div className="mt-2 grid grid-cols-2 gap-2">
+          <a href="/account" className="rounded-lg border border-line bg-ink px-3 py-1.5 text-center text-xs font-semibold text-muted hover:text-paper">Профайл</a>
+          <a href="/logout" className="rounded-lg border border-line bg-ink px-3 py-1.5 text-center text-xs font-semibold text-muted hover:text-paper">Гарах</a>
         </div>
       </aside>
 
@@ -153,7 +156,7 @@ export default function Dashboard() {
           <span className="hidden text-sm font-semibold text-muted lg:block">Сурагчийн самбар</span>
           <div className="flex items-center gap-2">
             <span className="rounded-full border border-line bg-ink-2 px-3 py-1 text-xs font-bold text-volt">{planLabel}</span>
-            <span className="grid size-8 place-items-center rounded-full bg-brand text-xs font-bold">{firstName(me.email)[0]}</span>
+            <a href="/account" title="Профайл" className="grid size-8 place-items-center rounded-full bg-brand text-xs font-bold">{firstName(me.email)[0]}</a>
             <a href="/logout" className="rounded-full border border-line bg-ink px-3 py-1.5 text-xs font-semibold text-muted hover:text-paper lg:hidden">Гарах</a>
           </div>
         </header>
