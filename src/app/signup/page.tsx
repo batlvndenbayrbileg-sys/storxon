@@ -6,7 +6,7 @@ import { supabaseBrowser } from "@/lib/supabase/client";
 
 /** Only a same-site path is an acceptable post-signup destination. */
 function safeNext(raw: string | null) {
-  const n = raw || "/learn";
+  const n = raw || "/dashboard";
   return /^\/(?![/\\])/.test(n) ? n : "/learn";
 }
 

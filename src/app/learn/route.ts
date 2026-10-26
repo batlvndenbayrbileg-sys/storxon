@@ -19,7 +19,7 @@ export async function GET(req: Request) {
   if (!enr && !isAdmin(user.email)) return NextResponse.redirect(new URL("/#register", req.url));
 
   let html = await readFile(path.join(process.cwd(), "private", "course.html"), "utf8");
-  const acct = `<a class="acct" href="/logout" title="${escapeHtml(user.email || "")}">Гарах</a>`;
+  const acct = `<a class="acct" href="/dashboard">Самбар</a> <a class="acct" href="/logout" title="${escapeHtml(user.email || "")}">Гарах</a>`;
   html = html.replace("<!--SX_ACCOUNT-->", acct).replace('href="https://storxon.online" target="_blank" rel="noopener"', 'href="/"');
   return new NextResponse(html, { headers: { "content-type": "text/html; charset=utf-8", "cache-control": "private, no-store" } });
 }

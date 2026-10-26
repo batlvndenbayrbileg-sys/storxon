@@ -5,7 +5,7 @@ import { supabaseBrowser } from "@/lib/supabase/client";
 
 /** Only a same-site path is an acceptable post-login destination. */
 function safeNext() {
-  const n = new URLSearchParams(location.search).get("next") || "/learn";
+  const n = new URLSearchParams(location.search).get("next") || "/dashboard";
   return /^\/(?![/\\])/.test(n) ? n : "/learn";
 }
 
