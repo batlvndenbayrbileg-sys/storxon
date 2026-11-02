@@ -105,3 +105,24 @@ details > summary::-webkit-details-marker {
   -webkit-mask-image: radial-gradient(ellipse 64% 64% at 50% 52%, #000 58%, transparent 100%);
   mask-image: radial-gradient(ellipse 64% 64% at 50% 52%, #000 58%, transparent 100%);
 }
+
+/* ---- scroll reveal + parallax (driven by <ScrollFX/>) ---- */
+.reveal { opacity: 1; }
+html.fx .reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.7s cubic-bezier(0.22, 0.61, 0.36, 1),
+    transform 0.7s cubic-bezier(0.22, 0.61, 0.36, 1);
+  will-change: opacity, transform;
+}
+html.fx .reveal.in {
+  opacity: 1;
+  transform: none;
+}
+[data-parallax] {
+  will-change: transform;
+}
+@media (prefers-reduced-motion: reduce) {
+  html.fx .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
+  [data-parallax] { transform: none !important; }
+}

@@ -12,6 +12,7 @@ import {
   ShoppingBag,
 } from "lucide-react";
 import PreorderForm from "@/components/PreorderForm";
+import ScrollFX from "@/components/ScrollFX";
 import { PRESALE, audiences, faqs, fmt, modules, plans } from "@/lib/content";
 import { isPresale, priceList } from "@/lib/pricing";
 
@@ -127,9 +128,9 @@ function CheckStrip() {
 function Hero() {
   return (
     <section className="relative overflow-hidden bg-white">
-      <div className="pointer-events-none absolute -right-40 top-10 size-[38rem] rounded-full bg-violet-200/40 blur-3xl" />
+      <div data-parallax data-speed="0.12" className="pointer-events-none absolute -right-40 top-10 size-[38rem] rounded-full bg-violet-200/40 blur-3xl" />
       <div className="relative mx-auto grid max-w-6xl items-center gap-10 px-4 py-14 sm:px-6 md:grid-cols-[1fr_1.05fr] md:py-20">
-        <div>
+        <div className="reveal">
           <h2 className="text-[clamp(3rem,8vw,5.5rem)] font-black leading-[0.95] tracking-tight">
             Hello,
             <span className="ml-2 inline-block align-top text-[0.45em] text-amber-400">✦</span>
@@ -163,7 +164,7 @@ function Hero() {
             </p>
           )}
         </div>
-        <div className="relative">
+        <div className="reveal relative" data-d="140ms">
           <Image
             src="/mascot-hello.webp"
             alt="Гараа даллаж буй Storxon робот"
@@ -194,7 +195,7 @@ function Stack() {
 
 function SectionHead({ eyebrow, title, sub }: { eyebrow: string; title: string; sub?: string }) {
   return (
-    <div className="mx-auto mb-12 max-w-2xl text-center">
+    <div className="reveal mx-auto mb-12 max-w-2xl text-center">
       <p className="mb-4 inline-block rounded-full bg-violet-50 px-3 py-1 text-xs font-medium text-violet-700">{eyebrow}</p>
       <h2 className="text-3xl font-black tracking-tight sm:text-4xl">{title}</h2>
       {sub && <p className="mt-4 text-muted">{sub}</p>}
@@ -214,7 +215,7 @@ function Audience() {
         {audiences.map((a, i) => {
           const Icon = audienceIcons[i];
           return (
-            <div key={a.title} className="rounded-3xl border border-line bg-white p-6 shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg hover:shadow-violet-500/10">
+            <div key={a.title} data-d={`${i * 70}ms`} className="reveal rounded-3xl border border-line bg-white p-6 shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg hover:shadow-violet-500/10">
               <span className="mb-5 grid size-12 place-items-center rounded-2xl bg-brand shadow-md shadow-violet-500/25">
                 <Icon className="size-6" />
               </span>
@@ -241,10 +242,11 @@ function Modules() {
           sub="Модуль бүр дэлгүүрийн нэг хэсгийг бүтээж дуусна. Эцэст нь таны домэйн дээр ажилладаг пүүзний дэлгүүр, бүрэн эх код үлдэнэ."
         />
         <ol className="grid gap-4 md:grid-cols-2">
-          {modules.map((m) => (
+          {modules.map((m, i) => (
             <li
               key={m.n}
-              className={`flex items-center gap-4 rounded-2xl border bg-white p-5 shadow-sm ${
+              data-d={`${i * 55}ms`}
+              className={`reveal flex items-center gap-4 rounded-2xl border bg-white p-5 shadow-sm ${
                 m.highlight ? "border-violet-300 ring-1 ring-violet-200" : "border-line"
               }`}
             >
@@ -276,7 +278,7 @@ function Teacher() {
   return (
     <section id="teacher" className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
       <div className="grid items-center gap-12 md:grid-cols-2">
-        <div className="relative aspect-[4/3] w-full overflow-hidden rounded-3xl bg-brand p-8 shadow-xl shadow-violet-500/20">
+        <div className="reveal relative aspect-[4/3] w-full overflow-hidden rounded-3xl bg-brand p-8 shadow-xl shadow-violet-500/20">
           {/* TODO: replace with teacher photo */}
           <div className="flex h-full flex-col justify-end">
             <p className="text-3xl font-black">Д. Бямбадолгор</p>
@@ -287,7 +289,7 @@ function Teacher() {
             AI · Next.js · QPay
           </span>
         </div>
-        <div>
+        <div className="reveal" data-d="120ms">
           <p className="mb-4 inline-block rounded-full bg-violet-50 px-3 py-1 text-xs font-medium text-violet-700">Багшийн тухай</p>
           <h2 className="text-3xl font-black tracking-tight sm:text-4xl">Бодит туршлагатай, ойлгомжтой заана</h2>
           <p className="mt-5 text-muted">
@@ -314,6 +316,7 @@ function Pricing() {
   return (
     <section id="pricing" className="soft-bg overflow-hidden">
       <div className="relative mx-auto max-w-6xl px-4 py-20 sm:px-6">
+        <div data-parallax data-speed="0.1" aria-hidden className="pointer-events-none absolute right-8 bottom-10 size-80 rounded-full bg-blue-200/30 blur-3xl" />
         <Sprite name="flybig" className="animate-float absolute -left-6 top-6 hidden w-52 lg:block" />
         <Sprite name="chart" className="animate-float absolute right-2 top-14 hidden w-36 lg:block [animation-delay:-2.5s]" />
         <SectionHead
@@ -326,10 +329,11 @@ function Pricing() {
           }
         />
         <div className="mx-auto grid max-w-4xl gap-6 md:grid-cols-2">
-          {plans.map((p) => (
+          {plans.map((p, i) => (
             <div
               key={p.id}
-              className={`relative flex flex-col rounded-3xl border bg-white p-8 shadow-sm ${
+              data-d={`${i * 90}ms`}
+              className={`reveal relative flex flex-col rounded-3xl border bg-white p-8 shadow-sm ${
                 p.featured ? "border-violet-400 shadow-xl shadow-violet-500/15" : "border-line"
               }`}
             >
@@ -364,7 +368,7 @@ function Pricing() {
             </div>
           ))}
         </div>
-        <div className="mx-auto mt-6 max-w-4xl text-sm text-muted">
+        <div className="reveal mx-auto mt-6 max-w-4xl text-sm text-muted">
           <p className="rounded-2xl border border-line bg-white/70 p-4">
             <span className="font-semibold text-paper">Найзтайгаа:</span> 3 хүн хамт бүртгүүлбэл нэмэлт 20% хямдрал.
           </p>
@@ -380,8 +384,8 @@ function Faq() {
       <SectionHead eyebrow="Түгээмэл асуулт" title="Түгээмэл асуултууд" />
       <div className="grid items-start gap-8 lg:grid-cols-[1.4fr_1fr]">
         <div className="space-y-3">
-          {faqs.map((f) => (
-            <details key={f.q} className="group rounded-2xl border border-line bg-white px-5 py-4 shadow-sm open:shadow-md">
+          {faqs.map((f, i) => (
+            <details key={f.q} data-d={`${i * 45}ms`} className="reveal group rounded-2xl border border-line bg-white px-5 py-4 shadow-sm open:shadow-md">
               <summary className="flex cursor-pointer items-center justify-between gap-4 font-semibold">
                 {f.q}
                 <span className="grid size-7 shrink-0 place-items-center rounded-full bg-violet-50 text-violet-700 transition group-open:rotate-45">+</span>
@@ -390,7 +394,7 @@ function Faq() {
             </details>
           ))}
         </div>
-        <div className="soft-bg sticky top-24 overflow-hidden rounded-3xl border border-white p-6 text-center shadow-sm">
+        <div className="reveal soft-bg sticky top-24 overflow-hidden rounded-3xl border border-white p-6 text-center shadow-sm" data-d="100ms">
           <Sprite name="sleep" alt="Storxon робот" className="animate-float mx-auto w-60" />
           <h3 className="mt-2 text-xl font-bold">Асуулт байна уу?</h3>
           <p className="mt-2 text-sm text-muted">Instagram-аар бичээрэй, бид хурдан хариулна.</p>
@@ -412,7 +416,8 @@ function Register() {
   return (
     <section id="register" className="px-4 pb-20 sm:px-6">
       <div className="soft-bg relative mx-auto grid max-w-6xl items-center gap-10 overflow-hidden rounded-[2rem] border border-white p-6 shadow-sm sm:p-10 md:grid-cols-2">
-        <div className="relative">
+        <div data-parallax data-speed="0.08" aria-hidden className="pointer-events-none absolute -left-10 -top-10 size-72 rounded-full bg-violet-300/25 blur-3xl" />
+        <div className="reveal relative">
           <p className="mb-4 inline-block rounded-full bg-white/80 px-3 py-1 text-xs font-medium text-violet-700">Урьдчилсан бүртгэл</p>
           <h2 className="text-3xl font-black tracking-tight sm:text-4xl">
             Өөрийн онлайн дэлгүүрээ <span className="text-brand">өнөөдрөөс</span> бүтээж эхэл
@@ -433,7 +438,7 @@ function Register() {
           </dl>
           <Sprite name="laptop" alt="Зөөврийн компьютер дээр ажиллаж буй Storxon робот" className="animate-float mt-6 hidden w-64 md:block" />
         </div>
-        <div className="glass relative rounded-3xl border border-white p-6 shadow-xl shadow-violet-500/10 sm:p-8">
+        <div className="reveal glass relative rounded-3xl border border-white p-6 shadow-xl shadow-violet-500/10 sm:p-8" data-d="120ms">
           <PreorderForm prices={priceList()} />
         </div>
       </div>
@@ -472,6 +477,7 @@ export default function Home() {
         <Register />
       </main>
       <Footer />
+      <ScrollFX />
     </>
   );
 }

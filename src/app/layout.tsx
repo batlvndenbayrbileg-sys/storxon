@@ -25,8 +25,13 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="mn" className="h-full scroll-smooth antialiased">
-      <body className="min-h-full bg-ink text-paper">{children}</body>
+    <html lang="mn" className="h-full scroll-smooth antialiased fx">
+      <body className="min-h-full bg-ink text-paper">
+        <noscript>
+          <style dangerouslySetInnerHTML={{ __html: ".reveal{opacity:1!important;transform:none!important}" }} />
+        </noscript>
+        {children}
+      </body>
     </html>
   );
 }
