@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { modules, PRESALE } from "@/lib/content";
 
-type Me = { email: string; plan: string | null; enrolled: boolean; isAdmin: boolean };
+type Me = { email: string; name: string | null; plan: string | null; enrolled: boolean; isAdmin: boolean };
 
 // The course player (private/course.html) marks finished lessons in localStorage["sx-done"].
 const TOTAL_LESSONS = 71;
@@ -27,6 +27,44 @@ function readDone(): number {
 function firstName(email: string) {
   const n = email.split("@")[0].replace(/[._-]+/g, " ").trim();
   return n ? n[0].toUpperCase() + n.slice(1) : "сурагч";
+}
+
+const isoDay = (d: Date) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+
+/** Records today in localStorage["sx-days"] and returns the current streak + this week. */
+function computeStreak(): { week: boolean[]; days: number; weekCount: number } {
+  let days: string[] = [];
+  try { const raw = localStorage.getItem("sx-days"); const p = raw ? JSON.parse(raw) : []; if (Array.isArray(p)) days = p; } catch {}
+  const today = new Date(), t = isoDay(today);
+  if (!days.includes(t)) { days = [...days, t].slice(-400); try { localStorage.setItem("sx-days", JSON.stringify(days)); } catch {} }
+  const set = new Set(days);
+  let streak = 0; const cur = new Date(today);
+  while (set.has(isoDay(cur))) { streak++; cur.setDate(cur.getDate() - 1); }
+  const dow = (today.getDay() + 6) % 7, monday = new Date(today); monday.setDate(today.getDate() - dow);
+  const week: boolean[] = [];
+  for (let i = 0; i < 7; i++) { const dd = new Date(monday); dd.setDate(monday.getDate() + i); week.push(set.has(isoDay(dd))); }
+  return { week, days: streak, weekCount: week.filter(Boolean).length };
+}
+
+function StreakCard({ week, days, weekCount }: { week: boolean[]; days: number; weekCount: number }) {
+  const L = ["Да", "Мя", "Лх", "Пү", "Ба", "Бя", "Ня"];
+  return (
+    <section className="rounded-3xl border border-line bg-ink p-6 shadow-sm">
+      <div className="flex items-center justify-between">
+        <h2 className="text-sm font-bold uppercase tracking-wide text-muted">Идэвх</h2>
+        <span className="text-sm font-black text-volt">🔥 {days} өдөр</span>
+      </div>
+      <p className="mt-1 text-xs text-muted">Энэ 7 хоногт {weekCount} өдөр идэвхтэй</p>
+      <div className="mt-4 flex justify-between">
+        {week.map((on, i) => (
+          <div key={i} className="flex flex-col items-center gap-1.5">
+            <span className={`grid size-8 place-items-center rounded-full text-xs font-bold ${on ? "bg-brand" : "border border-line text-muted"}`}>{on ? "✓" : ""}</span>
+            <span className="text-[11px] text-muted">{L[i]}</span>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
 }
 
 function Ring({ pct, size = 120 }: { pct: number; size?: number }) {
@@ -80,9 +118,11 @@ export default function Dashboard() {
   const [err, setErr] = useState<"none" | "noaccess" | "fail">("none");
   const [done, setDone] = useState(0);
   const [quote, setQuote] = useState(QUOTES[0]);
+  const [streak, setStreak] = useState<{ week: boolean[]; days: number; weekCount: number } | null>(null);
 
   useEffect(() => {
     setDone(readDone());
+    setStreak(computeStreak());
     setQuote(QUOTES[Math.floor(Date.now() / 86400000) % QUOTES.length]);
     (async () => {
       try {
@@ -123,6 +163,7 @@ export default function Dashboard() {
   const started = done > 0;
   const finished = done >= TOTAL_LESSONS;
   const planLabel = me.plan === "pro" ? "Pro" : me.plan === "standard" ? "Стандарт" : me.isAdmin ? "Админ" : "—";
+  const displayName = (me.name && me.name.trim()) || firstName(me.email);
 
   return (
     <div className="min-h-screen bg-ink-2 text-paper">
@@ -137,7 +178,7 @@ export default function Dashboard() {
           {me.isAdmin && <NavLink label="Админ" href="/admin" icon="M12 2l8 4v6c0 5-3.5 8-8 10-4.5-2-8-5-8-10V6l8-4z" />}
         </nav>
         <a href="/account" className="mt-auto block rounded-2xl border border-line bg-ink-2 p-3 transition hover:border-violet-300">
-          <p className="truncate text-sm font-semibold">{firstName(me.email)}</p>
+          <p className="truncate text-sm font-semibold">{displayName}</p>
           <p className="truncate text-xs text-muted">{me.email}</p>
         </a>
         <div className="mt-2 grid grid-cols-2 gap-2">
@@ -156,7 +197,7 @@ export default function Dashboard() {
           <span className="hidden text-sm font-semibold text-muted lg:block">Сурагчийн самбар</span>
           <div className="flex items-center gap-2">
             <span className="rounded-full border border-line bg-ink-2 px-3 py-1 text-xs font-bold text-volt">{planLabel}</span>
-            <a href="/account" title="Профайл" className="grid size-8 place-items-center rounded-full bg-brand text-xs font-bold">{firstName(me.email)[0]}</a>
+            <a href="/account" title="Профайл" className="grid size-8 place-items-center rounded-full bg-brand text-xs font-bold">{displayName[0]}</a>
             <a href="/logout" className="rounded-full border border-line bg-ink px-3 py-1.5 text-xs font-semibold text-muted hover:text-paper lg:hidden">Гарах</a>
           </div>
         </header>
@@ -169,7 +210,7 @@ export default function Dashboard() {
               <div className="relative z-10 max-w-xl">
                 <p className="text-sm font-semibold text-violet-700">Сайн байна уу,</p>
                 <h1 className="mt-1 flex flex-wrap items-center gap-3 text-3xl font-black tracking-tight sm:text-4xl">
-                  {firstName(me.email)}
+                  {displayName}
                   <span className="rounded-full bg-white/80 px-3 py-1 text-sm font-bold text-volt">{planLabel}</span>
                 </h1>
                 <p className="mt-3 text-muted">Мөрөөдлийнхөө төлөө өнөөдрийн эхний алхмаа хийцгээе.</p>
@@ -235,6 +276,8 @@ export default function Dashboard() {
                 {finished ? "Бүх хичээлээ дуусгалаа. Гайхалтай! 🎉" : `${TOTAL_LESSONS - done} хичээл үлдлээ. Үргэлжлүүлээрэй.`}
               </p>
             </section>
+
+            {streak && <StreakCard {...streak} />}
 
             <section className="relative overflow-hidden rounded-3xl border border-violet-200 bg-gradient-to-br from-violet-50 to-blue-50 p-6 shadow-sm">
               <p className="relative z-10 pr-16 text-lg font-black leading-snug">“{quote}”</p>
