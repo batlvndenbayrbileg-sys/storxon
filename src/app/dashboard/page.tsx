@@ -213,33 +213,49 @@ export default function Dashboard() {
                   {displayName}
                   <span className="rounded-full bg-white/80 px-3 py-1 text-sm font-bold text-volt">{planLabel}</span>
                 </h1>
-                <p className="mt-3 text-muted">Мөрөөдлийнхөө төлөө өнөөдрийн эхний алхмаа хийцгээе.</p>
+                <p className="mt-3 text-muted">Доорх товч дээр дарж видео хичээлээ үзээрэй. Явцаа энэ хуудаснаас хараарай.</p>
 
-                <div className="mt-6 rounded-2xl border border-white bg-white/80 p-4 shadow-sm">
-                  <div className="flex items-center justify-between gap-3">
-                    <div className="min-w-0">
-                      <p className="text-sm font-semibold">{finished ? "Сургалт дууслаа 🎉" : started ? "Үргэлжлүүлэх" : "Эхний хичээлээ эхлүүлээрэй"}</p>
-                      <p className="text-xs text-muted">{done} / {TOTAL_LESSONS} видео хичээл · {pct}%</p>
-                    </div>
-                    <a href="/learn" className="shrink-0 rounded-full bg-brand px-5 py-2.5 text-sm font-semibold shadow-md shadow-violet-500/25 hover:opacity-90">
-                      {started ? "Үргэлжлүүлэх →" : "Эхлэх →"}
-                    </a>
-                  </div>
-                  <div className="mt-3 h-2 overflow-hidden rounded-full bg-ink-3">
+                <div className="mt-6 rounded-2xl border border-white bg-white/90 p-5 shadow-sm">
+                  <p className="text-xs font-bold uppercase tracking-wide text-muted">Дараагийн алхам</p>
+                  <p className="mt-1 text-lg font-black">
+                    {finished ? "Бүх хичээлээ дуусгалаа 🎉" : started ? "Видео хичээлээ үргэлжлүүл" : "Эхний видео хичээлээ эхлүүл"}
+                  </p>
+                  <div className="mt-3 h-2.5 overflow-hidden rounded-full bg-ink-3">
                     <div className="h-full rounded-full bg-brand transition-[width] duration-700" style={{ width: `${pct}%` }} />
                   </div>
+                  <p className="mt-1.5 text-xs text-muted">{done} / {TOTAL_LESSONS} хичээл дууссан · {pct}%</p>
+                  <a href="/learn" className="mt-4 flex w-full items-center justify-center gap-2 rounded-xl bg-brand px-5 py-4 text-base font-bold shadow-lg shadow-violet-500/30 transition hover:opacity-90 sm:w-auto">
+                    <svg viewBox="0 0 24 24" fill="currentColor" className="size-5"><path d="M8 5v14l11-7z" /></svg>
+                    {finished ? "Дахин үзэх" : started ? "Хичээлээ үргэлжлүүлэх" : "Хичээлээ эхлүүлэх"}
+                  </a>
                 </div>
               </div>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src="/kit/wave.webp" alt="" aria-hidden className="animate-float pointer-events-none absolute -right-4 -bottom-3 hidden w-40 select-none sm:block md:w-48" />
             </section>
 
+            {/* how it works — so a first-timer understands the whole thing at a glance */}
+            <section className="grid gap-3 sm:grid-cols-3">
+              {[
+                { n: "1", t: "Видео хичээлээ үз", d: "AI туслахтай, алхам алхмаар." },
+                { n: "2", t: "Дэлгүүрээ бүтээ", d: "Хичээл бүр нэг хэсгийг нь хийнэ." },
+                { n: "3", t: "Интернэтэд гаргая", d: "Домэйн холбож, захиалга авна." },
+              ].map((x) => (
+                <div key={x.n} className="rounded-2xl border border-line bg-ink p-4">
+                  <span className="grid size-8 place-items-center rounded-lg bg-brand text-sm font-black">{x.n}</span>
+                  <p className="mt-2.5 font-bold">{x.t}</p>
+                  <p className="text-sm text-muted">{x.d}</p>
+                </div>
+              ))}
+            </section>
+
             {/* curriculum */}
             <section>
-              <div className="mb-3 flex items-end justify-between">
-                <h2 className="text-lg font-black tracking-tight">Хөтөлбөр · {modules.length} модуль</h2>
+              <div className="mb-1 flex items-end justify-between">
+                <h2 className="text-lg font-black tracking-tight">Юу сурах вэ · {modules.length} модуль</h2>
                 <a href="/learn" className="text-sm font-semibold text-volt">Бүгдийг үзэх →</a>
               </div>
+              <p className="mb-3 text-sm text-muted">Аль ч картан дээр дарвал видео хичээл нээгдэнэ.</p>
               <div className="grid gap-4 sm:grid-cols-2">
                 {modules.map((m) => (
                   <a
