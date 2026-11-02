@@ -24,6 +24,22 @@ function readDone(): number {
   }
 }
 
+function readDoneByMod(): Record<number, number> {
+  const out: Record<number, number> = {};
+  try {
+    const raw = localStorage.getItem("sx-done");
+    if (!raw) return out;
+    const obj = JSON.parse(raw);
+    if (obj && typeof obj === "object") {
+      for (const id of Object.keys(obj)) {
+        const mod = parseInt(String(id).split(".")[0], 10);
+        if (!Number.isNaN(mod)) out[mod] = (out[mod] || 0) + 1;
+      }
+    }
+  } catch {}
+  return out;
+}
+
 function firstName(email: string) {
   const n = email.split("@")[0].replace(/[._-]+/g, " ").trim();
   return n ? n[0].toUpperCase() + n.slice(1) : "сурагч";
@@ -117,11 +133,13 @@ export default function Dashboard() {
   const [me, setMe] = useState<Me | null>(null);
   const [err, setErr] = useState<"none" | "noaccess" | "fail">("none");
   const [done, setDone] = useState(0);
+  const [doneByMod, setDoneByMod] = useState<Record<number, number>>({});
   const [quote, setQuote] = useState(QUOTES[0]);
   const [streak, setStreak] = useState<{ week: boolean[]; days: number; weekCount: number } | null>(null);
 
   useEffect(() => {
     setDone(readDone());
+    setDoneByMod(readDoneByMod());
     setStreak(computeStreak());
     setQuote(QUOTES[Math.floor(Date.now() / 86400000) % QUOTES.length]);
     (async () => {
@@ -271,6 +289,12 @@ export default function Dashboard() {
                     <span className="min-w-0 flex-1">
                       <span className="block font-bold leading-snug">{m.title}</span>
                       <span className="mt-0.5 block text-sm text-muted">{m.out}</span>
+                      {doneByMod[m.n] > 0 && (
+                        <span className="mt-1.5 inline-flex items-center gap-1 text-xs font-semibold text-volt">
+                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="size-3.5"><path d="M20 6L9 17l-5-5" /></svg>
+                          {doneByMod[m.n]} хичээл үзсэн
+                        </span>
+                      )}
                     </span>
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" className="size-5 shrink-0 text-muted transition group-hover:translate-x-0.5 group-hover:text-volt">
                       <path d="M9 6l6 6-6 6" />

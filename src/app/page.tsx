@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import PreorderForm from "@/components/PreorderForm";
 import ScrollFX from "@/components/ScrollFX";
+import MobileNav from "@/components/MobileNav";
 import { PRESALE, audiences, faqs, fmt, modules, plans } from "@/lib/content";
 import { isPresale, priceList } from "@/lib/pricing";
 
@@ -56,9 +57,10 @@ function Nav() {
           <a href="/login" className="rounded-full border border-line bg-white px-4 py-2 text-sm font-semibold hover:border-violet-300">
             Нэвтрэх
           </a>
-          <a href="#register" className="rounded-full bg-brand px-4 py-2 text-sm font-semibold shadow-md shadow-violet-500/25 hover:opacity-90">
+          <a href="#register" className="rounded-full bg-brand px-4 py-2 text-sm font-semibold shadow-md shadow-violet-500/25 transition hover:opacity-90 active:scale-95">
             Бүртгүүлэх
           </a>
+          <MobileNav />
         </div>
       </div>
     </header>
@@ -150,7 +152,7 @@ function Hero() {
             Өөрийн онлайн дэлгүүрийг AI-тай хамт 0-ээс бүтээж сурах бүрэн сургалт удахгүй.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
-            <a href="#register" className="inline-flex items-center gap-2 rounded-full bg-brand px-6 py-3.5 font-semibold shadow-lg shadow-violet-500/30 hover:opacity-90">
+            <a href="#register" className="inline-flex items-center gap-2 rounded-full bg-brand px-6 py-3.5 font-semibold shadow-lg shadow-violet-500/30 transition hover:opacity-90 active:scale-[0.98]">
               Сургалтад бүртгүүлэх <ArrowRight className="size-4" />
             </a>
             <a href="#modules" className="inline-flex items-center gap-2 rounded-full border border-line bg-white px-6 py-3.5 font-semibold hover:border-violet-300">
@@ -246,7 +248,7 @@ function Modules() {
             <li
               key={m.n}
               data-d={`${i * 55}ms`}
-              className={`reveal flex items-center gap-4 rounded-2xl border bg-white p-5 shadow-sm ${
+              className={`reveal flex items-center gap-4 rounded-2xl border bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg hover:shadow-violet-500/10 ${
                 m.highlight ? "border-violet-300 ring-1 ring-violet-200" : "border-line"
               }`}
             >
@@ -333,7 +335,7 @@ function Pricing() {
             <div
               key={p.id}
               data-d={`${i * 90}ms`}
-              className={`reveal relative flex flex-col rounded-3xl border bg-white p-8 shadow-sm ${
+              className={`reveal relative flex flex-col rounded-3xl border bg-white p-8 shadow-sm transition hover:-translate-y-0.5 hover:shadow-xl hover:shadow-violet-500/10 ${
                 p.featured ? "border-violet-400 shadow-xl shadow-violet-500/15" : "border-line"
               }`}
             >
@@ -359,7 +361,7 @@ function Pricing() {
               </ul>
               <a
                 href="#register"
-                className={`mt-8 rounded-full px-5 py-3.5 text-center font-semibold ${
+                className={`mt-8 rounded-full px-5 py-3.5 text-center font-semibold transition active:scale-[0.98] ${
                   p.featured ? "bg-brand shadow-lg shadow-violet-500/30 hover:opacity-90" : "border border-line hover:border-violet-300"
                 }`}
               >
@@ -461,8 +463,29 @@ function Footer() {
 }
 
 export default function Home() {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Course",
+        name: "Storxon — AI × E-commerce",
+        description: "Програмчлалын мэдлэггүй ч AI-тай хамт өөрийн онлайн дэлгүүрээ 0-ээс бүтээж, QPay төлбөр авч сурах 10 модультай сургалт.",
+        inLanguage: "mn",
+        provider: { "@type": "Organization", name: "Storxon", url: "https://storxon.online" },
+      },
+      {
+        "@type": "FAQPage",
+        mainEntity: faqs.map((f) => ({
+          "@type": "Question",
+          name: f.q,
+          acceptedAnswer: { "@type": "Answer", text: f.a },
+        })),
+      },
+    ],
+  };
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <Nav />
       <main>
         <Banner />

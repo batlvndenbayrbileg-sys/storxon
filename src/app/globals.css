@@ -126,3 +126,10 @@ html.fx .reveal.in {
   html.fx .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
   [data-parallax] { transform: none !important; }
 }
+
+/* site-wide keyboard focus ring (accessibility) */
+:where(a, button, input, select, textarea, summary):focus-visible {
+  outline: 2px solid var(--color-volt);
+  outline-offset: 2px;
+  border-radius: 8px;
+}
