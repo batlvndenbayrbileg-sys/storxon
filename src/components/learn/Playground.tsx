@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
 import type { PlaygroundFiles } from "@/lib/lessons/types";
 
 /**
@@ -24,6 +24,10 @@ type ConsoleLine = { level: "log" | "info" | "warn" | "error"; text: string };
 type Tab = "html" | "css" | "js";
 
 const TAB_LABEL: Record<Tab, string> = { html: "HTML", css: "CSS", js: "JS" };
+
+// Visible keyboard focus ring shared by every interactive control.
+const FOCUS =
+  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-400 focus-visible:ring-offset-1 focus-visible:ring-offset-zinc-900";
 
 function buildSrcDoc(f: PlaygroundFiles): string {
   // The relay shim forwards console + errors to the parent. User code follows.
@@ -54,6 +58,7 @@ export default function Playground({
   const [logs, setLogs] = useState<ConsoleLine[]>([]);
   const [full, setFull] = useState(false);
   const [copied, setCopied] = useState<"ok" | "fail" | null>(null);
+  const uid = useId();
   const iframeRef = useRef<HTMLIFrameElement | null>(null);
   const gutterRef = useRef<HTMLDivElement | null>(null);
 
@@ -161,6 +166,21 @@ export default function Playground({
     };
   }, [full]);
 
+  // Arrow-key navigation between tabs (WAI-ARIA tabs pattern).
+  const onTabKey = (e: React.KeyboardEvent<HTMLButtonElement>) => {
+    const order: Tab[] = ["html", "css", "js"];
+    const i = order.indexOf(tab);
+    let n = -1;
+    if (e.key === "ArrowRight") n = (i + 1) % order.length;
+    else if (e.key === "ArrowLeft") n = (i - 1 + order.length) % order.length;
+    else if (e.key === "Home") n = 0;
+    else if (e.key === "End") n = order.length - 1;
+    if (n < 0) return;
+    e.preventDefault();
+    setTab(order[n]);
+    document.getElementById(`${uid}-tab-${order[n]}`)?.focus();
+  };
+
   const wrap = full ? "fixed inset-0 z-50 overflow-hidden bg-zinc-950 p-2 sm:p-3" : "";
 
   return (
@@ -169,14 +189,18 @@ export default function Playground({
         {/* Editor */}
         <div className="flex min-h-0 flex-col overflow-hidden rounded-xl border border-zinc-700 bg-zinc-900">
           <div className="flex flex-wrap items-center gap-1 border-b border-zinc-800 px-2 py-1.5">
+            <div role="tablist" aria-label="Кодын файлууд" className="flex items-center gap-1">
             {(["html", "css", "js"] as Tab[]).map((t) => (
               <button
                 key={t}
                 type="button"
                 role="tab"
+                id={`${uid}-tab-${t}`}
                 aria-selected={tab === t}
+                tabIndex={tab === t ? 0 : -1}
                 onClick={() => setTab(t)}
-                className={`rounded-md px-2.5 py-1 text-xs font-semibold transition ${
+                onKeyDown={onTabKey}
+                className={`rounded-md px-2.5 py-1 text-xs font-semibold transition ${FOCUS} ${
                   tab === t
                     ? "bg-violet-600 text-white ring-1 ring-violet-300/60"
                     : "text-zinc-400 hover:text-white"
@@ -185,23 +209,40 @@ export default function Playground({
                 {TAB_LABEL[t]}
               </button>
             ))}
+            </div>
             <div className="ml-auto flex items-center gap-1">
               <button
                 type="button"
                 onClick={copyCode}
                 aria-label={`${TAB_LABEL[tab]} кодыг хуулах`}
-                className="rounded-md px-2 py-1 text-xs font-medium text-zinc-400 hover:text-white"
+                className={`rounded-md px-2 py-1 text-xs font-medium text-zinc-400 hover:text-white ${FOCUS}`}
               >
                 {copied === "ok" ? "Хуулсан ✓" : copied === "fail" ? "Амжилтгүй" : "Хуулах"}
               </button>
-              <button type="button" onClick={reset} className="rounded-md px-2 py-1 text-xs font-medium text-zinc-400 hover:text-white">
+              <button
+                type="button"
+                onClick={reset}
+                aria-label="Кодыг эхлэлийн төлөвт буцаах"
+                className={`rounded-md px-2 py-1 text-xs font-medium text-zinc-400 hover:text-white ${FOCUS}`}
+              >
                 Эхлэл
               </button>
-              <button type="button" onClick={() => setFull((v) => !v)} className="rounded-md px-2 py-1 text-xs font-medium text-zinc-400 hover:text-white">
+              <button
+                type="button"
+                onClick={() => setFull((v) => !v)}
+                aria-pressed={full}
+                aria-label={full ? "Бүтэн дэлгэцийг хаах" : "Бүтэн дэлгэцээр нээх"}
+                className={`rounded-md px-2 py-1 text-xs font-medium text-zinc-400 hover:text-white ${FOCUS}`}
+              >
                 {full ? "Хаах" : "Дэлгэц"}
               </button>
-              <button type="button" onClick={run} className="rounded-md bg-emerald-600 px-3 py-1 text-xs font-bold text-white hover:bg-emerald-500">
-                ▶ Ажиллуул
+              <button
+                type="button"
+                onClick={run}
+                aria-label="Кодыг ажиллуулах"
+                className={`rounded-md bg-emerald-600 px-3 py-1 text-xs font-bold text-white hover:bg-emerald-500 ${FOCUS}`}
+              >
+                <span aria-hidden="true">▶</span> Ажиллуул
               </button>
             </div>
           </div>
@@ -225,9 +266,9 @@ export default function Playground({
               }}
               spellCheck={false}
               wrap="off"
-              className="min-h-0 min-w-0 flex-1 resize-none overflow-auto whitespace-pre bg-zinc-900 p-3 font-mono text-[13px] leading-relaxed text-zinc-100 outline-none"
+              className="min-h-0 min-w-0 flex-1 resize-none overflow-auto whitespace-pre bg-zinc-900 p-3 font-mono text-[13px] leading-relaxed text-zinc-100 outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-violet-400"
               style={{ height: full ? undefined : height, tabSize: 2 }}
-              aria-label={`${TAB_LABEL[tab]} editor`}
+              aria-label={`${TAB_LABEL[tab]} кодын редактор`}
             />
           </div>
         </div>
@@ -237,7 +278,7 @@ export default function Playground({
           <div className="border-b border-zinc-200 bg-zinc-50 px-3 py-1.5 text-xs font-semibold text-zinc-500">Үр дүн</div>
           <iframe
             ref={iframeRef}
-            title="preview"
+            title="Кодын урьдчилан харалт"
             sandbox="allow-scripts"
             srcDoc={srcDoc}
             className="w-full flex-1 bg-white"
@@ -245,6 +286,7 @@ export default function Playground({
           />
           <div
             role="log"
+            aria-label="Console гаралт"
             aria-live="polite"
             className={`max-h-28 overflow-auto border-t p-2 font-mono text-[12px] ${
               errorCount > 0 ? "border-red-500 bg-red-950/60" : "border-zinc-200 bg-zinc-950"
