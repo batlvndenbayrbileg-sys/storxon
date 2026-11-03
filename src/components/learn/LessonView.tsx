@@ -131,6 +131,11 @@ export default function LessonView({
     (b, i) => (b.kind === "exercise" || b.kind === "quiz") && doneIds.has(`${lesson.id}:${i}`),
   ).length;
   const complete = gradeable > 0 && doneCount === gradeable;
+  const finishedLessons = lessons.filter((l) => {
+    const ids = gradeableIds(l);
+    return ids.length > 0 && ids.every((id) => doneIds.has(id));
+  }).length;
+  const overallPct = lessons.length > 0 ? Math.round((finishedLessons / lessons.length) * 100) : 0;
   const idx = lessons.findIndex((l) => l.id === lesson.id);
   const prev = idx > 0 ? lessons[idx - 1] : undefined;
   const next = idx >= 0 && idx < lessons.length - 1 ? lessons[idx + 1] : undefined;
@@ -140,6 +145,26 @@ export default function LessonView({
       <Sidebar lessons={lessons} activeId={lesson.id} doneIds={doneIds} hrefFor={hrefFor} />
       <article className="min-w-0 max-w-3xl flex-1">
       <header className="mb-6">
+        {lessons.length > 0 && (
+          <div className="mb-4 rounded-xl border border-zinc-200 bg-white p-3 dark:border-zinc-800 dark:bg-zinc-900">
+            <div className="flex items-center justify-between text-sm font-semibold text-zinc-700 dark:text-zinc-300">
+              <span>Нийт явц</span>
+              <span>
+                {finishedLessons}/{lessons.length} хичээл дууссан
+              </span>
+            </div>
+            <div
+              role="progressbar"
+              aria-label="Нийт хичээлийн явц"
+              aria-valuemin={0}
+              aria-valuemax={lessons.length}
+              aria-valuenow={finishedLessons}
+              className="mt-2 h-2 overflow-hidden rounded-full bg-zinc-100 dark:bg-zinc-800"
+            >
+              <div className="h-full rounded-full bg-violet-600 transition-all" style={{ width: `${overallPct}%` }} />
+            </div>
+          </div>
+        )}
         <div className="text-xs font-semibold uppercase tracking-wider text-violet-600">Модуль {lesson.module}</div>
         <h1 className="mt-1 text-2xl font-extrabold text-zinc-900 sm:text-3xl dark:text-zinc-50">{lesson.title}</h1>
         {lesson.objectives.length > 0 && (
