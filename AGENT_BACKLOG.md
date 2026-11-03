@@ -39,7 +39,7 @@ Storxon бол видео LMS биш — сурагч **унших → код з
 - [x] CSS-ийн үндэс хичээл нэм (`data.ts`): theory + playground + 1 дасгал (`cssIncludes` шалгалт) + quiz
 - [x] JavaScript-ийн үндэс хичээл нэм (`data.ts`): theory + playground + 1 дасгал (`jsIncludes`) + quiz
 - [x] `allOf` олон шалгууртай 2 дасгал нэм (жишээ: h1 ба p хоёуланг шаардах)
-- [ ] Mobile: editor/preview-г явцуу дэлгэцэнд босоо давхарлаж, fullscreen-ийг гар утсанд тохируулах
+- [x] Mobile: editor/preview-г явцуу дэлгэцэнд босоо давхарлаж, fullscreen-ийг гар утсанд тохируулах
 - [ ] Хичээлийн ерөнхий явцын хураангуй (N/M хичээл дууссан) `LessonView`-ийн толгойд ба демо хуудсанд
 - [ ] Theory блокт зураг/диаграмм дэмжих (next/image, public/kit ашиглах), жишээ хичээлд нэг зураг нэм
 - [ ] Playground-д "Хуулах" (copy code) ба алдаа гарвал console-ийг улаанаар онцлох сайжруулалт

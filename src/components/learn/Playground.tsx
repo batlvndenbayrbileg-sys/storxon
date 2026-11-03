@@ -110,14 +110,30 @@ export default function Playground({
     });
   };
 
-  const wrap = full ? "fixed inset-0 z-50 bg-zinc-950 p-3" : "";
+  // Fullscreen: lock page scroll + Esc to close (important on phones where the
+  // fixed overlay would otherwise scroll the page behind it).
+  useEffect(() => {
+    if (!full) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setFull(false);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = prev;
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [full]);
+
+  const wrap = full ? "fixed inset-0 z-50 overflow-hidden bg-zinc-950 p-2 sm:p-3" : "";
 
   return (
     <div className={wrap}>
-      <div className={`grid gap-3 ${full ? "h-full grid-rows-[1fr]" : ""} md:grid-cols-2`}>
+      <div className={`grid gap-3 ${full ? "h-full grid-rows-[1fr_1fr] md:grid-rows-[1fr]" : ""} md:grid-cols-2`}>
         {/* Editor */}
         <div className="flex min-h-0 flex-col overflow-hidden rounded-xl border border-zinc-700 bg-zinc-900">
-          <div className="flex items-center gap-1 border-b border-zinc-800 px-2 py-1.5">
+          <div className="flex flex-wrap items-center gap-1 border-b border-zinc-800 px-2 py-1.5">
             {(["html", "css", "js"] as Tab[]).map((t) => (
               <button
                 key={t}
