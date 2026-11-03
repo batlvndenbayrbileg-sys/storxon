@@ -53,6 +53,7 @@ export default function Playground({
   const [srcDoc, setSrcDoc] = useState<string>("");
   const [logs, setLogs] = useState<ConsoleLine[]>([]);
   const [full, setFull] = useState(false);
+  const [copied, setCopied] = useState<"ok" | "fail" | null>(null);
   const iframeRef = useRef<HTMLIFrameElement | null>(null);
   const gutterRef = useRef<HTMLDivElement | null>(null);
 
@@ -92,6 +93,40 @@ export default function Playground({
     setLogs([]);
     setSrcDoc(buildSrcDoc(starter));
   }, [starter, update]);
+
+  // Copy the active tab's code. Clipboard API can be unavailable/denied (insecure
+  // context, permissions), so fall back to a hidden textarea + execCommand.
+  const copyCode = useCallback(async () => {
+    const text = files[tab];
+    let ok = false;
+    try {
+      await navigator.clipboard.writeText(text);
+      ok = true;
+    } catch {
+      try {
+        const ta = document.createElement("textarea");
+        ta.value = text;
+        ta.setAttribute("readonly", "");
+        ta.style.position = "fixed";
+        ta.style.opacity = "0";
+        document.body.appendChild(ta);
+        ta.select();
+        ok = document.execCommand("copy");
+        document.body.removeChild(ta);
+      } catch {
+        ok = false;
+      }
+    }
+    setCopied(ok ? "ok" : "fail");
+  }, [files, tab]);
+
+  useEffect(() => {
+    if (!copied) return;
+    const t = setTimeout(() => setCopied(null), 1600);
+    return () => clearTimeout(t);
+  }, [copied]);
+
+  const errorCount = logs.filter((l) => l.level === "error").length;
 
   const editorValue = files[tab];
   const lineCount = useMemo(() => editorValue.split("\n").length, [editorValue]);
@@ -151,6 +186,14 @@ export default function Playground({
               </button>
             ))}
             <div className="ml-auto flex items-center gap-1">
+              <button
+                type="button"
+                onClick={copyCode}
+                aria-label={`${TAB_LABEL[tab]} кодыг хуулах`}
+                className="rounded-md px-2 py-1 text-xs font-medium text-zinc-400 hover:text-white"
+              >
+                {copied === "ok" ? "Хуулсан ✓" : copied === "fail" ? "Амжилтгүй" : "Хуулах"}
+              </button>
               <button type="button" onClick={reset} className="rounded-md px-2 py-1 text-xs font-medium text-zinc-400 hover:text-white">
                 Эхлэл
               </button>
@@ -200,7 +243,18 @@ export default function Playground({
             className="w-full flex-1 bg-white"
             style={{ height: full ? undefined : height, minHeight: 120 }}
           />
-          <div className="max-h-28 overflow-auto border-t border-zinc-200 bg-zinc-950 p-2 font-mono text-[12px]">
+          <div
+            role="log"
+            aria-live="polite"
+            className={`max-h-28 overflow-auto border-t p-2 font-mono text-[12px] ${
+              errorCount > 0 ? "border-red-500 bg-red-950/60" : "border-zinc-200 bg-zinc-950"
+            }`}
+          >
+            {errorCount > 0 && (
+              <div className="mb-1 text-[11px] font-bold uppercase tracking-wide text-red-300">
+                ⚠ {errorCount} алдаа
+              </div>
+            )}
             {logs.length === 0 ? (
               <div className="text-zinc-600">console…</div>
             ) : (
@@ -208,7 +262,7 @@ export default function Playground({
                 <div
                   key={i}
                   className={
-                    l.level === "error" ? "text-red-400" : l.level === "warn" ? "text-amber-300" : "text-zinc-300"
+                    l.level === "error" ? "font-semibold text-red-300" : l.level === "warn" ? "text-amber-300" : "text-zinc-300"
                   }
                 >
                   {l.text}
