@@ -281,7 +281,14 @@ function Teacher() {
     <section id="teacher" className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
       <div className="grid items-center gap-12 md:grid-cols-2">
         <div className="reveal relative aspect-[4/3] w-full overflow-hidden rounded-3xl bg-brand p-8 shadow-xl shadow-violet-500/20">
-          {/* TODO: replace with teacher photo */}
+          {/* Initials avatar (swap for a photo when available) */}
+          <div aria-hidden="true" className="absolute left-8 top-8 flex size-24 items-center justify-center sm:size-28">
+            <span className="absolute inset-0 rounded-full border border-white/30" />
+            <span className="absolute -inset-3 rounded-full border border-white/15" />
+            <span className="flex size-full items-center justify-center rounded-full bg-white/20 text-3xl font-black tracking-tight text-white shadow-lg ring-1 ring-white/40 backdrop-blur sm:text-4xl">
+              ДБ
+            </span>
+          </div>
           <div className="flex h-full flex-col justify-end">
             <p className="text-3xl font-black">Д. Бямбадолгор</p>
             <p className="mt-1 text-white/80">Багш · Хөгжүүлэгч · Botxon</p>
