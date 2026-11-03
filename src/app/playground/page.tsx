@@ -7,7 +7,7 @@ import { HTML_INTRO } from "@/lib/lessons/data";
 export default function PlaygroundPage() {
   return (
     <main className="min-h-screen bg-zinc-50 px-4 py-10 dark:bg-zinc-950">
-      <LessonView lesson={HTML_INTRO} />
+      <LessonView lesson={HTML_INTRO} hrefBase="/playground" />
     </main>
   );
 }

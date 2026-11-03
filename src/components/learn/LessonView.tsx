@@ -106,12 +106,14 @@ function Sidebar({
 export default function LessonView({
   lesson,
   lessons = LESSONS,
-  hrefFor,
+  hrefBase,
 }: {
   lesson: Lesson;
   lessons?: Lesson[];
-  hrefFor?: (id: string) => string;
+  /** e.g. "/playground" → lesson links become `${hrefBase}/${id}` (string, so it can cross the server→client boundary). */
+  hrefBase?: string;
 }) {
+  const hrefFor = hrefBase ? (id: string) => `${hrefBase}/${id}` : undefined;
   const gradeable = lesson.blocks.filter((b) => b.kind === "exercise" || b.kind === "quiz").length;
   const [doneIds, setDoneIds] = useState<Set<string>>(new Set());
 
@@ -129,6 +131,9 @@ export default function LessonView({
     (b, i) => (b.kind === "exercise" || b.kind === "quiz") && doneIds.has(`${lesson.id}:${i}`),
   ).length;
   const complete = gradeable > 0 && doneCount === gradeable;
+  const idx = lessons.findIndex((l) => l.id === lesson.id);
+  const prev = idx > 0 ? lessons[idx - 1] : undefined;
+  const next = idx >= 0 && idx < lessons.length - 1 ? lessons[idx + 1] : undefined;
 
   return (
     <div className="mx-auto flex max-w-5xl flex-col gap-6 lg:flex-row">
@@ -159,6 +164,33 @@ export default function LessonView({
           <Block key={i} block={block} taskId={`${lesson.id}:${i}`} done={doneIds.has(`${lesson.id}:${i}`)} onDone={markDone} />
         ))}
       </div>
+
+      {hrefFor && (prev || next) && (
+        <nav aria-label="Хичээл хоорондын навигаци" className="mt-10 flex items-stretch justify-between gap-3">
+          {prev ? (
+            <a
+              href={hrefFor(prev.id)}
+              className="flex-1 rounded-xl border border-zinc-200 bg-white px-4 py-3 text-sm hover:border-violet-400 dark:border-zinc-800 dark:bg-zinc-900"
+            >
+              <span className="block text-xs text-zinc-500">← Өмнөх</span>
+              <span className="font-semibold text-zinc-900 dark:text-zinc-100">{prev.title}</span>
+            </a>
+          ) : (
+            <span className="flex-1" />
+          )}
+          {next ? (
+            <a
+              href={hrefFor(next.id)}
+              className="flex-1 rounded-xl border border-violet-300 bg-violet-50 px-4 py-3 text-right text-sm hover:border-violet-500 dark:border-violet-900/50 dark:bg-violet-950/30"
+            >
+              <span className="block text-xs text-violet-600">Дараах →</span>
+              <span className="font-semibold text-zinc-900 dark:text-zinc-100">{next.title}</span>
+            </a>
+          ) : (
+            <span className="flex-1" />
+          )}
+        </nav>
+      )}
       </article>
     </div>
   );
