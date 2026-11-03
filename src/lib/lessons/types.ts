@@ -5,12 +5,16 @@
 // iframe (sandbox="allow-scripts", no allow-same-origin), never in the app
 // context. This keeps instructor-authored code untrusted by construction.
 
+// Optional illustration for a theory block. `src` must be a local path under
+// /public (e.g. "/kit/code.webp"); alt text is required for accessibility.
+export type TheoryImage = { src: string; alt: string; width: number; height: number; caption?: string };
+
 export type PlaygroundFiles = { html: string; css: string; js: string };
 
 export type LessonBlock =
   // Trusted rich text — Mongolian explanations, diagrams. (DB-authored theory
   // must be sanitized before it reaches here; in-repo content is trusted.)
-  | { kind: "theory"; title?: string; html: string }
+  | { kind: "theory"; title?: string; html: string; image?: TheoryImage }
   // Read-only example with syntax-free highlighting.
   | { kind: "code"; title?: string; lang: "html" | "css" | "js"; code: string }
   // Editable code with live sandboxed preview.

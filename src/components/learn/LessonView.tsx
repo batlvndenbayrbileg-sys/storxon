@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import Playground from "@/components/learn/Playground";
 import { LESSONS } from "@/lib/lessons/data";
 import { runCheck, type ExerciseCheck, type Lesson, type LessonBlock, type PlaygroundFiles } from "@/lib/lessons/types";
@@ -239,6 +240,20 @@ function Block({
           {block.title && <h2 className="mb-2 text-lg font-bold text-zinc-900 dark:text-zinc-100">{block.title}</h2>}
           {/* In-repo authored content is trusted; DB-authored theory must be sanitized upstream. */}
           <div className="prose-sx text-[15px] leading-relaxed text-zinc-700 dark:text-zinc-300" dangerouslySetInnerHTML={{ __html: block.html }} />
+          {block.image && (
+            <figure className="mt-4">
+              <Image
+                src={block.image.src}
+                alt={block.image.alt}
+                width={block.image.width}
+                height={block.image.height}
+                className="mx-auto h-auto max-h-64 w-auto rounded-xl"
+              />
+              {block.image.caption && (
+                <figcaption className="mt-2 text-center text-xs text-zinc-500 dark:text-zinc-400">{block.image.caption}</figcaption>
+              )}
+            </figure>
+          )}
         </section>
       );
     case "code":
