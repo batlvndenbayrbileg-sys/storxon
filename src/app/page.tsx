@@ -281,7 +281,14 @@ function Teacher() {
     <section id="teacher" className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
       <div className="grid items-center gap-12 md:grid-cols-2">
         <div className="reveal relative aspect-[4/3] w-full overflow-hidden rounded-3xl bg-brand p-8 shadow-xl shadow-violet-500/20">
-          {/* TODO: replace with teacher photo */}
+          <div aria-hidden className="pointer-events-none absolute -left-10 -top-10 size-56 rounded-full border border-white/15" />
+          <div aria-hidden className="pointer-events-none absolute -left-4 -top-4 size-40 rounded-full border border-white/20" />
+          <div
+            aria-hidden
+            className="absolute left-8 top-8 grid size-24 place-items-center rounded-full bg-white/15 text-5xl font-black text-white shadow-lg ring-4 ring-white/30 backdrop-blur sm:size-28 sm:text-6xl"
+          >
+            Д
+          </div>
           <div className="flex h-full flex-col justify-end">
             <p className="text-3xl font-black">Д. Бямбадолгор</p>
             <p className="mt-1 text-white/80">Багш · Хөгжүүлэгч · Botxon</p>
@@ -307,6 +314,37 @@ function Teacher() {
               </li>
             ))}
           </ul>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Testimonials() {
+  const quotes = [
+    { q: "Код бичиж үзээгүй ч AI-тай хамт алхам алхмаар явахад дэлгүүр маань үнэхээр ажиллаж эхэлсэн.", who: "Анхлан суралцагч", tag: "Дэлгүүр эзэмшигч" },
+    { q: "QPay төлбөрийг өөрийн сайт дээр холбож чадсан нь хамгийн том үр дүн болсон.", who: "Жижиг бизнес эрхлэгч", tag: "Онлайн худалдаа" },
+    { q: "Модуль бүр ойлгомжтой, төгсгөлд нь бодит үр дүн гардаг болохоор сэтгэл хөдөлгөм.", who: "Оюутан", tag: "Программчлал сонирхогч" },
+    { q: "Өөрийн домэйн дээр ажилладаг дэлгүүртэй болох нь зөвхөн онолоос хавьгүй үнэ цэнэтэй.", who: "Фрилансер", tag: "Дизайнер" },
+  ];
+  return (
+    <section id="reviews" className="bg-ink-2">
+      <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
+        <SectionHead eyebrow="Сэтгэгдэл" title="Суралцагчид юу хэлж байна" sub="Бодит үр дүнд төвлөрсөн сургалтаас хүлээх сэтгэгдлүүд." />
+        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          {quotes.map((t, i) => (
+            <figure key={t.q} data-d={`${i * 70}ms`} className="reveal flex flex-col rounded-3xl border border-line bg-white p-6 shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg hover:shadow-violet-500/10">
+              <span aria-hidden className="text-4xl font-black leading-none text-violet-300">“</span>
+              <blockquote className="mt-2 flex-1 text-sm text-muted">{t.q}</blockquote>
+              <figcaption className="mt-5 flex items-center gap-3">
+                <span aria-hidden className="grid size-9 place-items-center rounded-full bg-brand text-sm font-bold">{t.who[0]}</span>
+                <span className="text-sm">
+                  <span className="block font-semibold">{t.who}</span>
+                  <span className="block text-xs text-violet-700">{t.tag}</span>
+                </span>
+              </figcaption>
+            </figure>
+          ))}
         </div>
       </div>
     </section>
@@ -495,6 +533,7 @@ export default function Home() {
         <Audience />
         <Modules />
         <Teacher />
+        <Testimonials />
         <Pricing />
         <Faq />
         <Register />
