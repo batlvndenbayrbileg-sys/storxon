@@ -69,7 +69,77 @@ export const HTML_INTRO: Lesson = {
   ],
 };
 
-export const LESSONS: Lesson[] = [HTML_INTRO];
+export const CSS_INTRO: Lesson = {
+  id: "css-undes",
+  module: 2,
+  title: "CSS-ийн үндэс — хуудсаа гоё болгох",
+  objectives: [
+    "CSS дүрэм (selector, property, value) гэж юу болохыг ойлгох",
+    "Өнгө ба үсгийн хэмжээг өөрчилж сурах",
+    "Кодоо засаад шууд үр дүнг харах",
+  ],
+  blocks: [
+    {
+      kind: "theory",
+      title: "CSS гэж юу вэ?",
+      html: `<p><strong>CSS</strong> нь HTML-ийн <em>гадаад төрх</em>-ийг тодорхойлдог: өнгө, хэмжээ, зай, байрлал.</p>
+             <p>CSS дүрэм нь <code>сонгогч { шинж: утга; }</code> хэлбэртэй. Жишээ нь <code>h1 { color: red; }</code> нь бүх <code>&lt;h1&gt;</code> гарчгийг улаан болгоно.</p>`,
+    },
+    {
+      kind: "code",
+      title: "Жишээ код",
+      lang: "css",
+      code: `h1 {
+  color: #7c3aed;
+  font-size: 32px;
+}
+p {
+  color: #444;
+}`,
+    },
+    {
+      kind: "playground",
+      title: "Туршиж үз",
+      height: 220,
+      starter: {
+        html: `<h1>Сайн байна уу!</h1>\n<p>CSS-ээ өөрчилж, ▶ Ажиллуул дээр дар.</p>`,
+        css: `body { font-family: system-ui; padding: 16px; }\nh1 { color: #7c3aed; }\np { color: #444; }`,
+        js: ``,
+      },
+    },
+    {
+      kind: "exercise",
+      title: "Догол мөрийн өнгийг өөрчил",
+      prompt: "CSS хэсэгт <p> тэгийн өнгийг тодорхойлох `p { color: ...; }` дүрэм нэмээд Шалгах дээр дар.",
+      starter: {
+        html: `<h1>Миний хуудас</h1>\n<p>Энэ догол мөрийг будна.</p>`,
+        css: `body { font-family: system-ui; padding: 16px; }`,
+        js: ``,
+      },
+      hint: "p { color: tomato; } гэж бичээд үз.",
+      solution: {
+        html: `<h1>Миний хуудас</h1>\n<p>Энэ догол мөрийг будна.</p>`,
+        css: `body { font-family: system-ui; padding: 16px; }\np { color: tomato; }`,
+        js: ``,
+      },
+      check: {
+        type: "cssIncludes",
+        pattern: "p\\s*\\{[^}]*color\\s*:",
+        flags: "i",
+        message: "`p { color: ...; }` дүрэм олдсонгүй.",
+      },
+    },
+    {
+      kind: "quiz",
+      question: "Текстийн өнгийг аль CSS шинж өөрчлөх вэ?",
+      options: ["font-size", "color", "margin", "display"],
+      answer: 1,
+      explain: "`color` нь текстийн өнгийг тодорхойлно.",
+    },
+  ],
+};
+
+export const LESSONS: Lesson[] = [HTML_INTRO, CSS_INTRO];
 
 export function getLesson(id: string): Lesson | undefined {
   return LESSONS.find((l) => l.id === id);
