@@ -139,7 +139,75 @@ p {
   ],
 };
 
-export const LESSONS: Lesson[] = [HTML_INTRO, CSS_INTRO];
+export const JS_INTRO: Lesson = {
+  id: "js-undes",
+  module: 3,
+  title: "JavaScript-ийн үндэс — хуудсаа амьдруулъя",
+  objectives: [
+    "Хувьсагч (let, const) гэж юу болохыг ойлгох",
+    "console.log-оор утга хэвлэж сурах",
+    "Кодоо засаад шууд үр дүнг харах",
+  ],
+  blocks: [
+    {
+      kind: "theory",
+      title: "JavaScript гэж юу вэ?",
+      html: `<p><strong>JavaScript</strong> нь вэб хуудсыг <em>амьдруулдаг</em> хэл: товч дарахад юм хийх, тоо бодох, текст солих.</p>
+             <p>Утгыг нэрлэж хадгалахдаа <code>let</code> эсвэл <code>const</code> ашиглана. Үр дүнг харахдаа <code>console.log(...)</code> гэж бичнэ.</p>`,
+    },
+    {
+      kind: "code",
+      title: "Жишээ код",
+      lang: "js",
+      code: `const name = "Storxon";
+let count = 2;
+count = count + 1;
+console.log("Сайн уу, " + name);
+console.log(count);`,
+    },
+    {
+      kind: "playground",
+      title: "Туршиж үз",
+      height: 220,
+      starter: {
+        html: `<h1>JavaScript</h1>\n<p>Кодоо өөрчилж, ▶ Ажиллуул дээр дар.</p>`,
+        css: `body { font-family: system-ui; padding: 16px; }`,
+        js: `const name = "Storxon";\nconsole.log("Сайн уу, " + name);`,
+      },
+    },
+    {
+      kind: "exercise",
+      title: "Анхны console.log",
+      prompt: "JS хэсэгт `console.log(...)` ашиглан ямар нэг зүйл хэвлээд Шалгах дээр дар.",
+      starter: {
+        html: `<p>Консолыг шалгана уу.</p>`,
+        css: `body { font-family: system-ui; padding: 16px; }`,
+        js: `// Энд console.log бич\n`,
+      },
+      hint: 'console.log("Сайн уу!"); гэж бичээд үз.',
+      solution: {
+        html: `<p>Консолыг шалгана уу.</p>`,
+        css: `body { font-family: system-ui; padding: 16px; }`,
+        js: `console.log("Сайн уу!");`,
+      },
+      check: {
+        type: "jsIncludes",
+        pattern: "^\\s*console\\.log\\s*\\(",
+        flags: "m",
+        message: "`console.log(...)` дуудлага олдсонгүй.",
+      },
+    },
+    {
+      kind: "quiz",
+      question: "Дахин олгох боломжгүй (өөрчлөгдөхгүй) утгыг аль түлхүүр үгээр зарлах вэ?",
+      options: ["let", "const", "var", "function"],
+      answer: 1,
+      explain: "`const` нь дахин олгох боломжгүй хувьсагч зарлана.",
+    },
+  ],
+};
+
+export const LESSONS: Lesson[] = [HTML_INTRO, CSS_INTRO, JS_INTRO];
 
 export function getLesson(id: string): Lesson | undefined {
   return LESSONS.find((l) => l.id === id);
