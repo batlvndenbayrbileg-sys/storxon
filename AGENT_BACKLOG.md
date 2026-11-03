@@ -33,7 +33,7 @@ Storxon бол видео LMS биш — сурагч **унших → код з
 - [x] Жишээ хичээл + демо: `src/lib/lessons/data.ts`, `src/app/playground/page.tsx`
 
 ## P1 — интерактив туршлага (frontend, агент хийнэ)
-- [ ] LessonView-д зүүн sidebar нэм: модуль ба хичээлийн жагсаалт, идэвхтэй хичээл, дууссаны тэмдэг (localStorage `sx-learn`-ээс)
+- [x] LessonView-д зүүн sidebar нэм: модуль ба хичээлийн жагсаалт, идэвхтэй хичээл, дууссаны тэмдэг (localStorage `sx-learn`-ээс)
 - [ ] Хичээл хооронд Өмнөх/Дараах навигаци ба хичээлийн маршрут (`src/app/playground/[id]`, динамик params нь Promise — Next 16)
 - [ ] Playground editor-т мөрийн дугаар ба табаар шилжихэд идэвхтэй табыг тодруулах (нэмэлт dependency-гүй)
 - [ ] CSS-ийн үндэс хичээл нэм (`data.ts`): theory + playground + 1 дасгал (`cssIncludes` шалгалт) + quiz

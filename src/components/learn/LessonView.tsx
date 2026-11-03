@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import Playground from "@/components/learn/Playground";
+import { LESSONS } from "@/lib/lessons/data";
 import { runCheck, type ExerciseCheck, type Lesson, type LessonBlock, type PlaygroundFiles } from "@/lib/lessons/types";
 
 /**
@@ -32,7 +33,85 @@ function writeDone(id: string) {
   }
 }
 
-export default function LessonView({ lesson }: { lesson: Lesson }) {
+function gradeableIds(l: Lesson): string[] {
+  const ids: string[] = [];
+  l.blocks.forEach((b, i) => {
+    if (b.kind === "exercise" || b.kind === "quiz") ids.push(`${l.id}:${i}`);
+  });
+  return ids;
+}
+
+/** Left sidebar: lessons grouped by module, active lesson highlighted, ✓ when finished. */
+function Sidebar({
+  lessons,
+  activeId,
+  doneIds,
+  hrefFor,
+}: {
+  lessons: Lesson[];
+  activeId: string;
+  doneIds: Set<string>;
+  hrefFor?: (id: string) => string;
+}) {
+  const modules = Array.from(new Set(lessons.map((l) => l.module))).sort((a, b) => a - b);
+  return (
+    <nav aria-label="Хичээлийн жагсаалт" className="w-full shrink-0 lg:sticky lg:top-6 lg:w-64 lg:self-start">
+      <div className="rounded-2xl border border-zinc-200 bg-white p-3 dark:border-zinc-800 dark:bg-zinc-900">
+        {modules.map((m) => (
+          <div key={m} className="mb-3 last:mb-0">
+            <div className="px-2 pb-1 text-xs font-bold uppercase tracking-wider text-violet-600">Модуль {m}</div>
+            <ul className="space-y-1">
+              {lessons
+                .filter((l) => l.module === m)
+                .map((l) => {
+                  const ids = gradeableIds(l);
+                  const finished = ids.length > 0 && ids.every((id) => doneIds.has(id));
+                  const active = l.id === activeId;
+                  const cls = `flex items-center gap-2 rounded-lg px-2 py-1.5 text-sm ${
+                    active
+                      ? "bg-violet-100 font-semibold text-violet-800 dark:bg-violet-950/50 dark:text-violet-200"
+                      : "text-zinc-700 hover:bg-zinc-50 dark:text-zinc-300 dark:hover:bg-zinc-800"
+                  }`;
+                  const inner = (
+                    <>
+                      <span aria-hidden className={finished ? "text-emerald-600" : "text-zinc-300 dark:text-zinc-600"}>
+                        {finished ? "✓" : "○"}
+                      </span>
+                      <span className="min-w-0 flex-1">{l.title}</span>
+                      {finished && <span className="sr-only">Дууссан</span>}
+                    </>
+                  );
+                  return (
+                    <li key={l.id}>
+                      {hrefFor ? (
+                        <a href={hrefFor(l.id)} aria-current={active ? "page" : undefined} className={cls}>
+                          {inner}
+                        </a>
+                      ) : (
+                        <div aria-current={active ? "page" : undefined} className={cls}>
+                          {inner}
+                        </div>
+                      )}
+                    </li>
+                  );
+                })}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </nav>
+  );
+}
+
+export default function LessonView({
+  lesson,
+  lessons = LESSONS,
+  hrefFor,
+}: {
+  lesson: Lesson;
+  lessons?: Lesson[];
+  hrefFor?: (id: string) => string;
+}) {
   const gradeable = lesson.blocks.filter((b) => b.kind === "exercise" || b.kind === "quiz").length;
   const [doneIds, setDoneIds] = useState<Set<string>>(new Set());
 
@@ -52,7 +131,9 @@ export default function LessonView({ lesson }: { lesson: Lesson }) {
   const complete = gradeable > 0 && doneCount === gradeable;
 
   return (
-    <article className="mx-auto max-w-3xl">
+    <div className="mx-auto flex max-w-5xl flex-col gap-6 lg:flex-row">
+      <Sidebar lessons={lessons} activeId={lesson.id} doneIds={doneIds} hrefFor={hrefFor} />
+      <article className="min-w-0 max-w-3xl flex-1">
       <header className="mb-6">
         <div className="text-xs font-semibold uppercase tracking-wider text-violet-600">Модуль {lesson.module}</div>
         <h1 className="mt-1 text-2xl font-extrabold text-zinc-900 sm:text-3xl dark:text-zinc-50">{lesson.title}</h1>
@@ -78,7 +159,8 @@ export default function LessonView({ lesson }: { lesson: Lesson }) {
           <Block key={i} block={block} taskId={`${lesson.id}:${i}`} done={doneIds.has(`${lesson.id}:${i}`)} onDone={markDone} />
         ))}
       </div>
-    </article>
+      </article>
+    </div>
   );
 }
 
