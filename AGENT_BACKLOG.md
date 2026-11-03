@@ -22,7 +22,7 @@ SUPABASE_URL=x SUPABASE_SERVICE_ROLE_KEY=x NEXT_PUBLIC_SUPABASE_URL=https://x.su
   GitHub дээр нээнэ гэдгийг тэмдэглэ.
 
 ## Ажлууд
-- [ ] Teacher хэсгийн placeholder-ийг зураггүй ч гоё харагдах эхний үсгийн аватар/чимэглэлээр солих
+- [x] Teacher хэсгийн placeholder-ийг зураггүй ч гоё харагдах эхний үсгийн аватар/чимэглэлээр солих
 - [ ] Landing-д "Сэтгэгдэл / итгэл" (social proof) статик хэсэг нэмэх (3-4 ишлэл карт)
 - [ ] Landing мобайл дээр хөвөгч "Бүртгүүлэх" CTA товч нэмэх (доод буланд)
 - [ ] Landing-д "Дээш" (back-to-top) товч нэмэх, гүйлгэхэд гарч ирдэг

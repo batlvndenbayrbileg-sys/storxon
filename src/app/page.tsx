@@ -281,10 +281,14 @@ function Teacher() {
     <section id="teacher" className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
       <div className="grid items-center gap-12 md:grid-cols-2">
         <div className="reveal relative aspect-[4/3] w-full overflow-hidden rounded-3xl bg-brand p-8 shadow-xl shadow-violet-500/20">
-          {/* TODO: replace with teacher photo */}
-          <div className="flex h-full flex-col justify-end">
-            <p className="text-3xl font-black">Д. Бямбадолгор</p>
-            <p className="mt-1 text-white/80">Багш · Хөгжүүлэгч · Botxon</p>
+          <div className="flex h-full flex-col">
+            <span className="grid size-20 place-items-center rounded-full bg-white/15 text-2xl font-black text-white ring-1 ring-white/30 backdrop-blur">
+              ДБ
+            </span>
+            <div className="mt-auto">
+              <p className="text-3xl font-black">Д. Бямбадолгор</p>
+              <p className="mt-1 text-white/80">Багш · Хөгжүүлэгч · Botxon</p>
+            </div>
           </div>
           <Sprite name="tablet" className="absolute -bottom-2 right-6 w-[34%]" />
           <span className="glass absolute right-5 top-5 rounded-2xl px-4 py-3 text-sm font-semibold text-violet-700 shadow-md">
