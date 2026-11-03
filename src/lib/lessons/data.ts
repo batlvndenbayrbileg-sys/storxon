@@ -60,6 +60,52 @@ export const HTML_INTRO: Lesson = {
       },
     },
     {
+      kind: "exercise",
+      title: "Гарчиг ба догол мөр хамт",
+      prompt: "HTML хэсэгт <h1> гарчиг болон <p> догол мөр хоёуланг нь, тус бүр нь тексттэй байхаар бич. Шалгах дээр дар.",
+      starter: {
+        html: ``,
+        css: `body { font-family: system-ui; padding: 16px; }`,
+        js: ``,
+      },
+      hint: "<h1>Гарчиг</h1> ба <p>Текст</p> хоёрыг дараалуулан бич.",
+      solution: {
+        html: `<h1>Миний хуудас</h1>\n<p>Энэ бол миний анхны догол мөр.</p>`,
+        css: `body { font-family: system-ui; padding: 16px; }`,
+        js: ``,
+      },
+      check: {
+        type: "allOf",
+        checks: [
+          { type: "htmlIncludes", pattern: "<h1[^>]*>\\s*\\S[^<]*</h1>", flags: "i", message: "Текст бүхий <h1> гарчиг олдсонгүй." },
+          { type: "htmlIncludes", pattern: "<p[^>]*>\\s*\\S[^<]*</p>", flags: "i", message: "Текст бүхий <p> догол мөр олдсонгүй." },
+        ],
+      },
+    },
+    {
+      kind: "exercise",
+      title: "HTML ба CSS хамтад нь",
+      prompt: "HTML-д <h1> гарчиг нэмж, CSS-д h1-ийн өнгийг (color) тодорхойл. Шалгах дээр дар.",
+      starter: {
+        html: ``,
+        css: `body { font-family: system-ui; padding: 16px; }`,
+        js: ``,
+      },
+      hint: "HTML: <h1>Сайн уу</h1>, CSS: h1 { color: tomato; }",
+      solution: {
+        html: `<h1>Сайн уу</h1>`,
+        css: `body { font-family: system-ui; padding: 16px; }\nh1 { color: tomato; }`,
+        js: ``,
+      },
+      check: {
+        type: "allOf",
+        checks: [
+          { type: "htmlIncludes", pattern: "<h1[^>]*>\\s*\\S[^<]*</h1>", flags: "i", message: "Текст бүхий <h1> гарчиг олдсонгүй." },
+          { type: "cssIncludes", pattern: "h1\\s*\\{[^}]*color\\s*:", flags: "i", message: "CSS-д h1-ийн color шинжийг тодорхойлоогүй байна." },
+        ],
+      },
+    },
+    {
       kind: "quiz",
       question: "Аль тэг нь том гарчиг үүсгэх вэ?",
       options: ["<p>", "<h1>", "<div>", "<span>"],
