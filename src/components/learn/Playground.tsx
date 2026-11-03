@@ -54,6 +54,7 @@ export default function Playground({
   const [logs, setLogs] = useState<ConsoleLine[]>([]);
   const [full, setFull] = useState(false);
   const iframeRef = useRef<HTMLIFrameElement | null>(null);
+  const gutterRef = useRef<HTMLDivElement | null>(null);
 
   const run = useCallback(() => {
     setLogs([]);
@@ -93,6 +94,7 @@ export default function Playground({
   }, [starter, update]);
 
   const editorValue = files[tab];
+  const lineCount = useMemo(() => editorValue.split("\n").length, [editorValue]);
   const onEdit = (v: string) => update({ ...files, [tab]: v });
 
   // Tab key inserts two spaces instead of leaving the editor.
@@ -120,9 +122,13 @@ export default function Playground({
               <button
                 key={t}
                 type="button"
+                role="tab"
+                aria-selected={tab === t}
                 onClick={() => setTab(t)}
                 className={`rounded-md px-2.5 py-1 text-xs font-semibold transition ${
-                  tab === t ? "bg-violet-600 text-white" : "text-zinc-400 hover:text-white"
+                  tab === t
+                    ? "bg-violet-600 text-white ring-1 ring-violet-300/60"
+                    : "text-zinc-400 hover:text-white"
                 }`}
               >
                 {TAB_LABEL[t]}
@@ -140,15 +146,31 @@ export default function Playground({
               </button>
             </div>
           </div>
-          <textarea
-            value={editorValue}
-            onChange={(e) => onEdit(e.target.value)}
-            onKeyDown={onKeyDown}
-            spellCheck={false}
-            className="min-h-0 flex-1 resize-none bg-zinc-900 p-3 font-mono text-[13px] leading-relaxed text-zinc-100 outline-none"
-            style={{ height: full ? undefined : height, tabSize: 2 }}
-            aria-label={`${TAB_LABEL[tab]} editor`}
-          />
+          <div className="flex min-h-0 flex-1 overflow-hidden">
+            <div
+              ref={gutterRef}
+              aria-hidden="true"
+              className="select-none overflow-hidden bg-zinc-950/60 py-3 pl-2 pr-2 text-right font-mono text-[13px] leading-relaxed text-zinc-600"
+              style={{ height: full ? undefined : height }}
+            >
+              {Array.from({ length: lineCount }, (_, i) => (
+                <div key={i}>{i + 1}</div>
+              ))}
+            </div>
+            <textarea
+              value={editorValue}
+              onChange={(e) => onEdit(e.target.value)}
+              onKeyDown={onKeyDown}
+              onScroll={(e) => {
+                if (gutterRef.current) gutterRef.current.scrollTop = e.currentTarget.scrollTop;
+              }}
+              spellCheck={false}
+              wrap="off"
+              className="min-h-0 min-w-0 flex-1 resize-none overflow-auto whitespace-pre bg-zinc-900 p-3 font-mono text-[13px] leading-relaxed text-zinc-100 outline-none"
+              style={{ height: full ? undefined : height, tabSize: 2 }}
+              aria-label={`${TAB_LABEL[tab]} editor`}
+            />
+          </div>
         </div>
 
         {/* Preview + console */}
