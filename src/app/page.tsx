@@ -133,7 +133,7 @@ function Hero() {
   return (
     <section className="relative overflow-hidden bg-white">
       <div data-parallax data-speed="0.12" className="pointer-events-none absolute -right-40 top-10 size-[38rem] rounded-full bg-violet-200/40 blur-3xl" />
-      <div className="relative mx-auto grid max-w-6xl items-center gap-10 px-4 py-14 sm:px-6 md:grid-cols-[1fr_1.05fr] md:py-20">
+      <div className="relative mx-auto grid max-w-6xl items-center gap-10 px-4 py-16 sm:px-6 md:grid-cols-[1fr_1.05fr] md:py-20">
         <div className="reveal">
           <h2 className="text-[clamp(3rem,8vw,5.5rem)] font-black leading-[0.95] tracking-tight">
             Hello,
@@ -199,7 +199,7 @@ function Stack() {
 
 function SectionHead({ eyebrow, title, sub }: { eyebrow: string; title: string; sub?: string }) {
   return (
-    <div className="reveal mx-auto mb-12 max-w-2xl text-center">
+    <div className="reveal mx-auto mb-10 max-w-2xl text-center sm:mb-12">
       <p className="mb-4 inline-block rounded-full bg-violet-50 px-3 py-1 text-xs font-medium text-violet-700">{eyebrow}</p>
       <h2 className="text-3xl font-black tracking-tight sm:text-4xl">{title}</h2>
       {sub && <p className="mt-4 text-muted">{sub}</p>}
@@ -209,7 +209,7 @@ function SectionHead({ eyebrow, title, sub }: { eyebrow: string; title: string; 
 
 function Audience() {
   return (
-    <section id="about" className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
+    <section id="about" className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20">
       <SectionHead
         eyebrow="Хэнд зориулсан"
         title="Компьютер, интернэт, долоо хоногт 5-6 цаг"
@@ -237,7 +237,7 @@ function Audience() {
 function Modules() {
   return (
     <section id="modules" className="bg-ink-2">
-      <div className="relative mx-auto max-w-6xl px-4 py-20 sm:px-6">
+      <div className="relative mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20">
         <Sprite name="code" className="animate-float absolute right-4 top-10 hidden w-36 lg:block" />
         <Sprite name="cart" className="animate-float absolute left-4 top-16 hidden w-28 lg:block [animation-delay:-2s]" />
         <SectionHead
@@ -280,7 +280,7 @@ function Teacher() {
     "QPay интеграцийг алхам алхмаар заадаг цөөн сургалтын нэг",
   ];
   return (
-    <section id="teacher" className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
+    <section id="teacher" className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20">
       <div className="grid items-center gap-12 md:grid-cols-2">
         <div className="reveal relative aspect-[4/3] w-full overflow-hidden rounded-3xl bg-brand p-8 shadow-xl shadow-violet-500/20">
           <div aria-hidden className="pointer-events-none absolute -left-10 -top-10 size-56 rounded-full border border-white/15" />
@@ -331,7 +331,7 @@ function Testimonials() {
   ];
   return (
     <section id="reviews" className="bg-ink-2">
-      <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
+      <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20">
         <SectionHead eyebrow="Сэтгэгдэл" title="Суралцагчид юу хэлж байна" sub="Бодит үр дүнд төвлөрсөн сургалтаас хүлээх сэтгэгдлүүд." />
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {quotes.map((t, i) => (
@@ -357,7 +357,7 @@ function Pricing() {
   const price = new Map(priceList().map((p) => [p.id, p]));
   return (
     <section id="pricing" className="soft-bg overflow-hidden">
-      <div className="relative mx-auto max-w-6xl px-4 py-20 sm:px-6">
+      <div className="relative mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20">
         <div data-parallax data-speed="0.1" aria-hidden className="pointer-events-none absolute right-8 bottom-10 size-80 rounded-full bg-blue-200/30 blur-3xl" />
         <Sprite name="flybig" className="animate-float absolute -left-6 top-6 hidden w-52 lg:block" />
         <Sprite name="chart" className="animate-float absolute right-2 top-14 hidden w-36 lg:block [animation-delay:-2.5s]" />
@@ -422,7 +422,7 @@ function Pricing() {
 
 function Faq() {
   return (
-    <section id="faq" className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
+    <section id="faq" className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20">
       <SectionHead eyebrow="Түгээмэл асуулт" title="Түгээмэл асуултууд" />
       <div className="grid items-start gap-8 lg:grid-cols-[1.4fr_1fr]">
         <div className="space-y-3">
@@ -456,7 +456,7 @@ function Faq() {
 
 function Register() {
   return (
-    <section id="register" className="px-4 pb-20 sm:px-6">
+    <section id="register" className="px-4 pb-16 sm:px-6 sm:pb-20">
       <div className="soft-bg relative mx-auto grid max-w-6xl items-center gap-10 overflow-hidden rounded-[2rem] border border-white p-6 shadow-sm sm:p-10 md:grid-cols-2">
         <div data-parallax data-speed="0.08" aria-hidden className="pointer-events-none absolute -left-10 -top-10 size-72 rounded-full bg-violet-300/25 blur-3xl" />
         <div className="reveal relative">
