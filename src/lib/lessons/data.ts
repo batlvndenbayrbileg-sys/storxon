@@ -366,7 +366,104 @@ ReactDOM.createRoot(document.getElementById("root")).render(h(App));`,
 // Example of a lesson authored as plain JSON and validated at load time.
 export const HTML_HEADINGS: Lesson = lessonFromJson(htmlHeadingsJson);
 
-export const LESSONS: Lesson[] = [HTML_INTRO, CSS_INTRO, JS_INTRO, HTML_HEADINGS, REACT_INTRO];
+export const HTML_LISTS_LINKS: Lesson = {
+  id: "html-jagsaalt-holboos",
+  module: 1,
+  title: "HTML — жагсаалт ба холбоос",
+  objectives: [
+    "<ul> ба <ol> жагсаалт бичих",
+    "<li>-ээр жагсаалтын зүйл үүсгэх",
+    "<a href> холбоос үүсгэх",
+  ],
+  blocks: [
+    {
+      kind: "theory",
+      title: "Жагсаалт ба холбоос",
+      html: `<p><strong>Жагсаалт</strong> нь холбоотой зүйлсийг цэгцтэй харуулдаг. Дарааллын хамаагүй бол <code>&lt;ul&gt;</code> (цэгтэй), дараалал чухал бол <code>&lt;ol&gt;</code> (дугаартай) ашиглана. Зүйл бүр <code>&lt;li&gt;</code> дотор бичигдэнэ.</p>
+             <p><strong>Холбоос</strong> нь өөр хуудас руу хөтөлнө: <code>&lt;a href="https://storxon.com"&gt;Текст&lt;/a&gt;</code>. <code>href</code> нь очих хаяг, тэгний доторх текст нь дарагдах хэсэг юм.</p>`,
+    },
+    {
+      kind: "code",
+      title: "Жишээ код",
+      lang: "html",
+      code: `<ul>
+  <li>HTML</li>
+  <li>CSS</li>
+  <li>JavaScript</li>
+</ul>
+<a href="https://example.com">Жишээ сайт</a>`,
+    },
+    {
+      kind: "playground",
+      title: "Туршиж үз",
+      height: 240,
+      starter: {
+        html: `<h1>Миний сурах жагсаалт</h1>\n<ul>\n  <li>HTML</li>\n  <li>CSS</li>\n</ul>\n<a href="https://example.com">Жишээ сайт</a>`,
+        css: `body { font-family: system-ui; padding: 16px; }\na { color: #7c3aed; }`,
+        js: ``,
+      },
+    },
+    {
+      kind: "exercise",
+      title: "Жагсаалт бич",
+      prompt: "HTML хэсэгт <ul> жагсаалт үүсгэж, дотор нь тексттэй 2 ширхэг <li> бич. Шалгах дээр дар.",
+      starter: {
+        html: `<h1>Миний дуртай хоол</h1>\n`,
+        css: `body { font-family: system-ui; padding: 16px; }`,
+        js: ``,
+      },
+      hint: "<ul><li>Бууз</li><li>Хуушуур</li></ul> гэж бичээд үз.",
+      solution: {
+        html: `<h1>Миний дуртай хоол</h1>\n<ul>\n  <li>Бууз</li>\n  <li>Хуушуур</li>\n</ul>`,
+        css: `body { font-family: system-ui; padding: 16px; }`,
+        js: ``,
+      },
+      check: {
+        type: "allOf",
+        checks: [
+          { type: "htmlIncludes", pattern: "<ul[^>]*>", flags: "i", message: "<ul> жагсаалт олдсонгүй." },
+          {
+            type: "htmlIncludes",
+            pattern: "<li[^>]*>\\s*\\S[^<]*</li>[\\s\\S]*<li[^>]*>\\s*\\S[^<]*</li>",
+            flags: "i",
+            message: "Текст бүхий дор хаяж 2 <li> олдсонгүй.",
+          },
+        ],
+      },
+    },
+    {
+      kind: "exercise",
+      title: "Холбоос нэм",
+      prompt: "HTML хэсэгт https://storxon.com хаяг руу хөтлөх, тексттэй <a href> холбоос нэмээд Шалгах дээр дар.",
+      starter: {
+        html: `<p>Манай сайт руу орох холбоос нэм.</p>`,
+        css: `body { font-family: system-ui; padding: 16px; }`,
+        js: ``,
+      },
+      hint: '<a href="https://storxon.com">Storxon</a> гэж бичээд үз.',
+      solution: {
+        html: `<p>Манай сайт руу орох холбоос нэм.</p>\n<a href="https://storxon.com">Storxon</a>`,
+        css: `body { font-family: system-ui; padding: 16px; }`,
+        js: ``,
+      },
+      check: {
+        type: "htmlIncludes",
+        pattern: "<a\\s[^>]*href\\s*=\\s*[\"']https?://[^\"']+[\"'][^>]*>\\s*\\S[^<]*</a>",
+        flags: "i",
+        message: "href бүхий, тексттэй <a> холбоос олдсонгүй.",
+      },
+    },
+    {
+      kind: "quiz",
+      question: "Дугаарласан жагсаалтыг аль тэг үүсгэх вэ?",
+      options: ["<ul>", "<ol>", "<li>", "<a>"],
+      answer: 1,
+      explain: "<ol> нь дугаартай жагсаалт; <ul> нь цэгтэй жагсаалт.",
+    },
+  ],
+};
+
+export const LESSONS: Lesson[] = [HTML_INTRO, CSS_INTRO, JS_INTRO, HTML_HEADINGS, HTML_LISTS_LINKS, REACT_INTRO];
 
 // Course outline: skeletons (title + objectives, no blocks yet) for the next
 // modules. Deliberately NOT part of LESSONS so empty lessons never reach the

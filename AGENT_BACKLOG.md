@@ -85,7 +85,7 @@ Storxon бол видео LMS биш — сурагч **унших → код з
 React/JS/DOM код зөвхөн sandbox iframe дотор, React нь `createElement`-only.
 
 ## A. Контент — модулиудыг бодит хичээлээр дүүргэх (хамгийн өндөр ач холбогдол)
-- [ ] HTML: "Жагсаалт ба холбоос" хичээл (`ul/ol/li`, `a href`) — theory+playground+дасгал(`htmlIncludes`)+quiz
+- [x] HTML: "Жагсаалт ба холбоос" хичээл (`ul/ol/li`, `a href`) — theory+playground+дасгал(`htmlIncludes`)+quiz
 - [ ] HTML: "Зураг ба медиа" хичээл (`img` + `alt`, `figure/figcaption`) — бүрэн блокуудтай
 - [ ] HTML: "Хүснэгт" хичээл (`table/tr/td/th`) — дасгал + quiz
 - [ ] HTML: "Форм ба оролт" хичээл (`form/input/label/button`) — `allOf` дасгал
