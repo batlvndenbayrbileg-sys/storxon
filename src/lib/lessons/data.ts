@@ -571,7 +571,116 @@ export const HTML_IMAGES_MEDIA: Lesson = {
   ],
 };
 
-export const LESSONS: Lesson[] = [HTML_INTRO, CSS_INTRO, JS_INTRO, HTML_HEADINGS, HTML_LISTS_LINKS, HTML_IMAGES_MEDIA, REACT_INTRO];
+export const HTML_TABLES: Lesson = {
+  id: "html-husnegt",
+  module: 1,
+  title: "HTML — хүснэгт",
+  objectives: [
+    "<table>, <tr>, <td> тэгээр хүснэгт байгуулах",
+    "<th>-ээр толгой нүд тэмдэглэх",
+    "<thead> ба <tbody>-оор хүснэгтийн хэсгийг ялгах",
+  ],
+  blocks: [
+    {
+      kind: "theory",
+      title: "Хүснэгтийн бүтэц",
+      html: `<p>Хүснэгтийг <code>&lt;table&gt;</code> тэг бүхэлд нь тойрно. Мөр бүр <code>&lt;tr&gt;</code> (table row), мөрийн нүд бүр <code>&lt;td&gt;</code> (table data) байна.</p>
+             <p>Баганын гарчиг нүдийг <code>&lt;th&gt;</code> (table header) гэж бичвэл браузер тодруулж, дэлгэц уншигч гарчиг гэдгийг нь танина.</p>`,
+    },
+    {
+      kind: "code",
+      title: "Жишээ код",
+      lang: "html",
+      code: `<table>
+  <thead>
+    <tr>
+      <th>Нэр</th>
+      <th>Нас</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Болд</td>
+      <td>12</td>
+    </tr>
+    <tr>
+      <td>Сараа</td>
+      <td>11</td>
+    </tr>
+  </tbody>
+</table>`,
+    },
+    {
+      kind: "theory",
+      title: "thead, tbody ба зураас",
+      html: `<p><code>&lt;thead&gt;</code> нь гарчгийн мөрийг, <code>&lt;tbody&gt;</code> нь үндсэн өгөгдлийг бүлэглэнэ. Хүснэгтийн хүрээ, өнгийг HTML биш <strong>CSS</strong>-ээр өгдөг (жишээ нь <code>border</code>, <code>border-collapse</code>).</p>`,
+    },
+    {
+      kind: "playground",
+      title: "Туршиж үз",
+      height: 300,
+      starter: {
+        html: `<table>\n  <thead>\n    <tr><th>Хичээл</th><th>Оноо</th></tr>\n  </thead>\n  <tbody>\n    <tr><td>HTML</td><td>90</td></tr>\n    <tr><td>CSS</td><td>85</td></tr>\n  </tbody>\n</table>`,
+        css: `body { font-family: system-ui; padding: 16px; }\ntable { border-collapse: collapse; }\nth, td { border: 1px solid #999; padding: 6px 12px; }\nth { background: #f3e8ff; }`,
+        js: ``,
+      },
+    },
+    {
+      kind: "exercise",
+      title: "Анхны хүснэгт",
+      prompt: "<table> дотор нэг <tr>, түүнд <td> нүд бичээд Шалгах дээр дар.",
+      starter: {
+        html: `<h1>Миний хүснэгт</h1>\n`,
+        css: `body { font-family: system-ui; padding: 16px; }\ntd { border: 1px solid #999; padding: 6px 12px; }`,
+        js: ``,
+      },
+      hint: "<table><tr><td>Сайн уу</td></tr></table> гэж бичээд үз.",
+      solution: {
+        html: `<h1>Миний хүснэгт</h1>\n<table>\n  <tr><td>Сайн уу</td></tr>\n</table>`,
+        css: `body { font-family: system-ui; padding: 16px; }\ntd { border: 1px solid #999; padding: 6px 12px; }`,
+        js: ``,
+      },
+      check: {
+        type: "htmlIncludes",
+        pattern: "<table[^>]*>[\\s\\S]*<tr[^>]*>[\\s\\S]*<td[^>]*>[\\s\\S]*</td>[\\s\\S]*</tr>[\\s\\S]*</table>",
+        flags: "i",
+        message: "<table> дотор <tr> ба <td> олдсонгүй.",
+      },
+    },
+    {
+      kind: "exercise",
+      title: "Гарчигтай хүснэгт",
+      prompt: "Хүснэгтэд <th> гарчиг нүд ба <td> өгөгдлийн нүд хоёуланг нь оруулаад Шалгах дээр дар.",
+      starter: {
+        html: `<table>\n  <tr><td>Болд</td><td>12</td></tr>\n</table>`,
+        css: `body { font-family: system-ui; padding: 16px; }\nth, td { border: 1px solid #999; padding: 6px 12px; }`,
+        js: ``,
+      },
+      hint: "Шинэ мөр <tr><th>Нэр</th><th>Нас</th></tr>-ийг хамгийн дээр нэм.",
+      solution: {
+        html: `<table>\n  <tr><th>Нэр</th><th>Нас</th></tr>\n  <tr><td>Болд</td><td>12</td></tr>\n</table>`,
+        css: `body { font-family: system-ui; padding: 16px; }\nth, td { border: 1px solid #999; padding: 6px 12px; }`,
+        js: ``,
+      },
+      check: {
+        type: "allOf",
+        checks: [
+          { type: "htmlIncludes", pattern: "<th[^>]*>\\s*\\S[^<]*</th>", flags: "i", message: "Тексттэй <th> гарчиг нүд олдсонгүй." },
+          { type: "htmlIncludes", pattern: "<td[^>]*>\\s*\\S[^<]*</td>", flags: "i", message: "Тексттэй <td> нүд олдсонгүй." },
+        ],
+      },
+    },
+    {
+      kind: "quiz",
+      question: "Хүснэгтийн баганын гарчиг нүдийг ямар тэгээр бичих вэ?",
+      options: ["<td>", "<tr>", "<th>", "<caption>"],
+      answer: 2,
+      explain: "<th> нь гарчиг нүд; <td> нь энгийн өгөгдлийн нүд, <tr> нь мөр.",
+    },
+  ],
+};
+
+export const LESSONS: Lesson[] = [HTML_INTRO, CSS_INTRO, JS_INTRO, HTML_HEADINGS, HTML_LISTS_LINKS, HTML_IMAGES_MEDIA, HTML_TABLES, REACT_INTRO];
 
 // Course outline: skeletons (title + objectives, no blocks yet) for the next
 // modules. Deliberately NOT part of LESSONS so empty lessons never reach the

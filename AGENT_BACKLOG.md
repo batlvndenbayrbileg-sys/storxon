@@ -87,7 +87,7 @@ React/JS/DOM код зөвхөн sandbox iframe дотор, React нь `createEl
 ## A. Контент — модулиудыг бодит хичээлээр дүүргэх (хамгийн өндөр ач холбогдол)
 - [x] HTML: "Жагсаалт ба холбоос" хичээл (`ul/ol/li`, `a href`) — theory+playground+дасгал(`htmlIncludes`)+quiz
 - [x] HTML: "Зураг ба медиа" хичээл (`img` + `alt`, `figure/figcaption`) — бүрэн блокуудтай
-- [ ] HTML: "Хүснэгт" хичээл (`table/tr/td/th`) — дасгал + quiz
+- [x] HTML: "Хүснэгт" хичээл (`table/tr/td/th`) — дасгал + quiz
 - [ ] HTML: "Форм ба оролт" хичээл (`form/input/label/button`) — `allOf` дасгал
 - [ ] HTML: "Семантик тэгүүд" хичээл (`header/nav/main/footer/section`)
 - [ ] CSS: "Өнгө ба фон" хичээл (`color`, `background`, hex/rgb)
