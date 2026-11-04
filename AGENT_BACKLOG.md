@@ -71,3 +71,104 @@ Storxon бол видео LMS биш — сурагч **унших → код з
 - [x] OpenGraph/Twitter share зургийг metadata-д тодорхой заах (hero-banner.webp)
 - [x] Landing секц хоорондын зай/үсгийн шатлалыг жигдлэх polish
 - [x] README-д орчны хувьсагч, deploy, админ тохиргооны алхмыг цэгцлэх
+
+---
+
+# 🚀 Sprint 2 — 7 хоногийн гүнзгийрүүлэлт (tech-lead roadmap)
+
+Зорилго: Storxon-г **жинхэнэ бүрэн курс** болгох — HTML/CSS/JS/React-ийн гүнзгий
+контент, олон дасгал, хүчирхэг playground, суралцах урам зориг (gamification),
+хурд/SEO/хүртээмж. Бүгд frontend/контент, нэг удаад ганц ажил, `next build` exit 0
+бол шууд main-д push. **Хориотой бүс хэвээр:** төлбөр, нэвтрэлт, env, Vercel,
+`supabase/schema.sql`, `src/lib/lessons/progress.ts`-ийн **бичих** зам (унших зүгээр).
+Шинэ хичээл нэмэхдээ `src/lib/lessons/data.ts` эсвэл JSON (`lessonFromJson`) ашигла;
+React/JS/DOM код зөвхөн sandbox iframe дотор, React нь `createElement`-only.
+
+## A. Контент — модулиудыг бодит хичээлээр дүүргэх (хамгийн өндөр ач холбогдол)
+- [ ] HTML: "Жагсаалт ба холбоос" хичээл (`ul/ol/li`, `a href`) — theory+playground+дасгал(`htmlIncludes`)+quiz
+- [ ] HTML: "Зураг ба медиа" хичээл (`img` + `alt`, `figure/figcaption`) — бүрэн блокуудтай
+- [ ] HTML: "Хүснэгт" хичээл (`table/tr/td/th`) — дасгал + quiz
+- [ ] HTML: "Форм ба оролт" хичээл (`form/input/label/button`) — `allOf` дасгал
+- [ ] HTML: "Семантик тэгүүд" хичээл (`header/nav/main/footer/section`)
+- [ ] CSS: "Өнгө ба фон" хичээл (`color`, `background`, hex/rgb)
+- [ ] CSS: "Box model" хичээл (`margin/padding/border`) — playground-д тод жишээ
+- [ ] CSS: "Текст ба фонт" хичээл (`font-size/weight`, `text-align`)
+- [ ] CSS: "Flexbox зэрэгцүүлэлт" хичээл (`display:flex`, `justify/align`) — `allOf` дасгал
+- [ ] CSS: "Grid үндэс" хичээл (`display:grid`, `grid-template`)
+- [ ] CSS: "Responsive ба @media" хичээл (гар утас/дэлгэц)
+- [ ] CSS: "Hover ба transition" хичээл (энгийн анимэйшн)
+- [ ] JS: "Хувьсагч ба төрөл" хичээл (`let/const`, string/number/boolean)
+- [ ] JS: "Нөхцөл (if/else)" хичээл — `jsIncludes` дасгал
+- [ ] JS: "Давталт (for/while)" хичээл — дасгал + quiz
+- [ ] JS: "Функц" хичээл (зарлах, дуудах, параметр, return)
+- [ ] JS: "Массив" хичээл (push, length, индекс) — `allOf` дасгал
+- [ ] JS: "Объект" хичээл (key/value, цэгийн нотаци)
+- [ ] JS: "DOM унших/бичих" хичээл (`querySelector`, `textContent`) — sandbox дотор
+- [ ] JS: "Үйл явдал (events)" хичээл (`addEventListener`, onclick) — sandbox дотор
+- [ ] React: "Props дамжуулах" хичээл (`createElement`-only, sandbox)
+- [ ] React: "useState төлөв" хичээл (`createElement`-only, sandbox)
+- [ ] React: "Жагсаалт render (map)" хичээл (`createElement`-only)
+- [ ] MODULE_SKELETONS-ийн модуль 4–8-ыг бодит гарчиг/зорилго/эхний theory-оор дүүргэж `LESSONS`-д холбох
+
+## B. Дасгал ба үнэлгээ
+- [ ] Одоо 1 дасгалтай хичээл бүрт 2 дахь дасгал нэмэх (гүнзгийрүүлсэн)
+- [ ] Дасгалын "Сануулга"-г 2 түвшний progressive hint болгох (нэг нэгээр нээгдэх)
+- [ ] `runCheck` буруу үед яагаад болохыг тодорхой, зөөлөн мессежээр заах (бүх төрөлд)
+- [ ] Quiz-д нэг блокт 2–3 асуулт дэмжих, эсвэл олон quiz блокийг цувралаар
+- [ ] Quiz хариулсны дараа `explain` тайлбарыг үргэлж харуулж, зөв/бурууг өнгөөр ялгах
+- [ ] "Код шалгах"-ын өмнө console-д алдаа байвал дасгалыг амжилтгүй гэж үзэх логик
+- [ ] Хичээлийн төгсгөлд бүх дасгал/quiz-ийн дүгнэлт карт (хэдийг зөв хийсэн)
+
+## C. Playground хөдөлгүүр
+- [ ] "Эхлэлд буцаах" (reset to starter) товч — одоогийн кодыг starter-аар солино
+- [ ] `Ctrl/Cmd+Enter`-ээр кодыг ажиллуулах keyboard shortcut
+- [ ] Автомат live preview сонголт (debounced), toggle-тэй — анхдагчаар унтраалттай
+- [ ] Console relay-д объект/массивыг гоё форматлаж хэвлэх (JSON.stringify indent)
+- [ ] Editor-т `Tab` дарахад 2 зай оруулах, урт мөрөнд хэвтээ гүйлт
+- [ ] Кодыг бие даасан `.html` файл болгон татаж авах товч
+- [ ] Preview-г шинэ табд нээх товч (sandbox blob URL)
+- [ ] Editor-ийн фонтыг томруулах/жижигрүүлэх (A+/A−) товч, localStorage-д сонголт хадгалах
+- [ ] Код жишээ (`code` блок)-т энгийн syntax highlighting (гадны dependency-гүй, token split)
+
+## D. Суралцах туршлага / UX
+- [ ] Sidebar-т хичээл хайх/шүүх input (гарчигаар)
+- [ ] Хичээл бүрт "~X минут" уншиж/хийх хугацааны тэмдэг (блокоос тооцоол)
+- [ ] Breadcrumb навигаци (Модуль → Хичээл) LessonView-ийн толгойд
+- [ ] Гар утсанд sidebar-г хаашаа тийш гарч ирдэг drawer болгох (overlay + Esc)
+- [ ] Хичээлийн доод талд "Дараагийн хичээл" preview карт (гарчиг+зорилго)
+- [ ] Хичээл хэсгийн гарчигт тухайн модулийн нийт явцын жижиг progress bar
+- [ ] prefers-color-scheme-д тохирсон dark горим хичээл/playground-д (хэрэв theme байхгүй бол CSS-ээр)
+- [ ] "Дээш/Эхлэл рүү" товч урт хичээлд
+- [ ] Код хуулах/ажиллуулахад жижиг "хийгдлээ" toast (гар утсанд ээлтэй)
+
+## E. Урам зориг / gamification (ЗӨВХӨН localStorage, DB БИШ)
+- [ ] Өдрийн дараалсан streak тоолуур (шинэ `sx-streak` localStorage key) — sidebar-т badge
+- [ ] Хичээл дуусгах бүрт XP/оноо, нийт оноог харуулах (`sx-xp` localStorage, явцыг унших)
+- [ ] Модуль бүрэн дуусгахад баяр хүргэсэн тэмдэг + confetti анимэйшн (reduced-motion хүндэтгэх)
+- [ ] Нийт явцыг дугуй progress ring-ээр толгойд харуулах
+- [ ] "Өнөөдрийн зорилго: 1 хичээл" маягийн жижиг идэвхжүүлэгч самбар
+
+## F. Гүйцэтгэл · SEO · хүртээмж
+- [ ] Хичээл бүрт тусдаа `metadata` (title/description) — `/playground/[id]` дээр
+- [ ] Playground iframe-г viewport-д ороход lazy ачаалах (IntersectionObserver)
+- [ ] Хичээлийн том контентыг `dynamic import`-оор код хуваах
+- [ ] Бүх зурагт тодорхой `width/height` (layout shift/CLS багасгах)
+- [ ] `prefers-reduced-motion`-г бүх анимэйшнд хүндэтгэх
+- [ ] Бүх интерактив элементэд keyboard навигаци + modal/drawer-т focus trap
+- [ ] Өнгөний контраст (WCAG AA) нягталж засах
+- [ ] Learn/playground хуудсанд JSON-LD (Course/LearningResource) structured data
+
+## G. Код чанар · баримт · тест
+- [ ] `runCheck`, `lessonFromJson`-д unit test нэмэх (vitest тохируулах; build-д нөлөөлөхгүй)
+- [ ] Хичээл зохиогчийн гарын авлага (`README.md`)-г өргөтгөх + 3 жишээ JSON хичээл
+- [ ] `types.ts`, `progress.ts` (унших хэсэг)-т JSDoc тайлбар нэмэх
+- [ ] LessonView/Playground-ийн урт хэсгийг жижиг дэд компонент болгон refactor (зан төлөв өөрчлөхгүй)
+- [ ] Хичээлийн өгөгдлийг (data.ts) модуль тус бүрээр файл болгон задлах, дахин экспортлох
+
+## H. Landing / marketing (доод зэрэглэл)
+- [ ] Landing дээр "Хэрхэн ажилладаг" секц — жижиг амьд playground preview
+- [ ] Сурагчдын жишээ ажлын галерей секц (статик)
+- [ ] FAQ-д интерактив хичээлийн талаарх 2–3 асуулт нэмэх
+- [ ] Footer-ийг цэгцлэх (холбоос, нийгмийн сүлжээ, зохиогчийн эрх)
+- [ ] 404/not-found хуудсыг брэндэд нийцүүлэн сайжруулах
+- [ ] Landing-д "Яагаад Storxon" давуу талын секц (3–4 карт)
