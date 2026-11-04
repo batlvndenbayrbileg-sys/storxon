@@ -266,6 +266,48 @@ export const HTML_HEADINGS: Lesson = lessonFromJson(htmlHeadingsJson);
 
 export const LESSONS: Lesson[] = [HTML_INTRO, CSS_INTRO, JS_INTRO, HTML_HEADINGS];
 
+// Course outline: skeletons (title + objectives, no blocks yet) for the next
+// modules. Deliberately NOT part of LESSONS so empty lessons never reach the
+// sidebar, routes or progress totals. Move a skeleton into LESSONS once its
+// blocks (theory/playground/exercise/quiz) are authored.
+export const MODULE_SKELETONS: Lesson[] = [
+  {
+    id: "html-jagsaalt-holbooc",
+    module: 4,
+    title: "HTML — жагсаалт, холбоос, зураг",
+    objectives: ["<ul>/<ol> жагсаалт бичих", "<a> холбоос үүсгэх", "<img> зургийг alt-тай оруулах"],
+    blocks: [],
+  },
+  {
+    id: "css-layout-flex",
+    module: 5,
+    title: "CSS — Flexbox байршил",
+    objectives: ["display:flex ойлгох", "Элементүүдийг төвлөрүүлэх, зайлуулах", "Мобайлд тохирсон мөр/багана"],
+    blocks: [],
+  },
+  {
+    id: "js-dom-event",
+    module: 6,
+    title: "JavaScript — DOM ба үйл явдал",
+    objectives: ["Элементийг сонгох", "Товч дарахад текст солих", "addEventListener ашиглах"],
+    blocks: [],
+  },
+  {
+    id: "html-form",
+    module: 7,
+    title: "HTML — Форм ба оролт",
+    objectives: ["<form>, <input>, <label> бичих", "Оролтын утгыг JS-ээр унших", "Энгийн шалгалт хийх"],
+    blocks: [],
+  },
+  {
+    id: "mini-project",
+    module: 8,
+    title: "Жижиг төсөл — Хувийн танилцуулга хуудас",
+    objectives: ["HTML + CSS + JS-ийг нэгтгэх", "Өөрийн хуудсыг бүтээх", "Дүгнэлт хийх"],
+    blocks: [],
+  },
+];
+
 export function getLesson(id: string): Lesson | undefined {
   return LESSONS.find((l) => l.id === id);
 }
