@@ -908,7 +908,83 @@ p {
   ],
 };
 
-export const LESSONS: Lesson[] = [HTML_INTRO, CSS_INTRO, JS_INTRO, HTML_HEADINGS, HTML_LISTS_LINKS, HTML_IMAGES_MEDIA, HTML_TABLES, HTML_FORMS, HTML_SEMANTIC, CSS_COLORS, REACT_INTRO];
+export const CSS_BOX_MODEL: Lesson = {
+  id: "css-box-model",
+  module: 2,
+  title: "CSS — box model (margin, padding, border)",
+  objectives: [
+    "Элемент бүр хайрцаг гэдгийг ойлгох",
+    "padding, border, margin гурвын ялгааг мэдэх",
+    "Хайрцгийн дотор ба гадна зайг тохируулах",
+  ],
+  blocks: [
+    {
+      kind: "theory",
+      title: "Элемент бол хайрцаг",
+      html: `<p>Веб хуудасны элемент бүр дөрвөн давхарга бүхий хайрцаг юм (дотроосоо гадагш):</p>
+             <ul>
+               <li><b>content</b> — агуулга (текст, зураг)</li>
+               <li><b>padding</b> — агуулга ба хүрээний хоорондох <em>дотоод</em> зай</li>
+               <li><b>border</b> — хүрээ</li>
+               <li><b>margin</b> — хүрээнээс гадуурх <em>гадаад</em> зай (бусад элементээс тусгаарлана)</li>
+             </ul>
+             <p>Товчхон: <code>padding</code> нь дотогшоо, <code>margin</code> нь гадагшаа зай үүсгэнэ.</p>`,
+    },
+    {
+      kind: "code",
+      title: "Жишээ код",
+      lang: "css",
+      code: `.card {
+  padding: 16px;              /* дотоод зай */
+  border: 2px solid #7c3aed;  /* хүрээ */
+  margin: 24px;               /* гадаад зай */
+}`,
+    },
+    {
+      kind: "playground",
+      title: "Туршиж үз",
+      height: 280,
+      starter: {
+        html: `<div class="card">Хайрцаг 1</div>\n<div class="card">Хайрцаг 2</div>`,
+        css: `body { font-family: system-ui; padding: 16px; }\n.card {\n  background: #f3e8ff;\n  padding: 16px;\n  border: 2px solid #7c3aed;\n  margin: 24px 0;\n}`,
+        js: ``,
+      },
+    },
+    {
+      kind: "exercise",
+      title: "Хүрээтэй хайрцаг",
+      prompt: "CSS хэсэгт `.box` классд `padding`, `border`, `margin` гурвыг хоёуланг нь тохируулаад Шалгах дээр дар.",
+      starter: {
+        html: `<div class="box">Миний хайрцаг</div>`,
+        css: `body { font-family: system-ui; padding: 16px; }\n.box {\n  background: #f3e8ff;\n}`,
+        js: ``,
+      },
+      hint: ".box { padding: 16px; border: 2px solid #7c3aed; margin: 20px; } гэж бичээд үз.",
+      solution: {
+        html: `<div class="box">Миний хайрцаг</div>`,
+        css: `body { font-family: system-ui; padding: 16px; }\n.box {\n  background: #f3e8ff;\n  padding: 16px;\n  border: 2px solid #7c3aed;\n  margin: 20px;\n}`,
+        js: ``,
+      },
+      check: {
+        type: "allOf",
+        checks: [
+          { type: "cssIncludes", pattern: "\\.box\\s*\\{[^}]*padding\\s*:", flags: "i", message: "`.box`-д `padding` шинж олдсонгүй." },
+          { type: "cssIncludes", pattern: "\\.box\\s*\\{[^}]*border\\s*:", flags: "i", message: "`.box`-д `border` шинж олдсонгүй." },
+          { type: "cssIncludes", pattern: "\\.box\\s*\\{[^}]*margin\\s*:", flags: "i", message: "`.box`-д `margin` шинж олдсонгүй." },
+        ],
+      },
+    },
+    {
+      kind: "quiz",
+      question: "Хүрээнээс ГАДУУР, бусад элементээс тусгаарлах зайг аль шинж тодорхойлох вэ?",
+      options: ["padding", "margin", "border", "content"],
+      answer: 1,
+      explain: "`margin` нь хүрээнээс гадуурх зай, `padding` нь агуулга ба хүрээний хоорондох дотоод зай юм.",
+    },
+  ],
+};
+
+export const LESSONS: Lesson[] = [HTML_INTRO, CSS_INTRO, JS_INTRO, HTML_HEADINGS, HTML_LISTS_LINKS, HTML_IMAGES_MEDIA, HTML_TABLES, HTML_FORMS, HTML_SEMANTIC, CSS_COLORS, CSS_BOX_MODEL, REACT_INTRO];
 
 // Course outline: skeletons (title + objectives, no blocks yet) for the next
 // modules. Deliberately NOT part of LESSONS so empty lessons never reach the
