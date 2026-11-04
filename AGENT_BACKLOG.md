@@ -64,7 +64,7 @@ Storxon бол видео LMS биш — сурагч **унших → код з
 
 # Backlog — landing polish (доод зэрэглэл)
 - [x] Landing мобайл дээр хөвөгч "Бүртгүүлэх" CTA товч (доод буланд)
-- [ ] Landing-д "Дээш" (back-to-top) товч, гүйлгэхэд гарч ирдэг
+- [x] Landing-д "Дээш" (back-to-top) товч, гүйлгэхэд гарч ирдэг
 - [ ] FAQ-г нэг дор ганц нь нээгддэг accordion болгох
 - [ ] Хүртээмж: зураг/товчны alt, aria-label нягтлах; "skip to content" холбоос
 - [ ] /dashboard, /admin ачаалж байх үед skeleton харуулах
