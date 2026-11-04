@@ -17,11 +17,28 @@ export const metadata: Metadata = {
     siteName: "Storxon",
     locale: "mn_MN",
     type: "website",
+    images: [
+      {
+        url: "/hero-banner.webp",
+        width: 1536,
+        height: 891,
+        alt: "Storxon — Өөрийн онлайн дэлгүүрийг 0-ээс бүтээ",
+        type: "image/webp",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Storxon — Өөрийн онлайн дэлгүүрийг 0-ээс бүтээ",
     description: "AI-тай хамт онлайн дэлгүүрээ 0-ээс бүтээ. 10 модуль, бодит QPay төлбөр.",
+    images: [
+      {
+        url: "/hero-banner.webp",
+        width: 1536,
+        height: 891,
+        alt: "Storxon — Өөрийн онлайн дэлгүүрийг 0-ээс бүтээ",
+      },
+    ],
   },
 };
 

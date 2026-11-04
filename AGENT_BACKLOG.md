@@ -68,6 +68,6 @@ Storxon бол видео LMS биш — сурагч **унших → код з
 - [x] FAQ-г нэг дор ганц нь нээгддэг accordion болгох
 - [x] Хүртээмж: зураг/товчны alt, aria-label нягтлах; "skip to content" холбоос
 - [x] /dashboard, /admin ачаалж байх үед skeleton харуулах
-- [ ] OpenGraph/Twitter share зургийг metadata-д тодорхой заах (hero-banner.webp)
+- [x] OpenGraph/Twitter share зургийг metadata-д тодорхой заах (hero-banner.webp)
 - [ ] Landing секц хоорондын зай/үсгийн шатлалыг жигдлэх polish
 - [ ] README-д орчны хувьсагч, deploy, админ тохиргооны алхмыг цэгцлэх
