@@ -24,6 +24,7 @@ iframe (`Playground`) дотор ажиллана.
 - `code` — `{ title?, lang: "html"|"css"|"js", code }` Зөвхөн унших жишээ.
 - `playground` — `{ title?, height?, starter: {html, css, js} }` Засах боломжтой + live preview.
 - `exercise` — `{ title, prompt, starter, hint?, solution?, check }` `check` давах хүртэл дуусахгүй.
+- `film` — `{ title, description?, href?, label? }` Бичлэг/лекцийн карт; `href` нь дотоод зам (default `/learn`, нэвтрэлт + төлбөрийн шалгалттай player). `private/course.html`-ийн агуулгыг хуулахгүй, зөвхөн холбоно.
 - `quiz` — `{ title?, question, options: string[], answer: number, explain? }` `answer` нь `options`-ийн 0-ээс эхэлсэн индекс.
 
 ## Exercise `check`

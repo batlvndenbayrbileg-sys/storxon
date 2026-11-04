@@ -4,7 +4,7 @@ import type { ExerciseCheck, Lesson, PlaygroundFiles } from "@/lib/lessons/types
 // descriptive Error on the first problem so bad content fails the build
 // instead of rendering broken. Pure data only — no code is evaluated.
 
-const BLOCK_KINDS = ["theory", "code", "playground", "exercise", "quiz"];
+const BLOCK_KINDS = ["theory", "code", "playground", "exercise", "quiz", "film"];
 
 function fail(path: string, msg: string): never {
   throw new Error(`Lesson JSON invalid at ${path}: ${msg}`);
@@ -83,6 +83,17 @@ export function lessonFromJson(input: unknown): Lesson {
             solution: raw.solution === undefined ? undefined : files(raw.solution, `${p}.solution`),
             check: check(raw.check, `${p}.check`),
           };
+        case "film": {
+          const href = raw.href === undefined ? undefined : str(raw.href, `${p}.href`);
+          if (href !== undefined && !/^\/(?!\/)/.test(href)) fail(`${p}.href`, "'/'-ээр эхэлсэн дотоод зам хүлээгдсэн");
+          return {
+            kind: "film",
+            title: str(raw.title, `${p}.title`),
+            description: raw.description === undefined ? undefined : str(raw.description, `${p}.description`),
+            href,
+            label: raw.label === undefined ? undefined : str(raw.label, `${p}.label`),
+          };
+        }
         case "quiz": {
           if (!Array.isArray(raw.options) || raw.options.length < 2) fail(`${p}.options`, "≥2 сонголттой массив");
           const options = raw.options.map((o, j) => str(o, `${p}.options[${j}]`));

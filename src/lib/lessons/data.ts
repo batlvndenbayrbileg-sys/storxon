@@ -24,6 +24,11 @@ export const HTML_INTRO: Lesson = {
       image: { src: "/kit/code.webp", alt: "Код бичиж буй Storxon-ийн дүр", width: 514, height: 536, caption: "Код бичихэд бэлэн үү?" },
     },
     {
+      kind: "film",
+      title: "Видео хичээл: HTML-ийн танилцуулга",
+      description: "Бичлэгт хичээлийг курсын тоглуулагчаас үзнэ (бүртгэлтэй суралцагчдад).",
+    },
+    {
       kind: "code",
       title: "Жишээ код",
       lang: "html",

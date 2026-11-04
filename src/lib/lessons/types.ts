@@ -29,6 +29,10 @@ export type LessonBlock =
       solution?: PlaygroundFiles;
       check: ExerciseCheck;
     }
+  // Link to a recorded film/lecture in the gated course player (/learn). Only a
+  // title/description/link lives here — the private course content is never
+  // copied or embedded; /learn keeps enforcing sign-in + enrollment.
+  | { kind: "film"; title: string; description?: string; href?: string; label?: string }
   // Single-answer question.
   | { kind: "quiz"; title?: string; question: string; options: string[]; answer: number; explain?: string };
 

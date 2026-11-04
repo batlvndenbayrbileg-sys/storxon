@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import Playground from "@/components/learn/Playground";
 import { LESSONS } from "@/lib/lessons/data";
 import { runCheck, type ExerciseCheck, type Lesson, type LessonBlock, type PlaygroundFiles } from "@/lib/lessons/types";
@@ -270,6 +271,22 @@ function Block({
         <section>
           {block.title && <h2 className="mb-2 text-lg font-bold text-zinc-900 dark:text-zinc-100">{block.title}</h2>}
           <Playground starter={block.starter} height={block.height} />
+        </section>
+      );
+    case "film":
+      return (
+        <section className="flex flex-wrap items-center gap-4 rounded-2xl border border-violet-200 bg-violet-50 p-4 dark:border-violet-900 dark:bg-violet-950/40">
+          <div className="min-w-0 flex-1">
+            <span className="rounded-md bg-violet-600 px-2 py-0.5 text-xs font-bold uppercase tracking-wide text-white">Бичлэг хичээл</span>
+            <h2 className="mt-2 text-lg font-bold text-zinc-900 dark:text-zinc-100">{block.title}</h2>
+            {block.description && <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-300">{block.description}</p>}
+          </div>
+          <Link
+            href={block.href ?? "/learn"}
+            className="rounded-xl bg-violet-600 px-4 py-2 text-sm font-bold text-white hover:bg-violet-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-600"
+          >
+            {block.label ?? "Бичлэг үзэх"} →
+          </Link>
         </section>
       );
     case "quiz":
