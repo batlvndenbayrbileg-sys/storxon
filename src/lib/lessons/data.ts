@@ -463,7 +463,115 @@ export const HTML_LISTS_LINKS: Lesson = {
   ],
 };
 
-export const LESSONS: Lesson[] = [HTML_INTRO, CSS_INTRO, JS_INTRO, HTML_HEADINGS, HTML_LISTS_LINKS, REACT_INTRO];
+// Tiny inline SVG so image examples work offline inside the sandboxed iframe.
+const DEMO_IMG =
+  "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='100'%3E%3Crect width='160' height='100' rx='12' fill='%237c3aed'/%3E%3Ccircle cx='80' cy='50' r='24' fill='%23fff'/%3E%3C/svg%3E";
+
+export const HTML_IMAGES_MEDIA: Lesson = {
+  id: "html-zurag-media",
+  module: 1,
+  title: "HTML — зураг ба медиа",
+  objectives: [
+    "<img> тэгээр зураг оруулах",
+    "alt атрибутыг юуны тулд бичихийг ойлгох",
+    "<figure> ба <figcaption>-оор зургийг тайлбартай харуулах",
+  ],
+  blocks: [
+    {
+      kind: "theory",
+      title: "Зураг оруулах",
+      html: `<p>Зургийг <code>&lt;img&gt;</code> тэгээр оруулна. Энэ тэг хаагдах тэггүй бөгөөд <code>src</code> (зургийн хаяг) ба <code>alt</code> (зургийн тайлбар текст) атрибуттай байна.</p>
+             <p><code>alt</code> нь зураг ачаалагдахгүй үед харагдаж, дэлгэц уншигч програмд зургийг тайлбарладаг тул <strong>үргэлж</strong> бичнэ. Хэрэв зураг зөвхөн чимэглэл бол <code>alt=""</code> гэж хоосон үлдээнэ.</p>`,
+    },
+    {
+      kind: "code",
+      title: "Жишээ код",
+      lang: "html",
+      code: `<img src="kitten.jpg" alt="Саарал зулзага цонхны дэргэд унтаж байна" width="320">
+
+<figure>
+  <img src="mountain.jpg" alt="Цасаар хучигдсан уул">
+  <figcaption>Хангайн нуруу, өвөл</figcaption>
+</figure>`,
+    },
+    {
+      kind: "theory",
+      title: "figure ба figcaption",
+      html: `<p>Зургийг тайлбар (гарчиг)-тай нь хамт бүлэглэхдээ <code>&lt;figure&gt;</code> дотор <code>&lt;img&gt;</code> ба <code>&lt;figcaption&gt;</code>-г хамт бичнэ. Ингэснээр зураг, тайлбар хоёр утгаараа холбогдоно.</p>
+             <p>Дуу, бичлэгийг мөн адил <code>&lt;audio controls&gt;</code>, <code>&lt;video controls&gt;</code> тэгээр оруулдаг.</p>`,
+    },
+    {
+      kind: "playground",
+      title: "Туршиж үз",
+      height: 280,
+      starter: {
+        html: `<h1>Миний зураг</h1>\n<figure>\n  <img src="${DEMO_IMG}" alt="Ягаан дэвсгэр дээрх цагаан дугуй" width="160">\n  <figcaption>Анхны зураг</figcaption>\n</figure>`,
+        css: `body { font-family: system-ui; padding: 16px; }\nfigcaption { color: #666; font-size: 14px; margin-top: 6px; }`,
+        js: ``,
+      },
+    },
+    {
+      kind: "exercise",
+      title: "Зураг alt-тай нэм",
+      prompt: "HTML хэсэгт src болон тексттэй alt атрибут бүхий <img> тэг нэмээд Шалгах дээр дар.",
+      starter: {
+        html: `<h1>Миний зураг</h1>\n`,
+        css: `body { font-family: system-ui; padding: 16px; }`,
+        js: ``,
+      },
+      hint: `<img src="${DEMO_IMG}" alt="Ягаан дугуй"> гэж бичээд үз.`,
+      solution: {
+        html: `<h1>Миний зураг</h1>\n<img src="${DEMO_IMG}" alt="Ягаан дугуй">`,
+        css: `body { font-family: system-ui; padding: 16px; }`,
+        js: ``,
+      },
+      check: {
+        type: "allOf",
+        checks: [
+          { type: "htmlIncludes", pattern: "<img\\s[^>]*src\\s*=\\s*[\"'][^\"']+[\"']", flags: "i", message: "src бүхий <img> тэг олдсонгүй." },
+          { type: "htmlIncludes", pattern: "<img\\s[^>]*alt\\s*=\\s*[\"'][^\"']*\\S[^\"']*[\"']", flags: "i", message: "<img> тэгт тексттэй alt атрибут нэмнэ үү." },
+        ],
+      },
+    },
+    {
+      kind: "exercise",
+      title: "Зургийг тайлбартай болго",
+      prompt: "Зургийг <figure> дотор байрлуулж, <figcaption> тайлбар нэмээд Шалгах дээр дар.",
+      starter: {
+        html: `<img src="${DEMO_IMG}" alt="Ягаан дугуй" width="160">`,
+        css: `body { font-family: system-ui; padding: 16px; }`,
+        js: ``,
+      },
+      hint: "<figure> дотор <img> ба <figcaption>Тайлбар</figcaption> хоёрыг бич.",
+      solution: {
+        html: `<figure>\n  <img src="${DEMO_IMG}" alt="Ягаан дугуй" width="160">\n  <figcaption>Ягаан дугуй</figcaption>\n</figure>`,
+        css: `body { font-family: system-ui; padding: 16px; }`,
+        js: ``,
+      },
+      check: {
+        type: "allOf",
+        checks: [
+          { type: "htmlIncludes", pattern: "<figure[^>]*>[\\s\\S]*<img\\s[^>]*>[\\s\\S]*</figure>", flags: "i", message: "<figure> дотор <img> олдсонгүй." },
+          { type: "htmlIncludes", pattern: "<figcaption[^>]*>\\s*\\S[^<]*</figcaption>", flags: "i", message: "Тексттэй <figcaption> олдсонгүй." },
+        ],
+      },
+    },
+    {
+      kind: "quiz",
+      question: "<img> тэгийн alt атрибут юунд хэрэгтэй вэ?",
+      options: [
+        "Зургийн хэмжээг тогтоох",
+        "Зураг харагдахгүй үед болон дэлгэц уншигчид зургийг тайлбарлах",
+        "Зургийг хөдөлгөөнтэй болгох",
+        "Зургийн хаягийг зааж өгөх",
+      ],
+      answer: 1,
+      explain: "alt нь зургийн текст тайлбар; хаягийг нь src атрибут зааж өгдөг.",
+    },
+  ],
+};
+
+export const LESSONS: Lesson[] = [HTML_INTRO, CSS_INTRO, JS_INTRO, HTML_HEADINGS, HTML_LISTS_LINKS, HTML_IMAGES_MEDIA, REACT_INTRO];
 
 // Course outline: skeletons (title + objectives, no blocks yet) for the next
 // modules. Deliberately NOT part of LESSONS so empty lessons never reach the
