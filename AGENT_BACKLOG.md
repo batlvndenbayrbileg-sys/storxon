@@ -70,4 +70,4 @@ Storxon бол видео LMS биш — сурагч **унших → код з
 - [x] /dashboard, /admin ачаалж байх үед skeleton харуулах
 - [x] OpenGraph/Twitter share зургийг metadata-д тодорхой заах (hero-banner.webp)
 - [x] Landing секц хоорондын зай/үсгийн шатлалыг жигдлэх polish
-- [ ] README-д орчны хувьсагч, deploy, админ тохиргооны алхмыг цэгцлэх
+- [x] README-д орчны хувьсагч, deploy, админ тохиргооны алхмыг цэгцлэх
