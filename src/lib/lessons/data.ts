@@ -680,7 +680,83 @@ export const HTML_TABLES: Lesson = {
   ],
 };
 
-export const LESSONS: Lesson[] = [HTML_INTRO, CSS_INTRO, JS_INTRO, HTML_HEADINGS, HTML_LISTS_LINKS, HTML_IMAGES_MEDIA, HTML_TABLES, REACT_INTRO];
+export const HTML_FORMS: Lesson = {
+  id: "html-form",
+  module: 1,
+  title: "HTML — форм ба оролт",
+  objectives: [
+    "<form> тэгээр форм үүсгэх",
+    "<input> ба <label>-ийг холбох",
+    "<button>-оор форм илгээх товч хийх",
+  ],
+  blocks: [
+    {
+      kind: "theory",
+      title: "Форм гэж юу вэ?",
+      html: `<p>Форм нь хэрэглэгчээс мэдээлэл авах хэрэгсэл юм (нэр, и-мэйл, нууц үг гэх мэт). <code>&lt;form&gt;</code> тэг бүх талбарыг тойрно.</p>
+             <p><code>&lt;input&gt;</code> нь бичих талбар, <code>type</code> атрибутаар төрлийг сонгоно: <code>text</code>, <code>email</code>, <code>password</code>, <code>number</code>.</p>
+             <p><code>&lt;label&gt;</code> нь талбарын нэр. <code>for</code> нь input-ийн <code>id</code>-тай таарвал нэр дээр дарахад талбар идэвхжинэ.</p>`,
+    },
+    {
+      kind: "code",
+      title: "Жишээ код",
+      lang: "html",
+      code: `<form>
+  <label for="name">Нэр</label>
+  <input type="text" id="name" name="name">
+
+  <label for="email">И-мэйл</label>
+  <input type="email" id="email" name="email">
+
+  <button type="submit">Илгээх</button>
+</form>`,
+    },
+    {
+      kind: "playground",
+      title: "Туршиж үз",
+      height: 260,
+      starter: {
+        html: `<form>\n  <p><label for="n">Нэр</label><br><input type="text" id="n" name="n"></p>\n  <p><label for="p">Нууц үг</label><br><input type="password" id="p" name="p"></p>\n  <button type="submit">Илгээх</button>\n</form>`,
+        css: `body { font-family: system-ui; padding: 16px; }\ninput { padding: 6px 10px; }\nbutton { padding: 6px 14px; }`,
+        js: `document.querySelector("form").addEventListener("submit", function (e) { e.preventDefault(); });`,
+      },
+    },
+    {
+      kind: "exercise",
+      title: "Нэвтрэх форм",
+      prompt: "<form> дотор <label for=\"email\">, id=\"email\" бүхий <input type=\"email\"> ба <button> бичээд Шалгах дээр дар.",
+      starter: {
+        html: `<h1>Бүртгүүлэх</h1>\n`,
+        css: `body { font-family: system-ui; padding: 16px; }\ninput, button { padding: 6px 10px; }`,
+        js: ``,
+      },
+      hint: "<form><label for=\"email\">И-мэйл</label><input type=\"email\" id=\"email\"><button>Илгээх</button></form>",
+      solution: {
+        html: `<h1>Бүртгүүлэх</h1>\n<form>\n  <label for="email">И-мэйл</label>\n  <input type="email" id="email" name="email">\n  <button type="submit">Илгээх</button>\n</form>`,
+        css: `body { font-family: system-ui; padding: 16px; }\ninput, button { padding: 6px 10px; }`,
+        js: ``,
+      },
+      check: {
+        type: "allOf",
+        checks: [
+          { type: "htmlIncludes", pattern: "<form[^>]*>[\\s\\S]*</form>", flags: "i", message: "<form> тэг олдсонгүй." },
+          { type: "htmlIncludes", pattern: "<label[^>]*\\sfor=[\"']email[\"'][^>]*>", flags: "i", message: "for=\"email\" бүхий <label> олдсонгүй." },
+          { type: "htmlIncludes", pattern: "<input[^>]*type=[\"']email[\"'][^>]*>", flags: "i", message: "type=\"email\" бүхий <input> олдсонгүй." },
+          { type: "htmlIncludes", pattern: "<button[^>]*>", flags: "i", message: "<button> олдсонгүй." },
+        ],
+      },
+    },
+    {
+      kind: "quiz",
+      question: "<label>-ийг <input>-тай холбохын тулд label-д ямар атрибут өгөх вэ?",
+      options: ["name", "for", "href", "type"],
+      answer: 1,
+      explain: "label-ийн for нь input-ийн id-тай таарна.",
+    },
+  ],
+};
+
+export const LESSONS: Lesson[] = [HTML_INTRO, CSS_INTRO, JS_INTRO, HTML_HEADINGS, HTML_LISTS_LINKS, HTML_IMAGES_MEDIA, HTML_TABLES, HTML_FORMS, REACT_INTRO];
 
 // Course outline: skeletons (title + objectives, no blocks yet) for the next
 // modules. Deliberately NOT part of LESSONS so empty lessons never reach the
