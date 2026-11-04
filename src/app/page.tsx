@@ -14,6 +14,7 @@ import {
 import PreorderForm from "@/components/PreorderForm";
 import ScrollFX from "@/components/ScrollFX";
 import MobileNav from "@/components/MobileNav";
+import FloatingCta from "@/components/FloatingCta";
 import { PRESALE, audiences, faqs, fmt, modules, plans } from "@/lib/content";
 import { isPresale, priceList } from "@/lib/pricing";
 
@@ -540,6 +541,7 @@ export default function Home() {
       </main>
       <Footer />
       <ScrollFX />
+      <FloatingCta />
     </>
   );
 }
