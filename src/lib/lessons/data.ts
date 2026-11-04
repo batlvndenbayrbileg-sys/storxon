@@ -261,10 +261,112 @@ console.log(count);`,
   ],
 };
 
+// React starter lesson. Runs in the same sandboxed Playground (no new
+// dependency in the app): React 18 UMD builds are loaded by <script> tags
+// *inside* the sandboxed iframe, so student code still has a null origin.
+// No JSX/Babel — only React.createElement, with one explicit instruction set.
+const REACT_CDN =
+  `<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>\n` +
+  `<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>\n`;
+
+export const REACT_INTRO: Lesson = {
+  id: "react-undes",
+  module: 9,
+  title: "React-ийн эхлэл — эхний компонент",
+  objectives: [
+    "Компонент гэж юу болохыг ойлгох",
+    "React.createElement-ээр элемент үүсгэх",
+    "useState-ээр товч дарахад тоо нэмэгдүүлэх",
+  ],
+  blocks: [
+    {
+      kind: "theory",
+      title: "React гэж юу вэ?",
+      html: `<p><strong>React</strong> нь хуудсыг жижиг, дахин ашиглагдах <em>компонент</em>уудаас бүтээдэг сан.</p>
+             <p>Эхний алхамд JSX биш, зөвхөн <code>React.createElement(төрөл, props, хүүхэд)</code>-ийг ашиглана. Доорх тайлбарыг дагана уу:</p>
+             <ol>
+               <li><code>function App()</code> нэртэй ганц компонент бичнэ.</li>
+               <li>Төгсгөлд нь <code>ReactDOM.createRoot(document.getElementById("root")).render(React.createElement(App))</code> гэж ажиллуулна (кодод бэлэн байгаа).</li>
+               <li>Төлөв хадгалахдаа <code>const [n, setN] = React.useState(0)</code> ашиглана.</li>
+             </ol>`,
+    },
+    {
+      kind: "playground",
+      title: "Тоолуур — туршиж үз",
+      height: 300,
+      starter: {
+        html: REACT_CDN + `<div id="root"></div>`,
+        css: `body { font-family: system-ui; padding: 16px; }\nbutton { padding: 6px 14px; font-size: 16px; }`,
+        js: `const h = React.createElement;
+
+function App() {
+  const [n, setN] = React.useState(0);
+  return h("div", null,
+    h("h1", null, "Тоолуур: " + n),
+    h("button", { onClick: () => setN(n + 1) }, "Нэм +1")
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(h(App));`,
+      },
+    },
+    {
+      kind: "exercise",
+      title: "Хасах товч нэм",
+      prompt: "`App` компонентод `setN(n - 1)` хийдэг \"Хас -1\" товч нэмээд Шалгах дээр дар.",
+      starter: {
+        html: REACT_CDN + `<div id="root"></div>`,
+        css: `body { font-family: system-ui; padding: 16px; }\nbutton { padding: 6px 14px; font-size: 16px; margin-right: 8px; }`,
+        js: `const h = React.createElement;
+
+function App() {
+  const [n, setN] = React.useState(0);
+  return h("div", null,
+    h("h1", null, "Тоолуур: " + n),
+    h("button", { onClick: () => setN(n + 1) }, "Нэм +1")
+    // Энд "Хас -1" товчийг нэм
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(h(App));`,
+      },
+      hint: 'h("button", { onClick: () => setN(n - 1) }, "Хас -1") гэсэн мөрийг өмнөх товчийн дараа таслалаар нэм.',
+      solution: {
+        html: REACT_CDN + `<div id="root"></div>`,
+        css: `body { font-family: system-ui; padding: 16px; }\nbutton { padding: 6px 14px; font-size: 16px; margin-right: 8px; }`,
+        js: `const h = React.createElement;
+
+function App() {
+  const [n, setN] = React.useState(0);
+  return h("div", null,
+    h("h1", null, "Тоолуур: " + n),
+    h("button", { onClick: () => setN(n + 1) }, "Нэм +1"),
+    h("button", { onClick: () => setN(n - 1) }, "Хас -1")
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(h(App));`,
+      },
+      check: {
+        type: "jsIncludes",
+        pattern: "setN\\s*\\(\\s*n\\s*-\\s*1\\s*\\)",
+        message: "`setN(n - 1)` дуудлагатай товч олдсонгүй.",
+      },
+    },
+    {
+      kind: "quiz",
+      question: "React-д компонентийн төлөвийг (state) хадгалахад аль hook-ийг ашиглах вэ?",
+      options: ["useState", "useStyle", "createRoot", "querySelector"],
+      answer: 0,
+      explain: "`React.useState(эхний утга)` нь [утга, утга солих функц] хос буцаана.",
+    },
+  ],
+};
+
 // Example of a lesson authored as plain JSON and validated at load time.
 export const HTML_HEADINGS: Lesson = lessonFromJson(htmlHeadingsJson);
 
-export const LESSONS: Lesson[] = [HTML_INTRO, CSS_INTRO, JS_INTRO, HTML_HEADINGS];
+export const LESSONS: Lesson[] = [HTML_INTRO, CSS_INTRO, JS_INTRO, HTML_HEADINGS, REACT_INTRO];
 
 // Course outline: skeletons (title + objectives, no blocks yet) for the next
 // modules. Deliberately NOT part of LESSONS so empty lessons never reach the
