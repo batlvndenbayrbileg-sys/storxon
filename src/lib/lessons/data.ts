@@ -836,7 +836,79 @@ export const HTML_SEMANTIC: Lesson = {
   ],
 };
 
-export const LESSONS: Lesson[] = [HTML_INTRO, CSS_INTRO, JS_INTRO, HTML_HEADINGS, HTML_LISTS_LINKS, HTML_IMAGES_MEDIA, HTML_TABLES, HTML_FORMS, HTML_SEMANTIC, REACT_INTRO];
+export const CSS_COLORS: Lesson = {
+  id: "css-ungu-fon",
+  module: 2,
+  title: "CSS — өнгө ба фон",
+  objectives: [
+    "Өнгийг нэр, hex, rgb хэлбэрээр бичиж сурах",
+    "color ба background шинжийн ялгааг ойлгох",
+    "Элементийн фонд өнгө тохируулах",
+  ],
+  blocks: [
+    {
+      kind: "theory",
+      title: "Өнгө тодорхойлох аргууд",
+      html: `<p>CSS-д өнгийг гурван үндсэн аргаар бичнэ: <b>нэрээр</b> (<code>tomato</code>), <b>hex</b> кодоор (<code>#7c3aed</code>), <b>rgb</b>-ээр (<code>rgb(124, 58, 237)</code>).</p>
+             <p><code>color</code> нь <em>текстийн</em> өнгө, <code>background</code> (эсвэл <code>background-color</code>) нь элементийн <em>фоны</em> өнгийг тодорхойлно.</p>`,
+    },
+    {
+      kind: "code",
+      title: "Жишээ код",
+      lang: "css",
+      code: `h1 {
+  color: #ffffff;
+  background: #7c3aed;
+}
+p {
+  color: rgb(40, 40, 40);
+  background-color: lightyellow;
+}`,
+    },
+    {
+      kind: "playground",
+      title: "Туршиж үз",
+      height: 240,
+      starter: {
+        html: `<h1>Өнгөт гарчиг</h1>\n<p>Фон болон текстийн өнгийг өөрчлөөд ▶ Ажиллуул дээр дар.</p>`,
+        css: `body { font-family: system-ui; padding: 16px; }\nh1 { color: #fff; background: #7c3aed; padding: 8px 12px; }\np { color: rgb(40, 40, 40); background-color: lightyellow; padding: 8px 12px; }`,
+        js: ``,
+      },
+    },
+    {
+      kind: "exercise",
+      title: "Фонтой гарчиг",
+      prompt: "CSS хэсэгт <h1>-д `color` болон `background` (эсвэл `background-color`) шинжийг хоёуланг нь тохируулаад Шалгах дээр дар.",
+      starter: {
+        html: `<h1>Миний хуудас</h1>\n<p>Гарчгаа будна.</p>`,
+        css: `body { font-family: system-ui; padding: 16px; }`,
+        js: ``,
+      },
+      hint: "h1 { color: white; background: #7c3aed; } гэж бичээд үз.",
+      solution: {
+        html: `<h1>Миний хуудас</h1>\n<p>Гарчгаа будна.</p>`,
+        css: `body { font-family: system-ui; padding: 16px; }\nh1 { color: white; background: #7c3aed; }`,
+        js: ``,
+      },
+      check: {
+        type: "allOf",
+        checks: [
+          { type: "cssIncludes", pattern: "h1\\s*\\{[^}]*[;\\s{]color\\s*:", flags: "i", message: "`h1`-д `color` шинж олдсонгүй." },
+          { type: "cssIncludes", pattern: "h1\\s*\\{[^}]*background(-color)?\\s*:", flags: "i", message: "`h1`-д `background` шинж олдсонгүй." },
+        ],
+      },
+    },
+    {
+      kind: "quiz",
+      question: "Элементийн фоны өнгийг аль шинж тодорхойлох вэ?",
+      options: ["color", "background", "font-size", "border-radius"],
+      answer: 1,
+      explain: "`background` (эсвэл `background-color`) нь фоны өнгийг, `color` нь текстийн өнгийг тодорхойлно.",
+    },
+  ],
+};
+
+export const LESSONS: Lesson[] = [HTML_INTRO, CSS_INTRO, JS_INTRO, HTML_HEADINGS, HTML_LISTS_LINKS, HTML_IMAGES_MEDIA, HTML_TABLES, HTML_FORMS, HTML_SEMANTIC, CSS_COLORS, REACT_INTRO];
 
 // Course outline: skeletons (title + objectives, no blocks yet) for the next
 // modules. Deliberately NOT part of LESSONS so empty lessons never reach the
