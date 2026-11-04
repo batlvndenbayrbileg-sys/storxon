@@ -984,7 +984,82 @@ export const CSS_BOX_MODEL: Lesson = {
   ],
 };
 
-export const LESSONS: Lesson[] = [HTML_INTRO, CSS_INTRO, JS_INTRO, HTML_HEADINGS, HTML_LISTS_LINKS, HTML_IMAGES_MEDIA, HTML_TABLES, HTML_FORMS, HTML_SEMANTIC, CSS_COLORS, CSS_BOX_MODEL, REACT_INTRO];
+export const CSS_TEXT_FONT: Lesson = {
+  id: "css-text-font",
+  module: 2,
+  title: "CSS — текст ба фонт (font-size, font-weight, text-align)",
+  objectives: [
+    "font-size-аар үсгийн хэмжээг тохируулах",
+    "font-weight-аар тод/хэвийн үсэг сонгох",
+    "text-align-аар текстийг зэрэгцүүлэх",
+  ],
+  blocks: [
+    {
+      kind: "theory",
+      title: "Текстийг хэрхэн хэлбэржүүлэх вэ",
+      html: `<p>CSS-ээр текстийн харагдах байдлыг гурван үндсэн шинжээр өөрчилнө:</p>
+             <ul>
+               <li><code>font-size</code> — үсгийн хэмжээ (жишээ: <code>18px</code>, <code>1.2rem</code>)</li>
+               <li><code>font-weight</code> — үсгийн жин: <code>normal</code>, <code>bold</code> эсвэл <code>400</code>–<code>700</code></li>
+               <li><code>text-align</code> — зэрэгцүүлэлт: <code>left</code>, <code>center</code>, <code>right</code></li>
+             </ul>
+             <p>Мөн <code>font-family</code>-аар фонтын төрлийг сонгоно.</p>`,
+    },
+    {
+      kind: "code",
+      title: "Жишээ код",
+      lang: "css",
+      code: `h1 {
+  font-size: 32px;      /* хэмжээ */
+  font-weight: 700;     /* тод */
+  text-align: center;   /* голд нь */
+}`,
+    },
+    {
+      kind: "playground",
+      title: "Туршиж үз",
+      height: 260,
+      starter: {
+        html: `<h1>Сайн байна уу</h1>\n<p>Энэ бол жишээ догол мөр.</p>`,
+        css: `body { font-family: system-ui; padding: 16px; }\nh1 {\n  font-size: 32px;\n  font-weight: 700;\n  text-align: center;\n}\np { font-size: 18px; text-align: right; }`,
+        js: ``,
+      },
+    },
+    {
+      kind: "exercise",
+      title: "Гарчгийг хэлбэржүүл",
+      prompt: "CSS хэсэгт `.title` классд `font-size`, `font-weight`, `text-align` гурвыг тохируулаад Шалгах дээр дар.",
+      starter: {
+        html: `<p class="title">Миний гарчиг</p>`,
+        css: `body { font-family: system-ui; padding: 16px; }\n.title {\n  color: #7c3aed;\n}`,
+        js: ``,
+      },
+      hint: ".title { font-size: 28px; font-weight: bold; text-align: center; } гэж бичээд үз.",
+      solution: {
+        html: `<p class="title">Миний гарчиг</p>`,
+        css: `body { font-family: system-ui; padding: 16px; }\n.title {\n  color: #7c3aed;\n  font-size: 28px;\n  font-weight: bold;\n  text-align: center;\n}`,
+        js: ``,
+      },
+      check: {
+        type: "allOf",
+        checks: [
+          { type: "cssIncludes", pattern: "\\.title\\s*\\{[^}]*font-size\\s*:", flags: "i", message: "`.title`-д `font-size` шинж олдсонгүй." },
+          { type: "cssIncludes", pattern: "\\.title\\s*\\{[^}]*font-weight\\s*:", flags: "i", message: "`.title`-д `font-weight` шинж олдсонгүй." },
+          { type: "cssIncludes", pattern: "\\.title\\s*\\{[^}]*text-align\\s*:", flags: "i", message: "`.title`-д `text-align` шинж олдсонгүй." },
+        ],
+      },
+    },
+    {
+      kind: "quiz",
+      question: "Текстийг хуудасны голд байрлуулах CSS аль нь вэ?",
+      options: ["font-weight: center;", "text-align: center;", "font-size: center;", "align: middle;"],
+      answer: 1,
+      explain: "`text-align: center` нь текстийг голд нь зэрэгцүүлнэ. `font-weight` нь жин, `font-size` нь хэмжээг тодорхойлно.",
+    },
+  ],
+};
+
+export const LESSONS: Lesson[] = [HTML_INTRO, CSS_INTRO, JS_INTRO, HTML_HEADINGS, HTML_LISTS_LINKS, HTML_IMAGES_MEDIA, HTML_TABLES, HTML_FORMS, HTML_SEMANTIC, CSS_COLORS, CSS_BOX_MODEL, CSS_TEXT_FONT, REACT_INTRO];
 
 // Course outline: skeletons (title + objectives, no blocks yet) for the next
 // modules. Deliberately NOT part of LESSONS so empty lessons never reach the
