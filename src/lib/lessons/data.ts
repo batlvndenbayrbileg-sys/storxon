@@ -756,7 +756,87 @@ export const HTML_FORMS: Lesson = {
   ],
 };
 
-export const LESSONS: Lesson[] = [HTML_INTRO, CSS_INTRO, JS_INTRO, HTML_HEADINGS, HTML_LISTS_LINKS, HTML_IMAGES_MEDIA, HTML_TABLES, HTML_FORMS, REACT_INTRO];
+export const HTML_SEMANTIC: Lesson = {
+  id: "html-semantic",
+  module: 1,
+  title: "HTML — семантик тэгүүд",
+  objectives: [
+    "<header>, <nav>, <main>, <footer> тэгүүдийн үүргийг ялгах",
+    "<section>-ээр агуулгыг хэсэглэх",
+    "Хуудсыг утга бүхий бүтцээр зохион байгуулах",
+  ],
+  blocks: [
+    {
+      kind: "theory",
+      title: "Семантик тэг гэж юу вэ?",
+      html: `<p>Семантик тэг нь агуулгын <b>утгыг</b> илэрхийлнэ. <code>&lt;div&gt;</code> бүх зүйлд ашиглагдаж болох ч юу болохыг хэлдэггүй; харин семантик тэг нь хайлтын систем болон дэлгэц уншигчид хуудсыг ойлгоход тусална.</p>
+             <p><code>&lt;header&gt;</code> — толгой хэсэг, <code>&lt;nav&gt;</code> — навигацийн холбоосууд, <code>&lt;main&gt;</code> — хуудасны үндсэн агуулга (нэг л удаа), <code>&lt;section&gt;</code> — сэдэвчилсэн хэсэг, <code>&lt;footer&gt;</code> — хөл хэсэг.</p>`,
+    },
+    {
+      kind: "code",
+      title: "Жишээ код",
+      lang: "html",
+      code: `<header>
+  <h1>Миний сайт</h1>
+  <nav>
+    <a href="/">Нүүр</a>
+    <a href="/about">Тухай</a>
+  </nav>
+</header>
+<main>
+  <section>
+    <h2>Мэдээ</h2>
+    <p>Энд агуулга байна.</p>
+  </section>
+</main>
+<footer>© 2026</footer>`,
+    },
+    {
+      kind: "playground",
+      title: "Туршиж үз",
+      height: 280,
+      starter: {
+        html: `<header>\n  <h1>Миний сайт</h1>\n  <nav><a href="#">Нүүр</a> <a href="#">Тухай</a></nav>\n</header>\n<main>\n  <section>\n    <h2>Мэдээ</h2>\n    <p>Энд агуулга байна.</p>\n  </section>\n</main>\n<footer>© 2026</footer>`,
+        css: `body { font-family: system-ui; margin: 0; }\nheader, footer { background: #222; color: #fff; padding: 12px 16px; }\nnav a { color: #9cf; margin-right: 10px; }\nmain { padding: 16px; }`,
+        js: ``,
+      },
+    },
+    {
+      kind: "exercise",
+      title: "Хуудасны бүтэц",
+      prompt: "<header>, <nav>, <main>, <footer> тэгүүдийг бүгдийг нь ашиглан хуудас бичээд Шалгах дээр дар.",
+      starter: {
+        html: `<h1>Миний хуудас</h1>\n`,
+        css: `body { font-family: system-ui; padding: 16px; }`,
+        js: ``,
+      },
+      hint: "<header><nav>...</nav></header><main>...</main><footer>...</footer>",
+      solution: {
+        html: `<header>\n  <h1>Миний хуудас</h1>\n  <nav><a href="#">Нүүр</a></nav>\n</header>\n<main>\n  <p>Үндсэн агуулга.</p>\n</main>\n<footer>© 2026</footer>`,
+        css: `body { font-family: system-ui; padding: 16px; }`,
+        js: ``,
+      },
+      check: {
+        type: "allOf",
+        checks: [
+          { type: "htmlIncludes", pattern: "<header[^>]*>[\\s\\S]*</header>", flags: "i", message: "<header> олдсонгүй." },
+          { type: "htmlIncludes", pattern: "<nav[^>]*>[\\s\\S]*</nav>", flags: "i", message: "<nav> олдсонгүй." },
+          { type: "htmlIncludes", pattern: "<main[^>]*>[\\s\\S]*</main>", flags: "i", message: "<main> олдсонгүй." },
+          { type: "htmlIncludes", pattern: "<footer[^>]*>[\\s\\S]*</footer>", flags: "i", message: "<footer> олдсонгүй." },
+        ],
+      },
+    },
+    {
+      kind: "quiz",
+      question: "Навигацийн холбоосуудыг ямар семантик тэгээр бүлэглэх вэ?",
+      options: ["<section>", "<nav>", "<footer>", "<main>"],
+      answer: 1,
+      explain: "<nav> нь сайтын гол навигацийн холбоосуудад зориулагдсан.",
+    },
+  ],
+};
+
+export const LESSONS: Lesson[] = [HTML_INTRO, CSS_INTRO, JS_INTRO, HTML_HEADINGS, HTML_LISTS_LINKS, HTML_IMAGES_MEDIA, HTML_TABLES, HTML_FORMS, HTML_SEMANTIC, REACT_INTRO];
 
 // Course outline: skeletons (title + objectives, no blocks yet) for the next
 // modules. Deliberately NOT part of LESSONS so empty lessons never reach the

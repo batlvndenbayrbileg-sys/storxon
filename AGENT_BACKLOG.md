@@ -89,7 +89,7 @@ React/JS/DOM код зөвхөн sandbox iframe дотор, React нь `createEl
 - [x] HTML: "Зураг ба медиа" хичээл (`img` + `alt`, `figure/figcaption`) — бүрэн блокуудтай
 - [x] HTML: "Хүснэгт" хичээл (`table/tr/td/th`) — дасгал + quiz
 - [x] HTML: "Форм ба оролт" хичээл (`form/input/label/button`) — `allOf` дасгал
-- [ ] HTML: "Семантик тэгүүд" хичээл (`header/nav/main/footer/section`)
+- [x] HTML: "Семантик тэгүүд" хичээл (`header/nav/main/footer/section`)
 - [ ] CSS: "Өнгө ба фон" хичээл (`color`, `background`, hex/rgb)
 - [ ] CSS: "Box model" хичээл (`margin/padding/border`) — playground-д тод жишээ
 - [ ] CSS: "Текст ба фонт" хичээл (`font-size/weight`, `text-align`)
