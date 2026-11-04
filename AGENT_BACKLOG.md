@@ -66,7 +66,7 @@ Storxon бол видео LMS биш — сурагч **унших → код з
 - [x] Landing мобайл дээр хөвөгч "Бүртгүүлэх" CTA товч (доод буланд)
 - [x] Landing-д "Дээш" (back-to-top) товч, гүйлгэхэд гарч ирдэг
 - [x] FAQ-г нэг дор ганц нь нээгддэг accordion болгох
-- [ ] Хүртээмж: зураг/товчны alt, aria-label нягтлах; "skip to content" холбоос
+- [x] Хүртээмж: зураг/товчны alt, aria-label нягтлах; "skip to content" холбоос
 - [ ] /dashboard, /admin ачаалж байх үед skeleton харуулах
 - [ ] OpenGraph/Twitter share зургийг metadata-д тодорхой заах (hero-banner.webp)
 - [ ] Landing секц хоорондын зай/үсгийн шатлалыг жигдлэх polish

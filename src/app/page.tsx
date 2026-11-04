@@ -48,7 +48,7 @@ function Nav() {
           <span className="grid size-8 place-items-center rounded-xl bg-brand text-sm shadow-md shadow-violet-500/30">S</span>
           Storxon
         </a>
-        <nav className="hidden gap-7 text-sm text-muted md:flex">
+        <nav aria-label="Үндсэн цэс" className="hidden gap-7 text-sm text-muted md:flex">
           <a href="#about" className="hover:text-paper">Сургалтын тухай</a>
           <a href="#modules" className="hover:text-paper">Хөтөлбөр</a>
           <a href="#teacher" className="hover:text-paper">Багш</a>
@@ -526,8 +526,14 @@ export default function Home() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:rounded-full focus:bg-white focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:shadow-lg"
+      >
+        Агуулга руу алгасах
+      </a>
       <Nav />
-      <main>
+      <main id="main-content" tabIndex={-1} className="outline-none">
         <Banner />
         <CheckStrip />
         <Hero />
