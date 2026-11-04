@@ -54,6 +54,7 @@ function Nav() {
           <a href="#teacher" className="hover:text-paper">Багш</a>
           <a href="#pricing" className="hover:text-paper">Үнэ</a>
           <a href="#faq" className="hover:text-paper">FAQ</a>
+          <a href="/playground" className="font-semibold text-paper hover:opacity-80">Хичээл</a>
         </nav>
         <div className="flex items-center gap-2">
           <a href="/login" className="rounded-full border border-line bg-white px-4 py-2 text-sm font-semibold hover:border-violet-300">
@@ -159,6 +160,9 @@ function Hero() {
             </a>
             <a href="#modules" className="inline-flex items-center gap-2 rounded-full border border-line bg-white px-6 py-3.5 font-semibold hover:border-violet-300">
               Хөтөлбөр үзэх <PlayCircle className="size-5 text-blue-600" />
+            </a>
+            <a href="/playground" className="inline-flex items-center gap-2 rounded-full border border-line bg-white px-6 py-3.5 font-semibold hover:border-violet-300">
+              Үнэгүй туршиж үзэх <ArrowRight className="size-4" />
             </a>
           </div>
           {isPresale() && (

@@ -9,6 +9,7 @@ const LINKS = [
   { href: "#teacher", label: "Багш" },
   { href: "#pricing", label: "Үнэ" },
   { href: "#faq", label: "FAQ" },
+  { href: "/playground", label: "Хичээл" },
 ];
 
 export default function MobileNav() {
