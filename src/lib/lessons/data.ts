@@ -1,4 +1,6 @@
 import type { Lesson } from "@/lib/lessons/types";
+import { lessonFromJson } from "@/lib/lessons/fromJson";
+import htmlHeadingsJson from "@/lib/lessons/json/html-headings.json";
 
 // MVP seed content. Instructor-authored lessons will live as structured data
 // (in-repo modules now; a DB-backed authoring workflow is a later task). This
@@ -254,7 +256,10 @@ console.log(count);`,
   ],
 };
 
-export const LESSONS: Lesson[] = [HTML_INTRO, CSS_INTRO, JS_INTRO];
+// Example of a lesson authored as plain JSON and validated at load time.
+export const HTML_HEADINGS: Lesson = lessonFromJson(htmlHeadingsJson);
+
+export const LESSONS: Lesson[] = [HTML_INTRO, CSS_INTRO, JS_INTRO, HTML_HEADINGS];
 
 export function getLesson(id: string): Lesson | undefined {
   return LESSONS.find((l) => l.id === id);

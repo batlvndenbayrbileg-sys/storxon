@@ -1,0 +1,50 @@
+{
+  "id": "html-garchig",
+  "module": 1,
+  "title": "HTML гарчгууд (JSON-оос ачаалсан жишээ)",
+  "objectives": [
+    "h1–h6 гарчгийн түвшинг ялгах",
+    "JSON-оор тодорхойлсон хичээл LessonView-д ажиллахыг харах"
+  ],
+  "blocks": [
+    {
+      "kind": "theory",
+      "title": "Гарчгийн түвшин",
+      "html": "<p>HTML-д <code>&lt;h1&gt;</code>-аас <code>&lt;h6&gt;</code> хүртэл 6 түвшний гарчиг байдаг. <code>h1</code> хамгийн чухал, том.</p>"
+    },
+    {
+      "kind": "playground",
+      "title": "Туршиж үз",
+      "height": 200,
+      "starter": {
+        "html": "<h1>Гол гарчиг</h1>\n<h2>Дэд гарчиг</h2>",
+        "css": "body { font-family: system-ui; padding: 16px; }",
+        "js": ""
+      }
+    },
+    {
+      "kind": "exercise",
+      "title": "Дэд гарчиг нэм",
+      "prompt": "<h2> тэг ашиглан \"Миний тухай\" гэсэн дэд гарчиг нэмээд Шалгах дээр дар.",
+      "starter": {
+        "html": "<h1>Миний хуудас</h1>",
+        "css": "body { font-family: system-ui; padding: 16px; }",
+        "js": ""
+      },
+      "hint": "<h2>...</h2> тэгийн дотор текстээ бич.",
+      "check": {
+        "type": "htmlIncludes",
+        "pattern": "<h2[^>]*>\\s*Миний тухай",
+        "flags": "i",
+        "message": "\"Миний тухай\" гэсэн <h2> олдсонгүй."
+      }
+    },
+    {
+      "kind": "quiz",
+      "question": "Хамгийн чухал гарчгийн тэг аль нь вэ?",
+      "options": ["h6", "h3", "h1", "p"],
+      "answer": 2,
+      "explain": "h1 нь хамгийн дээд түвшний гарчиг."
+    }
+  ]
+}
