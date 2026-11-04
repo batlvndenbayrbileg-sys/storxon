@@ -427,7 +427,7 @@ function Faq() {
       <div className="grid items-start gap-8 lg:grid-cols-[1.4fr_1fr]">
         <div className="space-y-3">
           {faqs.map((f, i) => (
-            <details key={f.q} data-d={`${i * 45}ms`} className="reveal group rounded-2xl border border-line bg-white px-5 py-4 shadow-sm open:shadow-md">
+            <details key={f.q} name="faq" data-d={`${i * 45}ms`} className="reveal group rounded-2xl border border-line bg-white px-5 py-4 shadow-sm open:shadow-md">
               <summary className="flex cursor-pointer items-center justify-between gap-4 font-semibold">
                 {f.q}
                 <span className="grid size-7 shrink-0 place-items-center rounded-full bg-violet-50 text-violet-700 transition group-open:rotate-45">+</span>
