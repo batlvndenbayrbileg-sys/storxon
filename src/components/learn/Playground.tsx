@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
 import type { PlaygroundFiles } from "@/lib/lessons/types";
+import { loadWorkspace, saveWorkspace } from "@/lib/lessons/progress";
 
 /**
  * Sandboxed HTML/CSS/JS playground.
@@ -47,10 +48,13 @@ export default function Playground({
   starter,
   height = 260,
   onFilesChange,
+  persistId,
 }: {
   starter: PlaygroundFiles;
   height?: number;
   onFilesChange?: (f: PlaygroundFiles) => void;
+  /** When set, the student's edits are saved (DB if signed in, else localStorage) and restored on return. */
+  persistId?: string;
 }) {
   const [files, setFiles] = useState<PlaygroundFiles>(starter);
   const [tab, setTab] = useState<Tab>("html");
@@ -73,6 +77,23 @@ export default function Playground({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // Restore the student's saved code (DB when signed in, else localStorage).
+  // Overrides the starter preview above only if a saved version exists.
+  useEffect(() => {
+    if (!persistId) return;
+    let alive = true;
+    loadWorkspace(persistId).then((saved) => {
+      if (!alive || !saved) return;
+      setFiles(saved);
+      onFilesChange?.(saved);
+      setSrcDoc(buildSrcDoc(saved));
+    });
+    return () => {
+      alive = false;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [persistId]);
+
   // Relay console/errors from *our* iframe only.
   useEffect(() => {
     function onMsg(e: MessageEvent) {
@@ -89,8 +110,9 @@ export default function Playground({
     (next: PlaygroundFiles) => {
       setFiles(next);
       onFilesChange?.(next);
+      if (persistId) saveWorkspace(persistId, next);
     },
-    [onFilesChange],
+    [onFilesChange, persistId],
   );
 
   const reset = useCallback(() => {

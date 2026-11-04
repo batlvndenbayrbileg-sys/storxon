@@ -5,35 +5,17 @@ import Image from "next/image";
 import Link from "next/link";
 import Playground from "@/components/learn/Playground";
 import { LESSONS } from "@/lib/lessons/data";
+import { loadProgress, markComplete } from "@/lib/lessons/progress";
 import { runCheck, type ExerciseCheck, type Lesson, type LessonBlock, type PlaygroundFiles } from "@/lib/lessons/types";
 
 /**
  * Renders one structured lesson: theory, read-only code, sandboxed playgrounds,
  * exercises (with deterministic checks), and quizzes. Reusable — there is no
  * hardcoded page per lesson. Completion is derived from meaningful activity
- * (passing every exercise + quiz), not from opening the page, and is persisted
- * per-task in localStorage for the MVP. (Server/Supabase persistence with RLS
- * is a separate, reviewed task — see AGENT_BACKLOG.md.)
+ * (passing every exercise + quiz), not from opening the page. Progress and the
+ * student's edited code persist through src/lib/lessons/progress.ts — Supabase
+ * when signed in (RLS per user), localStorage otherwise.
  */
-
-const KEY = "sx-learn"; // { [taskId]: true }
-
-function readDone(): Record<string, boolean> {
-  try {
-    return JSON.parse(localStorage.getItem(KEY) || "{}") || {};
-  } catch {
-    return {};
-  }
-}
-function writeDone(id: string) {
-  try {
-    const d = readDone();
-    d[id] = true;
-    localStorage.setItem(KEY, JSON.stringify(d));
-  } catch {
-    /* storage may be unavailable (private mode) — progress is best-effort */
-  }
-}
 
 function gradeableIds(l: Lesson): string[] {
   const ids: string[] = [];
@@ -120,12 +102,17 @@ export default function LessonView({
   const [doneIds, setDoneIds] = useState<Set<string>>(new Set());
 
   useEffect(() => {
-    const d = readDone();
-    setDoneIds(new Set(Object.keys(d).filter((k) => d[k])));
+    let alive = true;
+    loadProgress().then((d) => {
+      if (alive) setDoneIds(new Set(Object.keys(d).filter((k) => d[k])));
+    });
+    return () => {
+      alive = false;
+    };
   }, []);
 
   const markDone = useCallback((taskId: string) => {
-    writeDone(taskId);
+    markComplete(taskId);
     setDoneIds((prev) => new Set(prev).add(taskId));
   }, []);
 
@@ -270,7 +257,7 @@ function Block({
       return (
         <section>
           {block.title && <h2 className="mb-2 text-lg font-bold text-zinc-900 dark:text-zinc-100">{block.title}</h2>}
-          <Playground starter={block.starter} height={block.height} />
+          <Playground starter={block.starter} height={block.height} persistId={taskId} />
         </section>
       );
     case "film":
@@ -292,16 +279,18 @@ function Block({
     case "quiz":
       return <Quiz block={block} done={done} onDone={() => onDone(taskId)} />;
     case "exercise":
-      return <Exercise block={block} done={done} onDone={() => onDone(taskId)} />;
+      return <Exercise block={block} taskId={taskId} done={done} onDone={() => onDone(taskId)} />;
   }
 }
 
 function Exercise({
   block,
+  taskId,
   done,
   onDone,
 }: {
   block: Extract<LessonBlock, { kind: "exercise" }>;
+  taskId: string;
   done: boolean;
   onDone: () => void;
 }) {
@@ -311,6 +300,9 @@ function Exercise({
   const [starter, setStarter] = useState<PlaygroundFiles>(block.starter);
   // Bumping this key remounts the editor so a loaded solution replaces the code.
   const [ver, setVer] = useState(0);
+  // After the solution is loaded we stop persisting/restoring so the shown
+  // answer isn't overwritten by (or saved as) the student's own work.
+  const [solShown, setSolShown] = useState(false);
 
   const check = () => {
     const r = runCheck(block.check as ExerciseCheck, filesRef.current);
@@ -328,7 +320,7 @@ function Exercise({
       <p className="mt-2 text-[15px] text-zinc-700 dark:text-zinc-300">{block.prompt}</p>
 
       <div className="mt-3">
-        <Playground key={ver} starter={starter} onFilesChange={(f) => (filesRef.current = f)} />
+        <Playground key={ver} starter={starter} persistId={solShown ? undefined : taskId} onFilesChange={(f) => (filesRef.current = f)} />
       </div>
 
       <div className="mt-3 flex flex-wrap items-center gap-2">
@@ -346,6 +338,7 @@ function Exercise({
             onClick={() => {
               filesRef.current = block.solution!;
               setStarter(block.solution!);
+              setSolShown(true);
               setVer((v) => v + 1);
             }}
             className="rounded-lg border border-zinc-300 px-3 py-2 text-sm font-medium text-zinc-600 hover:bg-white dark:border-zinc-700 dark:text-zinc-300"
