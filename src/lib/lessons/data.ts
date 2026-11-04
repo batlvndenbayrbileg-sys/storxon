@@ -1059,7 +1059,82 @@ export const CSS_TEXT_FONT: Lesson = {
   ],
 };
 
-export const LESSONS: Lesson[] = [HTML_INTRO, CSS_INTRO, JS_INTRO, HTML_HEADINGS, HTML_LISTS_LINKS, HTML_IMAGES_MEDIA, HTML_TABLES, HTML_FORMS, HTML_SEMANTIC, CSS_COLORS, CSS_BOX_MODEL, CSS_TEXT_FONT, REACT_INTRO];
+export const CSS_FLEXBOX: Lesson = {
+  id: "css-flexbox",
+  module: 2,
+  title: "CSS — Flexbox зэрэгцүүлэлт (display:flex, justify, align)",
+  objectives: [
+    "display:flex-ээр элементүүдийг нэг мөрөнд зэрэгцүүлэх",
+    "justify-content-оор хэвтээ тэнхлэгт зэрэгцүүлэх",
+    "align-items-ээр босоо тэнхлэгт зэрэгцүүлэх",
+  ],
+  blocks: [
+    {
+      kind: "theory",
+      title: "Flexbox гэж юу вэ",
+      html: `<p>Flexbox нь элементүүдийг мөр эсвэл баганаар хялбар зэрэгцүүлдэг байршлын арга юм. Эцэг элемент дээр <code>display: flex</code> бичихэд доторх хүүхдүүд нь зэрэгцэн жагсана.</p>
+             <ul>
+               <li><code>justify-content</code> — үндсэн (хэвтээ) тэнхлэгт зэрэгцүүлэх: <code>flex-start</code>, <code>center</code>, <code>space-between</code></li>
+               <li><code>align-items</code> — хөндлөн (босоо) тэнхлэгт зэрэгцүүлэх: <code>flex-start</code>, <code>center</code>, <code>stretch</code></li>
+               <li><code>gap</code> — элементүүдийн хоорондох зай</li>
+             </ul>`,
+    },
+    {
+      kind: "code",
+      title: "Жишээ код",
+      lang: "css",
+      code: `.row {
+  display: flex;
+  justify-content: space-between; /* хоёр захад */
+  align-items: center;            /* босоогоор голд */
+  gap: 12px;
+}`,
+    },
+    {
+      kind: "playground",
+      title: "Туршиж үз",
+      height: 260,
+      starter: {
+        html: `<div class="row">\n  <div class="box">1</div>\n  <div class="box">2</div>\n  <div class="box">3</div>\n</div>`,
+        css: `body { font-family: system-ui; padding: 16px; }\n.row {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  gap: 12px;\n  height: 120px;\n  background: #f3f0ff;\n}\n.box { background: #7c3aed; color: #fff; padding: 16px 24px; border-radius: 8px; }`,
+        js: ``,
+      },
+    },
+    {
+      kind: "exercise",
+      title: "Элементүүдийг голд нь байрлуул",
+      prompt: "CSS хэсэгт `.row` классд `display: flex`, `justify-content`, `align-items` гурвыг бичээд Шалгах дээр дар.",
+      starter: {
+        html: `<div class="row">\n  <span>А</span>\n  <span>Б</span>\n  <span>В</span>\n</div>`,
+        css: `body { font-family: system-ui; padding: 16px; }\n.row {\n  height: 100px;\n  background: #f3f0ff;\n}`,
+        js: ``,
+      },
+      hint: ".row { display: flex; justify-content: center; align-items: center; } гэж бичээд үз.",
+      solution: {
+        html: `<div class="row">\n  <span>А</span>\n  <span>Б</span>\n  <span>В</span>\n</div>`,
+        css: `body { font-family: system-ui; padding: 16px; }\n.row {\n  height: 100px;\n  background: #f3f0ff;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}`,
+        js: ``,
+      },
+      check: {
+        type: "allOf",
+        checks: [
+          { type: "cssIncludes", pattern: "\\.row\\s*\\{[^}]*display\\s*:\\s*flex", flags: "i", message: "`.row`-д `display: flex` олдсонгүй." },
+          { type: "cssIncludes", pattern: "\\.row\\s*\\{[^}]*justify-content\\s*:", flags: "i", message: "`.row`-д `justify-content` шинж олдсонгүй." },
+          { type: "cssIncludes", pattern: "\\.row\\s*\\{[^}]*align-items\\s*:", flags: "i", message: "`.row`-д `align-items` шинж олдсонгүй." },
+        ],
+      },
+    },
+    {
+      kind: "quiz",
+      question: "Flex контейнерийн доторх элементүүдийг хэвтээ тэнхлэгт голд нь байрлуулах шинж аль нь вэ?",
+      options: ["align-items: center;", "justify-content: center;", "text-align: middle;", "flex-center: true;"],
+      answer: 1,
+      explain: "`justify-content` нь үндсэн (хэвтээ) тэнхлэгт, `align-items` нь хөндлөн (босоо) тэнхлэгт зэрэгцүүлнэ.",
+    },
+  ],
+};
+
+export const LESSONS: Lesson[] = [HTML_INTRO, CSS_INTRO, JS_INTRO, HTML_HEADINGS, HTML_LISTS_LINKS, HTML_IMAGES_MEDIA, HTML_TABLES, HTML_FORMS, HTML_SEMANTIC, CSS_COLORS, CSS_BOX_MODEL, CSS_TEXT_FONT, CSS_FLEXBOX, REACT_INTRO];
 
 // Course outline: skeletons (title + objectives, no blocks yet) for the next
 // modules. Deliberately NOT part of LESSONS so empty lessons never reach the
