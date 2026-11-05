@@ -1761,7 +1761,89 @@ console.log(jims.length);  // 4`,
   ],
 };
 
-export const LESSONS: Lesson[] = [HTML_INTRO, CSS_INTRO, JS_INTRO, HTML_HEADINGS, HTML_LISTS_LINKS, HTML_IMAGES_MEDIA, HTML_TABLES, HTML_FORMS, HTML_SEMANTIC, CSS_COLORS, CSS_BOX_MODEL, CSS_TEXT_FONT, CSS_FLEXBOX, CSS_GRID, CSS_RESPONSIVE, CSS_HOVER_TRANSITION, JS_VARIABLES_TYPES, JS_CONDITIONS, JS_LOOPS, JS_FUNCTIONS, JS_ARRAYS, REACT_INTRO];
+export const JS_OBJECTS: Lesson = {
+  id: "js-obyekt",
+  module: 3,
+  title: "JS — Объект",
+  objectives: [
+    "Объект үүсгэж key/value хадгалах",
+    "Цэгийн нотациар утга унших, өөрчлөх",
+    "Объектод шинэ шинж чанар нэмэх",
+  ],
+  blocks: [
+    {
+      kind: "theory",
+      title: "Объект гэж юу вэ?",
+      html: `<p><strong>Объект</strong> нь холбоотой мэдээллийг <em>key: value</em> хосоор нэг дор хадгалдаг.</p>
+             <ul>
+               <li><code>const хүн = { нэр: "Бат", нас: 20 }</code> — объект үүсгэх</li>
+               <li><code>хүн.нэр</code> — цэгийн нотациар унших</li>
+               <li><code>хүн.нас = 21</code> — утга өөрчлөх</li>
+               <li><code>хүн.хот = "УБ"</code> — шинэ шинж чанар нэмэх</li>
+             </ul>
+             <p>Массив нь дарааллаар (индексээр), объект нь нэрээр (key-ээр) утга олдог.</p>`,
+    },
+    {
+      kind: "code",
+      title: "Жишээ код",
+      lang: "js",
+      code: `const user = { name: "Бат", age: 20 };
+
+console.log(user.name);  // Бат
+
+user.age = 21;
+user.city = "Улаанбаатар";
+
+console.log(user.age);   // 21
+console.log(user.city);  // Улаанбаатар`,
+    },
+    {
+      kind: "playground",
+      title: "Туршиж үз",
+      height: 240,
+      starter: {
+        html: `<h1>Объект</h1>\n<p>Консолыг харна уу.</p>`,
+        css: `body { font-family: system-ui; padding: 16px; }`,
+        js: `const book = { title: "Storxon", pages: 100 };\nbook.pages = 120;\nbook.author = "Сараа";\nconsole.log(book.title, book.pages, book.author);`,
+      },
+    },
+    {
+      kind: "exercise",
+      title: "Объект бүтээ",
+      prompt: "`surgagch` нэртэй объект үүсгэж `ner` ба `nas` шинж чанартай болго. Дараа нь `surgagch.hot` нэмээд `surgagch.ner`-ийг `console.log`-оор хэвл.",
+      starter: {
+        html: `<p>Консолыг шалгана уу.</p>`,
+        css: `body { font-family: system-ui; padding: 16px; }`,
+        js: `// surgagch объектыг энд бич\n`,
+      },
+      hint: 'const surgagch = { ner: "Бат", nas: 18 }; surgagch.hot = "УБ"; console.log(surgagch.ner);',
+      solution: {
+        html: `<p>Консолыг шалгана уу.</p>`,
+        css: `body { font-family: system-ui; padding: 16px; }`,
+        js: `const surgagch = { ner: "Бат", nas: 18 };\nsurgagch.hot = "УБ";\nconsole.log(surgagch.ner);`,
+      },
+      check: {
+        type: "allOf",
+        checks: [
+          { type: "jsIncludes", pattern: "\\b(const|let)\\s+surgagch\\s*=\\s*\\{", message: "`surgagch` объект зарлалт олдсонгүй." },
+          { type: "jsIncludes", pattern: "\\bner\\s*:", message: "`ner` шинж чанар олдсонгүй." },
+          { type: "jsIncludes", pattern: "\\bnas\\s*:", message: "`nas` шинж чанар олдсонгүй." },
+          { type: "jsIncludes", pattern: "surgagch\\.hot\\s*=", message: "`surgagch.hot = ...` олдсонгүй." },
+          { type: "jsIncludes", pattern: "console\\.log\\s*\\(\\s*surgagch\\.ner", message: "`console.log(surgagch.ner)` олдсонгүй." },
+        ],
+      },
+    },
+    {
+      kind: "quiz",
+      question: "`const a = { x: 1, y: 2 }; a.y = 5;` дараа `a.y` юу вэ?",
+      options: ["1", "2", "5", "undefined"],
+      answer: 2,
+      explain: "Цэгийн нотациар `a.y = 5` гэж утгыг дарж бичсэн тул a.y = 5.",
+    },
+  ],
+};
+
+export const LESSONS: Lesson[] = [HTML_INTRO, CSS_INTRO, JS_INTRO, HTML_HEADINGS, HTML_LISTS_LINKS, HTML_IMAGES_MEDIA, HTML_TABLES, HTML_FORMS, HTML_SEMANTIC, CSS_COLORS, CSS_BOX_MODEL, CSS_TEXT_FONT, CSS_FLEXBOX, CSS_GRID, CSS_RESPONSIVE, CSS_HOVER_TRANSITION, JS_VARIABLES_TYPES, JS_CONDITIONS, JS_LOOPS, JS_FUNCTIONS, JS_ARRAYS, JS_OBJECTS, REACT_INTRO];
 
 // Course outline: skeletons (title + objectives, no blocks yet) for the next
 // modules. Deliberately NOT part of LESSONS so empty lessons never reach the

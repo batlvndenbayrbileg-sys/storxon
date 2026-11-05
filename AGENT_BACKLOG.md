@@ -102,7 +102,7 @@ React/JS/DOM код зөвхөн sandbox iframe дотор, React нь `createEl
 - [x] JS: "Давталт (for/while)" хичээл — дасгал + quiz
 - [x] JS: "Функц" хичээл (зарлах, дуудах, параметр, return)
 - [x] JS: "Массив" хичээл (push, length, индекс) — `allOf` дасгал
-- [ ] JS: "Объект" хичээл (key/value, цэгийн нотаци)
+- [x] JS: "Объект" хичээл (key/value, цэгийн нотаци)
 - [ ] JS: "DOM унших/бичих" хичээл (`querySelector`, `textContent`) — sandbox дотор
 - [ ] JS: "Үйл явдал (events)" хичээл (`addEventListener`, onclick) — sandbox дотор
 - [ ] React: "Props дамжуулах" хичээл (`createElement`-only, sandbox)
