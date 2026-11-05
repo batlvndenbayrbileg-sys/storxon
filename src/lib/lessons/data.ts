@@ -1682,7 +1682,86 @@ console.log(nemeh(10, 7)); // 17`,
   ],
 };
 
-export const LESSONS: Lesson[] = [HTML_INTRO, CSS_INTRO, JS_INTRO, HTML_HEADINGS, HTML_LISTS_LINKS, HTML_IMAGES_MEDIA, HTML_TABLES, HTML_FORMS, HTML_SEMANTIC, CSS_COLORS, CSS_BOX_MODEL, CSS_TEXT_FONT, CSS_FLEXBOX, CSS_GRID, CSS_RESPONSIVE, CSS_HOVER_TRANSITION, JS_VARIABLES_TYPES, JS_CONDITIONS, JS_LOOPS, JS_FUNCTIONS, REACT_INTRO];
+export const JS_ARRAYS: Lesson = {
+  id: "js-massiv",
+  module: 3,
+  title: "JS — Массив",
+  objectives: [
+    "Массив үүсгэж, индексээр утга унших",
+    "length-ээр уртыг мэдэх",
+    "push-оор шинэ утга нэмэх",
+  ],
+  blocks: [
+    {
+      kind: "theory",
+      title: "Массив гэж юу вэ?",
+      html: `<p><strong>Массив</strong> нь олон утгыг нэг дор, дарааллаар нь хадгалдаг жагсаалт юм.</p>
+             <ul>
+               <li><code>const жимс = ["алим", "лийр"]</code> — массив үүсгэх</li>
+               <li><code>жимс[0]</code> — индексээр унших (индекс <em>0</em>-ээс эхэлнэ)</li>
+               <li><code>жимс.length</code> — элементийн тоо</li>
+               <li><code>жимс.push("гүйлс")</code> — төгсгөлд нэмэх</li>
+             </ul>
+             <p>Анхаар: сүүлийн элементийн индекс нь <code>length - 1</code>.</p>`,
+    },
+    {
+      kind: "code",
+      title: "Жишээ код",
+      lang: "js",
+      code: `const jims = ["алим", "лийр", "усан үзэм"];
+
+console.log(jims[0]);      // алим
+console.log(jims.length);  // 3
+
+jims.push("гүйлс");
+console.log(jims.length);  // 4`,
+    },
+    {
+      kind: "playground",
+      title: "Туршиж үз",
+      height: 240,
+      starter: {
+        html: `<h1>Массив</h1>\n<p>Консолыг харна уу.</p>`,
+        css: `body { font-family: system-ui; padding: 16px; }`,
+        js: `const ner = ["Бат", "Сараа"];\nner.push("Тэмүүлэн");\nconsole.log(ner[2]);\nconsole.log(ner.length);`,
+      },
+    },
+    {
+      kind: "exercise",
+      title: "Массивт утга нэм",
+      prompt: "`toonuud` нэртэй массив үүсгэж 1, 2, 3 утга хий. `push`-оор 4 нэмээд `length`-ийг `console.log`-оор хэвл.",
+      starter: {
+        html: `<p>Консолыг шалгана уу.</p>`,
+        css: `body { font-family: system-ui; padding: 16px; }`,
+        js: `// toonuud массивыг энд бич\n`,
+      },
+      hint: "const toonuud = [1, 2, 3]; toonuud.push(4); console.log(toonuud.length);",
+      solution: {
+        html: `<p>Консолыг шалгана уу.</p>`,
+        css: `body { font-family: system-ui; padding: 16px; }`,
+        js: `const toonuud = [1, 2, 3];\ntoonuud.push(4);\nconsole.log(toonuud.length);`,
+      },
+      check: {
+        type: "allOf",
+        checks: [
+          { type: "jsIncludes", pattern: "\\b(const|let)\\s+toonuud\\s*=\\s*\\[", message: "`toonuud` массив зарлалт олдсонгүй." },
+          { type: "jsIncludes", pattern: "toonuud\\.push\\s*\\(", message: "`toonuud.push(...)` олдсонгүй." },
+          { type: "jsIncludes", pattern: "toonuud\\.length", message: "`toonuud.length` олдсонгүй." },
+          { type: "jsIncludes", pattern: "console\\.log\\s*\\(", message: "`console.log(...)` дуудлага олдсонгүй." },
+        ],
+      },
+    },
+    {
+      kind: "quiz",
+      question: "`const a = [10, 20, 30];` үед `a[1]` юу вэ?",
+      options: ["10", "20", "30", "undefined"],
+      answer: 1,
+      explain: "Индекс 0-ээс эхэлдэг тул a[0] = 10, a[1] = 20, a[2] = 30.",
+    },
+  ],
+};
+
+export const LESSONS: Lesson[] = [HTML_INTRO, CSS_INTRO, JS_INTRO, HTML_HEADINGS, HTML_LISTS_LINKS, HTML_IMAGES_MEDIA, HTML_TABLES, HTML_FORMS, HTML_SEMANTIC, CSS_COLORS, CSS_BOX_MODEL, CSS_TEXT_FONT, CSS_FLEXBOX, CSS_GRID, CSS_RESPONSIVE, CSS_HOVER_TRANSITION, JS_VARIABLES_TYPES, JS_CONDITIONS, JS_LOOPS, JS_FUNCTIONS, JS_ARRAYS, REACT_INTRO];
 
 // Course outline: skeletons (title + objectives, no blocks yet) for the next
 // modules. Deliberately NOT part of LESSONS so empty lessons never reach the
