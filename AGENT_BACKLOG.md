@@ -108,7 +108,7 @@ React/JS/DOM код зөвхөн sandbox iframe дотор, React нь `createEl
 - [x] React: "Props дамжуулах" хичээл (`createElement`-only, sandbox)
 - [x] React: "useState төлөв" хичээл (`createElement`-only, sandbox)
 - [x] React: "Жагсаалт render (map)" хичээл (`createElement`-only)
-- [ ] MODULE_SKELETONS-ийн модуль 4–8-ыг бодит гарчиг/зорилго/эхний theory-оор дүүргэж `LESSONS`-д холбох
+- [x] MODULE_SKELETONS-ийн модуль 4–8-ыг бодит гарчиг/зорилго/эхний theory-оор дүүргэж `LESSONS`-д холбох
 
 ## B. Дасгал ба үнэлгээ
 - [ ] Одоо 1 дасгалтай хичээл бүрт 2 дахь дасгал нэмэх (гүнзгийрүүлсэн)
