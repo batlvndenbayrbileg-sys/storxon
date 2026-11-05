@@ -1606,7 +1606,83 @@ while (n > 0) {
   ],
 };
 
-export const LESSONS: Lesson[] = [HTML_INTRO, CSS_INTRO, JS_INTRO, HTML_HEADINGS, HTML_LISTS_LINKS, HTML_IMAGES_MEDIA, HTML_TABLES, HTML_FORMS, HTML_SEMANTIC, CSS_COLORS, CSS_BOX_MODEL, CSS_TEXT_FONT, CSS_FLEXBOX, CSS_GRID, CSS_RESPONSIVE, CSS_HOVER_TRANSITION, JS_VARIABLES_TYPES, JS_CONDITIONS, JS_LOOPS, REACT_INTRO];
+export const JS_FUNCTIONS: Lesson = {
+  id: "js-funkts",
+  module: 3,
+  title: "JS — Функц",
+  objectives: [
+    "Функц зарлаж, дуудах",
+    "Параметр дамжуулах",
+    "return-оор утга буцаах",
+  ],
+  blocks: [
+    {
+      kind: "theory",
+      title: "Функц гэж юу вэ?",
+      html: `<p><strong>Функц</strong> нь нэрлэгдсэн, дахин ашиглах боломжтой кодын блок юм.</p>
+             <ul>
+               <li><code>function нэр(параметр) { ... }</code> — функц зарлах</li>
+               <li><code>нэр(утга)</code> — функцийг дуудах</li>
+               <li><code>return</code> — үр дүнг буцаана</li>
+             </ul>
+             <p>Функцийг нэг удаа бичээд олон удаа дуудаж болно.</p>`,
+    },
+    {
+      kind: "code",
+      title: "Жишээ код",
+      lang: "js",
+      code: `function nemeh(a, b) {
+  return a + b;
+}
+
+console.log(nemeh(2, 3)); // 5
+console.log(nemeh(10, 7)); // 17`,
+    },
+    {
+      kind: "playground",
+      title: "Туршиж үз",
+      height: 240,
+      starter: {
+        html: `<h1>Функц</h1>\n<p>Консолыг харна уу.</p>`,
+        css: `body { font-family: system-ui; padding: 16px; }`,
+        js: `function mendchil(ner) {\n  return "Сайн уу, " + ner + "!";\n}\n\nconsole.log(mendchil("Бат"));`,
+      },
+    },
+    {
+      kind: "exercise",
+      title: "Үржүүлэх функц бич",
+      prompt: "`urjuuleh(a, b)` нэртэй функц бичиж `a * b`-г `return` хий. Дараа нь дуудаж `console.log`-оор хэвлэ.",
+      starter: {
+        html: `<p>Консолыг шалгана уу.</p>`,
+        css: `body { font-family: system-ui; padding: 16px; }`,
+        js: `// urjuuleh функцийг энд бич\n`,
+      },
+      hint: "function urjuuleh(a, b) { return a * b; } console.log(urjuuleh(3, 4));",
+      solution: {
+        html: `<p>Консолыг шалгана уу.</p>`,
+        css: `body { font-family: system-ui; padding: 16px; }`,
+        js: `function urjuuleh(a, b) {\n  return a * b;\n}\n\nconsole.log(urjuuleh(3, 4));`,
+      },
+      check: {
+        type: "allOf",
+        checks: [
+          { type: "jsIncludes", pattern: "function\\s+urjuuleh\\s*\\(", message: "`function urjuuleh(...)` зарлалт олдсонгүй." },
+          { type: "jsIncludes", pattern: "\\breturn\\b", message: "`return` олдсонгүй." },
+          { type: "jsIncludes", pattern: "console\\.log\\s*\\(", message: "`console.log(...)` дуудлага олдсонгүй." },
+        ],
+      },
+    },
+    {
+      kind: "quiz",
+      question: "`function f(x) { return x * 2; }` үед `f(4)` юу буцаах вэ?",
+      options: ["4", "6", "8", "undefined"],
+      answer: 2,
+      explain: "x = 4 тул 4 * 2 = 8 буцна. return байхгүй бол функц undefined буцаадаг.",
+    },
+  ],
+};
+
+export const LESSONS: Lesson[] = [HTML_INTRO, CSS_INTRO, JS_INTRO, HTML_HEADINGS, HTML_LISTS_LINKS, HTML_IMAGES_MEDIA, HTML_TABLES, HTML_FORMS, HTML_SEMANTIC, CSS_COLORS, CSS_BOX_MODEL, CSS_TEXT_FONT, CSS_FLEXBOX, CSS_GRID, CSS_RESPONSIVE, CSS_HOVER_TRANSITION, JS_VARIABLES_TYPES, JS_CONDITIONS, JS_LOOPS, JS_FUNCTIONS, REACT_INTRO];
 
 // Course outline: skeletons (title + objectives, no blocks yet) for the next
 // modules. Deliberately NOT part of LESSONS so empty lessons never reach the
