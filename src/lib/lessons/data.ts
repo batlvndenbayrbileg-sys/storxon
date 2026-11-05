@@ -2202,7 +2202,103 @@ ReactDOM.createRoot(document.getElementById("root")).render(h(Counter));`,
   ],
 };
 
-export const LESSONS: Lesson[] = [HTML_INTRO, CSS_INTRO, JS_INTRO, HTML_HEADINGS, HTML_LISTS_LINKS, HTML_IMAGES_MEDIA, HTML_TABLES, HTML_FORMS, HTML_SEMANTIC, CSS_COLORS, CSS_BOX_MODEL, CSS_TEXT_FONT, CSS_FLEXBOX, CSS_GRID, CSS_RESPONSIVE, CSS_HOVER_TRANSITION, JS_VARIABLES_TYPES, JS_CONDITIONS, JS_LOOPS, JS_FUNCTIONS, JS_ARRAYS, JS_OBJECTS, JS_DOM, JS_EVENTS, REACT_INTRO, REACT_PROPS, REACT_STATE];
+export const REACT_LISTS: Lesson = {
+  id: "react-lists",
+  module: 9,
+  title: "React — жагсаалт render (map)",
+  objectives: [
+    "Массивыг .map()-ээр элементүүд болгон хувиргах",
+    "Жагсаалтын элемент бүрт өвөрмөц key өгөх",
+    "Массивт утга нэмэхэд жагсаалт шинэчлэгдэхийг харах",
+  ],
+  blocks: [
+    {
+      kind: "theory",
+      title: "Массивыг жагсаалт болгох",
+      html: `<p>React-д олон элементийг нэг нэгээр нь бичихийн оронд <strong>массив</strong>-аас <code>.map()</code>-ээр үүсгэнэ.</p>
+             <p><code>items.map(function (x) { return h("li", { key: x }, x); })</code> — массивын элемент бүрээс нэг <code>&lt;li&gt;</code> гаргана.</p>
+             <p>Элемент бүрт <code>key</code> prop өгөх ёстой. Энэ нь React-д аль элемент аль нь вэ гэдгийг ялгах өвөрмөц шошго юм.</p>`,
+    },
+    {
+      kind: "playground",
+      title: "Хоолны жагсаалт",
+      height: 300,
+      starter: {
+        html: REACT_CDN + `<div id="root"></div>`,
+        css: `body { font-family: system-ui; padding: 16px; }\nli { margin: 4px 0; }`,
+        js: `const h = React.createElement;
+
+function FoodList() {
+  const foods = ["Бууз", "Хуушуур", "Цуйван"];
+  return h("ul", null,
+    foods.map(function (f) {
+      return h("li", { key: f }, f);
+    })
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(h(FoodList));`,
+      },
+    },
+    {
+      kind: "exercise",
+      title: "Жагсаалтад нэмэлт утга",
+      prompt: "`foods` массивт \"Банштай шөл\" гэсэн дөрөв дэх утгыг нэм. Жагсаалт автоматаар шинэчлэгдэнэ.",
+      starter: {
+        html: REACT_CDN + `<div id="root"></div>`,
+        css: `body { font-family: system-ui; padding: 16px; }\nli { margin: 4px 0; }`,
+        js: `const h = React.createElement;
+
+function FoodList() {
+  const foods = ["Бууз", "Хуушуур", "Цуйван"];
+  return h("ul", null,
+    foods.map(function (f) {
+      return h("li", { key: f }, f);
+    })
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(h(FoodList));`,
+      },
+      hint: 'foods массивын төгсгөлд таслал тавиад "Банштай шөл" гэж нэм.',
+      solution: {
+        html: REACT_CDN + `<div id="root"></div>`,
+        css: `body { font-family: system-ui; padding: 16px; }\nli { margin: 4px 0; }`,
+        js: `const h = React.createElement;
+
+function FoodList() {
+  const foods = ["Бууз", "Хуушуур", "Цуйван", "Банштай шөл"];
+  return h("ul", null,
+    foods.map(function (f) {
+      return h("li", { key: f }, f);
+    })
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(h(FoodList));`,
+      },
+      check: {
+        type: "jsIncludes",
+        pattern: "Банштай шөл",
+        message: "\"Банштай шөл\" гэсэн утга массивт олдсонгүй.",
+      },
+    },
+    {
+      kind: "quiz",
+      question: "Жагсаалтын элемент бүрт `key` юуны төлөө өгдөг вэ?",
+      options: [
+        "Элементийг өнгөөр будах",
+        "React элемент бүрийг өвөрмөцөөр ялгаж таних",
+        "Элементийг нууж харуулах",
+        "Элементийн хэмжээг тохируулах",
+      ],
+      answer: 1,
+      explain: "`key` нь жагсаалтын элемент бүрийг өвөрмөцөөр ялгаж, өөрчлөлт гарахад React зөв элементийг шинэчлэхэд тусална.",
+    },
+  ],
+};
+
+export const LESSONS: Lesson[] = [HTML_INTRO, CSS_INTRO, JS_INTRO, HTML_HEADINGS, HTML_LISTS_LINKS, HTML_IMAGES_MEDIA, HTML_TABLES, HTML_FORMS, HTML_SEMANTIC, CSS_COLORS, CSS_BOX_MODEL, CSS_TEXT_FONT, CSS_FLEXBOX, CSS_GRID, CSS_RESPONSIVE, CSS_HOVER_TRANSITION, JS_VARIABLES_TYPES, JS_CONDITIONS, JS_LOOPS, JS_FUNCTIONS, JS_ARRAYS, JS_OBJECTS, JS_DOM, JS_EVENTS, REACT_INTRO, REACT_PROPS, REACT_STATE, REACT_LISTS];
 
 // Course outline: skeletons (title + objectives, no blocks yet) for the next
 // modules. Deliberately NOT part of LESSONS so empty lessons never reach the
