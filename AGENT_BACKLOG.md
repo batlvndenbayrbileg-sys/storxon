@@ -99,7 +99,7 @@ React/JS/DOM код зөвхөн sandbox iframe дотор, React нь `createEl
 - [x] CSS: "Hover ба transition" хичээл (энгийн анимэйшн)
 - [x] JS: "Хувьсагч ба төрөл" хичээл (`let/const`, string/number/boolean)
 - [x] JS: "Нөхцөл (if/else)" хичээл — `jsIncludes` дасгал
-- [ ] JS: "Давталт (for/while)" хичээл — дасгал + quiz
+- [x] JS: "Давталт (for/while)" хичээл — дасгал + quiz
 - [ ] JS: "Функц" хичээл (зарлах, дуудах, параметр, return)
 - [ ] JS: "Массив" хичээл (push, length, индекс) — `allOf` дасгал
 - [ ] JS: "Объект" хичээл (key/value, цэгийн нотаци)

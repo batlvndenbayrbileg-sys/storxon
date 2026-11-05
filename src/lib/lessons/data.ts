@@ -1529,7 +1529,84 @@ if (temp < 0) {
   ],
 };
 
-export const LESSONS: Lesson[] = [HTML_INTRO, CSS_INTRO, JS_INTRO, HTML_HEADINGS, HTML_LISTS_LINKS, HTML_IMAGES_MEDIA, HTML_TABLES, HTML_FORMS, HTML_SEMANTIC, CSS_COLORS, CSS_BOX_MODEL, CSS_TEXT_FONT, CSS_FLEXBOX, CSS_GRID, CSS_RESPONSIVE, CSS_HOVER_TRANSITION, JS_VARIABLES_TYPES, JS_CONDITIONS, REACT_INTRO];
+export const JS_LOOPS: Lesson = {
+  id: "js-davtalt-for-while",
+  module: 3,
+  title: "JS — Давталт (for / while)",
+  objectives: [
+    "for давталтын 3 хэсгийг (эхлэл, нөхцөл, алхам) ойлгох",
+    "while давталт бичих",
+    "Давталтаар олон удаа үйлдэл хийх",
+  ],
+  blocks: [
+    {
+      kind: "theory",
+      title: "Давталт гэж юу вэ?",
+      html: `<p><strong>Давталт</strong> нь нэг кодыг олон удаа давтан ажиллуулдаг.</p>
+             <ul>
+               <li><code>for (эхлэл; нөхцөл; алхам) { ... }</code> — давтах тоо мэдэгдэж байх үед</li>
+               <li><code>while (нөхцөл) { ... }</code> — нөхцөл үнэн байх хугацаанд давтана</li>
+             </ul>
+             <p>Анхаар: нөхцөл хэзээ ч худал болохгүй бол давталт <em>төгсгөлгүй</em> болно.</p>`,
+    },
+    {
+      kind: "code",
+      title: "Жишээ код",
+      lang: "js",
+      code: `for (let i = 1; i <= 3; i++) {
+  console.log("Давталт №" + i);
+}
+
+let n = 3;
+while (n > 0) {
+  console.log("Үлдсэн: " + n);
+  n--;
+}`,
+    },
+    {
+      kind: "playground",
+      title: "Туршиж үз",
+      height: 240,
+      starter: {
+        html: `<h1>Давталт</h1>\n<p>Консолыг харна уу.</p>`,
+        css: `body { font-family: system-ui; padding: 16px; }`,
+        js: `for (let i = 1; i <= 5; i++) {\n  console.log("i = " + i);\n}`,
+      },
+    },
+    {
+      kind: "exercise",
+      title: "1-ээс 5 хүртэл хэвлэ",
+      prompt: "`for` давталт ашиглаж 1-ээс 5 хүртэлх тоог `console.log`-оор хэвлэ.",
+      starter: {
+        html: `<p>Консолыг шалгана уу.</p>`,
+        css: `body { font-family: system-ui; padding: 16px; }`,
+        js: `// for давталт бичээд 1-ээс 5 хүртэл хэвлэ\n`,
+      },
+      hint: "for (let i = 1; i <= 5; i++) { console.log(i); }",
+      solution: {
+        html: `<p>Консолыг шалгана уу.</p>`,
+        css: `body { font-family: system-ui; padding: 16px; }`,
+        js: `for (let i = 1; i <= 5; i++) {\n  console.log(i);\n}`,
+      },
+      check: {
+        type: "allOf",
+        checks: [
+          { type: "jsIncludes", pattern: "\\bfor\\s*\\(", message: "`for (...)` давталт олдсонгүй." },
+          { type: "jsIncludes", pattern: "console\\.log\\s*\\(", message: "`console.log(...)` дуудлага олдсонгүй." },
+        ],
+      },
+    },
+    {
+      kind: "quiz",
+      question: "`for (let i = 0; i < 3; i++)` давталт хэдэн удаа ажиллах вэ?",
+      options: ["2 удаа", "3 удаа", "4 удаа", "Төгсгөлгүй"],
+      answer: 1,
+      explain: "i нь 0, 1, 2 үед нөхцөл (i < 3) үнэн тул 3 удаа ажиллана. i = 3 болоход зогсоно.",
+    },
+  ],
+};
+
+export const LESSONS: Lesson[] = [HTML_INTRO, CSS_INTRO, JS_INTRO, HTML_HEADINGS, HTML_LISTS_LINKS, HTML_IMAGES_MEDIA, HTML_TABLES, HTML_FORMS, HTML_SEMANTIC, CSS_COLORS, CSS_BOX_MODEL, CSS_TEXT_FONT, CSS_FLEXBOX, CSS_GRID, CSS_RESPONSIVE, CSS_HOVER_TRANSITION, JS_VARIABLES_TYPES, JS_CONDITIONS, JS_LOOPS, REACT_INTRO];
 
 // Course outline: skeletons (title + objectives, no blocks yet) for the next
 // modules. Deliberately NOT part of LESSONS so empty lessons never reach the
