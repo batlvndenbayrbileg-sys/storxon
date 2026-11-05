@@ -1208,7 +1208,86 @@ export const CSS_GRID: Lesson = {
   ],
 };
 
-export const LESSONS: Lesson[] = [HTML_INTRO, CSS_INTRO, JS_INTRO, HTML_HEADINGS, HTML_LISTS_LINKS, HTML_IMAGES_MEDIA, HTML_TABLES, HTML_FORMS, HTML_SEMANTIC, CSS_COLORS, CSS_BOX_MODEL, CSS_TEXT_FONT, CSS_FLEXBOX, CSS_GRID, REACT_INTRO];
+export const CSS_RESPONSIVE: Lesson = {
+  id: "css-responsive",
+  module: 2,
+  title: "CSS — Responsive ба @media (гар утас/дэлгэц)",
+  objectives: [
+    "viewport meta тэг ба responsive дизайны үндсийг ойлгох",
+    "@media (max-width: ...) дүрмээр дэлгэцийн хэмжээнд тохируулан загвар өөрчлөх",
+    "Гар утас болон компьютер дээр өөр өөр байрлал гаргах",
+  ],
+  blocks: [
+    {
+      kind: "theory",
+      title: "Responsive гэж юу вэ",
+      html: `<p>Нэг вэб хуудас гар утас, таблет, компьютер дээр бүгдэд нь тохирч харагдах ёстой. Үүнийг <strong>responsive дизайн</strong> гэнэ. Гол хэрэгсэл нь <code>@media</code> дүрэм юм.</p>
+             <ul>
+               <li><code>@media (max-width: 600px) { ... }</code> — дэлгэц 600px ба түүнээс явцуу үед л ажиллана</li>
+               <li><code>@media (min-width: 900px) { ... }</code> — дэлгэц 900px-ээс өргөн үед ажиллана</li>
+               <li>HTML-ийн <code>&lt;head&gt;</code>-д <code>&lt;meta name="viewport" content="width=device-width, initial-scale=1"&gt;</code> заавал бичнэ</li>
+             </ul>`,
+    },
+    {
+      kind: "code",
+      title: "Жишээ код",
+      lang: "css",
+      code: `.cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* компьютер: 3 багана */
+  gap: 12px;
+}
+
+@media (max-width: 600px) {
+  .cards {
+    grid-template-columns: 1fr; /* гар утас: 1 багана */
+  }
+}`,
+    },
+    {
+      kind: "playground",
+      title: "Туршиж үз",
+      height: 280,
+      starter: {
+        html: `<div class="cards">\n  <div class="card">1</div>\n  <div class="card">2</div>\n  <div class="card">3</div>\n</div>`,
+        css: `body { font-family: system-ui; padding: 16px; }\n.cards {\n  display: grid;\n  grid-template-columns: repeat(3, 1fr);\n  gap: 12px;\n}\n.card { background: #7c3aed; color: #fff; padding: 20px; border-radius: 8px; text-align: center; }\n\n@media (max-width: 400px) {\n  .cards { grid-template-columns: 1fr; }\n}`,
+        js: ``,
+      },
+    },
+    {
+      kind: "exercise",
+      title: "Гар утсанд зориулсан дүрэм бич",
+      prompt: "CSS хэсэгт `@media (max-width: 600px)` дүрэм нэмж, дотор нь `.box` классын `font-size`-ийг өөрчил. Дараа нь Шалгах дээр дар.",
+      starter: {
+        html: `<p class="box">Дэлгэц явцуу болоход миний хэмжээ өөрчлөгдөнө.</p>`,
+        css: `body { font-family: system-ui; padding: 16px; }\n.box { font-size: 24px; color: #7c3aed; }\n\n/* Энд @media дүрмээ бич */\n`,
+        js: ``,
+      },
+      hint: "@media (max-width: 600px) { .box { font-size: 16px; } } гэж бичээд үз.",
+      solution: {
+        html: `<p class="box">Дэлгэц явцуу болоход миний хэмжээ өөрчлөгдөнө.</p>`,
+        css: `body { font-family: system-ui; padding: 16px; }\n.box { font-size: 24px; color: #7c3aed; }\n\n@media (max-width: 600px) {\n  .box { font-size: 16px; }\n}`,
+        js: ``,
+      },
+      check: {
+        type: "allOf",
+        checks: [
+          { type: "cssIncludes", pattern: "@media\\s*\\(\\s*max-width\\s*:\\s*600px\\s*\\)", flags: "i", message: "`@media (max-width: 600px)` дүрэм олдсонгүй." },
+          { type: "cssIncludes", pattern: "@media[^{]*\\{[^@]*\\.box\\s*\\{[^}]*font-size\\s*:", flags: "i", message: "@media дотор `.box`-ийн `font-size` олдсонгүй." },
+        ],
+      },
+    },
+    {
+      kind: "quiz",
+      question: "`@media (max-width: 600px)` дүрэм хэзээ ажиллах вэ?",
+      options: ["Дэлгэц 600px-ээс өргөн үед", "Дэлгэц 600px ба түүнээс явцуу үед", "Зөвхөн хэвлэх үед", "Үргэлж"],
+      answer: 1,
+      explain: "`max-width: 600px` нь дэлгэцийн өргөн хамгийн ихдээ 600px байх үед, өөрөөр хэлбэл гар утас шиг явцуу дэлгэцэд ажиллана.",
+    },
+  ],
+};
+
+export const LESSONS: Lesson[] = [HTML_INTRO, CSS_INTRO, JS_INTRO, HTML_HEADINGS, HTML_LISTS_LINKS, HTML_IMAGES_MEDIA, HTML_TABLES, HTML_FORMS, HTML_SEMANTIC, CSS_COLORS, CSS_BOX_MODEL, CSS_TEXT_FONT, CSS_FLEXBOX, CSS_GRID, CSS_RESPONSIVE, REACT_INTRO];
 
 // Course outline: skeletons (title + objectives, no blocks yet) for the next
 // modules. Deliberately NOT part of LESSONS so empty lessons never reach the
