@@ -96,7 +96,7 @@ React/JS/DOM код зөвхөн sandbox iframe дотор, React нь `createEl
 - [x] CSS: "Flexbox зэрэгцүүлэлт" хичээл (`display:flex`, `justify/align`) — `allOf` дасгал
 - [x] CSS: "Grid үндэс" хичээл (`display:grid`, `grid-template`)
 - [x] CSS: "Responsive ба @media" хичээл (гар утас/дэлгэц)
-- [ ] CSS: "Hover ба transition" хичээл (энгийн анимэйшн)
+- [x] CSS: "Hover ба transition" хичээл (энгийн анимэйшн)
 - [ ] JS: "Хувьсагч ба төрөл" хичээл (`let/const`, string/number/boolean)
 - [ ] JS: "Нөхцөл (if/else)" хичээл — `jsIncludes` дасгал
 - [ ] JS: "Давталт (for/while)" хичээл — дасгал + quiz

@@ -1287,7 +1287,88 @@ export const CSS_RESPONSIVE: Lesson = {
   ],
 };
 
-export const LESSONS: Lesson[] = [HTML_INTRO, CSS_INTRO, JS_INTRO, HTML_HEADINGS, HTML_LISTS_LINKS, HTML_IMAGES_MEDIA, HTML_TABLES, HTML_FORMS, HTML_SEMANTIC, CSS_COLORS, CSS_BOX_MODEL, CSS_TEXT_FONT, CSS_FLEXBOX, CSS_GRID, CSS_RESPONSIVE, REACT_INTRO];
+export const CSS_HOVER_TRANSITION: Lesson = {
+  id: "css-hover-transition",
+  module: 2,
+  title: "CSS — Hover ба transition (энгийн анимэйшн)",
+  objectives: [
+    ":hover-ээр хулганаа дээгүүр нь аваачихад элементийн загварыг өөрчлөх",
+    "transition-оор өөрчлөлтийг жигд, аажим болгох",
+    "transform ашиглан товч, картыг зөөлөн томруулах",
+  ],
+  blocks: [
+    {
+      kind: "theory",
+      title: "Hover ба transition гэж юу вэ",
+      html: `<p>Сайн вэб хуудас хэрэглэгчийн үйлдэлд хариу өгдөг. <code>:hover</code> нь хулганыг элемент дээр аваачихад ажилладаг, <code>transition</code> нь өөрчлөлтийг "шууд" биш <strong>аажмаар</strong> болгодог.</p>
+             <ul>
+               <li><code>a:hover { ... }</code> — хулгана дээр байх үеийн загвар</li>
+               <li><code>transition: background 0.3s ease;</code> — өөрчлөгдөх шинж чанар, үргэлжлэх хугацаа, хурдны муруй</li>
+               <li><code>transform: scale(1.05);</code> — элементийг томруулах/зөөх/эргүүлэх</li>
+             </ul>
+             <p><code>transition</code>-ийг <em>энгийн</em> төлөвт (hover-гүй) бичдэг: ингэснээр орох ба гарах хоёр чиглэлд хоёуланд нь жигд ажиллана.</p>`,
+    },
+    {
+      kind: "code",
+      title: "Жишээ код",
+      lang: "css",
+      code: `.btn {
+  background: #7c3aed;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 8px;
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.btn:hover {
+  background: #5b21b6;
+  transform: scale(1.05);
+}`,
+    },
+    {
+      kind: "playground",
+      title: "Туршиж үз",
+      height: 240,
+      starter: {
+        html: `<button class="btn">Хулганаа надад ойртуул</button>`,
+        css: `body { font-family: system-ui; padding: 24px; }\n.btn {\n  background: #7c3aed;\n  color: #fff;\n  border: 0;\n  padding: 12px 24px;\n  border-radius: 8px;\n  cursor: pointer;\n  transition: background 0.3s ease, transform 0.3s ease;\n}\n.btn:hover {\n  background: #5b21b6;\n  transform: scale(1.08);\n}`,
+        js: ``,
+      },
+    },
+    {
+      kind: "exercise",
+      title: "Hover ба transition нэм",
+      prompt: "`.card` классад `transition` нэмж, `.card:hover` дүрэм бичиж өнгийг нь өөрчил. Дараа нь Шалгах дээр дар.",
+      starter: {
+        html: `<div class="card">Надад хулганаа аваачаарай</div>`,
+        css: `body { font-family: system-ui; padding: 24px; }\n.card {\n  background: #e9d5ff;\n  padding: 24px;\n  border-radius: 12px;\n  /* Энд transition нэм */\n}\n\n/* Энд .card:hover бич */\n`,
+        js: ``,
+      },
+      hint: ".card дотор transition: background 0.3s ease; нэмээд, .card:hover { background: #7c3aed; color: #fff; } гэж бичээд үз.",
+      solution: {
+        html: `<div class="card">Надад хулганаа аваачаарай</div>`,
+        css: `body { font-family: system-ui; padding: 24px; }\n.card {\n  background: #e9d5ff;\n  padding: 24px;\n  border-radius: 12px;\n  transition: background 0.3s ease;\n}\n\n.card:hover {\n  background: #7c3aed;\n  color: #fff;\n}`,
+        js: ``,
+      },
+      check: {
+        type: "allOf",
+        checks: [
+          { type: "cssIncludes", pattern: "transition\\s*:", flags: "i", message: "`transition` шинж чанар олдсонгүй." },
+          { type: "cssIncludes", pattern: "\\.card\\s*:hover\\s*\\{[^}]*background", flags: "i", message: "`.card:hover` дотор `background` олдсонгүй." },
+        ],
+      },
+    },
+    {
+      kind: "quiz",
+      question: "`transition` нь юу хийдэг вэ?",
+      options: ["Элементийг нууна", "Загварын өөрчлөлтийг аажим, жигд болгоно", "Хуудсыг шинэчилнэ", "Зургийг ачаална"],
+      answer: 1,
+      explain: "`transition` нь нэг утгаас нөгөө рүү шилжихийг заасан хугацаанд аажмаар хийж, гэнэтийн үсрэлтийг арилгадаг.",
+    },
+  ],
+};
+
+export const LESSONS: Lesson[] = [HTML_INTRO, CSS_INTRO, JS_INTRO, HTML_HEADINGS, HTML_LISTS_LINKS, HTML_IMAGES_MEDIA, HTML_TABLES, HTML_FORMS, HTML_SEMANTIC, CSS_COLORS, CSS_BOX_MODEL, CSS_TEXT_FONT, CSS_FLEXBOX, CSS_GRID, CSS_RESPONSIVE, CSS_HOVER_TRANSITION, REACT_INTRO];
 
 // Course outline: skeletons (title + objectives, no blocks yet) for the next
 // modules. Deliberately NOT part of LESSONS so empty lessons never reach the
