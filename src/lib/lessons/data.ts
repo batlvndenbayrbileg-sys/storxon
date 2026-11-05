@@ -1450,7 +1450,86 @@ console.log(typeof name, typeof age, typeof isOpen);`,
   ],
 };
 
-export const LESSONS: Lesson[] = [HTML_INTRO, CSS_INTRO, JS_INTRO, HTML_HEADINGS, HTML_LISTS_LINKS, HTML_IMAGES_MEDIA, HTML_TABLES, HTML_FORMS, HTML_SEMANTIC, CSS_COLORS, CSS_BOX_MODEL, CSS_TEXT_FONT, CSS_FLEXBOX, CSS_GRID, CSS_RESPONSIVE, CSS_HOVER_TRANSITION, JS_VARIABLES_TYPES, REACT_INTRO];
+export const JS_CONDITIONS: Lesson = {
+  id: "js-nohtsol-if-else",
+  module: 3,
+  title: "JS — Нөхцөл (if / else)",
+  objectives: [
+    "if, else if, else бүтцийг бичих",
+    "Харьцуулах оператор (>, <, ===) ашиглах",
+    "Нөхцлөөр өөр өөр үр дүн гаргах",
+  ],
+  blocks: [
+    {
+      kind: "theory",
+      title: "Нөхцөл гэж юу вэ?",
+      html: `<p><strong>Нөхцөл</strong> нь программд "хэрэв ... бол ... үгүй бол ..." гэж шийдвэр гаргуулдаг.</p>
+             <ul>
+               <li><code>if (нөхцөл) { ... }</code> — нөхцөл үнэн үед ажиллана</li>
+               <li><code>else if (...)</code> — өөр нөхцөл шалгана</li>
+               <li><code>else { ... }</code> — бусад бүх тохиолдолд</li>
+             </ul>
+             <p>Харьцуулах операторууд: <code>&gt;</code>, <code>&lt;</code>, <code>&gt;=</code>, <code>===</code> (тэнцүү), <code>!==</code> (тэнцүү биш).</p>`,
+    },
+    {
+      kind: "code",
+      title: "Жишээ код",
+      lang: "js",
+      code: `const temp = 18;
+
+if (temp < 0) {
+  console.log("Хүйтэн байна");
+} else if (temp < 20) {
+  console.log("Сэрүүн байна");
+} else {
+  console.log("Дулаан байна");
+}`,
+    },
+    {
+      kind: "playground",
+      title: "Туршиж үз",
+      height: 240,
+      starter: {
+        html: `<h1>Нөхцөл</h1>\n<p>Консолыг харна уу.</p>`,
+        css: `body { font-family: system-ui; padding: 16px; }`,
+        js: `let score = 75;\n\nif (score >= 90) {\n  console.log("Онц");\n} else if (score >= 60) {\n  console.log("Сайн");\n} else {\n  console.log("Дахин оролд");\n}`,
+      },
+    },
+    {
+      kind: "exercise",
+      title: "Насны шалгалт бич",
+      prompt: "`age` хувьсагчийн утгаар `if ... else` бичиж, 18 ба түүнээс дээш бол \"Насанд хүрсэн\", үгүй бол \"Хүүхэд\" гэж `console.log`-оор хэвлэ.",
+      starter: {
+        html: `<p>Консолыг шалгана уу.</p>`,
+        css: `body { font-family: system-ui; padding: 16px; }`,
+        js: `let age = 20;\n\n// if ... else бичээд console.log-оор хэвлэ\n`,
+      },
+      hint: 'if (age >= 18) { console.log("Насанд хүрсэн"); } else { console.log("Хүүхэд"); }',
+      solution: {
+        html: `<p>Консолыг шалгана уу.</p>`,
+        css: `body { font-family: system-ui; padding: 16px; }`,
+        js: `let age = 20;\n\nif (age >= 18) {\n  console.log("Насанд хүрсэн");\n} else {\n  console.log("Хүүхэд");\n}`,
+      },
+      check: {
+        type: "allOf",
+        checks: [
+          { type: "jsIncludes", pattern: "\\bif\\s*\\(", message: "`if (...)` бүтэц олдсонгүй." },
+          { type: "jsIncludes", pattern: "\\belse\\b", message: "`else` хэсэг олдсонгүй." },
+          { type: "jsIncludes", pattern: "console\\.log\\s*\\(", message: "`console.log(...)` дуудлага олдсонгүй." },
+        ],
+      },
+    },
+    {
+      kind: "quiz",
+      question: "`5 === \"5\"` юуг буцаах вэ?",
+      options: ["true", "false", "undefined", "Алдаа гарна"],
+      answer: 1,
+      explain: "`===` нь утга болон төрлийг хоёуланг нь харьцуулдаг. 5 (number) ба \"5\" (string) төрөл нь өөр тул үр дүн нь false.",
+    },
+  ],
+};
+
+export const LESSONS: Lesson[] = [HTML_INTRO, CSS_INTRO, JS_INTRO, HTML_HEADINGS, HTML_LISTS_LINKS, HTML_IMAGES_MEDIA, HTML_TABLES, HTML_FORMS, HTML_SEMANTIC, CSS_COLORS, CSS_BOX_MODEL, CSS_TEXT_FONT, CSS_FLEXBOX, CSS_GRID, CSS_RESPONSIVE, CSS_HOVER_TRANSITION, JS_VARIABLES_TYPES, JS_CONDITIONS, REACT_INTRO];
 
 // Course outline: skeletons (title + objectives, no blocks yet) for the next
 // modules. Deliberately NOT part of LESSONS so empty lessons never reach the
