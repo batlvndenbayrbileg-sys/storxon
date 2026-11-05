@@ -1843,7 +1843,84 @@ console.log(user.city);  // Улаанбаатар`,
   ],
 };
 
-export const LESSONS: Lesson[] = [HTML_INTRO, CSS_INTRO, JS_INTRO, HTML_HEADINGS, HTML_LISTS_LINKS, HTML_IMAGES_MEDIA, HTML_TABLES, HTML_FORMS, HTML_SEMANTIC, CSS_COLORS, CSS_BOX_MODEL, CSS_TEXT_FONT, CSS_FLEXBOX, CSS_GRID, CSS_RESPONSIVE, CSS_HOVER_TRANSITION, JS_VARIABLES_TYPES, JS_CONDITIONS, JS_LOOPS, JS_FUNCTIONS, JS_ARRAYS, JS_OBJECTS, REACT_INTRO];
+export const JS_DOM: Lesson = {
+  id: "js-dom",
+  module: 3,
+  title: "JS — DOM унших/бичих",
+  objectives: [
+    "document.querySelector-оор элемент сонгох",
+    "textContent-ээр текст унших, солих",
+    "Сонгосон элементийн style-ийг өөрчлөх",
+  ],
+  blocks: [
+    {
+      kind: "theory",
+      title: "DOM гэж юу вэ?",
+      html: `<p><strong>DOM</strong> нь хөтөч HTML хуудсыг JavaScript-д харагдуулдаг мод бүтэц юм. JS-ээр элементийг <em>сонгож</em>, дараа нь текст, өнгийг нь <em>уншиж, өөрчилж</em> болно.</p>
+             <ul>
+               <li><code>document.querySelector("h1")</code> — CSS сонгогчоор эхний тохирох элементийг авах</li>
+               <li><code>el.textContent</code> — элементийн текстийг унших</li>
+               <li><code>el.textContent = "Шинэ"</code> — текстийг солих</li>
+               <li><code>el.style.color = "red"</code> — өнгө өөрчлөх</li>
+             </ul>
+             <p>Бүх код энэ хуудасны хамгаалагдсан sandbox дотор ажиллана.</p>`,
+    },
+    {
+      kind: "code",
+      title: "Жишээ код",
+      lang: "js",
+      code: `const title = document.querySelector("h1");
+
+console.log(title.textContent);  // Сайн уу
+
+title.textContent = "Сайн байна уу!";
+title.style.color = "tomato";`,
+    },
+    {
+      kind: "playground",
+      title: "Туршиж үз",
+      height: 260,
+      starter: {
+        html: `<h1 id="gar">Сайн уу</h1>\n<p class="tailbar">Энэ текстийг JS-ээр солино.</p>`,
+        css: `body { font-family: system-ui; padding: 16px; }`,
+        js: `const p = document.querySelector(".tailbar");\nconsole.log(p.textContent);\np.textContent = "JS-ээр солигдлоо!";\ndocument.querySelector("#gar").style.color = "teal";`,
+      },
+    },
+    {
+      kind: "exercise",
+      title: "Гарчгийг солих",
+      prompt: "`document.querySelector`-оор `h1`-ийг сонгож, `textContent`-ийг нь \"Storxon\" болгож солих код бич.",
+      starter: {
+        html: `<h1>Хуучин гарчиг</h1>`,
+        css: `body { font-family: system-ui; padding: 16px; }`,
+        js: `// h1-ийг энд сонгож текстийг нь солино уу\n`,
+      },
+      hint: 'const h = document.querySelector("h1"); h.textContent = "Storxon";',
+      solution: {
+        html: `<h1>Хуучин гарчиг</h1>`,
+        css: `body { font-family: system-ui; padding: 16px; }`,
+        js: `const h = document.querySelector("h1");\nh.textContent = "Storxon";`,
+      },
+      check: {
+        type: "allOf",
+        checks: [
+          { type: "jsIncludes", pattern: "document\\.querySelector\\s*\\(", message: "`document.querySelector(...)` олдсонгүй." },
+          { type: "jsIncludes", pattern: "\\.textContent\\s*=", message: "`.textContent = ...` олдсонгүй." },
+          { type: "jsIncludes", pattern: "Storxon", message: "Текст нь \"Storxon\" байх ёстой." },
+        ],
+      },
+    },
+    {
+      kind: "quiz",
+      question: "Эхний `<p>` элементийг сонгох зөв код аль нь вэ?",
+      options: ['document.querySelector("p")', "document.p", 'document.textContent("p")', 'querySelector.p'],
+      answer: 0,
+      explain: "`document.querySelector` нь CSS сонгогч авч, эхний тохирох элементийг буцаадаг.",
+    },
+  ],
+};
+
+export const LESSONS: Lesson[] = [HTML_INTRO, CSS_INTRO, JS_INTRO, HTML_HEADINGS, HTML_LISTS_LINKS, HTML_IMAGES_MEDIA, HTML_TABLES, HTML_FORMS, HTML_SEMANTIC, CSS_COLORS, CSS_BOX_MODEL, CSS_TEXT_FONT, CSS_FLEXBOX, CSS_GRID, CSS_RESPONSIVE, CSS_HOVER_TRANSITION, JS_VARIABLES_TYPES, JS_CONDITIONS, JS_LOOPS, JS_FUNCTIONS, JS_ARRAYS, JS_OBJECTS, JS_DOM, REACT_INTRO];
 
 // Course outline: skeletons (title + objectives, no blocks yet) for the next
 // modules. Deliberately NOT part of LESSONS so empty lessons never reach the
