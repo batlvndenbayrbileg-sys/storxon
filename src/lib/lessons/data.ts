@@ -2003,7 +2003,111 @@ btn.addEventListener("click", function () {
   ],
 };
 
-export const LESSONS: Lesson[] = [HTML_INTRO, CSS_INTRO, JS_INTRO, HTML_HEADINGS, HTML_LISTS_LINKS, HTML_IMAGES_MEDIA, HTML_TABLES, HTML_FORMS, HTML_SEMANTIC, CSS_COLORS, CSS_BOX_MODEL, CSS_TEXT_FONT, CSS_FLEXBOX, CSS_GRID, CSS_RESPONSIVE, CSS_HOVER_TRANSITION, JS_VARIABLES_TYPES, JS_CONDITIONS, JS_LOOPS, JS_FUNCTIONS, JS_ARRAYS, JS_OBJECTS, JS_DOM, JS_EVENTS, REACT_INTRO];
+export const REACT_PROPS: Lesson = {
+  id: "react-props",
+  module: 9,
+  title: "React — Props дамжуулах",
+  objectives: [
+    "Props гэж юу болохыг ойлгох",
+    "Компонентод createElement-ийн 2 дахь аргументаар утга дамжуулах",
+    "Нэг компонентийг өөр өөр props-оор дахин ашиглах",
+  ],
+  blocks: [
+    {
+      kind: "theory",
+      title: "Props — компонентийн оролт",
+      html: `<p><strong>Props</strong> нь компонентод гаднаас өгдөг утгууд бөгөөд функцийн параметртэй адил.</p>
+             <p><code>h(Card, { name: "Бат" })</code> гэж дуудахад <code>Card</code> функц <code>props.name</code>-ээр уг утгыг авна.</p>
+             <p>Props нь <em>зөвхөн унших</em> — компонент өөрт өгөгдсөн props-ийг өөрчилдөггүй.</p>`,
+    },
+    {
+      kind: "playground",
+      title: "Мэндчилгээний компонент",
+      height: 300,
+      starter: {
+        html: REACT_CDN + `<div id="root"></div>`,
+        css: `body { font-family: system-ui; padding: 16px; }\n.card { border: 1px solid #ccc; border-radius: 8px; padding: 8px 12px; margin-bottom: 8px; }`,
+        js: `const h = React.createElement;
+
+function Greeting(props) {
+  return h("div", { className: "card" }, "Сайн уу, " + props.name + "!");
+}
+
+function App() {
+  return h("div", null,
+    h(Greeting, { name: "Бат" }),
+    h(Greeting, { name: "Болд" })
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(h(App));`,
+      },
+    },
+    {
+      kind: "exercise",
+      title: "Гурав дахь мэндчилгээ нэм",
+      prompt: "`App` дотор `name` props-ийг \"Сараа\" гэж өгсөн гурав дахь `Greeting` нэм.",
+      starter: {
+        html: REACT_CDN + `<div id="root"></div>`,
+        css: `body { font-family: system-ui; padding: 16px; }\n.card { border: 1px solid #ccc; border-radius: 8px; padding: 8px 12px; margin-bottom: 8px; }`,
+        js: `const h = React.createElement;
+
+function Greeting(props) {
+  return h("div", { className: "card" }, "Сайн уу, " + props.name + "!");
+}
+
+function App() {
+  return h("div", null,
+    h(Greeting, { name: "Бат" }),
+    h(Greeting, { name: "Болд" })
+    // Энд "Сараа"-тай Greeting нэм
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(h(App));`,
+      },
+      hint: 'Өмнөх мөрийн төгсгөлд таслал тавиад h(Greeting, { name: "Сараа" }) гэж нэм.',
+      solution: {
+        html: REACT_CDN + `<div id="root"></div>`,
+        css: `body { font-family: system-ui; padding: 16px; }\n.card { border: 1px solid #ccc; border-radius: 8px; padding: 8px 12px; margin-bottom: 8px; }`,
+        js: `const h = React.createElement;
+
+function Greeting(props) {
+  return h("div", { className: "card" }, "Сайн уу, " + props.name + "!");
+}
+
+function App() {
+  return h("div", null,
+    h(Greeting, { name: "Бат" }),
+    h(Greeting, { name: "Болд" }),
+    h(Greeting, { name: "Сараа" })
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(h(App));`,
+      },
+      check: {
+        type: "jsIncludes",
+        pattern: "name\\s*:\\s*[\"']Сараа[\"']",
+        message: "`name: \"Сараа\"` props-тэй Greeting олдсонгүй.",
+      },
+    },
+    {
+      kind: "quiz",
+      question: "Компонент props-ийг хэрхэн хүлээн авах вэ?",
+      options: [
+        "Функцийн эхний параметрээр (props)",
+        "document.querySelector-оор",
+        "useState-ээр",
+        "CSS-ээр",
+      ],
+      answer: 0,
+      explain: "`h(Comp, { name: \"Бат\" })` дахь объект нь `Comp(props)` функцийн эхний параметр болж очдог.",
+    },
+  ],
+};
+
+export const LESSONS: Lesson[] = [HTML_INTRO, CSS_INTRO, JS_INTRO, HTML_HEADINGS, HTML_LISTS_LINKS, HTML_IMAGES_MEDIA, HTML_TABLES, HTML_FORMS, HTML_SEMANTIC, CSS_COLORS, CSS_BOX_MODEL, CSS_TEXT_FONT, CSS_FLEXBOX, CSS_GRID, CSS_RESPONSIVE, CSS_HOVER_TRANSITION, JS_VARIABLES_TYPES, JS_CONDITIONS, JS_LOOPS, JS_FUNCTIONS, JS_ARRAYS, JS_OBJECTS, JS_DOM, JS_EVENTS, REACT_INTRO, REACT_PROPS];
 
 // Course outline: skeletons (title + objectives, no blocks yet) for the next
 // modules. Deliberately NOT part of LESSONS so empty lessons never reach the
