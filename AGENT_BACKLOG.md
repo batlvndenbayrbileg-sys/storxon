@@ -106,7 +106,7 @@ React/JS/DOM код зөвхөн sandbox iframe дотор, React нь `createEl
 - [x] JS: "DOM унших/бичих" хичээл (`querySelector`, `textContent`) — sandbox дотор
 - [x] JS: "Үйл явдал (events)" хичээл (`addEventListener`, onclick) — sandbox дотор
 - [x] React: "Props дамжуулах" хичээл (`createElement`-only, sandbox)
-- [ ] React: "useState төлөв" хичээл (`createElement`-only, sandbox)
+- [x] React: "useState төлөв" хичээл (`createElement`-only, sandbox)
 - [ ] React: "Жагсаалт render (map)" хичээл (`createElement`-only)
 - [ ] MODULE_SKELETONS-ийн модуль 4–8-ыг бодит гарчиг/зорилго/эхний theory-оор дүүргэж `LESSONS`-д холбох
 

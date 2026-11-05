@@ -2107,7 +2107,102 @@ ReactDOM.createRoot(document.getElementById("root")).render(h(App));`,
   ],
 };
 
-export const LESSONS: Lesson[] = [HTML_INTRO, CSS_INTRO, JS_INTRO, HTML_HEADINGS, HTML_LISTS_LINKS, HTML_IMAGES_MEDIA, HTML_TABLES, HTML_FORMS, HTML_SEMANTIC, CSS_COLORS, CSS_BOX_MODEL, CSS_TEXT_FONT, CSS_FLEXBOX, CSS_GRID, CSS_RESPONSIVE, CSS_HOVER_TRANSITION, JS_VARIABLES_TYPES, JS_CONDITIONS, JS_LOOPS, JS_FUNCTIONS, JS_ARRAYS, JS_OBJECTS, JS_DOM, JS_EVENTS, REACT_INTRO, REACT_PROPS];
+export const REACT_STATE: Lesson = {
+  id: "react-state",
+  module: 9,
+  title: "React — useState төлөв",
+  objectives: [
+    "Төлөв (state) гэж юу болохыг ойлгох",
+    "useState-ийн [утга, setter] хосыг ашиглах",
+    "Товч дарахад төлөв өөрчлөгдөж дэлгэц шинэчлэгдэхийг харах",
+  ],
+  blocks: [
+    {
+      kind: "theory",
+      title: "Төлөв — өөрчлөгддөг утга",
+      html: `<p><strong>Төлөв (state)</strong> нь компонентийн цаг хугацаанд өөрчлөгддөг утга юм (жишээ нь тоолуурын тоо).</p>
+             <p><code>const [count, setCount] = React.useState(0)</code> — <code>count</code> нь одоогийн утга, <code>setCount</code> нь шинэ утга өгөх функц, <code>0</code> нь анхны утга.</p>
+             <p><code>setCount(...)</code>-г дуудахад React компонентийг дахин зурж, шинэ утгыг дэлгэцэнд харуулна. <code>count</code>-д шууд утга оноож болохгүй.</p>`,
+    },
+    {
+      kind: "playground",
+      title: "Тоолуур",
+      height: 300,
+      starter: {
+        html: REACT_CDN + `<div id="root"></div>`,
+        css: `body { font-family: system-ui; padding: 16px; }\nbutton { padding: 6px 14px; border-radius: 8px; border: 1px solid #ccc; cursor: pointer; }`,
+        js: `const h = React.createElement;
+
+function Counter() {
+  const [count, setCount] = React.useState(0);
+  return h("div", null,
+    h("p", null, "Тоо: " + count),
+    h("button", { onClick: function () { setCount(count + 1); } }, "Нэмэх")
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(h(Counter));`,
+      },
+    },
+    {
+      kind: "exercise",
+      title: "Хасах товч нэм",
+      prompt: "`Counter` дотор `count`-ыг 1-ээр бууруулдаг \"Хасах\" товч нэм (`setCount(count - 1)`).",
+      starter: {
+        html: REACT_CDN + `<div id="root"></div>`,
+        css: `body { font-family: system-ui; padding: 16px; }\nbutton { padding: 6px 14px; border-radius: 8px; border: 1px solid #ccc; cursor: pointer; margin-right: 6px; }`,
+        js: `const h = React.createElement;
+
+function Counter() {
+  const [count, setCount] = React.useState(0);
+  return h("div", null,
+    h("p", null, "Тоо: " + count),
+    h("button", { onClick: function () { setCount(count + 1); } }, "Нэмэх")
+    // Энд "Хасах" товч нэм
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(h(Counter));`,
+      },
+      hint: 'Өмнөх товчны дараа таслал тавиад h("button", { onClick: function () { setCount(count - 1); } }, "Хасах") гэж нэм.',
+      solution: {
+        html: REACT_CDN + `<div id="root"></div>`,
+        css: `body { font-family: system-ui; padding: 16px; }\nbutton { padding: 6px 14px; border-radius: 8px; border: 1px solid #ccc; cursor: pointer; margin-right: 6px; }`,
+        js: `const h = React.createElement;
+
+function Counter() {
+  const [count, setCount] = React.useState(0);
+  return h("div", null,
+    h("p", null, "Тоо: " + count),
+    h("button", { onClick: function () { setCount(count + 1); } }, "Нэмэх"),
+    h("button", { onClick: function () { setCount(count - 1); } }, "Хасах")
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(h(Counter));`,
+      },
+      check: {
+        type: "jsIncludes",
+        pattern: "setCount\\(\\s*count\\s*-\\s*1\\s*\\)",
+        message: "`setCount(count - 1)` гэсэн хасах товч олдсонгүй.",
+      },
+    },
+    {
+      kind: "quiz",
+      question: "Төлөвийг өөрчилж дэлгэцийг шинэчлэхийн тулд юу хийх вэ?",
+      options: [
+        "count = count + 1 гэж шууд онооно",
+        "setCount(count + 1) гэж setter-ийг дуудна",
+        "document.write ашиглана",
+        "Хуудсыг гараар дахин ачаална",
+      ],
+      answer: 1,
+      explain: "Зөвхөн setter (`setCount`)-ийг дуудахад React шинэ утгыг хадгалж, компонентийг дахин зурдаг.",
+    },
+  ],
+};
+
+export const LESSONS: Lesson[] = [HTML_INTRO, CSS_INTRO, JS_INTRO, HTML_HEADINGS, HTML_LISTS_LINKS, HTML_IMAGES_MEDIA, HTML_TABLES, HTML_FORMS, HTML_SEMANTIC, CSS_COLORS, CSS_BOX_MODEL, CSS_TEXT_FONT, CSS_FLEXBOX, CSS_GRID, CSS_RESPONSIVE, CSS_HOVER_TRANSITION, JS_VARIABLES_TYPES, JS_CONDITIONS, JS_LOOPS, JS_FUNCTIONS, JS_ARRAYS, JS_OBJECTS, JS_DOM, JS_EVENTS, REACT_INTRO, REACT_PROPS, REACT_STATE];
 
 // Course outline: skeletons (title + objectives, no blocks yet) for the next
 // modules. Deliberately NOT part of LESSONS so empty lessons never reach the
