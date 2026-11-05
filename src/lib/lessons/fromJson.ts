@@ -1,4 +1,4 @@
-import type { ExerciseCheck, Lesson, PlaygroundFiles } from "@/lib/lessons/types";
+import type { ExerciseCheck, Lesson, PlaygroundFiles, QuizQuestion } from "@/lib/lessons/types";
 
 // Validates untrusted/plain JSON and returns a typed Lesson. Throws a
 // descriptive Error on the first problem so bad content fails the build
@@ -96,18 +96,21 @@ export function lessonFromJson(input: unknown): Lesson {
           };
         }
         case "quiz": {
-          if (!Array.isArray(raw.options) || raw.options.length < 2) fail(`${p}.options`, "≥2 сонголттой массив");
-          const options = raw.options.map((o, j) => str(o, `${p}.options[${j}]`));
-          if (!Number.isInteger(raw.answer) || (raw.answer as number) < 0 || (raw.answer as number) >= options.length)
-            fail(`${p}.answer`, "options-ийн индекс хүлээгдсэн");
-          return {
-            kind: "quiz",
-            title,
-            question: str(raw.question, `${p}.question`),
-            options,
-            answer: raw.answer as number,
-            explain: raw.explain === undefined ? undefined : str(raw.explain, `${p}.explain`),
+          const parseQ = (q: Record<string, unknown>, qp: string): QuizQuestion => {
+            if (!Array.isArray(q.options) || q.options.length < 2) fail(`${qp}.options`, "≥2 сонголттой массив");
+            const options = (q.options as unknown[]).map((o, j) => str(o, `${qp}.options[${j}]`));
+            if (!Number.isInteger(q.answer) || (q.answer as number) < 0 || (q.answer as number) >= options.length)
+              fail(`${qp}.answer`, "options-ийн индекс хүлээгдсэн");
+            return {
+              question: str(q.question, `${qp}.question`),
+              options,
+              answer: q.answer as number,
+              explain: q.explain === undefined ? undefined : str(q.explain, `${qp}.explain`),
+            };
           };
+          if (raw.more !== undefined && !Array.isArray(raw.more)) fail(`${p}.more`, "асуултуудын массив");
+          const more = (raw.more as Record<string, unknown>[] | undefined)?.map((q, j) => parseQ(q, `${p}.more[${j}]`));
+          return { kind: "quiz", title, ...parseQ(raw, p), ...(more && more.length ? { more } : {}) };
         }
         default:
           return fail(`${p}.kind`, BLOCK_KINDS.join(" | "));

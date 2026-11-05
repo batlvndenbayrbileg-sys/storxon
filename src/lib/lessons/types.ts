@@ -36,7 +36,16 @@ export type LessonBlock =
   // copied or embedded; /learn keeps enforcing sign-in + enrollment.
   | { kind: "film"; title: string; description?: string; href?: string; label?: string }
   // Single-answer question.
-  | { kind: "quiz"; title?: string; question: string; options: string[]; answer: number; explain?: string };
+  | {
+      kind: "quiz";
+      title?: string;
+      question: string;
+      options: string[];
+      answer: number;
+      explain?: string;
+      /** Optional extra questions, shown one after another in the same block. */
+      more?: QuizQuestion[];
+    };
 
 // Deterministic completion criteria, evaluated client-side against the
 // student's *source*. A button click alone never completes an exercise — the
@@ -96,3 +105,5 @@ export function runCheck(check: ExerciseCheck, files: PlaygroundFiles): { ok: bo
     }
   }
 }
+
+export type QuizQuestion = { question: string; options: string[]; answer: number; explain?: string };

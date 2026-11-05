@@ -377,9 +377,16 @@ function Quiz({
   done: boolean;
   onDone: () => void;
 }) {
-  const [picked, setPicked] = useState<number | null>(null);
-  const answered = picked !== null;
-  const correct = picked === block.answer;
+  const items = [block, ...(block.more ?? [])];
+  const [picks, setPicks] = useState<(number | null)[]>(() => items.map(() => null));
+  const multi = items.length > 1;
+
+  function pick(qi: number, i: number) {
+    const next = picks.slice();
+    next[qi] = i;
+    setPicks(next);
+    if (items.every((q, k) => next[k] === q.answer)) onDone();
+  }
 
   return (
     <section className="rounded-2xl border border-zinc-200 bg-white p-4 dark:border-zinc-800 dark:bg-zinc-900">
@@ -387,37 +394,46 @@ function Quiz({
         <span className="rounded-md bg-sky-500 px-2 py-0.5 text-xs font-bold uppercase tracking-wide text-white">Асуулт</span>
         {done && <span className="ml-auto text-sm font-semibold text-emerald-600">✅</span>}
       </div>
-      <p className="mt-2 font-semibold text-zinc-900 dark:text-zinc-100">{block.question}</p>
-      <div className="mt-3 space-y-2">
-        {block.options.map((opt, i) => {
-          const state = !answered ? "" : i === block.answer ? "ok" : i === picked ? "bad" : "";
-          return (
-            <button
-              key={i}
-              type="button"
-              disabled={answered}
-              onClick={() => {
-                setPicked(i);
-                if (i === block.answer) onDone();
-              }}
-              className={`block w-full rounded-lg border px-3 py-2 text-left text-sm transition ${
-                state === "ok"
-                  ? "border-emerald-400 bg-emerald-50 text-emerald-800 dark:bg-emerald-950/40 dark:text-emerald-200"
-                  : state === "bad"
-                    ? "border-red-400 bg-red-50 text-red-800 dark:bg-red-950/40 dark:text-red-200"
-                    : "border-zinc-300 text-zinc-700 hover:bg-zinc-50 dark:border-zinc-700 dark:text-zinc-300 dark:hover:bg-zinc-800"
-              }`}
-            >
-              {opt}
-            </button>
-          );
-        })}
-      </div>
-      {answered && (
-        <p className={`mt-2 text-sm font-semibold ${correct ? "text-emerald-600" : "text-red-600"}`}>
-          {correct ? "Зөв!" : "Буруу байна."} {block.explain && <span className="font-normal text-zinc-500">{block.explain}</span>}
-        </p>
-      )}
+      {items.map((q, qi) => {
+        const picked = picks[qi];
+        const answered = picked !== null;
+        const correct = picked === q.answer;
+        return (
+          <div key={qi} className={qi > 0 ? "mt-5 border-t border-zinc-200 pt-4 dark:border-zinc-800" : ""}>
+            <p className="mt-2 font-semibold text-zinc-900 dark:text-zinc-100">
+              {multi && <span className="mr-1 text-zinc-400">{qi + 1}/{items.length}.</span>}
+              {q.question}
+            </p>
+            <div className="mt-3 space-y-2">
+              {q.options.map((opt, i) => {
+                const state = !answered ? "" : i === q.answer ? "ok" : i === picked ? "bad" : "";
+                return (
+                  <button
+                    key={i}
+                    type="button"
+                    disabled={answered}
+                    onClick={() => pick(qi, i)}
+                    className={`block w-full rounded-lg border px-3 py-2 text-left text-sm transition ${
+                      state === "ok"
+                        ? "border-emerald-400 bg-emerald-50 text-emerald-800 dark:bg-emerald-950/40 dark:text-emerald-200"
+                        : state === "bad"
+                          ? "border-red-400 bg-red-50 text-red-800 dark:bg-red-950/40 dark:text-red-200"
+                          : "border-zinc-300 text-zinc-700 hover:bg-zinc-50 dark:border-zinc-700 dark:text-zinc-300 dark:hover:bg-zinc-800"
+                    }`}
+                  >
+                    {opt}
+                  </button>
+                );
+              })}
+            </div>
+            {answered && (
+              <p className={`mt-2 text-sm font-semibold ${correct ? "text-emerald-600" : "text-red-600"}`}>
+                {correct ? "Зөв!" : "Буруу байна."} {q.explain && <span className="font-normal text-zinc-500">{q.explain}</span>}
+              </p>
+            )}
+          </div>
+        );
+      })}
     </section>
   );
 }
