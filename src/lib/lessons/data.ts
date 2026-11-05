@@ -1368,7 +1368,89 @@ export const CSS_HOVER_TRANSITION: Lesson = {
   ],
 };
 
-export const LESSONS: Lesson[] = [HTML_INTRO, CSS_INTRO, JS_INTRO, HTML_HEADINGS, HTML_LISTS_LINKS, HTML_IMAGES_MEDIA, HTML_TABLES, HTML_FORMS, HTML_SEMANTIC, CSS_COLORS, CSS_BOX_MODEL, CSS_TEXT_FONT, CSS_FLEXBOX, CSS_GRID, CSS_RESPONSIVE, CSS_HOVER_TRANSITION, REACT_INTRO];
+export const JS_VARIABLES_TYPES: Lesson = {
+  id: "js-huvisagch-turul",
+  module: 3,
+  title: "JS — Хувьсагч ба төрөл (let, const, string, number, boolean)",
+  objectives: [
+    "let ба const-ын ялгааг ойлгох",
+    "String, number, boolean гэсэн үндсэн төрлүүдийг таних",
+    "typeof ашиглан утгын төрлийг шалгах",
+  ],
+  blocks: [
+    {
+      kind: "theory",
+      title: "Хувьсагч ба төрөл",
+      html: `<p><strong>Хувьсагч</strong> нь утгыг нэрлэж хадгалдаг "хайрцаг" юм.</p>
+             <ul>
+               <li><code>let</code> — дараа нь утгыг нь өөрчилж болно</li>
+               <li><code>const</code> — нэг удаа олгоно, дахин өөрчилж болохгүй</li>
+             </ul>
+             <p>Утга бүр <strong>төрөлтэй</strong>:</p>
+             <ul>
+               <li><code>string</code> — текст: <code>"Сайн уу"</code></li>
+               <li><code>number</code> — тоо: <code>42</code>, <code>3.14</code></li>
+               <li><code>boolean</code> — үнэн/худал: <code>true</code>, <code>false</code></li>
+             </ul>
+             <p><code>typeof</code> оператор нь утгын төрлийг хэлж өгнө.</p>`,
+    },
+    {
+      kind: "code",
+      title: "Жишээ код",
+      lang: "js",
+      code: `const name = "Storxon";   // string
+let age = 3;              // number
+let isOpen = true;        // boolean
+
+age = age + 1;            // let-ийг өөрчилж болно
+console.log(name, age, isOpen);
+console.log(typeof name, typeof age, typeof isOpen);`,
+    },
+    {
+      kind: "playground",
+      title: "Туршиж үз",
+      height: 240,
+      starter: {
+        html: `<h1>Хувьсагч</h1>\n<p>Консолыг харна уу.</p>`,
+        css: `body { font-family: system-ui; padding: 16px; }`,
+        js: `const city = "Улаанбаатар";\nlet temp = -5;\nlet isCold = temp < 0;\n\nconsole.log(city, temp, isCold);\nconsole.log(typeof city, typeof temp, typeof isCold);`,
+      },
+    },
+    {
+      kind: "exercise",
+      title: "Өөрийн хувьсагч зарла",
+      prompt: "`const`-оор нэр (string), `let`-ээр нас (number) зарлаад `console.log`-оор хэвлэ. Дараа нь Шалгах дээр дар.",
+      starter: {
+        html: `<p>Консолыг шалгана уу.</p>`,
+        css: `body { font-family: system-ui; padding: 16px; }`,
+        js: `// const-оор нэр, let-ээр нас зарла\n// console.log-оор хэвлэ\n`,
+      },
+      hint: 'const name = "Болд"; let age = 20; console.log(name, age); гэж бичээд үз.',
+      solution: {
+        html: `<p>Консолыг шалгана уу.</p>`,
+        css: `body { font-family: system-ui; padding: 16px; }`,
+        js: `const name = "Болд";\nlet age = 20;\nconsole.log(name, age);`,
+      },
+      check: {
+        type: "allOf",
+        checks: [
+          { type: "jsIncludes", pattern: "\\bconst\\s+\\w+\\s*=", message: "`const` хувьсагч зарлаагүй байна." },
+          { type: "jsIncludes", pattern: "\\blet\\s+\\w+\\s*=", message: "`let` хувьсагч зарлаагүй байна." },
+          { type: "jsIncludes", pattern: "console\\.log\\s*\\(", message: "`console.log(...)` дуудлага олдсонгүй." },
+        ],
+      },
+    },
+    {
+      kind: "quiz",
+      question: "`typeof true` юуг буцаах вэ?",
+      options: ['"string"', '"number"', '"boolean"', '"object"'],
+      answer: 2,
+      explain: "`true`/`false` нь boolean төрөлтэй тул `typeof true` нь \"boolean\" буцаана.",
+    },
+  ],
+};
+
+export const LESSONS: Lesson[] = [HTML_INTRO, CSS_INTRO, JS_INTRO, HTML_HEADINGS, HTML_LISTS_LINKS, HTML_IMAGES_MEDIA, HTML_TABLES, HTML_FORMS, HTML_SEMANTIC, CSS_COLORS, CSS_BOX_MODEL, CSS_TEXT_FONT, CSS_FLEXBOX, CSS_GRID, CSS_RESPONSIVE, CSS_HOVER_TRANSITION, JS_VARIABLES_TYPES, REACT_INTRO];
 
 // Course outline: skeletons (title + objectives, no blocks yet) for the next
 // modules. Deliberately NOT part of LESSONS so empty lessons never reach the
