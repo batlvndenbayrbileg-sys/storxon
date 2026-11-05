@@ -184,6 +184,39 @@ p {
       },
     },
     {
+      kind: "exercise",
+      title: "Гарчгийн хэмжээг ихэсгэ (гүнзгийрүүлсэн)",
+      prompt: "`h1`-ийн `font-size`-ийг 40px болгож, мөн `color`-ыг нь өөрчил. Хоёуланг нэг `h1 { ... }` дүрэмд бич.",
+      starter: {
+        html: "<h1>Том гарчиг</h1>\n<p>Энэ жижиг текст.</p>",
+        css: "body { font-family: system-ui; padding: 16px; }",
+        js: "",
+      },
+      hint: "h1 { font-size: 40px; color: teal; }",
+      solution: {
+        html: "<h1>Том гарчиг</h1>\n<p>Энэ жижиг текст.</p>",
+        css: "body { font-family: system-ui; padding: 16px; }\nh1 { font-size: 40px; color: teal; }",
+        js: "",
+      },
+      check: {
+        type: "allOf",
+        checks: [
+          {
+            type: "cssIncludes",
+            pattern: "h1\\s*\\{[^}]*font-size\\s*:",
+            flags: "i",
+            message: "`h1`-д `font-size` олдсонгүй.",
+          },
+          {
+            type: "cssIncludes",
+            pattern: "h1\\s*\\{[^}]*[^-]color\\s*:",
+            flags: "i",
+            message: "`h1`-д `color` олдсонгүй.",
+          },
+        ],
+      },
+    },
+    {
       kind: "quiz",
       question: "Текстийн өнгийг аль CSS шинж өөрчлөх вэ?",
       options: ["font-size", "color", "margin", "display"],
@@ -249,6 +282,37 @@ console.log(count);`,
         pattern: "^\\s*console\\.log\\s*\\(",
         flags: "m",
         message: "`console.log(...)` дуудлага олдсонгүй.",
+      },
+    },
+    {
+      kind: "exercise",
+      title: "Хувьсагч үүсгээд console-д хэвлэ",
+      prompt: "`const` хувьсагч зарлаж, `console.log`-оор түүний утгыг хэвлэ.",
+      starter: {
+        html: "<p>Console-г нээгээд үр дүнг хар.</p>",
+        css: "body { font-family: system-ui; padding: 16px; }",
+        js: "// Энд бич\n",
+      },
+      hint: "const name = \"Бат\"; console.log(name);",
+      solution: {
+        html: "<p>Console-г нээгээд үр дүнг хар.</p>",
+        css: "body { font-family: system-ui; padding: 16px; }",
+        js: "const name = \"Бат\";\nconsole.log(name);",
+      },
+      check: {
+        type: "allOf",
+        checks: [
+          {
+            type: "jsIncludes",
+            pattern: "(let|const)\\s+\\w+\\s*=",
+            message: "`let` эсвэл `const` хувьсагч олдсонгүй.",
+          },
+          {
+            type: "jsIncludes",
+            pattern: "console\\.log\\s*\\(\\s*\\w+",
+            message: "Хувьсагчийг `console.log`-оор хэвлээгүй байна.",
+          },
+        ],
       },
     },
     {
@@ -351,6 +415,27 @@ ReactDOM.createRoot(document.getElementById("root")).render(h(App));`,
         type: "jsIncludes",
         pattern: "setN\\s*\\(\\s*n\\s*-\\s*1\\s*\\)",
         message: "`setN(n - 1)` дуудлагатай товч олдсонгүй.",
+      },
+    },
+    {
+      kind: "exercise",
+      title: "Элемент нэм",
+      prompt: "`App` дотор `h(\"p\", null, \"...\")` ашиглан гарчгийн доор догол мөр нэм.",
+      starter: {
+        html: REACT_CDN + "<div id=\"root\"></div>",
+        css: "body { font-family: system-ui; padding: 16px; }\n.card { border: 1px solid #ccc; border-radius: 8px; padding: 8px 12px; margin-bottom: 8px; }",
+        js: "const h = React.createElement;\n\nfunction App() {\n  return h(\"div\", null,\n    h(\"h2\", null, \"Сайн уу, React!\")\n    // Энд p нэм\n  );\n}\n\nReactDOM.createRoot(document.getElementById(\"root\")).render(h(App));",
+      },
+      hint: "Өмнөх мөрийн дараа таслал тавиад h(\"p\", null, \"Энэ бол миний эхний компонент\") нэм.",
+      solution: {
+        html: REACT_CDN + "<div id=\"root\"></div>",
+        css: "body { font-family: system-ui; padding: 16px; }\n.card { border: 1px solid #ccc; border-radius: 8px; padding: 8px 12px; margin-bottom: 8px; }",
+        js: "const h = React.createElement;\n\nfunction App() {\n  return h(\"div\", null,\n    h(\"h2\", null, \"Сайн уу, React!\"),\n    h(\"p\", null, \"Энэ бол миний эхний компонент\")\n  );\n}\n\nReactDOM.createRoot(document.getElementById(\"root\")).render(h(App));",
+      },
+      check: {
+        type: "jsIncludes",
+        pattern: "h\\(\\s*[\"']p[\"']",
+        message: "`h(\"p\", ...)` элемент олдсонгүй.",
       },
     },
     {
@@ -747,6 +832,45 @@ export const HTML_FORMS: Lesson = {
       },
     },
     {
+      kind: "exercise",
+      title: "Имэйлийн талбар нэм",
+      prompt: "`<label>`-тай, `type=\"email\"` ба `required` бүхий `<input>` нэм.",
+      starter: {
+        html: "<form>\n  <!-- Энд имэйлийн талбар нэм -->\n  <button type=\"submit\">Илгээх</button>\n</form>",
+        css: "body { font-family: system-ui; padding: 16px; }",
+        js: "",
+      },
+      hint: "<label>Имэйл <input type=\"email\" required></label>",
+      solution: {
+        html: "<form>\n  <label>Имэйл <input type=\"email\" required></label>\n  <button type=\"submit\">Илгээх</button>\n</form>",
+        css: "body { font-family: system-ui; padding: 16px; }",
+        js: "",
+      },
+      check: {
+        type: "allOf",
+        checks: [
+          {
+            type: "htmlIncludes",
+            pattern: "<label",
+            flags: "i",
+            message: "`<label>` олдсонгүй.",
+          },
+          {
+            type: "htmlIncludes",
+            pattern: "<input[^>]*type\\s*=\\s*[\"']email[\"']",
+            flags: "i",
+            message: "`type=\"email\"` input олдсонгүй.",
+          },
+          {
+            type: "htmlIncludes",
+            pattern: "<input[^>]*\\brequired\\b",
+            flags: "i",
+            message: "`required` атрибут олдсонгүй.",
+          },
+        ],
+      },
+    },
+    {
       kind: "quiz",
       question: "<label>-ийг <input>-тай холбохын тулд label-д ямар атрибут өгөх вэ?",
       options: ["name", "for", "href", "type"],
@@ -827,6 +951,45 @@ export const HTML_SEMANTIC: Lesson = {
       },
     },
     {
+      kind: "exercise",
+      title: "Хуудсыг semantic tag-аар бүтэцлэ",
+      prompt: "Хуудсанд `<header>`, `<main>`, `<footer>` гурвыг ашигла.",
+      starter: {
+        html: "<div>Миний сайт</div>\n<div>Үндсэн агуулга</div>\n<div>© 2026</div>",
+        css: "body { font-family: system-ui; padding: 16px; }",
+        js: "",
+      },
+      hint: "Эхний div-ийг <header>, дунд нь <main>, сүүлийнхийг <footer> болго.",
+      solution: {
+        html: "<header>Миний сайт</header>\n<main>Үндсэн агуулга</main>\n<footer>© 2026</footer>",
+        css: "body { font-family: system-ui; padding: 16px; }",
+        js: "",
+      },
+      check: {
+        type: "allOf",
+        checks: [
+          {
+            type: "htmlIncludes",
+            pattern: "<header[\\s>]",
+            flags: "i",
+            message: "`<header>` олдсонгүй.",
+          },
+          {
+            type: "htmlIncludes",
+            pattern: "<main[\\s>]",
+            flags: "i",
+            message: "`<main>` олдсонгүй.",
+          },
+          {
+            type: "htmlIncludes",
+            pattern: "<footer[\\s>]",
+            flags: "i",
+            message: "`<footer>` олдсонгүй.",
+          },
+        ],
+      },
+    },
+    {
       kind: "quiz",
       question: "Навигацийн холбоосуудыг ямар семантик тэгээр бүлэглэх вэ?",
       options: ["<section>", "<nav>", "<footer>", "<main>"],
@@ -895,6 +1058,39 @@ p {
         checks: [
           { type: "cssIncludes", pattern: "h1\\s*\\{[^}]*[;\\s{]color\\s*:", flags: "i", message: "`h1`-д `color` шинж олдсонгүй." },
           { type: "cssIncludes", pattern: "h1\\s*\\{[^}]*background(-color)?\\s*:", flags: "i", message: "`h1`-д `background` шинж олдсонгүй." },
+        ],
+      },
+    },
+    {
+      kind: "exercise",
+      title: "Хуудасны дэвсгэр өнгө тавь",
+      prompt: "`body`-д `background-color` өгч, `color`-оор текстийг нь уншигдахуйц өнгөтэй болго.",
+      starter: {
+        html: "<h1>Өнгөт хуудас</h1>\n<p>Дэвсгэр ба текстийн өнгө.</p>",
+        css: "body { font-family: system-ui; padding: 16px; }",
+        js: "",
+      },
+      hint: "body { background-color: #1e1b4b; color: white; }",
+      solution: {
+        html: "<h1>Өнгөт хуудас</h1>\n<p>Дэвсгэр ба текстийн өнгө.</p>",
+        css: "body { font-family: system-ui; padding: 16px; }\nbody { background-color: #1e1b4b; color: white; }",
+        js: "",
+      },
+      check: {
+        type: "allOf",
+        checks: [
+          {
+            type: "cssIncludes",
+            pattern: "background(-color)?\\s*:",
+            flags: "i",
+            message: "`background-color` олдсонгүй.",
+          },
+          {
+            type: "cssIncludes",
+            pattern: "(^|[;{\\s])color\\s*:",
+            flags: "i",
+            message: "Текстийн `color` олдсонгүй.",
+          },
         ],
       },
     },
@@ -975,6 +1171,45 @@ export const CSS_BOX_MODEL: Lesson = {
       },
     },
     {
+      kind: "exercise",
+      title: "Картыг box model-оор хэлбэрлэ",
+      prompt: "`.card`-д `padding`, `border`, `margin` гурвыг бүгдийг нэм.",
+      starter: {
+        html: "<div class=\"card\">Миний карт</div>",
+        css: "body { font-family: system-ui; padding: 16px; }",
+        js: "",
+      },
+      hint: ".card { padding: 16px; border: 2px solid #7c3aed; margin: 12px; }",
+      solution: {
+        html: "<div class=\"card\">Миний карт</div>",
+        css: "body { font-family: system-ui; padding: 16px; }\n.card { padding: 16px; border: 2px solid #7c3aed; margin: 12px; }",
+        js: "",
+      },
+      check: {
+        type: "allOf",
+        checks: [
+          {
+            type: "cssIncludes",
+            pattern: "\\.card\\s*\\{[^}]*padding\\s*:",
+            flags: "i",
+            message: "`.card`-д `padding` олдсонгүй.",
+          },
+          {
+            type: "cssIncludes",
+            pattern: "\\.card\\s*\\{[^}]*border\\s*:",
+            flags: "i",
+            message: "`.card`-д `border` олдсонгүй.",
+          },
+          {
+            type: "cssIncludes",
+            pattern: "\\.card\\s*\\{[^}]*margin\\s*:",
+            flags: "i",
+            message: "`.card`-д `margin` олдсонгүй.",
+          },
+        ],
+      },
+    },
+    {
       kind: "quiz",
       question: "Хүрээнээс ГАДУУР, бусад элементээс тусгаарлах зайг аль шинж тодорхойлох вэ?",
       options: ["padding", "margin", "border", "content"],
@@ -1046,6 +1281,39 @@ export const CSS_TEXT_FONT: Lesson = {
           { type: "cssIncludes", pattern: "\\.title\\s*\\{[^}]*font-size\\s*:", flags: "i", message: "`.title`-д `font-size` шинж олдсонгүй." },
           { type: "cssIncludes", pattern: "\\.title\\s*\\{[^}]*font-weight\\s*:", flags: "i", message: "`.title`-д `font-weight` шинж олдсонгүй." },
           { type: "cssIncludes", pattern: "\\.title\\s*\\{[^}]*text-align\\s*:", flags: "i", message: "`.title`-д `text-align` шинж олдсонгүй." },
+        ],
+      },
+    },
+    {
+      kind: "exercise",
+      title: "Гарчгийг голлуулж, зузаан болго",
+      prompt: "`h1`-д `text-align: center` ба `font-weight: 700` нэм.",
+      starter: {
+        html: "<h1>Төвд байрлах гарчиг</h1>",
+        css: "body { font-family: system-ui; padding: 16px; }",
+        js: "",
+      },
+      hint: "h1 { text-align: center; font-weight: 700; }",
+      solution: {
+        html: "<h1>Төвд байрлах гарчиг</h1>",
+        css: "body { font-family: system-ui; padding: 16px; }\nh1 { text-align: center; font-weight: 700; }",
+        js: "",
+      },
+      check: {
+        type: "allOf",
+        checks: [
+          {
+            type: "cssIncludes",
+            pattern: "text-align\\s*:\\s*center",
+            flags: "i",
+            message: "`text-align: center` олдсонгүй.",
+          },
+          {
+            type: "cssIncludes",
+            pattern: "font-weight\\s*:",
+            flags: "i",
+            message: "`font-weight` олдсонгүй.",
+          },
         ],
       },
     },
@@ -1125,6 +1393,39 @@ export const CSS_FLEXBOX: Lesson = {
       },
     },
     {
+      kind: "exercise",
+      title: "Flex мөр ба зай",
+      prompt: "`.row`-ийг `display: flex` болгож, хайрцгуудын хооронд `gap` өг.",
+      starter: {
+        html: "<div class=\"row\"><div class=\"box\">1</div><div class=\"box\">2</div><div class=\"box\">3</div></div>",
+        css: "body { font-family: system-ui; padding: 16px; }\n.box { background: #ede9fe; padding: 12px; }",
+        js: "",
+      },
+      hint: ".row { display: flex; gap: 12px; }",
+      solution: {
+        html: "<div class=\"row\"><div class=\"box\">1</div><div class=\"box\">2</div><div class=\"box\">3</div></div>",
+        css: "body { font-family: system-ui; padding: 16px; }\n.box { background: #ede9fe; padding: 12px; }\n.row { display: flex; gap: 12px; }",
+        js: "",
+      },
+      check: {
+        type: "allOf",
+        checks: [
+          {
+            type: "cssIncludes",
+            pattern: "display\\s*:\\s*flex",
+            flags: "i",
+            message: "`display: flex` олдсонгүй.",
+          },
+          {
+            type: "cssIncludes",
+            pattern: "gap\\s*:",
+            flags: "i",
+            message: "`gap` олдсонгүй.",
+          },
+        ],
+      },
+    },
+    {
       kind: "quiz",
       question: "Flex контейнерийн доторх элементүүдийг хэвтээ тэнхлэгт голд нь байрлуулах шинж аль нь вэ?",
       options: ["align-items: center;", "justify-content: center;", "text-align: middle;", "flex-center: true;"],
@@ -1195,6 +1496,39 @@ export const CSS_GRID: Lesson = {
           { type: "cssIncludes", pattern: "\\.grid\\s*\\{[^}]*display\\s*:\\s*grid", flags: "i", message: "`.grid`-д `display: grid` олдсонгүй." },
           { type: "cssIncludes", pattern: "\\.grid\\s*\\{[^}]*grid-template-columns\\s*:", flags: "i", message: "`.grid`-д `grid-template-columns` шинж олдсонгүй." },
           { type: "cssIncludes", pattern: "\\.grid\\s*\\{[^}]*gap\\s*:", flags: "i", message: "`.grid`-д `gap` шинж олдсонгүй." },
+        ],
+      },
+    },
+    {
+      kind: "exercise",
+      title: "3 баганатай grid",
+      prompt: "`.grid`-ийг `display: grid` болгож, `grid-template-columns`-оор 3 багана үүсгэ.",
+      starter: {
+        html: "<div class=\"grid\"><div>1</div><div>2</div><div>3</div><div>4</div><div>5</div><div>6</div></div>",
+        css: "body { font-family: system-ui; padding: 16px; }\n.grid div { background: #ede9fe; padding: 12px; }",
+        js: "",
+      },
+      hint: ".grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }",
+      solution: {
+        html: "<div class=\"grid\"><div>1</div><div>2</div><div>3</div><div>4</div><div>5</div><div>6</div></div>",
+        css: "body { font-family: system-ui; padding: 16px; }\n.grid div { background: #ede9fe; padding: 12px; }\n.grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }",
+        js: "",
+      },
+      check: {
+        type: "allOf",
+        checks: [
+          {
+            type: "cssIncludes",
+            pattern: "display\\s*:\\s*grid",
+            flags: "i",
+            message: "`display: grid` олдсонгүй.",
+          },
+          {
+            type: "cssIncludes",
+            pattern: "grid-template-columns\\s*:",
+            flags: "i",
+            message: "`grid-template-columns` олдсонгүй.",
+          },
         ],
       },
     },
@@ -1278,6 +1612,28 @@ export const CSS_RESPONSIVE: Lesson = {
       },
     },
     {
+      kind: "exercise",
+      title: "Жижиг дэлгэцэд өнгө солих",
+      prompt: "`@media (max-width: 600px)` дүрэм бичиж, жижиг дэлгэц дээр `body`-ийн `background`-ыг өөрчил.",
+      starter: {
+        html: "<h1>Responsive</h1>\n<p>Цонхоо жижигрүүл.</p>",
+        css: "body { font-family: system-ui; padding: 16px; }",
+        js: "",
+      },
+      hint: "@media (max-width: 600px) { body { background: #fef3c7; } }",
+      solution: {
+        html: "<h1>Responsive</h1>\n<p>Цонхоо жижигрүүл.</p>",
+        css: "body { font-family: system-ui; padding: 16px; }\n@media (max-width: 600px) { body { background: #fef3c7; } }",
+        js: "",
+      },
+      check: {
+        type: "cssIncludes",
+        pattern: "@media[^{]*max-width\\s*:[^{]*\\{[\\s\\S]*background",
+        flags: "i",
+        message: "`@media (max-width: ...)` доторх `background` дүрэм олдсонгүй.",
+      },
+    },
+    {
       kind: "quiz",
       question: "`@media (max-width: 600px)` дүрэм хэзээ ажиллах вэ?",
       options: ["Дэлгэц 600px-ээс өргөн үед", "Дэлгэц 600px ба түүнээс явцуу үед", "Зөвхөн хэвлэх үед", "Үргэлж"],
@@ -1355,6 +1711,39 @@ export const CSS_HOVER_TRANSITION: Lesson = {
         checks: [
           { type: "cssIncludes", pattern: "transition\\s*:", flags: "i", message: "`transition` шинж чанар олдсонгүй." },
           { type: "cssIncludes", pattern: "\\.card\\s*:hover\\s*\\{[^}]*background", flags: "i", message: "`.card:hover` дотор `background` олдсонгүй." },
+        ],
+      },
+    },
+    {
+      kind: "exercise",
+      title: "Товчийг hover дээр жигд өөрчил",
+      prompt: "`.btn`-д `transition` нэмж, `.btn:hover` дүрмээр өнгийг нь өөрчил.",
+      starter: {
+        html: "<button class=\"btn\">Дар</button>",
+        css: "body { font-family: system-ui; padding: 16px; }\n.btn { background: #7c3aed; color: white; border: 0; padding: 10px 18px; border-radius: 8px; }",
+        js: "",
+      },
+      hint: ".btn { transition: background 0.3s; } .btn:hover { background: #5b21b6; }",
+      solution: {
+        html: "<button class=\"btn\">Дар</button>",
+        css: "body { font-family: system-ui; padding: 16px; }\n.btn { background: #7c3aed; color: white; border: 0; padding: 10px 18px; border-radius: 8px; transition: background 0.3s; }\n.btn:hover { background: #5b21b6; }",
+        js: "",
+      },
+      check: {
+        type: "allOf",
+        checks: [
+          {
+            type: "cssIncludes",
+            pattern: "transition\\s*:",
+            flags: "i",
+            message: "`transition` олдсонгүй.",
+          },
+          {
+            type: "cssIncludes",
+            pattern: "\\.btn\\s*:hover\\s*\\{[^}]*background",
+            flags: "i",
+            message: "`.btn:hover` дүрэмд `background` олдсонгүй.",
+          },
         ],
       },
     },
@@ -1441,6 +1830,27 @@ console.log(typeof name, typeof age, typeof isOpen);`,
       },
     },
     {
+      kind: "exercise",
+      title: "Template literal ашигла",
+      prompt: "Backtick ба `${...}` ашиглан `name`, `age` хувьсагчийг нэг өгүүлбэрт нэгтгэж хэвлэ.",
+      starter: {
+        html: "",
+        css: "body { font-family: system-ui; padding: 16px; }",
+        js: "const name = \"Болд\";\nconst age = 12;\n// Template literal-ээр хэвлэ\n",
+      },
+      hint: "console.log(`${name} ${age} настай`);",
+      solution: {
+        html: "",
+        css: "body { font-family: system-ui; padding: 16px; }",
+        js: "const name = \"Болд\";\nconst age = 12;\nconsole.log(`${name} ${age} настай`);",
+      },
+      check: {
+        type: "jsIncludes",
+        pattern: "`[^`]*\\$\\{[^}]+\\}[^`]*`",
+        message: "Backtick доторх `${...}` олдсонгүй.",
+      },
+    },
+    {
       kind: "quiz",
       question: "`typeof true` юуг буцаах вэ?",
       options: ['"string"', '"number"', '"boolean"', '"object"'],
@@ -1517,6 +1927,27 @@ if (temp < 0) {
           { type: "jsIncludes", pattern: "\\belse\\b", message: "`else` хэсэг олдсонгүй." },
           { type: "jsIncludes", pattern: "console\\.log\\s*\\(", message: "`console.log(...)` дуудлага олдсонгүй." },
         ],
+      },
+    },
+    {
+      kind: "exercise",
+      title: "Нас шалгах нөхцөл",
+      prompt: "`age >= 18` бол \"Насанд хүрсэн\", үгүй бол \"Хүүхэд\" гэж `if/else`-ээр хэвлэ.",
+      starter: {
+        html: "",
+        css: "body { font-family: system-ui; padding: 16px; }",
+        js: "const age = 15;\n// if / else бич\n",
+      },
+      hint: "if (age >= 18) { console.log(\"Насанд хүрсэн\"); } else { console.log(\"Хүүхэд\"); }",
+      solution: {
+        html: "",
+        css: "body { font-family: system-ui; padding: 16px; }",
+        js: "const age = 15;\nif (age >= 18) {\n  console.log(\"Насанд хүрсэн\");\n} else {\n  console.log(\"Хүүхэд\");\n}",
+      },
+      check: {
+        type: "jsIncludes",
+        pattern: "if\\s*\\([^)]*\\)\\s*\\{[\\s\\S]*\\}\\s*else",
+        message: "`if (...) { } else { }` бүтэц олдсонгүй.",
       },
     },
     {
@@ -1597,6 +2028,37 @@ while (n > 0) {
       },
     },
     {
+      kind: "exercise",
+      title: "1-ээс 5 хүртэлх нийлбэр",
+      prompt: "`for` давталтаар 1-ээс 5 хүртэлх тоог `+=`-ээр нэмж, нийлбэрийг хэвлэ.",
+      starter: {
+        html: "",
+        css: "body { font-family: system-ui; padding: 16px; }",
+        js: "let sum = 0;\n// for давталт бич\nconsole.log(sum);",
+      },
+      hint: "for (let i = 1; i <= 5; i++) { sum += i; }",
+      solution: {
+        html: "",
+        css: "body { font-family: system-ui; padding: 16px; }",
+        js: "let sum = 0;\nfor (let i = 1; i <= 5; i++) {\n  sum += i;\n}\nconsole.log(sum);",
+      },
+      check: {
+        type: "allOf",
+        checks: [
+          {
+            type: "jsIncludes",
+            pattern: "for\\s*\\(",
+            message: "`for` давталт олдсонгүй.",
+          },
+          {
+            type: "jsIncludes",
+            pattern: "\\+=",
+            message: "`+=` ашиглан нийлбэр цуглуулаагүй байна.",
+          },
+        ],
+      },
+    },
+    {
       kind: "quiz",
       question: "`for (let i = 0; i < 3; i++)` давталт хэдэн удаа ажиллах вэ?",
       options: ["2 удаа", "3 удаа", "4 удаа", "Төгсгөлгүй"],
@@ -1669,6 +2131,37 @@ console.log(nemeh(10, 7)); // 17`,
           { type: "jsIncludes", pattern: "function\\s+urjuuleh\\s*\\(", message: "`function urjuuleh(...)` зарлалт олдсонгүй." },
           { type: "jsIncludes", pattern: "\\breturn\\b", message: "`return` олдсонгүй." },
           { type: "jsIncludes", pattern: "console\\.log\\s*\\(", message: "`console.log(...)` дуудлага олдсонгүй." },
+        ],
+      },
+    },
+    {
+      kind: "exercise",
+      title: "Хоёр тоог нэмэх функц",
+      prompt: "`add(a, b)` функц зарлаж `return`-оор нийлбэрийг буцааж, дуудаад хэвлэ.",
+      starter: {
+        html: "",
+        css: "body { font-family: system-ui; padding: 16px; }",
+        js: "// add функцээ энд бич\n",
+      },
+      hint: "function add(a, b) { return a + b; } console.log(add(2, 3));",
+      solution: {
+        html: "",
+        css: "body { font-family: system-ui; padding: 16px; }",
+        js: "function add(a, b) {\n  return a + b;\n}\nconsole.log(add(2, 3));",
+      },
+      check: {
+        type: "allOf",
+        checks: [
+          {
+            type: "jsIncludes",
+            pattern: "function\\s+\\w+\\s*\\([^)]*,[^)]*\\)",
+            message: "Хоёр параметртэй функц олдсонгүй.",
+          },
+          {
+            type: "jsIncludes",
+            pattern: "return\\b",
+            message: "`return` олдсонгүй.",
+          },
         ],
       },
     },
@@ -1748,6 +2241,37 @@ console.log(jims.length);  // 4`,
           { type: "jsIncludes", pattern: "toonuud\\.push\\s*\\(", message: "`toonuud.push(...)` олдсонгүй." },
           { type: "jsIncludes", pattern: "toonuud\\.length", message: "`toonuud.length` олдсонгүй." },
           { type: "jsIncludes", pattern: "console\\.log\\s*\\(", message: "`console.log(...)` дуудлага олдсонгүй." },
+        ],
+      },
+    },
+    {
+      kind: "exercise",
+      title: "Массивт элемент нэмж уртыг хар",
+      prompt: "`fruits` массивт `push`-оор шинэ жимс нэмээд `length`-ийг хэвлэ.",
+      starter: {
+        html: "",
+        css: "body { font-family: system-ui; padding: 16px; }",
+        js: "const fruits = [\"алим\", \"гүйлс\"];\n// push ба length ашигла\n",
+      },
+      hint: "fruits.push(\"лууван\"); console.log(fruits.length);",
+      solution: {
+        html: "",
+        css: "body { font-family: system-ui; padding: 16px; }",
+        js: "const fruits = [\"алим\", \"гүйлс\"];\nfruits.push(\"лууван\");\nconsole.log(fruits.length);",
+      },
+      check: {
+        type: "allOf",
+        checks: [
+          {
+            type: "jsIncludes",
+            pattern: "\\.push\\s*\\(",
+            message: "`push` олдсонгүй.",
+          },
+          {
+            type: "jsIncludes",
+            pattern: "\\.length",
+            message: "`length` олдсонгүй.",
+          },
         ],
       },
     },
@@ -1834,6 +2358,37 @@ console.log(user.city);  // Улаанбаатар`,
       },
     },
     {
+      kind: "exercise",
+      title: "Объектын шинж чанарыг унш",
+      prompt: "`student` объект үүсгэж, цэгийн нотациар (`student.name`) нэг утгыг хэвлэ.",
+      starter: {
+        html: "",
+        css: "body { font-family: system-ui; padding: 16px; }",
+        js: "// student объект бич\n",
+      },
+      hint: "const student = { name: \"Сараа\", age: 13 }; console.log(student.name);",
+      solution: {
+        html: "",
+        css: "body { font-family: system-ui; padding: 16px; }",
+        js: "const student = { name: \"Сараа\", age: 13 };\nconsole.log(student.name);",
+      },
+      check: {
+        type: "allOf",
+        checks: [
+          {
+            type: "jsIncludes",
+            pattern: "(let|const)\\s+\\w+\\s*=\\s*\\{",
+            message: "Объект олдсонгүй.",
+          },
+          {
+            type: "jsIncludes",
+            pattern: "console\\.log\\s*\\(\\s*\\w+\\.\\w+",
+            message: "Цэгийн нотациар утга хэвлээгүй байна.",
+          },
+        ],
+      },
+    },
+    {
       kind: "quiz",
       question: "`const a = { x: 1, y: 2 }; a.y = 5;` дараа `a.y` юу вэ?",
       options: ["1", "2", "5", "undefined"],
@@ -1907,6 +2462,37 @@ title.style.color = "tomato";`,
           { type: "jsIncludes", pattern: "document\\.querySelector\\s*\\(", message: "`document.querySelector(...)` олдсонгүй." },
           { type: "jsIncludes", pattern: "\\.textContent\\s*=", message: "`.textContent = ...` олдсонгүй." },
           { type: "jsIncludes", pattern: "Storxon", message: "Текст нь \"Storxon\" байх ёстой." },
+        ],
+      },
+    },
+    {
+      kind: "exercise",
+      title: "Гарчгийн текстийг солих",
+      prompt: "`querySelector`-оор `#title`-ийг олж `textContent`-ийг нь шинэчил.",
+      starter: {
+        html: "<h1 id=\"title\">Хуучин гарчиг</h1>",
+        css: "body { font-family: system-ui; padding: 16px; }",
+        js: "// Энд бич\n",
+      },
+      hint: "document.querySelector(\"#title\").textContent = \"Шинэ гарчиг\";",
+      solution: {
+        html: "<h1 id=\"title\">Хуучин гарчиг</h1>",
+        css: "body { font-family: system-ui; padding: 16px; }",
+        js: "document.querySelector(\"#title\").textContent = \"Шинэ гарчиг\";",
+      },
+      check: {
+        type: "allOf",
+        checks: [
+          {
+            type: "jsIncludes",
+            pattern: "querySelector\\s*\\(",
+            message: "`querySelector` олдсонгүй.",
+          },
+          {
+            type: "jsIncludes",
+            pattern: "\\.textContent\\s*=",
+            message: "`textContent = ...` олдсонгүй.",
+          },
         ],
       },
     },
@@ -1985,6 +2571,37 @@ btn.addEventListener("click", function () {
           { type: "jsIncludes", pattern: "addEventListener\\s*\\(\\s*[\"']click[\"']", message: "`addEventListener(\"click\", ...)` олдсонгүй." },
           { type: "jsIncludes", pattern: "\\.textContent\\s*=", message: "`.textContent = ...` олдсонгүй." },
           { type: "jsIncludes", pattern: "Сайн уу!", message: "Текст нь \"Сайн уу!\" байх ёстой." },
+        ],
+      },
+    },
+    {
+      kind: "exercise",
+      title: "Товч дарахад текст солих",
+      prompt: "`addEventListener(\"click\", ...)`-ээр товч дарахад `#msg`-ийн текстийг өөрчил.",
+      starter: {
+        html: "<button id=\"btn\">Дар</button>\n<p id=\"msg\">Хүлээж байна...</p>",
+        css: "body { font-family: system-ui; padding: 16px; }",
+        js: "const btn = document.querySelector(\"#btn\");\n// Энд click listener нэм\n",
+      },
+      hint: "btn.addEventListener(\"click\", () => { document.querySelector(\"#msg\").textContent = \"Дарлаа!\"; });",
+      solution: {
+        html: "<button id=\"btn\">Дар</button>\n<p id=\"msg\">Хүлээж байна...</p>",
+        css: "body { font-family: system-ui; padding: 16px; }",
+        js: "const btn = document.querySelector(\"#btn\");\nbtn.addEventListener(\"click\", () => {\n  document.querySelector(\"#msg\").textContent = \"Дарлаа!\";\n});",
+      },
+      check: {
+        type: "allOf",
+        checks: [
+          {
+            type: "jsIncludes",
+            pattern: "addEventListener\\s*\\(\\s*[\"']click[\"']",
+            message: "`addEventListener(\"click\", ...)` олдсонгүй.",
+          },
+          {
+            type: "jsIncludes",
+            pattern: "textContent\\s*=",
+            message: "`textContent = ...` олдсонгүй.",
+          },
         ],
       },
     },
@@ -2093,6 +2710,27 @@ ReactDOM.createRoot(document.getElementById("root")).render(h(App));`,
       },
     },
     {
+      kind: "exercise",
+      title: "Хоёр дахь props нэм",
+      prompt: "`Profile` одоо `age` props хүлээж авдаг. `App` дотор `age` props-ийг тоогоор өгөөд, өөр нэртэй хоёр дахь `Profile` нэм.",
+      starter: {
+        html: REACT_CDN + "<div id=\"root\"></div>",
+        css: "body { font-family: system-ui; padding: 16px; }\n.card { border: 1px solid #ccc; border-radius: 8px; padding: 8px 12px; margin-bottom: 8px; }",
+        js: "const h = React.createElement;\n\nfunction Profile(props) {\n  return h(\"div\", { className: \"card\" }, props.name + \" — \" + props.age + \" настай\");\n}\n\nfunction App() {\n  return h(\"div\", null,\n    h(Profile, { name: \"Бат\" })\n  );\n}\n\nReactDOM.createRoot(document.getElementById(\"root\")).render(h(App));",
+      },
+      hint: "h(Profile, { name: \"Бат\", age: 12 }), h(Profile, { name: \"Сараа\", age: 13 })",
+      solution: {
+        html: REACT_CDN + "<div id=\"root\"></div>",
+        css: "body { font-family: system-ui; padding: 16px; }\n.card { border: 1px solid #ccc; border-radius: 8px; padding: 8px 12px; margin-bottom: 8px; }",
+        js: "const h = React.createElement;\n\nfunction Profile(props) {\n  return h(\"div\", { className: \"card\" }, props.name + \" — \" + props.age + \" настай\");\n}\n\nfunction App() {\n  return h(\"div\", null,\n    h(Profile, { name: \"Бат\", age: 12 }),\n    h(Profile, { name: \"Сараа\", age: 13 })\n  );\n}\n\nReactDOM.createRoot(document.getElementById(\"root\")).render(h(App));",
+      },
+      check: {
+        type: "jsIncludes",
+        pattern: "age\\s*:\\s*\\d+[\\s\\S]*age\\s*:\\s*\\d+",
+        message: "Хоёр `Profile`-д `age: <тоо>` өгөөгүй байна.",
+      },
+    },
+    {
       kind: "quiz",
       question: "Компонент props-ийг хэрхэн хүлээн авах вэ?",
       options: [
@@ -2185,6 +2823,27 @@ ReactDOM.createRoot(document.getElementById("root")).render(h(Counter));`,
         type: "jsIncludes",
         pattern: "setCount\\(\\s*count\\s*-\\s*1\\s*\\)",
         message: "`setCount(count - 1)` гэсэн хасах товч олдсонгүй.",
+      },
+    },
+    {
+      kind: "exercise",
+      title: "Reset товч нэм",
+      prompt: "Тоолуурын доор `setCount(0)` дуудах \"Reset\" товч нэм.",
+      starter: {
+        html: REACT_CDN + "<div id=\"root\"></div>",
+        css: "body { font-family: system-ui; padding: 16px; }\n.card { border: 1px solid #ccc; border-radius: 8px; padding: 8px 12px; margin-bottom: 8px; }",
+        js: "const h = React.createElement;\n\nfunction App() {\n  const [count, setCount] = React.useState(0);\n  return h(\"div\", null,\n    h(\"p\", null, \"Тоо: \" + count),\n    h(\"button\", { onClick: () => setCount(count + 1) }, \"+1\")\n    // Энд Reset товч нэм\n  );\n}\n\nReactDOM.createRoot(document.getElementById(\"root\")).render(h(App));",
+      },
+      hint: "h(\"button\", { onClick: () => setCount(0) }, \"Reset\")",
+      solution: {
+        html: REACT_CDN + "<div id=\"root\"></div>",
+        css: "body { font-family: system-ui; padding: 16px; }\n.card { border: 1px solid #ccc; border-radius: 8px; padding: 8px 12px; margin-bottom: 8px; }",
+        js: "const h = React.createElement;\n\nfunction App() {\n  const [count, setCount] = React.useState(0);\n  return h(\"div\", null,\n    h(\"p\", null, \"Тоо: \" + count),\n    h(\"button\", { onClick: () => setCount(count + 1) }, \"+1\"),\n    h(\"button\", { onClick: () => setCount(0) }, \"Reset\")\n  );\n}\n\nReactDOM.createRoot(document.getElementById(\"root\")).render(h(App));",
+      },
+      check: {
+        type: "jsIncludes",
+        pattern: "setCount\\s*\\(\\s*0\\s*\\)",
+        message: "`setCount(0)` олдсонгүй.",
       },
     },
     {
@@ -2281,6 +2940,27 @@ ReactDOM.createRoot(document.getElementById("root")).render(h(FoodList));`,
         type: "jsIncludes",
         pattern: "Банштай шөл",
         message: "\"Банштай шөл\" гэсэн утга массивт олдсонгүй.",
+      },
+    },
+    {
+      kind: "exercise",
+      title: "Жагсаалтад key өг",
+      prompt: "`map` дотор үүсгэж буй `li` бүрт өвөрмөц `key` props өг.",
+      starter: {
+        html: REACT_CDN + "<div id=\"root\"></div>",
+        css: "body { font-family: system-ui; padding: 16px; }\n.card { border: 1px solid #ccc; border-radius: 8px; padding: 8px 12px; margin-bottom: 8px; }",
+        js: "const h = React.createElement;\n\nconst items = [\"Алим\", \"Лууван\", \"Гүйлс\"];\n\nfunction App() {\n  return h(\"ul\", null,\n    items.map((item) => h(\"li\", null, item))\n  );\n}\n\nReactDOM.createRoot(document.getElementById(\"root\")).render(h(App));",
+      },
+      hint: "h(\"li\", { key: item }, item)",
+      solution: {
+        html: REACT_CDN + "<div id=\"root\"></div>",
+        css: "body { font-family: system-ui; padding: 16px; }\n.card { border: 1px solid #ccc; border-radius: 8px; padding: 8px 12px; margin-bottom: 8px; }",
+        js: "const h = React.createElement;\n\nconst items = [\"Алим\", \"Лууван\", \"Гүйлс\"];\n\nfunction App() {\n  return h(\"ul\", null,\n    items.map((item) => h(\"li\", { key: item }, item))\n  );\n}\n\nReactDOM.createRoot(document.getElementById(\"root\")).render(h(App));",
+      },
+      check: {
+        type: "jsIncludes",
+        pattern: "key\\s*:",
+        message: "`key` props олдсонгүй.",
       },
     },
     {
