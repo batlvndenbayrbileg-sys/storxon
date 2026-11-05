@@ -305,7 +305,17 @@ function Exercise({
   // answer isn't overwritten by (or saved as) the student's own work.
   const [solShown, setSolShown] = useState(false);
 
+  const errorsRef = useRef<string[]>([]);
+
   const check = () => {
+    if (errorsRef.current.length > 0) {
+      const first = errorsRef.current[0];
+      setResult({
+        ok: false,
+        message: `Console-д алдаа байна: «${first.length > 120 ? first.slice(0, 120) + "…" : first}». Эхлээд алдааг засаад "Ажиллуулах" дарж, дараа нь дахин шалга.`,
+      });
+      return;
+    }
     const r = runCheck(block.check as ExerciseCheck, filesRef.current);
     setResult(r);
     if (r.ok) onDone();
@@ -321,7 +331,7 @@ function Exercise({
       <p className="mt-2 text-[15px] text-zinc-700 dark:text-zinc-300">{block.prompt}</p>
 
       <div className="mt-3">
-        <Playground key={ver} starter={starter} persistId={solShown ? undefined : taskId} onFilesChange={(f) => (filesRef.current = f)} />
+        <Playground key={ver} starter={starter} persistId={solShown ? undefined : taskId} onFilesChange={(f) => (filesRef.current = f)} onErrorsChange={(e) => (errorsRef.current = e)} />
       </div>
 
       <div className="mt-3 flex flex-wrap items-center gap-2">

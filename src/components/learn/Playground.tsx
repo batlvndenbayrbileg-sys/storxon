@@ -49,10 +49,13 @@ export default function Playground({
   height = 260,
   onFilesChange,
   persistId,
+  onErrorsChange,
 }: {
   starter: PlaygroundFiles;
   height?: number;
   onFilesChange?: (f: PlaygroundFiles) => void;
+  /** Called with the error messages currently in the console (empty when clean). */
+  onErrorsChange?: (errors: string[]) => void;
   /** When set, the student's edits are saved (DB if signed in, else localStorage) and restored on return. */
   persistId?: string;
 }) {
@@ -105,6 +108,12 @@ export default function Playground({
     window.addEventListener("message", onMsg);
     return () => window.removeEventListener("message", onMsg);
   }, []);
+
+  // Let the parent know about console errors from the last run.
+  useEffect(() => {
+    onErrorsChange?.(logs.filter((l) => l.level === "error").map((l) => l.text));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [logs]);
 
   const update = useCallback(
     (next: PlaygroundFiles) => {
