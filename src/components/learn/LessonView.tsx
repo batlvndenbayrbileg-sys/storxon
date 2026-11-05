@@ -361,7 +361,7 @@ function Exercise({
       )}
       {result && (
         <p className={`mt-2 text-sm font-semibold ${result.ok ? "text-emerald-600" : "text-red-600"}`}>
-          {result.ok ? "✅ Зөв! Даалгавар биеллээ." : `❌ ${result.message}`}
+          {result.ok ? "✅ Зөв! Даалгавар биеллээ." : `💡 ${result.message}`}
         </p>
       )}
     </section>

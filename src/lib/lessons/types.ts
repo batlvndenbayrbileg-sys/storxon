@@ -55,15 +55,38 @@ export type Lesson = {
   blocks: LessonBlock[];
 };
 
+const FILE_LABEL = { html: "HTML", css: "CSS", js: "JS" } as const;
+
+function testFile(
+  kind: keyof typeof FILE_LABEL,
+  check: { pattern: string; flags?: string; message: string },
+  files: PlaygroundFiles,
+): { ok: boolean; message: string } {
+  const label = FILE_LABEL[kind];
+  const src = files[kind];
+  let ok = false;
+  try {
+    ok = new RegExp(check.pattern, check.flags).test(src);
+  } catch {
+    return { ok: false, message: "Энэ дасгалын шалгуурт алдаа байна. Багшид мэдэгдээрэй." };
+  }
+  if (ok) return { ok: true, message: check.message };
+  // Gentle, specific guidance: point to the right tab and say what is missing.
+  const where = src.trim() === ""
+    ? `${label} таб хоосон байна — эхлээд кодоо бичээрэй.`
+    : `${label} табаа дахин нэг харчих.`;
+  return { ok: false, message: `Бараг боллоо! ${where} ${check.message}` };
+}
+
 /** Run an ExerciseCheck against the current playground source. */
 export function runCheck(check: ExerciseCheck, files: PlaygroundFiles): { ok: boolean; message: string } {
   switch (check.type) {
     case "htmlIncludes":
-      return { ok: new RegExp(check.pattern, check.flags).test(files.html), message: check.message };
+      return testFile("html", check, files);
     case "cssIncludes":
-      return { ok: new RegExp(check.pattern, check.flags).test(files.css), message: check.message };
+      return testFile("css", check, files);
     case "jsIncludes":
-      return { ok: new RegExp(check.pattern, check.flags).test(files.js), message: check.message };
+      return testFile("js", check, files);
     case "allOf": {
       for (const c of check.checks) {
         const r = runCheck(c, files);
