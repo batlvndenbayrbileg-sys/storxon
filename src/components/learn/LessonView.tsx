@@ -296,7 +296,8 @@ function Exercise({
 }) {
   const filesRef = useRef<PlaygroundFiles>(block.starter);
   const [result, setResult] = useState<{ ok: boolean; message: string } | null>(null);
-  const [showHint, setShowHint] = useState(false);
+  // 0 = none, 1 = first hint, 2 = stronger second hint (opened one by one).
+  const [hintLevel, setHintLevel] = useState(0);
   const [starter, setStarter] = useState<PlaygroundFiles>(block.starter);
   // Bumping this key remounts the editor so a loaded solution replaces the code.
   const [ver, setVer] = useState(0);
@@ -328,8 +329,12 @@ function Exercise({
           Шалгах
         </button>
         {block.hint && (
-          <button type="button" onClick={() => setShowHint((v) => !v)} className="rounded-lg border border-zinc-300 px-3 py-2 text-sm font-medium text-zinc-600 hover:bg-white dark:border-zinc-700 dark:text-zinc-300">
-            Сануулга
+          <button
+            type="button"
+            onClick={() => setHintLevel((l) => (l === 0 ? 1 : l === 1 && block.hint2 ? 2 : 0))}
+            className="rounded-lg border border-zinc-300 px-3 py-2 text-sm font-medium text-zinc-600 hover:bg-white dark:border-zinc-700 dark:text-zinc-300"
+          >
+            {hintLevel === 0 ? "Сануулга" : hintLevel === 1 && block.hint2 ? "Илүү тодорхой сануулга" : "Сануулга нуух"}
           </button>
         )}
         {block.solution && (
@@ -348,8 +353,11 @@ function Exercise({
         )}
       </div>
 
-      {showHint && block.hint && (
+      {hintLevel >= 1 && block.hint && (
         <p className="mt-2 rounded-lg bg-white/70 p-3 text-sm text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300">💡 {block.hint}</p>
+      )}
+      {hintLevel >= 2 && block.hint2 && (
+        <p className="mt-2 rounded-lg bg-white/70 p-3 text-sm text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300">🔎 {block.hint2}</p>
       )}
       {result && (
         <p className={`mt-2 text-sm font-semibold ${result.ok ? "text-emerald-600" : "text-red-600"}`}>

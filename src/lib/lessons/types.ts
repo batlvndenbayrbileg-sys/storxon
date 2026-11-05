@@ -26,6 +26,8 @@ export type LessonBlock =
       prompt: string;
       starter: PlaygroundFiles;
       hint?: string;
+      // Optional stronger second-level hint, unlocked after the first.
+      hint2?: string;
       solution?: PlaygroundFiles;
       check: ExerciseCheck;
     }

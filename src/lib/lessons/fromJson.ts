@@ -80,6 +80,7 @@ export function lessonFromJson(input: unknown): Lesson {
             prompt: str(raw.prompt, `${p}.prompt`),
             starter: files(raw.starter, `${p}.starter`),
             hint: raw.hint === undefined ? undefined : str(raw.hint, `${p}.hint`),
+            hint2: raw.hint2 === undefined ? undefined : str(raw.hint2, `${p}.hint2`),
             solution: raw.solution === undefined ? undefined : files(raw.solution, `${p}.solution`),
             check: check(raw.check, `${p}.check`),
           };

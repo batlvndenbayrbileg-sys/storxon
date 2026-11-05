@@ -55,6 +55,7 @@ export const HTML_INTRO: Lesson = {
         js: ``,
       },
       hint: "<h1>...</h1> тэгийн дотор текстээ бич.",
+      hint2: "Яг ингэж бич: <h1>Сайн уу</h1>",
       solution: {
         html: `<h1>Намайг Storxon сурагч</h1>\n<p>Доор гарчигаа нэм.</p>`,
         css: `body { font-family: system-ui; padding: 16px; }`,
