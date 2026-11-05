@@ -1134,7 +1134,81 @@ export const CSS_FLEXBOX: Lesson = {
   ],
 };
 
-export const LESSONS: Lesson[] = [HTML_INTRO, CSS_INTRO, JS_INTRO, HTML_HEADINGS, HTML_LISTS_LINKS, HTML_IMAGES_MEDIA, HTML_TABLES, HTML_FORMS, HTML_SEMANTIC, CSS_COLORS, CSS_BOX_MODEL, CSS_TEXT_FONT, CSS_FLEXBOX, REACT_INTRO];
+export const CSS_GRID: Lesson = {
+  id: "css-grid",
+  module: 2,
+  title: "CSS — Grid үндэс (display:grid, grid-template)",
+  objectives: [
+    "display:grid-ээр хүснэгт маягийн сүлжээ үүсгэх",
+    "grid-template-columns-оор баганын тоо, өргөнийг тодорхойлох",
+    "gap болон fr нэгжийг ашиглах",
+  ],
+  blocks: [
+    {
+      kind: "theory",
+      title: "Grid гэж юу вэ",
+      html: `<p>Grid нь элементүүдийг <strong>мөр ба багана</strong> хэлбэрээр хоёр хэмжээст сүлжээнд байрлуулдаг арга юм. Эцэг элемент дээр <code>display: grid</code> бичээд баганаа тодорхойлно.</p>
+             <ul>
+               <li><code>grid-template-columns</code> — баганын тоо ба өргөн: <code>repeat(3, 1fr)</code></li>
+               <li><code>fr</code> — үлдсэн зайн хувь (1fr = нэг хэсэг)</li>
+               <li><code>gap</code> — мөр ба баганын хоорондох зай</li>
+             </ul>`,
+    },
+    {
+      kind: "code",
+      title: "Жишээ код",
+      lang: "css",
+      code: `.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 тэнцүү багана */
+  gap: 12px;
+}`,
+    },
+    {
+      kind: "playground",
+      title: "Туршиж үз",
+      height: 280,
+      starter: {
+        html: `<div class="grid">\n  <div class="box">1</div>\n  <div class="box">2</div>\n  <div class="box">3</div>\n  <div class="box">4</div>\n  <div class="box">5</div>\n  <div class="box">6</div>\n</div>`,
+        css: `body { font-family: system-ui; padding: 16px; }\n.grid {\n  display: grid;\n  grid-template-columns: repeat(3, 1fr);\n  gap: 12px;\n}\n.box { background: #7c3aed; color: #fff; padding: 20px; border-radius: 8px; text-align: center; }`,
+        js: ``,
+      },
+    },
+    {
+      kind: "exercise",
+      title: "2 баганатай сүлжээ хий",
+      prompt: "CSS хэсэгт `.grid` классд `display: grid`, `grid-template-columns`, `gap` гурвыг бичээд Шалгах дээр дар.",
+      starter: {
+        html: `<div class="grid">\n  <div>А</div>\n  <div>Б</div>\n  <div>В</div>\n  <div>Г</div>\n</div>`,
+        css: `body { font-family: system-ui; padding: 16px; }\n.grid {\n  background: #f3f0ff;\n}\n.grid div { background: #7c3aed; color: #fff; padding: 16px; border-radius: 8px; }`,
+        js: ``,
+      },
+      hint: ".grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; } гэж бичээд үз.",
+      solution: {
+        html: `<div class="grid">\n  <div>А</div>\n  <div>Б</div>\n  <div>В</div>\n  <div>Г</div>\n</div>`,
+        css: `body { font-family: system-ui; padding: 16px; }\n.grid {\n  background: #f3f0ff;\n  display: grid;\n  grid-template-columns: 1fr 1fr;\n  gap: 12px;\n}\n.grid div { background: #7c3aed; color: #fff; padding: 16px; border-radius: 8px; }`,
+        js: ``,
+      },
+      check: {
+        type: "allOf",
+        checks: [
+          { type: "cssIncludes", pattern: "\\.grid\\s*\\{[^}]*display\\s*:\\s*grid", flags: "i", message: "`.grid`-д `display: grid` олдсонгүй." },
+          { type: "cssIncludes", pattern: "\\.grid\\s*\\{[^}]*grid-template-columns\\s*:", flags: "i", message: "`.grid`-д `grid-template-columns` шинж олдсонгүй." },
+          { type: "cssIncludes", pattern: "\\.grid\\s*\\{[^}]*gap\\s*:", flags: "i", message: "`.grid`-д `gap` шинж олдсонгүй." },
+        ],
+      },
+    },
+    {
+      kind: "quiz",
+      question: "`grid-template-columns: repeat(3, 1fr);` юу хийх вэ?",
+      options: ["3 мөр үүсгэнэ", "3 тэнцүү өргөнтэй багана үүсгэнэ", "3px зай үлдээнэ", "3 элементийг нуух"],
+      answer: 1,
+      explain: "`repeat(3, 1fr)` нь нэг мөрөнд 3 тэнцүү багана үүсгэнэ. `fr` нь үлдсэн зайн нэг хэсгийг илэрхийлнэ.",
+    },
+  ],
+};
+
+export const LESSONS: Lesson[] = [HTML_INTRO, CSS_INTRO, JS_INTRO, HTML_HEADINGS, HTML_LISTS_LINKS, HTML_IMAGES_MEDIA, HTML_TABLES, HTML_FORMS, HTML_SEMANTIC, CSS_COLORS, CSS_BOX_MODEL, CSS_TEXT_FONT, CSS_FLEXBOX, CSS_GRID, REACT_INTRO];
 
 // Course outline: skeletons (title + objectives, no blocks yet) for the next
 // modules. Deliberately NOT part of LESSONS so empty lessons never reach the
