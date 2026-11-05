@@ -427,9 +427,19 @@ function Quiz({
               })}
             </div>
             {answered && (
-              <p className={`mt-2 text-sm font-semibold ${correct ? "text-emerald-600" : "text-red-600"}`}>
-                {correct ? "Зөв!" : "Буруу байна."} {q.explain && <span className="font-normal text-zinc-500">{q.explain}</span>}
-              </p>
+              <div
+                role="status"
+                className={`mt-3 rounded-lg border px-3 py-2 text-sm ${
+                  correct
+                    ? "border-emerald-300 bg-emerald-50 text-emerald-800 dark:border-emerald-800 dark:bg-emerald-950/40 dark:text-emerald-200"
+                    : "border-red-300 bg-red-50 text-red-800 dark:border-red-800 dark:bg-red-950/40 dark:text-red-200"
+                }`}
+              >
+                <p className="font-semibold">{correct ? "✅ Зөв!" : "❌ Буруу байна."}</p>
+                <p className="mt-1 font-normal">
+                  {q.explain ?? `Зөв хариулт: ${q.options[q.answer]}`}
+                </p>
+              </div>
             )}
           </div>
         );
