@@ -1920,7 +1920,90 @@ title.style.color = "tomato";`,
   ],
 };
 
-export const LESSONS: Lesson[] = [HTML_INTRO, CSS_INTRO, JS_INTRO, HTML_HEADINGS, HTML_LISTS_LINKS, HTML_IMAGES_MEDIA, HTML_TABLES, HTML_FORMS, HTML_SEMANTIC, CSS_COLORS, CSS_BOX_MODEL, CSS_TEXT_FONT, CSS_FLEXBOX, CSS_GRID, CSS_RESPONSIVE, CSS_HOVER_TRANSITION, JS_VARIABLES_TYPES, JS_CONDITIONS, JS_LOOPS, JS_FUNCTIONS, JS_ARRAYS, JS_OBJECTS, JS_DOM, REACT_INTRO];
+export const JS_EVENTS: Lesson = {
+  id: "js-events",
+  module: 3,
+  title: "JS — Үйл явдал (events)",
+  objectives: [
+    "addEventListener-ээр товч дарахыг сонсох",
+    "Үйл явдал гарахад текст, өнгө өөрчлөх",
+    "onclick ба addEventListener-ийн ялгааг ойлгох",
+  ],
+  blocks: [
+    {
+      kind: "theory",
+      title: "Үйл явдал гэж юу вэ?",
+      html: `<p><strong>Үйл явдал (event)</strong> гэдэг нь хэрэглэгч хуудас дээр хийсэн үйлдэл — товч дарах, хулганаар дээгүүр нь гарах, гараас бичих гэх мэт. JS эдгээрийг <em>сонсож</em>, хариу үйлдэл хийж чаддаг.</p>
+             <ul>
+               <li><code>el.addEventListener("click", функц)</code> — дарах үед функцийг ажиллуулна</li>
+               <li><code>"click"</code>, <code>"mouseover"</code>, <code>"input"</code> — түгээмэл үйл явдлын нэрс</li>
+               <li><code>el.onclick = функц</code> — богино хувилбар (нэг л үйлдэл тохируулна)</li>
+             </ul>
+             <p>Бүх код энэ хуудасны хамгаалагдсан sandbox дотор ажиллана.</p>`,
+    },
+    {
+      kind: "code",
+      title: "Жишээ код",
+      lang: "js",
+      code: `const btn = document.querySelector("button");
+const out = document.querySelector("#out");
+
+btn.addEventListener("click", function () {
+  out.textContent = "Товч дарагдлаа!";
+  out.style.color = "teal";
+});`,
+    },
+    {
+      kind: "playground",
+      title: "Туршиж үз",
+      height: 260,
+      starter: {
+        html: `<button>Дар намайг</button>\n<p id="out">Одоогоор юу ч болоогүй.</p>`,
+        css: `body { font-family: system-ui; padding: 16px; }\nbutton { padding: 8px 14px; cursor: pointer; }`,
+        js: `const btn = document.querySelector("button");\nconst out = document.querySelector("#out");\nlet count = 0;\n\nbtn.addEventListener("click", () => {\n  count++;\n  out.textContent = "Дарсан тоо: " + count;\n  console.log("click", count);\n});`,
+      },
+    },
+    {
+      kind: "exercise",
+      title: "Товч дарахад текст солих",
+      prompt:
+        "`button`-ийг сонгож, `addEventListener(\"click\", ...)` ашиглан дарах үед `#msg`-ийн `textContent`-ийг \"Сайн уу!\" болго.",
+      starter: {
+        html: `<button>Мэндлэх</button>\n<p id="msg">...</p>`,
+        css: `body { font-family: system-ui; padding: 16px; }`,
+        js: `// Энд товчийг сонгож, click үйл явдлыг сонсоорой\n`,
+      },
+      hint: 'btn.addEventListener("click", () => { msg.textContent = "Сайн уу!"; });',
+      solution: {
+        html: `<button>Мэндлэх</button>\n<p id="msg">...</p>`,
+        css: `body { font-family: system-ui; padding: 16px; }`,
+        js: `const btn = document.querySelector("button");\nconst msg = document.querySelector("#msg");\nbtn.addEventListener("click", () => {\n  msg.textContent = "Сайн уу!";\n});`,
+      },
+      check: {
+        type: "allOf",
+        checks: [
+          { type: "jsIncludes", pattern: "addEventListener\\s*\\(\\s*[\"']click[\"']", message: "`addEventListener(\"click\", ...)` олдсонгүй." },
+          { type: "jsIncludes", pattern: "\\.textContent\\s*=", message: "`.textContent = ...` олдсонгүй." },
+          { type: "jsIncludes", pattern: "Сайн уу!", message: "Текст нь \"Сайн уу!\" байх ёстой." },
+        ],
+      },
+    },
+    {
+      kind: "quiz",
+      question: "Товч дарахыг сонсох зөв код аль нь вэ?",
+      options: [
+        'btn.addEventListener("click", функц)',
+        'btn.listen("click")',
+        'btn.click.addEvent(функц)',
+        'addEventListener(btn, "click")',
+      ],
+      answer: 0,
+      explain: "`элемент.addEventListener(\"үйл явдлын нэр\", функц)` — эхний аргумент нь үйл явдлын нэр, хоёр дахь нь ажиллах функц.",
+    },
+  ],
+};
+
+export const LESSONS: Lesson[] = [HTML_INTRO, CSS_INTRO, JS_INTRO, HTML_HEADINGS, HTML_LISTS_LINKS, HTML_IMAGES_MEDIA, HTML_TABLES, HTML_FORMS, HTML_SEMANTIC, CSS_COLORS, CSS_BOX_MODEL, CSS_TEXT_FONT, CSS_FLEXBOX, CSS_GRID, CSS_RESPONSIVE, CSS_HOVER_TRANSITION, JS_VARIABLES_TYPES, JS_CONDITIONS, JS_LOOPS, JS_FUNCTIONS, JS_ARRAYS, JS_OBJECTS, JS_DOM, JS_EVENTS, REACT_INTRO];
 
 // Course outline: skeletons (title + objectives, no blocks yet) for the next
 // modules. Deliberately NOT part of LESSONS so empty lessons never reach the
