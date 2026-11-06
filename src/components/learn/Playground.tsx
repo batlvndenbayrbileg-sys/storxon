@@ -44,6 +44,28 @@ function buildSrcDoc(f: PlaygroundFiles): string {
   return `<!doctype html><html><head><meta charset="utf-8"><style>${f.css}</style></head><body>${f.html}<script>${shim}</script><script>try{\n${f.js}\n}catch(e){console.error(e && e.message || e);}</script></body></html>`;
 }
 
+// Clean standalone page for download: same user code, no console-relay shim.
+function buildStandaloneDoc(f: PlaygroundFiles): string {
+  return `<!doctype html>
+<html lang="mn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Storxon</title>
+<style>
+${f.css}
+</style>
+</head>
+<body>
+${f.html}
+<script>
+${f.js}
+</script>
+</body>
+</html>
+`;
+}
+
 export default function Playground({
   starter,
   height = 260,
@@ -169,6 +191,18 @@ export default function Playground({
     setCopied(ok ? "ok" : "fail");
   }, [files, tab]);
 
+  const downloadHtml = useCallback(() => {
+    const blob = new Blob([buildStandaloneDoc(files)], { type: "text/html;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "storxon.html";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  }, [files]);
+
   useEffect(() => {
     if (!copied) return;
     const t = setTimeout(() => setCopied(null), 1600);
@@ -280,6 +314,14 @@ export default function Playground({
                 className={`rounded-md px-2 py-1 text-xs font-medium text-zinc-400 hover:text-white ${FOCUS}`}
               >
                 {copied === "ok" ? "Хуулсан ✓" : copied === "fail" ? "Амжилтгүй" : "Хуулах"}
+              </button>
+              <button
+                type="button"
+                onClick={downloadHtml}
+                aria-label="Кодыг .html файлаар татах"
+                className={`rounded-md px-2 py-1 text-xs font-medium text-zinc-400 hover:text-white ${FOCUS}`}
+              >
+                Татах
               </button>
               <button
                 type="button"
