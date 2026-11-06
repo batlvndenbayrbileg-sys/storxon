@@ -102,6 +102,35 @@ function Sidebar({
   );
 }
 
+/** Estimated minutes to read/do a lesson, derived from its blocks. */
+function estimateMinutes(l: Lesson): number {
+  let min = 0;
+  for (const b of l.blocks) {
+    switch (b.kind) {
+      case "theory": {
+        const words = b.html.replace(/<[^>]*>/g, " ").split(/\s+/).filter(Boolean).length;
+        min += words / 150;
+        break;
+      }
+      case "code":
+        min += 0.5;
+        break;
+      case "playground":
+        min += 1;
+        break;
+      case "exercise":
+        min += 3;
+        break;
+      case "quiz":
+        min += 1 + (b.more?.length ?? 0);
+        break;
+      default:
+        break;
+    }
+  }
+  return Math.max(1, Math.round(min));
+}
+
 export default function LessonView({
   lesson,
   lessons = LESSONS,
@@ -171,6 +200,7 @@ export default function LessonView({
         )}
         <div className="text-xs font-semibold uppercase tracking-wider text-violet-600">Модуль {lesson.module}</div>
         <h1 className="mt-1 text-2xl font-extrabold text-zinc-900 sm:text-3xl dark:text-zinc-50">{lesson.title}</h1>
+        <div className="mt-1 text-sm font-medium text-zinc-500">⏱ ~{estimateMinutes(lesson)} минут</div>
         {lesson.objectives.length > 0 && (
           <div className="mt-4 rounded-xl border border-violet-200 bg-violet-50 p-4 dark:border-violet-900/40 dark:bg-violet-950/30">
             <div className="text-xs font-bold uppercase tracking-wide text-violet-700 dark:text-violet-300">Суралцах зорилго</div>
