@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import HighlightedCode from "@/components/learn/HighlightedCode";
 import Playground from "@/components/learn/Playground";
 import { LESSONS } from "@/lib/lessons/data";
 import { loadProgress, markComplete } from "@/lib/lessons/progress";
@@ -309,7 +310,7 @@ function Block({
         <section>
           {block.title && <h2 className="mb-2 text-lg font-bold text-zinc-900 dark:text-zinc-100">{block.title}</h2>}
           <pre className="overflow-auto rounded-xl bg-zinc-900 p-4 font-mono text-[13px] leading-relaxed text-zinc-100">
-            <code>{block.code}</code>
+            <HighlightedCode code={block.code} lang={block.lang} />
           </pre>
         </section>
       );
