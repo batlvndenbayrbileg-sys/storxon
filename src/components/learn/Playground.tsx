@@ -65,6 +65,7 @@ export default function Playground({
   const [logs, setLogs] = useState<ConsoleLine[]>([]);
   const [full, setFull] = useState(false);
   const [copied, setCopied] = useState<"ok" | "fail" | null>(null);
+  const [autoRun, setAutoRun] = useState(false);
   const uid = useId();
   const iframeRef = useRef<HTMLIFrameElement | null>(null);
   const gutterRef = useRef<HTMLDivElement | null>(null);
@@ -73,6 +74,14 @@ export default function Playground({
     setLogs([]);
     setSrcDoc(buildSrcDoc(files));
   }, [files]);
+
+  // Optional live preview: re-run shortly after the student stops typing.
+  // Off by default; toggled from the editor toolbar.
+  useEffect(() => {
+    if (!autoRun) return;
+    const t = setTimeout(run, 700);
+    return () => clearTimeout(t);
+  }, [autoRun, run]);
 
   // Run once on mount so the preview is never blank.
   useEffect(() => {
@@ -252,6 +261,18 @@ export default function Playground({
             ))}
             </div>
             <div className="ml-auto flex items-center gap-1">
+              <button
+                type="button"
+                onClick={() => setAutoRun((v) => !v)}
+                aria-pressed={autoRun}
+                aria-label="Автомат урьдчилан харалт"
+                title="Бичихээ больсны дараа код автоматаар ажиллана"
+                className={`rounded-md px-2 py-1 text-xs font-medium ${FOCUS} ${
+                  autoRun ? "bg-violet-600/30 text-violet-200" : "text-zinc-400 hover:text-white"
+                }`}
+              >
+                Авто {autoRun ? "асаалттай" : "унтраалттай"}
+              </button>
               <button
                 type="button"
                 onClick={copyCode}
