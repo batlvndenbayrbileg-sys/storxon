@@ -142,7 +142,7 @@ React/JS/DOM код зөвхөн sandbox iframe дотор, React нь `createEl
 - [x] Код хуулах/ажиллуулахад жижиг "хийгдлээ" toast (гар утсанд ээлтэй)
 
 ## E. Урам зориг / gamification (ЗӨВХӨН localStorage, DB БИШ)
-- [ ] Өдрийн дараалсан streak тоолуур (шинэ `sx-streak` localStorage key) — sidebar-т badge
+- [x] Өдрийн дараалсан streak тоолуур (шинэ `sx-streak` localStorage key) — sidebar-т badge
 - [ ] Хичээл дуусгах бүрт XP/оноо, нийт оноог харуулах (`sx-xp` localStorage, явцыг унших)
 - [ ] Модуль бүрэн дуусгахад баяр хүргэсэн тэмдэг + confetti анимэйшн (reduced-motion хүндэтгэх)
 - [ ] Нийт явцыг дугуй progress ring-ээр толгойд харуулах

@@ -7,6 +7,7 @@ import HighlightedCode from "@/components/learn/HighlightedCode";
 import Playground from "@/components/learn/Playground";
 import { LESSONS } from "@/lib/lessons/data";
 import { loadProgress, markComplete } from "@/lib/lessons/progress";
+import { getStreak, touchStreak } from "@/lib/lessons/streak";
 import { runCheck, type ExerciseCheck, type Lesson, type LessonBlock, type PlaygroundFiles } from "@/lib/lessons/types";
 
 /**
@@ -31,6 +32,7 @@ function Sidebar({
   lessons,
   activeId,
   doneIds,
+  streak,
   hrefFor,
   open,
   onClose,
@@ -38,6 +40,7 @@ function Sidebar({
   lessons: Lesson[];
   activeId: string;
   doneIds: Set<string>;
+  streak: number;
   hrefFor?: (id: string) => string;
   /** Mobile drawer state (ignored on lg+, where the sidebar is always visible). */
   open: boolean;
@@ -82,6 +85,15 @@ function Sidebar({
         >
           ✕ Хаах
         </button>
+        {streak > 0 && (
+          <div
+            className="mb-3 flex items-center gap-2 rounded-lg bg-amber-50 px-3 py-1.5 text-sm font-semibold text-amber-800 dark:bg-amber-950/40 dark:text-amber-200"
+            title="Өдөр бүр дараалан суралцсан хоног"
+          >
+            <span aria-hidden>🔥</span>
+            <span>{streak} өдрийн streak</span>
+          </div>
+        )}
         <input
           type="search"
           value={query}
@@ -185,6 +197,11 @@ export default function LessonView({
   const [drawerOpen, setDrawerOpen] = useState(false);
   const closeDrawer = useCallback(() => setDrawerOpen(false), []);
   const [showTop, setShowTop] = useState(false);
+  const [streak, setStreak] = useState(0);
+
+  useEffect(() => {
+    setStreak(getStreak());
+  }, []);
 
   useEffect(() => {
     const onScroll = () => setShowTop(window.scrollY > 600);
@@ -210,6 +227,7 @@ export default function LessonView({
 
   const markDone = useCallback((taskId: string) => {
     markComplete(taskId);
+    setStreak(touchStreak());
     setDoneIds((prev) => new Set(prev).add(taskId));
   }, []);
 
@@ -238,6 +256,7 @@ export default function LessonView({
         lessons={lessons}
         activeId={lesson.id}
         doneIds={doneIds}
+        streak={streak}
         hrefFor={hrefFor}
         open={drawerOpen}
         onClose={closeDrawer}
