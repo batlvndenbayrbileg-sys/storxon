@@ -173,7 +173,13 @@ export default function Playground({
   const onEdit = (v: string) => update({ ...files, [tab]: v });
 
   // Tab key inserts two spaces instead of leaving the editor.
+  // Ctrl/Cmd+Enter runs the code.
   const onKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) {
+      e.preventDefault();
+      run();
+      return;
+    }
     if (e.key !== "Tab") return;
     e.preventDefault();
     const el = e.currentTarget;
@@ -276,6 +282,8 @@ export default function Playground({
                 type="button"
                 onClick={run}
                 aria-label="Кодыг ажиллуулах"
+                title="Ctrl/Cmd + Enter"
+                aria-keyshortcuts="Control+Enter Meta+Enter"
                 className={`rounded-md bg-emerald-600 px-3 py-1 text-xs font-bold text-white hover:bg-emerald-500 ${FOCUS}`}
               >
                 <span aria-hidden="true">▶</span> Ажиллуул

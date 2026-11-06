@@ -121,7 +121,7 @@ React/JS/DOM код зөвхөн sandbox iframe дотор, React нь `createEl
 
 ## C. Playground хөдөлгүүр
 - [x] "Эхлэлд буцаах" (reset to starter) товч — одоогийн кодыг starter-аар солино
-- [ ] `Ctrl/Cmd+Enter`-ээр кодыг ажиллуулах keyboard shortcut
+- [x] `Ctrl/Cmd+Enter`-ээр кодыг ажиллуулах keyboard shortcut
 - [ ] Автомат live preview сонголт (debounced), toggle-тэй — анхдагчаар унтраалттай
 - [ ] Console relay-д объект/массивыг гоё форматлаж хэвлэх (JSON.stringify indent)
 - [ ] Editor-т `Tab` дарахад 2 зай оруулах, урт мөрөнд хэвтээ гүйлт
