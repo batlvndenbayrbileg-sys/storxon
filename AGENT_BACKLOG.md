@@ -137,7 +137,7 @@ React/JS/DOM код зөвхөн sandbox iframe дотор, React нь `createEl
 - [x] Гар утсанд sidebar-г хаашаа тийш гарч ирдэг drawer болгох (overlay + Esc)
 - [x] Хичээлийн доод талд "Дараагийн хичээл" preview карт (гарчиг+зорилго)
 - [x] Хичээл хэсгийн гарчигт тухайн модулийн нийт явцын жижиг progress bar
-- [ ] prefers-color-scheme-д тохирсон dark горим хичээл/playground-д (хэрэв theme байхгүй бол CSS-ээр)
+- [x] prefers-color-scheme-д тохирсон dark горим хичээл/playground-д (хэрэв theme байхгүй бол CSS-ээр)
 - [ ] "Дээш/Эхлэл рүү" товч урт хичээлд
 - [ ] Код хуулах/ажиллуулахад жижиг "хийгдлээ" toast (гар утсанд ээлтэй)
 

@@ -436,8 +436,8 @@ export default function Playground({
         </div>
 
         {/* Preview + console */}
-        <div className="flex min-h-0 flex-col overflow-hidden rounded-xl border border-zinc-300 bg-white">
-          <div className="border-b border-zinc-200 bg-zinc-50 px-3 py-1.5 text-xs font-semibold text-zinc-500">Үр дүн</div>
+        <div className="flex min-h-0 flex-col overflow-hidden rounded-xl border border-zinc-300 bg-white dark:border-zinc-700 dark:bg-zinc-900">
+          <div className="border-b border-zinc-200 bg-zinc-50 px-3 py-1.5 text-xs font-semibold text-zinc-500 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-400">Үр дүн</div>
           <iframe
             ref={iframeRef}
             title="Кодын урьдчилан харалт"

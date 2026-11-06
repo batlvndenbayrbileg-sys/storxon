@@ -133,3 +133,16 @@ html.fx .reveal.in {
   outline-offset: 2px;
   border-radius: 8px;
 }
+
+/* lesson theory content: readable inline code / emphasis in dark mode */
+@media (prefers-color-scheme: dark) {
+  .prose-sx code {
+    border-radius: 6px;
+    padding: 0.1em 0.35em;
+    background: rgba(167, 139, 250, 0.16);
+    color: #e4dcff;
+  }
+  .prose-sx strong {
+    color: #fafafa;
+  }
+}
