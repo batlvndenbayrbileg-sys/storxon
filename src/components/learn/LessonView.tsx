@@ -179,6 +179,8 @@ export default function LessonView({
         ))}
       </div>
 
+      {gradeable > 0 && <SummaryCard lesson={lesson} doneIds={doneIds} />}
+
       {hrefFor && (prev || next) && (
         <nav aria-label="Хичээл хоорондын навигаци" className="mt-10 flex items-stretch justify-between gap-3">
           {prev ? (
@@ -207,6 +209,64 @@ export default function LessonView({
       )}
       </article>
     </div>
+  );
+}
+
+function SummaryCard({ lesson, doneIds }: { lesson: Lesson; doneIds: Set<string> }) {
+  const stat = (kind: "exercise" | "quiz") => {
+    let total = 0;
+    let done = 0;
+    lesson.blocks.forEach((b, i) => {
+      if (b.kind !== kind) return;
+      total += 1;
+      if (doneIds.has(`${lesson.id}:${i}`)) done += 1;
+    });
+    return { total, done };
+  };
+  const ex = stat("exercise");
+  const qz = stat("quiz");
+  const total = ex.total + qz.total;
+  const done = ex.done + qz.done;
+  const complete = total > 0 && done === total;
+  const pct = total > 0 ? Math.round((done / total) * 100) : 0;
+  const rows = [
+    { label: "Дасгал", ...ex },
+    { label: "Quiz", ...qz },
+  ].filter((r) => r.total > 0);
+  return (
+    <section
+      aria-label="Хичээлийн дүгнэлт"
+      className={`mt-10 rounded-2xl border p-5 ${
+        complete
+          ? "border-emerald-300 bg-emerald-50 dark:border-emerald-900/50 dark:bg-emerald-950/30"
+          : "border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-900"
+      }`}
+    >
+      <div className="flex items-center justify-between gap-3">
+        <h2 className="text-lg font-extrabold text-zinc-900 dark:text-zinc-50">
+          {complete ? "🎉 Хичээл дууслаа!" : "Хичээлийн дүгнэлт"}
+        </h2>
+        <span className="text-sm font-bold text-violet-600">{pct}%</span>
+      </div>
+      <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
+        {complete
+          ? "Бүх дасгал, quiz-ийг амжилттай хийлээ. Дараагийн хичээл рүү шилжиж болно."
+          : `${total - done} даалгавар үлдлээ. Дээш гүйлгэж үргэлжлүүлээрэй.`}
+      </p>
+      <ul className="mt-3 grid gap-2 sm:grid-cols-2">
+        {rows.map((r) => (
+          <li
+            key={r.label}
+            className="flex items-center justify-between rounded-xl border border-zinc-200 bg-white px-3 py-2 text-sm dark:border-zinc-800 dark:bg-zinc-900"
+          >
+            <span className="font-semibold text-zinc-700 dark:text-zinc-300">{r.label}</span>
+            <span className={r.done === r.total ? "font-bold text-emerald-600" : "font-bold text-zinc-500"}>
+              {r.done}/{r.total} {r.done === r.total && "✅"}
+            </span>
+          </li>
+        ))}
+      </ul>
+    </section>
   );
 }
 
