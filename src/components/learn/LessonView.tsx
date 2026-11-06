@@ -198,7 +198,25 @@ export default function LessonView({
             </div>
           </div>
         )}
-        <div className="text-xs font-semibold uppercase tracking-wider text-violet-600">Модуль {lesson.module}</div>
+        <nav aria-label="Breadcrumb" className="text-xs font-semibold uppercase tracking-wider text-violet-600">
+          <ol className="flex flex-wrap items-center gap-1.5">
+            <li>
+              {hrefFor ? (
+                <Link href={hrefBase ?? "/playground"} className="hover:underline">
+                  Хичээлүүд
+                </Link>
+              ) : (
+                <span>Хичээлүүд</span>
+              )}
+            </li>
+            <li aria-hidden="true" className="text-zinc-400">›</li>
+            <li>Модуль {lesson.module}</li>
+            <li aria-hidden="true" className="text-zinc-400">›</li>
+            <li aria-current="page" className="max-w-[16rem] truncate text-zinc-500 normal-case tracking-normal">
+              {lesson.title}
+            </li>
+          </ol>
+        </nav>
         <h1 className="mt-1 text-2xl font-extrabold text-zinc-900 sm:text-3xl dark:text-zinc-50">{lesson.title}</h1>
         <div className="mt-1 text-sm font-medium text-zinc-500">⏱ ~{estimateMinutes(lesson)} минут</div>
         {lesson.objectives.length > 0 && (
