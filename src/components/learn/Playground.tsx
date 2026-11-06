@@ -27,6 +27,9 @@ type Tab = "html" | "css" | "js";
 const TAB_LABEL: Record<Tab, string> = { html: "HTML", css: "CSS", js: "JS" };
 
 // Visible keyboard focus ring shared by every interactive control.
+const FONT_KEY = "storxon:editor-font";
+const FONT_MIN = 11;
+const FONT_MAX = 20;
 const FOCUS =
   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-400 focus-visible:ring-offset-1 focus-visible:ring-offset-zinc-900";
 
@@ -88,6 +91,7 @@ export default function Playground({
   const [full, setFull] = useState(false);
   const [copied, setCopied] = useState<"ok" | "fail" | null>(null);
   const [autoRun, setAutoRun] = useState(false);
+  const [fontSize, setFontSize] = useState(13);
   const uid = useId();
   const iframeRef = useRef<HTMLIFrameElement | null>(null);
   const gutterRef = useRef<HTMLDivElement | null>(null);
@@ -104,6 +108,24 @@ export default function Playground({
     const t = setTimeout(run, 700);
     return () => clearTimeout(t);
   }, [autoRun, run]);
+
+  // Restore the student's preferred editor font size.
+  useEffect(() => {
+    try {
+      const v = Number(localStorage.getItem(FONT_KEY));
+      if (v >= FONT_MIN && v <= FONT_MAX) setFontSize(v);
+    } catch {}
+  }, []);
+
+  const changeFont = (delta: number) => {
+    setFontSize((cur) => {
+      const next = Math.min(FONT_MAX, Math.max(FONT_MIN, cur + delta));
+      try {
+        localStorage.setItem(FONT_KEY, String(next));
+      } catch {}
+      return next;
+    });
+  };
 
   // Run once on mount so the preview is never blank.
   useEffect(() => {
@@ -304,6 +326,24 @@ export default function Playground({
             <div className="ml-auto flex items-center gap-1">
               <button
                 type="button"
+                onClick={() => changeFont(-1)}
+                disabled={fontSize <= FONT_MIN}
+                aria-label="Editor-ийн фонтыг жижигрүүлэх"
+                className={`rounded-md px-2 py-1 text-xs font-medium text-zinc-400 hover:text-white disabled:cursor-not-allowed disabled:opacity-40 ${FOCUS}`}
+              >
+                A−
+              </button>
+              <button
+                type="button"
+                onClick={() => changeFont(1)}
+                disabled={fontSize >= FONT_MAX}
+                aria-label="Editor-ийн фонтыг томруулах"
+                className={`rounded-md px-2 py-1 text-xs font-medium text-zinc-400 hover:text-white disabled:cursor-not-allowed disabled:opacity-40 ${FOCUS}`}
+              >
+                A+
+              </button>
+              <button
+                type="button"
                 onClick={() => setAutoRun((v) => !v)}
                 aria-pressed={autoRun}
                 aria-label="Автомат урьдчилан харалт"
@@ -372,8 +412,8 @@ export default function Playground({
             <div
               ref={gutterRef}
               aria-hidden="true"
-              className="select-none overflow-hidden bg-zinc-950/60 py-3 pl-2 pr-2 text-right font-mono text-[13px] leading-relaxed text-zinc-600"
-              style={{ height: full ? undefined : height }}
+              className="select-none overflow-hidden bg-zinc-950/60 py-3 pl-2 pr-2 text-right font-mono leading-relaxed text-zinc-600"
+              style={{ height: full ? undefined : height, fontSize }}
             >
               {Array.from({ length: lineCount }, (_, i) => (
                 <div key={i}>{i + 1}</div>
@@ -388,8 +428,8 @@ export default function Playground({
               }}
               spellCheck={false}
               wrap="off"
-              className="min-h-0 min-w-0 flex-1 resize-none overflow-auto whitespace-pre bg-zinc-900 p-3 font-mono text-[13px] leading-relaxed text-zinc-100 outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-violet-400"
-              style={{ height: full ? undefined : height, tabSize: 2 }}
+              className="min-h-0 min-w-0 flex-1 resize-none overflow-auto whitespace-pre bg-zinc-900 p-3 font-mono leading-relaxed text-zinc-100 outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-violet-400"
+              style={{ height: full ? undefined : height, tabSize: 2, fontSize }}
               aria-label={`${TAB_LABEL[tab]} кодын редактор`}
             />
           </div>
