@@ -209,6 +209,12 @@ export default function LessonView({
     return ids.length > 0 && ids.every((id) => doneIds.has(id));
   }).length;
   const overallPct = lessons.length > 0 ? Math.round((finishedLessons / lessons.length) * 100) : 0;
+  const moduleLessons = lessons.filter((l) => l.module === lesson.module);
+  const moduleFinished = moduleLessons.filter((l) => {
+    const ids = gradeableIds(l);
+    return ids.length > 0 && ids.every((id) => doneIds.has(id));
+  }).length;
+  const modulePct = moduleLessons.length > 0 ? Math.round((moduleFinished / moduleLessons.length) * 100) : 0;
   const idx = lessons.findIndex((l) => l.id === lesson.id);
   const prev = idx > 0 ? lessons[idx - 1] : undefined;
   const next = idx >= 0 && idx < lessons.length - 1 ? lessons[idx + 1] : undefined;
@@ -273,6 +279,23 @@ export default function LessonView({
             </li>
           </ol>
         </nav>
+        {moduleLessons.length > 0 && (
+          <div className="mt-2 flex items-center gap-2 text-xs font-medium text-zinc-500">
+            <span className="whitespace-nowrap">
+              Модуль {lesson.module}: {moduleFinished}/{moduleLessons.length}
+            </span>
+            <div
+              role="progressbar"
+              aria-label={`Модуль ${lesson.module}-ийн явц`}
+              aria-valuemin={0}
+              aria-valuemax={moduleLessons.length}
+              aria-valuenow={moduleFinished}
+              className="h-1.5 w-28 overflow-hidden rounded-full bg-zinc-100 dark:bg-zinc-800"
+            >
+              <div className="h-full rounded-full bg-violet-500 transition-all" style={{ width: `${modulePct}%` }} />
+            </div>
+          </div>
+        )}
         <h1 className="mt-1 text-2xl font-extrabold text-zinc-900 sm:text-3xl dark:text-zinc-50">{lesson.title}</h1>
         <div className="mt-1 text-sm font-medium text-zinc-500">⏱ ~{estimateMinutes(lesson)} минут</div>
         {lesson.objectives.length > 0 && (
