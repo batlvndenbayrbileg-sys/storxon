@@ -123,7 +123,7 @@ React/JS/DOM код зөвхөн sandbox iframe дотор, React нь `createEl
 - [x] "Эхлэлд буцаах" (reset to starter) товч — одоогийн кодыг starter-аар солино
 - [x] `Ctrl/Cmd+Enter`-ээр кодыг ажиллуулах keyboard shortcut
 - [x] Автомат live preview сонголт (debounced), toggle-тэй — анхдагчаар унтраалттай
-- [ ] Console relay-д объект/массивыг гоё форматлаж хэвлэх (JSON.stringify indent)
+- [x] Console relay-д объект/массивыг гоё форматлаж хэвлэх (JSON.stringify indent)
 - [ ] Editor-т `Tab` дарахад 2 зай оруулах, урт мөрөнд хэвтээ гүйлт
 - [ ] Кодыг бие даасан `.html` файл болгон татаж авах товч
 - [ ] Preview-г шинэ табд нээх товч (sandbox blob URL)

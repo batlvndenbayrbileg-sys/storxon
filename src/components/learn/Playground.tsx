@@ -34,7 +34,7 @@ function buildSrcDoc(f: PlaygroundFiles): string {
   // The relay shim forwards console + errors to the parent. User code follows.
   const shim = `
     (function () {
-      function ser(a){ try { return typeof a === "object" ? JSON.stringify(a) : String(a); } catch (e) { return String(a); } }
+      function ser(a){ try { if (a instanceof Error) return a.name + ": " + a.message; if (typeof a === "undefined") return "undefined"; if (typeof a === "function") return String(a); if (typeof a === "object" && a !== null) { var j = JSON.stringify(a, null, 2); return j === undefined ? String(a) : j; } return String(a); } catch (e) { return String(a); } }
       function send(level, args){ parent.postMessage({ __sx_pg: true, level: level, text: Array.prototype.map.call(args, ser).join(" ") }, "*"); }
       ["log","info","warn","error"].forEach(function(l){ var o = console[l]; console[l] = function(){ send(l, arguments); try { o.apply(console, arguments); } catch(e){} }; });
       window.addEventListener("error", function(e){ send("error", [e.message + (e.filename ? " (" + e.lineno + ":" + e.colno + ")" : "")]); });
@@ -368,9 +368,9 @@ export default function Playground({
               logs.map((l, i) => (
                 <div
                   key={i}
-                  className={
+                  className={`whitespace-pre-wrap break-words ${
                     l.level === "error" ? "font-semibold text-red-300" : l.level === "warn" ? "text-amber-300" : "text-zinc-300"
-                  }
+                  }`}
                 >
                   {l.text}
                 </div>
