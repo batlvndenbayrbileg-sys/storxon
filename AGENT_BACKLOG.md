@@ -139,7 +139,7 @@ React/JS/DOM код зөвхөн sandbox iframe дотор, React нь `createEl
 - [x] Хичээл хэсгийн гарчигт тухайн модулийн нийт явцын жижиг progress bar
 - [x] prefers-color-scheme-д тохирсон dark горим хичээл/playground-д (хэрэв theme байхгүй бол CSS-ээр)
 - [x] "Дээш/Эхлэл рүү" товч урт хичээлд
-- [ ] Код хуулах/ажиллуулахад жижиг "хийгдлээ" toast (гар утсанд ээлтэй)
+- [x] Код хуулах/ажиллуулахад жижиг "хийгдлээ" toast (гар утсанд ээлтэй)
 
 ## E. Урам зориг / gamification (ЗӨВХӨН localStorage, DB БИШ)
 - [ ] Өдрийн дараалсан streak тоолуур (шинэ `sx-streak` localStorage key) — sidebar-т badge

@@ -92,6 +92,7 @@ export default function Playground({
   const [copied, setCopied] = useState<"ok" | "fail" | null>(null);
   const [autoRun, setAutoRun] = useState(false);
   const [fontSize, setFontSize] = useState(13);
+  const [toast, setToast] = useState<string | null>(null);
   const uid = useId();
   const iframeRef = useRef<HTMLIFrameElement | null>(null);
   const gutterRef = useRef<HTMLDivElement | null>(null);
@@ -100,6 +101,12 @@ export default function Playground({
     setLogs([]);
     setSrcDoc(buildSrcDoc(files));
   }, [files]);
+
+  // Manual run (button / Ctrl+Enter) also confirms with a small toast.
+  const runManual = useCallback(() => {
+    run();
+    setToast("Ажиллууллаа ✓");
+  }, [run]);
 
   // Optional live preview: re-run shortly after the student stops typing.
   // Off by default; toggled from the editor toolbar.
@@ -211,6 +218,7 @@ export default function Playground({
       }
     }
     setCopied(ok ? "ok" : "fail");
+    setToast(ok ? "Хуулсан ✓" : "Хуулж чадсангүй");
   }, [files, tab]);
 
   const downloadHtml = useCallback(() => {
@@ -238,6 +246,12 @@ export default function Playground({
     return () => clearTimeout(t);
   }, [copied]);
 
+  useEffect(() => {
+    if (!toast) return;
+    const t = setTimeout(() => setToast(null), 1600);
+    return () => clearTimeout(t);
+  }, [toast]);
+
   const errorCount = logs.filter((l) => l.level === "error").length;
 
   const editorValue = files[tab];
@@ -249,7 +263,7 @@ export default function Playground({
   const onKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) {
       e.preventDefault();
-      run();
+      runManual();
       return;
     }
     if (e.key !== "Tab") return;
@@ -298,6 +312,17 @@ export default function Playground({
 
   return (
     <div className={wrap}>
+      <div
+        role="status"
+        aria-live="polite"
+        className="pointer-events-none fixed inset-x-0 bottom-4 z-[60] flex justify-center px-4"
+      >
+        {toast && (
+          <span className="rounded-full bg-zinc-900/95 px-4 py-2 text-sm font-medium text-white shadow-lg ring-1 ring-violet-400/40">
+            {toast}
+          </span>
+        )}
+      </div>
       <div className={`grid gap-3 ${full ? "h-full grid-rows-[1fr_1fr] md:grid-rows-[1fr]" : ""} md:grid-cols-2`}>
         {/* Editor */}
         <div className="flex min-h-0 flex-col overflow-hidden rounded-xl border border-zinc-700 bg-zinc-900">
@@ -398,7 +423,7 @@ export default function Playground({
               </button>
               <button
                 type="button"
-                onClick={run}
+                onClick={runManual}
                 aria-label="Кодыг ажиллуулах"
                 title="Ctrl/Cmd + Enter"
                 aria-keyshortcuts="Control+Enter Meta+Enter"
