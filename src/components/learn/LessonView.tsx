@@ -38,15 +38,29 @@ function Sidebar({
   doneIds: Set<string>;
   hrefFor?: (id: string) => string;
 }) {
-  const modules = Array.from(new Set(lessons.map((l) => l.module))).sort((a, b) => a - b);
+  const [query, setQuery] = useState("");
+  const q = query.trim().toLowerCase();
+  const visible = q ? lessons.filter((l) => l.title.toLowerCase().includes(q)) : lessons;
+  const modules = Array.from(new Set(visible.map((l) => l.module))).sort((a, b) => a - b);
   return (
     <nav aria-label="Хичээлийн жагсаалт" className="w-full shrink-0 lg:sticky lg:top-6 lg:w-64 lg:self-start">
       <div className="rounded-2xl border border-zinc-200 bg-white p-3 dark:border-zinc-800 dark:bg-zinc-900">
+        <input
+          type="search"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          placeholder="Хичээл хайх…"
+          aria-label="Хичээл хайх"
+          className="mb-3 w-full rounded-lg border border-zinc-200 bg-white px-3 py-1.5 text-sm text-zinc-800 outline-none placeholder:text-zinc-400 focus:border-violet-400 focus:ring-2 focus:ring-violet-200 dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-100 dark:focus:ring-violet-900"
+        />
+        {q && visible.length === 0 && (
+          <p className="px-2 py-1 text-sm text-zinc-500">Илэрц олдсонгүй</p>
+        )}
         {modules.map((m) => (
           <div key={m} className="mb-3 last:mb-0">
             <div className="px-2 pb-1 text-xs font-bold uppercase tracking-wider text-violet-600">Модуль {m}</div>
             <ul className="space-y-1">
-              {lessons
+              {visible
                 .filter((l) => l.module === m)
                 .map((l) => {
                   const ids = gradeableIds(l);

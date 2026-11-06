@@ -131,7 +131,7 @@ React/JS/DOM код зөвхөн sandbox iframe дотор, React нь `createEl
 - [x] Код жишээ (`code` блок)-т энгийн syntax highlighting (гадны dependency-гүй, token split)
 
 ## D. Суралцах туршлага / UX
-- [ ] Sidebar-т хичээл хайх/шүүх input (гарчигаар)
+- [x] Sidebar-т хичээл хайх/шүүх input (гарчигаар)
 - [ ] Хичээл бүрт "~X минут" уншиж/хийх хугацааны тэмдэг (блокоос тооцоол)
 - [ ] Breadcrumb навигаци (Модуль → Хичээл) LessonView-ийн толгойд
 - [ ] Гар утсанд sidebar-г хаашаа тийш гарч ирдэг drawer болгох (overlay + Esc)
