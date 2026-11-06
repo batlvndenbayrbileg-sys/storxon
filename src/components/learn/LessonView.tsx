@@ -320,6 +320,14 @@ export default function LessonView({
             >
               <span className="block text-xs text-violet-600">Дараах →</span>
               <span className="font-semibold text-zinc-900 dark:text-zinc-100">{next.title}</span>
+              {next.objectives.length > 0 && (
+                <span className="mt-2 block border-t border-violet-200 pt-2 text-left text-xs text-zinc-600 dark:border-violet-900/40 dark:text-zinc-400">
+                  <span className="block font-bold uppercase tracking-wide text-violet-700 dark:text-violet-300">Зорилго</span>
+                  {next.objectives.slice(0, 2).map((o, i) => (
+                    <span key={i} className="mt-1 block">• {o}</span>
+                  ))}
+                </span>
+              )}
             </a>
           ) : (
             <span className="flex-1" />
