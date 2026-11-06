@@ -32,19 +32,56 @@ function Sidebar({
   activeId,
   doneIds,
   hrefFor,
+  open,
+  onClose,
 }: {
   lessons: Lesson[];
   activeId: string;
   doneIds: Set<string>;
   hrefFor?: (id: string) => string;
+  /** Mobile drawer state (ignored on lg+, where the sidebar is always visible). */
+  open: boolean;
+  onClose: () => void;
 }) {
   const [query, setQuery] = useState("");
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [open, onClose]);
   const q = query.trim().toLowerCase();
   const visible = q ? lessons.filter((l) => l.title.toLowerCase().includes(q)) : lessons;
   const modules = Array.from(new Set(visible.map((l) => l.module))).sort((a, b) => a - b);
   return (
-    <nav aria-label="Хичээлийн жагсаалт" className="w-full shrink-0 lg:sticky lg:top-6 lg:w-64 lg:self-start">
+    <>
+      {open && (
+        <button
+          type="button"
+          aria-label="Жагсаалтыг хаах"
+          tabIndex={-1}
+          onClick={onClose}
+          className="fixed inset-0 z-40 bg-black/40 lg:hidden"
+        />
+      )}
+    <nav
+      id="lesson-sidebar"
+      aria-label="Хичээлийн жагсаалт"
+      className={`fixed inset-y-0 left-0 z-50 w-72 max-w-[85vw] shrink-0 overflow-y-auto bg-zinc-50 p-3 shadow-xl transition-transform duration-200 motion-reduce:transition-none dark:bg-zinc-950 ${
+        open ? "translate-x-0" : "-translate-x-full"
+      } lg:sticky lg:top-6 lg:z-auto lg:w-64 lg:max-w-none lg:translate-x-0 lg:self-start lg:overflow-visible lg:bg-transparent lg:p-0 lg:shadow-none dark:lg:bg-transparent`}
+    >
       <div className="rounded-2xl border border-zinc-200 bg-white p-3 dark:border-zinc-800 dark:bg-zinc-900">
+        <button
+          type="button"
+          onClick={onClose}
+          aria-label="Жагсаалтыг хаах"
+          className="mb-2 ml-auto block rounded-lg px-2 py-1 text-sm text-zinc-500 hover:bg-zinc-100 lg:hidden dark:hover:bg-zinc-800"
+        >
+          ✕ Хаах
+        </button>
         <input
           type="search"
           value={query}
@@ -99,6 +136,7 @@ function Sidebar({
         ))}
       </div>
     </nav>
+    </>
   );
 }
 
@@ -144,6 +182,8 @@ export default function LessonView({
   const hrefFor = hrefBase ? (id: string) => `${hrefBase}/${id}` : undefined;
   const gradeable = lesson.blocks.filter((b) => b.kind === "exercise" || b.kind === "quiz").length;
   const [doneIds, setDoneIds] = useState<Set<string>>(new Set());
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const closeDrawer = useCallback(() => setDrawerOpen(false), []);
 
   useEffect(() => {
     let alive = true;
@@ -175,8 +215,24 @@ export default function LessonView({
 
   return (
     <div className="mx-auto flex max-w-5xl flex-col gap-6 lg:flex-row">
-      <Sidebar lessons={lessons} activeId={lesson.id} doneIds={doneIds} hrefFor={hrefFor} />
+      <Sidebar
+        lessons={lessons}
+        activeId={lesson.id}
+        doneIds={doneIds}
+        hrefFor={hrefFor}
+        open={drawerOpen}
+        onClose={closeDrawer}
+      />
       <article className="min-w-0 max-w-3xl flex-1">
+      <button
+        type="button"
+        onClick={() => setDrawerOpen(true)}
+        aria-controls="lesson-sidebar"
+        aria-expanded={drawerOpen}
+        className="mb-4 inline-flex items-center gap-2 rounded-lg border border-zinc-200 bg-white px-3 py-1.5 text-sm font-semibold text-zinc-700 hover:border-violet-400 lg:hidden dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-200"
+      >
+        ☰ Хичээлүүд
+      </button>
       <header className="mb-6">
         {lessons.length > 0 && (
           <div className="mb-4 rounded-xl border border-zinc-200 bg-white p-3 dark:border-zinc-800 dark:bg-zinc-900">

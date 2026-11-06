@@ -134,7 +134,7 @@ React/JS/DOM код зөвхөн sandbox iframe дотор, React нь `createEl
 - [x] Sidebar-т хичээл хайх/шүүх input (гарчигаар)
 - [x] Хичээл бүрт "~X минут" уншиж/хийх хугацааны тэмдэг (блокоос тооцоол)
 - [x] Breadcrumb навигаци (Модуль → Хичээл) LessonView-ийн толгойд
-- [ ] Гар утсанд sidebar-г хаашаа тийш гарч ирдэг drawer болгох (overlay + Esc)
+- [x] Гар утсанд sidebar-г хаашаа тийш гарч ирдэг drawer болгох (overlay + Esc)
 - [ ] Хичээлийн доод талд "Дараагийн хичээл" preview карт (гарчиг+зорилго)
 - [ ] Хичээл хэсгийн гарчигт тухайн модулийн нийт явцын жижиг progress bar
 - [ ] prefers-color-scheme-д тохирсон dark горим хичээл/playground-д (хэрэв theme байхгүй бол CSS-ээр)
