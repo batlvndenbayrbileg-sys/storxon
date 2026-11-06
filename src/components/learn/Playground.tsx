@@ -203,6 +203,13 @@ export default function Playground({
     setTimeout(() => URL.revokeObjectURL(url), 1000);
   }, [files]);
 
+  const openPreviewTab = useCallback(() => {
+    const blob = new Blob([buildStandaloneDoc(files)], { type: "text/html;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    window.open(url, "_blank", "noopener,noreferrer");
+    setTimeout(() => URL.revokeObjectURL(url), 60000);
+  }, [files]);
+
   useEffect(() => {
     if (!copied) return;
     const t = setTimeout(() => setCopied(null), 1600);
@@ -322,6 +329,14 @@ export default function Playground({
                 className={`rounded-md px-2 py-1 text-xs font-medium text-zinc-400 hover:text-white ${FOCUS}`}
               >
                 Татах
+              </button>
+              <button
+                type="button"
+                onClick={openPreviewTab}
+                aria-label="Preview-г шинэ табд нээх"
+                className={`rounded-md px-2 py-1 text-xs font-medium text-zinc-400 hover:text-white ${FOCUS}`}
+              >
+                Шинэ таб
               </button>
               <button
                 type="button"

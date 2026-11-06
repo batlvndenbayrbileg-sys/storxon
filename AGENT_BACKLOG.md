@@ -126,7 +126,7 @@ React/JS/DOM код зөвхөн sandbox iframe дотор, React нь `createEl
 - [x] Console relay-д объект/массивыг гоё форматлаж хэвлэх (JSON.stringify indent)
 - [x] Editor-т `Tab` дарахад 2 зай оруулах, урт мөрөнд хэвтээ гүйлт
 - [x] Кодыг бие даасан `.html` файл болгон татаж авах товч
-- [ ] Preview-г шинэ табд нээх товч (sandbox blob URL)
+- [x] Preview-г шинэ табд нээх товч (sandbox blob URL)
 - [ ] Editor-ийн фонтыг томруулах/жижигрүүлэх (A+/A−) товч, localStorage-д сонголт хадгалах
 - [ ] Код жишээ (`code` блок)-т энгийн syntax highlighting (гадны dependency-гүй, token split)
 
