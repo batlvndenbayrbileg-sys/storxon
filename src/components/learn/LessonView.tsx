@@ -184,6 +184,19 @@ export default function LessonView({
   const [doneIds, setDoneIds] = useState<Set<string>>(new Set());
   const [drawerOpen, setDrawerOpen] = useState(false);
   const closeDrawer = useCallback(() => setDrawerOpen(false), []);
+  const [showTop, setShowTop] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setShowTop(window.scrollY > 600);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  const scrollToTop = useCallback(() => {
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    window.scrollTo({ top: 0, behavior: reduce ? "auto" : "smooth" });
+  }, []);
 
   useEffect(() => {
     let alive = true;
@@ -358,6 +371,16 @@ export default function LessonView({
         </nav>
       )}
       </article>
+      {showTop && (
+        <button
+          type="button"
+          onClick={scrollToTop}
+          aria-label="Хичээлийн эхлэл рүү буцах"
+          className="fixed bottom-5 right-5 z-30 inline-flex items-center gap-1.5 rounded-full border border-violet-300 bg-white px-4 py-2 text-sm font-semibold text-violet-700 shadow-lg hover:border-violet-500 dark:border-violet-800 dark:bg-zinc-900 dark:text-violet-300"
+        >
+          ↑ Эхлэл рүү
+        </button>
+      )}
     </div>
   );
 }
