@@ -124,7 +124,11 @@ export default function Playground({
     [onFilesChange, persistId],
   );
 
+  const modified =
+    files.html !== starter.html || files.css !== starter.css || files.js !== starter.js;
+
   const reset = useCallback(() => {
+    if (!window.confirm("Одоогийн кодыг устгаад эхлэлийн кодоор солих уу?")) return;
     update(starter);
     setLogs([]);
     setSrcDoc(buildSrcDoc(starter));
@@ -253,10 +257,11 @@ export default function Playground({
               <button
                 type="button"
                 onClick={reset}
+                disabled={!modified}
                 aria-label="Кодыг эхлэлийн төлөвт буцаах"
-                className={`rounded-md px-2 py-1 text-xs font-medium text-zinc-400 hover:text-white ${FOCUS}`}
+                className={`rounded-md px-2 py-1 text-xs font-medium text-zinc-400 hover:text-white disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:text-zinc-400 ${FOCUS}`}
               >
-                Эхлэл
+                Эхлэлд буцаах
               </button>
               <button
                 type="button"
