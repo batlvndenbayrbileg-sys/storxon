@@ -93,6 +93,8 @@ export default function Playground({
   const [autoRun, setAutoRun] = useState(false);
   const [fontSize, setFontSize] = useState(13);
   const [toast, setToast] = useState<string | null>(null);
+  // Lazy-load the preview iframe: only attach srcDoc once it nears the viewport.
+  const [inView, setInView] = useState(false);
   const uid = useId();
   const iframeRef = useRef<HTMLIFrameElement | null>(null);
   const gutterRef = useRef<HTMLDivElement | null>(null);
@@ -115,6 +117,27 @@ export default function Playground({
     const t = setTimeout(run, 700);
     return () => clearTimeout(t);
   }, [autoRun, run]);
+
+  // Defer the iframe's content until it is close to the viewport.
+  useEffect(() => {
+    const el = iframeRef.current;
+    if (!el || inView) return;
+    if (typeof IntersectionObserver === "undefined") {
+      setInView(true);
+      return;
+    }
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((e) => e.isIntersecting)) {
+          setInView(true);
+          io.disconnect();
+        }
+      },
+      { rootMargin: "200px" },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, [inView]);
 
   // Restore the student's preferred editor font size.
   useEffect(() => {
@@ -467,7 +490,7 @@ export default function Playground({
             ref={iframeRef}
             title="Кодын урьдчилан харалт"
             sandbox="allow-scripts"
-            srcDoc={srcDoc}
+            srcDoc={inView ? srcDoc : ""}
             className="w-full flex-1 bg-white"
             style={{ height: full ? undefined : height, minHeight: 120 }}
           />

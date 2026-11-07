@@ -150,7 +150,7 @@ React/JS/DOM код зөвхөн sandbox iframe дотор, React нь `createEl
 
 ## F. Гүйцэтгэл · SEO · хүртээмж
 - [x] Хичээл бүрт тусдаа `metadata` (title/description) — `/playground/[id]` дээр
-- [ ] Playground iframe-г viewport-д ороход lazy ачаалах (IntersectionObserver)
+- [x] Playground iframe-г viewport-д ороход lazy ачаалах (IntersectionObserver)
 - [ ] Хичээлийн том контентыг `dynamic import`-оор код хуваах
 - [ ] Бүх зурагт тодорхой `width/height` (layout shift/CLS багасгах)
 - [ ] `prefers-reduced-motion`-г бүх анимэйшнд хүндэтгэх
