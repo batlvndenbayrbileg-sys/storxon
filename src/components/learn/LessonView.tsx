@@ -3,14 +3,25 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import HighlightedCode from "@/components/learn/HighlightedCode";
-import Playground from "@/components/learn/Playground";
 import { LESSONS } from "@/lib/lessons/data";
 import { loadProgress, markComplete } from "@/lib/lessons/progress";
 import { getStreak, touchStreak } from "@/lib/lessons/streak";
 import { DAILY_GOAL, getDailyCount, recordLessonToday } from "@/lib/lessons/daily";
 import { computeXp, getXp, saveXp } from "@/lib/lessons/xp";
 import { runCheck, type ExerciseCheck, type Lesson, type LessonBlock, type PlaygroundFiles } from "@/lib/lessons/types";
+
+// Playground-г тусдаа chunk болгон ачаална (код хуваалт) — хичээлийн эхний ачаалал хөнгөрнө.
+const Playground = dynamic(() => import("@/components/learn/Playground"), {
+  loading: () => (
+    <div
+      role="status"
+      aria-label="Playground ачаалж байна"
+      className="h-48 animate-pulse rounded-xl border border-zinc-200 bg-zinc-100 dark:border-zinc-800 dark:bg-zinc-900"
+    />
+  ),
+});
 
 /**
  * Renders one structured lesson: theory, read-only code, sandboxed playgrounds,
