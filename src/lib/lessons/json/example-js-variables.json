@@ -1,0 +1,54 @@
+{
+  "id": "example-js-variables",
+  "module": 3,
+  "title": "Жишээ: JS хувьсагч (олон асуулттай quiz)",
+  "objectives": [
+    "let-ээр хувьсагч зарлах",
+    "quiz блокийн more талбараар хэд хэдэн асуулт нэг дор тавихыг харах"
+  ],
+  "blocks": [
+    {
+      "kind": "theory",
+      "title": "Хувьсагч",
+      "html": "<p>Хувьсагч бол утга хадгалах нэртэй хайрцаг. <code>let</code> нь утгыг дараа нь солих боломжтой, <code>const</code> нь солигдохгүй.</p>"
+    },
+    {
+      "kind": "playground",
+      "title": "Туршиж үз",
+      "height": 220,
+      "starter": {
+        "html": "<p id=\"out\"></p>",
+        "css": "body { font-family: system-ui; padding: 16px; }",
+        "js": "let name = \"Storxon\";\ndocument.getElementById(\"out\").textContent = \"Сайн уу, \" + name;\nconsole.log(name);"
+      }
+    },
+    {
+      "kind": "exercise",
+      "title": "Хувьсагч зарла",
+      "prompt": "<code>let age = 12;</code> шиг өөрийн нэг хувьсагч зарлаад Шалгах дээр дар.",
+      "starter": { "html": "", "css": "", "js": "// энд бич\n" },
+      "hint": "let түлхүүр үгээр эхэл.",
+      "check": {
+        "type": "jsIncludes",
+        "pattern": "\\blet\\s+\\w+\\s*=",
+        "message": "let ашиглан хувьсагч зарла."
+      }
+    },
+    {
+      "kind": "quiz",
+      "title": "Шалгалт",
+      "question": "Дараа нь утгыг нь солих хувьсагчийг ямар түлхүүр үгээр зарлах вэ?",
+      "options": ["const", "let", "function"],
+      "answer": 1,
+      "explain": "let нь дахин оноох боломжтой.",
+      "more": [
+        {
+          "question": "const-оор зарласан хувьсагчид дахин утга онооход юу болох вэ?",
+          "options": ["Алдаа гарна", "Амжилттай солигдоно"],
+          "answer": 0,
+          "explain": "const хувьсагчид дахин оноох боломжгүй."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "id": "example-html-links",
+  "module": 1,
+  "title": "Жишээ: HTML холбоос (film блок)",
+  "objectives": [
+    "a тэг ба href шинж чанарыг ашиглах",
+    "film блок нь бичлэгийн картыг дотоод замаар холбохыг харах"
+  ],
+  "blocks": [
+    {
+      "kind": "film",
+      "title": "Холбоосын лекц",
+      "description": "Видео хичээлийг /learn дээр үзнэ (нэвтрэлт + төлбөрийн шалгалттай).",
+      "href": "/learn",
+      "label": "Бичлэг үзэх"
+    },
+    {
+      "kind": "theory",
+      "title": "a тэг",
+      "html": "<p><code>&lt;a href=\"...\"&gt;</code> тэг нь өөр хуудас руу холбоос үүсгэнэ.</p>"
+    },
+    {
+      "kind": "exercise",
+      "title": "Холбоос нэм",
+      "prompt": "<code>&lt;a&gt;</code> тэг ашиглан \"Storxon\" гэсэн холбоос нэмээд Шалгах дээр дар.",
+      "starter": { "html": "<p>Манай сайт:</p>", "css": "", "js": "" },
+      "hint": "<a href=\"/\">Storxon</a>",
+      "check": {
+        "type": "htmlIncludes",
+        "pattern": "<a\\s+[^>]*href=[^>]+>\\s*Storxon",
+        "flags": "i",
+        "message": "href-тэй, \"Storxon\" текст бүхий <a> тэг нэм."
+      }
+    }
+  ]
+}

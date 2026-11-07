@@ -1,0 +1,46 @@
+{
+  "id": "example-css-color",
+  "module": 2,
+  "title": "Жишээ: CSS өнгө (allOf шалгалт)",
+  "objectives": [
+    "color, background-г хамт ашиглах",
+    "allOf шалгалт нэг дасгалд хэд хэдэн нөхцөл шаардахыг харах"
+  ],
+  "blocks": [
+    {
+      "kind": "theory",
+      "title": "Текст ба дэвсгэр өнгө",
+      "html": "<p><code>color</code> нь текстийн, <code>background</code> нь дэвсгэрийн өнгийг тохируулна.</p>"
+    },
+    {
+      "kind": "code",
+      "title": "Жишээ",
+      "lang": "css",
+      "code": "h1 {\n  color: white;\n  background: #6d28d9;\n}"
+    },
+    {
+      "kind": "exercise",
+      "title": "h1-д өнгө өг",
+      "prompt": "<code>h1</code>-д <code>color</code> болон <code>background</code> хоёуланг нь оноогоод Шалгах дээр дар.",
+      "starter": {
+        "html": "<h1>Сайн уу</h1>",
+        "css": "h1 {\n  \n}",
+        "js": ""
+      },
+      "hint": "Хоёр шинж чанар хоёулаа хэрэгтэй.",
+      "hint2": "color: white; background: #6d28d9;",
+      "solution": {
+        "html": "<h1>Сайн уу</h1>",
+        "css": "h1 {\n  color: white;\n  background: #6d28d9;\n}",
+        "js": ""
+      },
+      "check": {
+        "type": "allOf",
+        "checks": [
+          { "type": "cssIncludes", "pattern": "(^|[;{\\s])color\\s*:", "message": "color шинж чанар нэм." },
+          { "type": "cssIncludes", "pattern": "background(-color)?\\s*:", "message": "background шинж чанар нэм." }
+        ]
+      }
+    }
+  ]
+}

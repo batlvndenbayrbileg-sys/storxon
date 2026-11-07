@@ -94,3 +94,15 @@ describe("lessonFromJson", () => {
     expect(() => lessonFromJson({ ...baseLesson, blocks: [film] })).toThrow(/href/);
   });
 });
+
+describe("author example lessons", () => {
+  const examples = import.meta.glob("./json/example-*.json", { eager: true, import: "default" });
+
+  it("finds the example files", () => {
+    expect(Object.keys(examples).length).toBeGreaterThanOrEqual(3);
+  });
+
+  it.each(Object.entries(examples))("%s passes lessonFromJson", (_name, raw) => {
+    expect(() => lessonFromJson(raw)).not.toThrow();
+  });
+});
