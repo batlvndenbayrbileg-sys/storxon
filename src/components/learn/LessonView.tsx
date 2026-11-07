@@ -8,6 +8,7 @@ import Playground from "@/components/learn/Playground";
 import { LESSONS } from "@/lib/lessons/data";
 import { loadProgress, markComplete } from "@/lib/lessons/progress";
 import { getStreak, touchStreak } from "@/lib/lessons/streak";
+import { DAILY_GOAL, getDailyCount, recordLessonToday } from "@/lib/lessons/daily";
 import { computeXp, getXp, saveXp } from "@/lib/lessons/xp";
 import { runCheck, type ExerciseCheck, type Lesson, type LessonBlock, type PlaygroundFiles } from "@/lib/lessons/types";
 
@@ -35,6 +36,7 @@ function Sidebar({
   doneIds,
   streak,
   xp,
+  daily,
   hrefFor,
   open,
   onClose,
@@ -44,6 +46,7 @@ function Sidebar({
   doneIds: Set<string>;
   streak: number;
   xp: number;
+  daily: number;
   hrefFor?: (id: string) => string;
   /** Mobile drawer state (ignored on lg+, where the sidebar is always visible). */
   open: boolean;
@@ -106,6 +109,35 @@ function Sidebar({
             <span>{xp} XP</span>
           </div>
         )}
+        <div
+          className="mb-3 rounded-lg bg-emerald-50 px-3 py-2 text-sm text-emerald-900 dark:bg-emerald-950/40 dark:text-emerald-200"
+          title="Өдөр бүр хичээл дуусгах зорилго"
+        >
+          <div className="flex items-center justify-between font-semibold">
+            <span>
+              <span aria-hidden>🎯</span> Өнөөдрийн зорилго
+            </span>
+            <span>
+              {Math.min(daily, DAILY_GOAL)}/{DAILY_GOAL}
+            </span>
+          </div>
+          <div
+            role="progressbar"
+            aria-label="Өнөөдрийн зорилго"
+            aria-valuemin={0}
+            aria-valuemax={DAILY_GOAL}
+            aria-valuenow={Math.min(daily, DAILY_GOAL)}
+            className="mt-1.5 h-1.5 overflow-hidden rounded-full bg-emerald-200 dark:bg-emerald-900"
+          >
+            <div
+              className="h-full rounded-full bg-emerald-500 transition-[width] duration-300 motion-reduce:transition-none"
+              style={{ width: `${Math.min(100, (daily / DAILY_GOAL) * 100)}%` }}
+            />
+          </div>
+          <p className="mt-1 text-xs">
+            {daily >= DAILY_GOAL ? "Өнөөдрийн зорилго биелсэн! 🎉" : `${DAILY_GOAL} хичээл дуусга`}
+          </p>
+        </div>
         <input
           type="search"
           value={query}
@@ -210,12 +242,14 @@ export default function LessonView({
   const closeDrawer = useCallback(() => setDrawerOpen(false), []);
   const [showTop, setShowTop] = useState(false);
   const [streak, setStreak] = useState(0);
+  const [daily, setDaily] = useState(0);
 
   const [storedXp, setStoredXp] = useState(0);
   const [progressLoaded, setProgressLoaded] = useState(false);
 
   useEffect(() => {
     setStreak(getStreak());
+    setDaily(getDailyCount());
     setStoredXp(getXp());
   }, []);
 
@@ -265,6 +299,29 @@ export default function LessonView({
   useEffect(() => {
     if (doneIds.size > 0 && derivedXp > storedXp) saveXp(derivedXp);
   }, [doneIds, derivedXp, storedXp]);
+  // Count lessons that flip to finished during this visit toward today's goal.
+  const baselineFinished = useRef<Set<string> | null>(null);
+  useEffect(() => {
+    if (!progressLoaded) return;
+    const finished = lessons
+      .filter((l) => {
+        const ids = gradeableIds(l);
+        return ids.length > 0 && ids.every((id) => doneIds.has(id));
+      })
+      .map((l) => l.id);
+    if (baselineFinished.current === null) {
+      baselineFinished.current = new Set(finished);
+      return;
+    }
+    let count = -1;
+    for (const id of finished) {
+      if (!baselineFinished.current.has(id)) {
+        baselineFinished.current.add(id);
+        count = recordLessonToday(id);
+      }
+    }
+    if (count >= 0) setDaily(count);
+  }, [doneIds, lessons, progressLoaded]);
   const moduleLessons = lessons.filter((l) => l.module === lesson.module);
   const moduleFinished = moduleLessons.filter((l) => {
     const ids = gradeableIds(l);
@@ -297,6 +354,7 @@ export default function LessonView({
         doneIds={doneIds}
         streak={streak}
         xp={xp}
+        daily={daily}
         hrefFor={hrefFor}
         open={drawerOpen}
         onClose={closeDrawer}
