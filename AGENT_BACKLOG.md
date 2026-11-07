@@ -159,7 +159,7 @@ React/JS/DOM код зөвхөн sandbox iframe дотор, React нь `createEl
 - [x] Learn/playground хуудсанд JSON-LD (Course/LearningResource) structured data
 
 ## G. Код чанар · баримт · тест
-- [ ] `runCheck`, `lessonFromJson`-д unit test нэмэх (vitest тохируулах; build-д нөлөөлөхгүй)
+- [x] `runCheck`, `lessonFromJson`-д unit test нэмэх (vitest тохируулах; build-д нөлөөлөхгүй)
 - [ ] Хичээл зохиогчийн гарын авлага (`README.md`)-г өргөтгөх + 3 жишээ JSON хичээл
 - [ ] `types.ts`, `progress.ts` (унших хэсэг)-т JSDoc тайлбар нэмэх
 - [ ] LessonView/Playground-ийн урт хэсгийг жижиг дэд компонент болгон refactor (зан төлөв өөрчлөхгүй)
