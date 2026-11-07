@@ -77,7 +77,7 @@ export default function PreorderForm({ prices, defaultPlan = "standard" }: { pri
         <p className="text-lg font-semibold">QPay-ээр төлөх · {fmt(inv.amount)}</p>
         <p className="mt-1 text-sm text-muted">Банкны аппаараа QR-ыг уншуулна уу.</p>
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={inv.qr} alt="Төлбөрийн QR" className="mx-auto mt-4 size-56 rounded-2xl border border-line bg-white" />
+        <img src={inv.qr} alt="Төлбөрийн QR" width={224} height={224} className="mx-auto mt-4 size-56 rounded-2xl border border-line bg-white" />
         <p className="mt-4 flex items-center justify-center gap-2 text-sm text-muted">
           <span className="size-2.5 animate-pulse rounded-full bg-amber-400" /> Төлбөр хүлээж байна…
         </p>
@@ -86,7 +86,7 @@ export default function PreorderForm({ prices, defaultPlan = "standard" }: { pri
             {inv.banks.map((b) => (
               <a key={b.name} href={b.link} className="flex items-center gap-1.5 rounded-xl border border-line bg-white px-3 py-1.5 text-xs font-semibold">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                {b.logo && <img src={b.logo} alt="" className="size-5 rounded-md" />}
+                {b.logo && <img src={b.logo} alt="" width={20} height={20} className="size-5 rounded-md" />}
                 {b.name}
               </a>
             ))}

@@ -249,7 +249,7 @@ export default function Dashboard() {
                 </div>
               </div>
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/kit/wave.webp" alt="" aria-hidden className="animate-float pointer-events-none absolute -right-4 -bottom-3 hidden w-40 select-none sm:block md:w-48" />
+              <img src="/kit/wave.webp" alt="" width={390} height={442} aria-hidden className="animate-float pointer-events-none absolute -right-4 -bottom-3 hidden w-40 select-none sm:block md:w-48" />
             </section>
 
             {/* how it works — so a first-timer understands the whole thing at a glance */}
@@ -323,7 +323,7 @@ export default function Dashboard() {
               <p className="relative z-10 pr-16 text-lg font-black leading-snug">“{quote}”</p>
               <p className="relative z-10 mt-2 text-sm font-semibold text-violet-700">— Storxon</p>
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/kit/wow.webp" alt="" aria-hidden className="animate-float pointer-events-none absolute -right-2 -bottom-2 w-20 select-none opacity-80" />
+              <img src="/kit/wow.webp" alt="" width={614} height={760} aria-hidden className="animate-float pointer-events-none absolute -right-2 -bottom-2 w-20 select-none opacity-80" />
             </section>
 
             <section className="rounded-3xl border border-line bg-ink p-6 shadow-sm">
