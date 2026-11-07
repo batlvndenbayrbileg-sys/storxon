@@ -8,6 +8,7 @@ import Playground from "@/components/learn/Playground";
 import { LESSONS } from "@/lib/lessons/data";
 import { loadProgress, markComplete } from "@/lib/lessons/progress";
 import { getStreak, touchStreak } from "@/lib/lessons/streak";
+import { computeXp, getXp, saveXp } from "@/lib/lessons/xp";
 import { runCheck, type ExerciseCheck, type Lesson, type LessonBlock, type PlaygroundFiles } from "@/lib/lessons/types";
 
 /**
@@ -33,6 +34,7 @@ function Sidebar({
   activeId,
   doneIds,
   streak,
+  xp,
   hrefFor,
   open,
   onClose,
@@ -41,6 +43,7 @@ function Sidebar({
   activeId: string;
   doneIds: Set<string>;
   streak: number;
+  xp: number;
   hrefFor?: (id: string) => string;
   /** Mobile drawer state (ignored on lg+, where the sidebar is always visible). */
   open: boolean;
@@ -92,6 +95,15 @@ function Sidebar({
           >
             <span aria-hidden>🔥</span>
             <span>{streak} өдрийн streak</span>
+          </div>
+        )}
+        {xp > 0 && (
+          <div
+            className="mb-3 flex items-center gap-2 rounded-lg bg-violet-50 px-3 py-1.5 text-sm font-semibold text-violet-800 dark:bg-violet-950/40 dark:text-violet-200"
+            title="Дуусгасан дасгал, шалгалт бүрт оноо"
+          >
+            <span aria-hidden>⭐</span>
+            <span>{xp} XP</span>
           </div>
         )}
         <input
@@ -199,8 +211,11 @@ export default function LessonView({
   const [showTop, setShowTop] = useState(false);
   const [streak, setStreak] = useState(0);
 
+  const [storedXp, setStoredXp] = useState(0);
+
   useEffect(() => {
     setStreak(getStreak());
+    setStoredXp(getXp());
   }, []);
 
   useEffect(() => {
@@ -240,6 +255,12 @@ export default function LessonView({
     return ids.length > 0 && ids.every((id) => doneIds.has(id));
   }).length;
   const overallPct = lessons.length > 0 ? Math.round((finishedLessons / lessons.length) * 100) : 0;
+  const tasksDone = lessons.reduce((n, l) => n + gradeableIds(l).filter((id) => doneIds.has(id)).length, 0);
+  const derivedXp = computeXp(tasksDone, finishedLessons);
+  const xp = Math.max(derivedXp, storedXp);
+  useEffect(() => {
+    if (doneIds.size > 0 && derivedXp > storedXp) saveXp(derivedXp);
+  }, [doneIds, derivedXp, storedXp]);
   const moduleLessons = lessons.filter((l) => l.module === lesson.module);
   const moduleFinished = moduleLessons.filter((l) => {
     const ids = gradeableIds(l);
@@ -257,6 +278,7 @@ export default function LessonView({
         activeId={lesson.id}
         doneIds={doneIds}
         streak={streak}
+        xp={xp}
         hrefFor={hrefFor}
         open={drawerOpen}
         onClose={closeDrawer}
