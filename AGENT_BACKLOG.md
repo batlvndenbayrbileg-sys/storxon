@@ -153,7 +153,7 @@ React/JS/DOM код зөвхөн sandbox iframe дотор, React нь `createEl
 - [x] Playground iframe-г viewport-д ороход lazy ачаалах (IntersectionObserver)
 - [x] Хичээлийн том контентыг `dynamic import`-оор код хуваах
 - [x] Бүх зурагт тодорхой `width/height` (layout shift/CLS багасгах)
-- [ ] `prefers-reduced-motion`-г бүх анимэйшнд хүндэтгэх
+- [x] `prefers-reduced-motion`-г бүх анимэйшнд хүндэтгэх
 - [ ] Бүх интерактив элементэд keyboard навигаци + modal/drawer-т focus trap
 - [ ] Өнгөний контраст (WCAG AA) нягталж засах
 - [ ] Learn/playground хуудсанд JSON-LD (Course/LearningResource) structured data
