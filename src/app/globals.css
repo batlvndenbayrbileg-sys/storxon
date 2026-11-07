@@ -94,6 +94,22 @@ body {
   .animate-float { animation: none; }
 }
 
+@keyframes sx-confetti-fall {
+  0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(110vh) rotate(720deg); opacity: 0.9; }
+}
+.sx-confetti {
+  position: absolute;
+  top: 0;
+  width: 8px;
+  height: 14px;
+  border-radius: 2px;
+  animation: sx-confetti-fall 3s linear forwards;
+}
+@media (prefers-reduced-motion: reduce) {
+  .sx-confetti { display: none; }
+}
+
 details > summary {
   list-style: none;
 }

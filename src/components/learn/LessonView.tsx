@@ -212,6 +212,7 @@ export default function LessonView({
   const [streak, setStreak] = useState(0);
 
   const [storedXp, setStoredXp] = useState(0);
+  const [progressLoaded, setProgressLoaded] = useState(false);
 
   useEffect(() => {
     setStreak(getStreak());
@@ -233,7 +234,10 @@ export default function LessonView({
   useEffect(() => {
     let alive = true;
     loadProgress().then((d) => {
-      if (alive) setDoneIds(new Set(Object.keys(d).filter((k) => d[k])));
+      if (alive) {
+        setDoneIds(new Set(Object.keys(d).filter((k) => d[k])));
+        setProgressLoaded(true);
+      }
     });
     return () => {
       alive = false;
@@ -267,6 +271,20 @@ export default function LessonView({
     return ids.length > 0 && ids.every((id) => doneIds.has(id));
   }).length;
   const modulePct = moduleLessons.length > 0 ? Math.round((moduleFinished / moduleLessons.length) * 100) : 0;
+  const moduleComplete = moduleLessons.length > 0 && moduleFinished === moduleLessons.length;
+  // Confetti only when the module flips to complete during this visit (not on page load).
+  const [confetti, setConfetti] = useState(false);
+  const prevModuleComplete = useRef<boolean | null>(null);
+  useEffect(() => {
+    if (!progressLoaded) return;
+    if (prevModuleComplete.current === false && moduleComplete) {
+      setConfetti(true);
+      const t = window.setTimeout(() => setConfetti(false), 3500);
+      prevModuleComplete.current = moduleComplete;
+      return () => window.clearTimeout(t);
+    }
+    prevModuleComplete.current = moduleComplete;
+  }, [moduleComplete, progressLoaded]);
   const idx = lessons.findIndex((l) => l.id === lesson.id);
   const prev = idx > 0 ? lessons[idx - 1] : undefined;
   const next = idx >= 0 && idx < lessons.length - 1 ? lessons[idx + 1] : undefined;
@@ -348,6 +366,31 @@ export default function LessonView({
             >
               <div className="h-full rounded-full bg-violet-500 transition-all" style={{ width: `${modulePct}%` }} />
             </div>
+          </div>
+        )}
+        {moduleComplete && (
+          <div
+            role="status"
+            className="mt-3 flex items-center gap-2 rounded-xl border border-emerald-200 bg-emerald-50 px-3 py-2 text-sm font-semibold text-emerald-800 dark:border-emerald-900/50 dark:bg-emerald-950/40 dark:text-emerald-200"
+          >
+            <span aria-hidden>🏆</span>
+            <span>Баяр хүргэе! Модуль {lesson.module}-г бүрэн дуусгалаа.</span>
+          </div>
+        )}
+        {confetti && (
+          <div aria-hidden className="pointer-events-none fixed inset-0 z-[60] overflow-hidden motion-reduce:hidden">
+            {Array.from({ length: 36 }, (_, i) => (
+              <span
+                key={i}
+                className="sx-confetti"
+                style={{
+                  left: `${(i * 97) % 100}%`,
+                  background: ["#7c3aed", "#f59e0b", "#10b981", "#ec4899", "#3b82f6"][i % 5],
+                  animationDelay: `${(i % 9) * 0.1}s`,
+                  animationDuration: `${2 + (i % 5) * 0.4}s`,
+                }}
+              />
+            ))}
           </div>
         )}
         <h1 className="mt-1 text-2xl font-extrabold text-zinc-900 sm:text-3xl dark:text-zinc-50">{lesson.title}</h1>
