@@ -56,6 +56,12 @@ function userId(): Promise<string | null> {
 }
 
 // ---- progress ----
+/**
+ * Read completed task ids as `{ [taskId]: true }`.
+ * Starts from localStorage; when signed in, merges completed rows from Supabase
+ * (RLS-scoped to the user) and refreshes the local copy. Never throws — on any
+ * error or when signed out it returns the local data.
+ */
 export async function loadProgress(): Promise<Record<string, boolean>> {
   const local = lsGet<Record<string, boolean>>(PKEY, {});
   const id = await userId();
@@ -88,6 +94,11 @@ export async function markComplete(taskId: string): Promise<void> {
 }
 
 // ---- workspaces (student's edited code, per block) ----
+/**
+ * Read the student's saved code for a block, or `null` if none.
+ * Prefers the Supabase copy when signed in (and caches it locally), otherwise
+ * falls back to localStorage. Never throws.
+ */
 export async function loadWorkspace(blockId: string): Promise<PlaygroundFiles | null> {
   const local = lsGet<Record<string, PlaygroundFiles>>(WKEY, {});
   const id = await userId();

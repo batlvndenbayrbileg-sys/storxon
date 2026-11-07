@@ -9,8 +9,14 @@
 // /public (e.g. "/kit/code.webp"); alt text is required for accessibility.
 export type TheoryImage = { src: string; alt: string; width: number; height: number; caption?: string };
 
+/** The three editable source files of a playground/exercise (raw strings, never executed in the app context). */
 export type PlaygroundFiles = { html: string; css: string; js: string };
 
+/**
+ * One unit of a lesson, discriminated by `kind`:
+ * `theory` (rich text), `code` (read-only sample), `playground` (editable sandbox),
+ * `exercise` (checked task), `film` (link to the gated player) or `quiz`.
+ */
 export type LessonBlock =
   // Trusted rich text — Mongolian explanations, diagrams. (DB-authored theory
   // must be sanitized before it reaches here; in-repo content is trusted.)
@@ -50,12 +56,18 @@ export type LessonBlock =
 // Deterministic completion criteria, evaluated client-side against the
 // student's *source*. A button click alone never completes an exercise — the
 // check must pass. (Richer in-iframe assertion running is a later upgrade.)
+/**
+ * Completion criteria for an exercise. The `*Includes` variants test a RegExp
+ * (`pattern` + optional `flags`) against one file; `allOf` requires every nested
+ * check to pass. `message` is shown on success (and appended to the hint on failure).
+ */
 export type ExerciseCheck =
   | { type: "htmlIncludes"; pattern: string; flags?: string; message: string }
   | { type: "cssIncludes"; pattern: string; flags?: string; message: string }
   | { type: "jsIncludes"; pattern: string; flags?: string; message: string }
   | { type: "allOf"; checks: ExerciseCheck[] };
 
+/** A full lesson: metadata plus its ordered blocks. */
 export type Lesson = {
   id: string; // stable slug; also the progress key in storage
   module: number;
@@ -87,7 +99,15 @@ function testFile(
   return { ok: false, message: `Бараг боллоо! ${where} ${check.message}` };
 }
 
-/** Run an ExerciseCheck against the current playground source. */
+/**
+ * Run an ExerciseCheck against the current playground source.
+ *
+ * Pure and deterministic. An invalid regex yields `{ ok: false }` with a message
+ * telling the student to notify the teacher, rather than throwing. For `allOf`
+ * the first failing check's result is returned.
+ *
+ * @returns `ok` plus a student-facing Mongolian `message`.
+ */
 export function runCheck(check: ExerciseCheck, files: PlaygroundFiles): { ok: boolean; message: string } {
   switch (check.type) {
     case "htmlIncludes":
@@ -106,4 +126,5 @@ export function runCheck(check: ExerciseCheck, files: PlaygroundFiles): { ok: bo
   }
 }
 
+/** One quiz question; `answer` is the zero-based index into `options`. */
 export type QuizQuestion = { question: string; options: string[]; answer: number; explain?: string };
