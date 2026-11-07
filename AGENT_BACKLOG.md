@@ -156,7 +156,7 @@ React/JS/DOM код зөвхөн sandbox iframe дотор, React нь `createEl
 - [x] `prefers-reduced-motion`-г бүх анимэйшнд хүндэтгэх
 - [x] Бүх интерактив элементэд keyboard навигаци + modal/drawer-т focus trap
 - [x] Өнгөний контраст (WCAG AA) нягталж засах
-- [ ] Learn/playground хуудсанд JSON-LD (Course/LearningResource) structured data
+- [x] Learn/playground хуудсанд JSON-LD (Course/LearningResource) structured data
 
 ## G. Код чанар · баримт · тест
 - [ ] `runCheck`, `lessonFromJson`-д unit test нэмэх (vitest тохируулах; build-д нөлөөлөхгүй)
