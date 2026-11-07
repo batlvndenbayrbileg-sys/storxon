@@ -192,7 +192,7 @@ function Stack() {
   return (
     <div className="border-y border-line/70 bg-white">
       <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-center gap-x-10 gap-y-3 px-4 py-6 text-sm text-muted sm:px-6">
-        <span className="text-xs uppercase tracking-widest text-muted/70">Ашиглах технологи</span>
+        <span className="text-xs uppercase tracking-widest text-muted">Ашиглах технологи</span>
         {tools.map((t) => (
           <span key={t} className="font-mono">{t}</span>
         ))}

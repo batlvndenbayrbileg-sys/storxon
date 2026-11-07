@@ -97,7 +97,7 @@ export default function PreorderForm({ prices, defaultPlan = "standard" }: { pri
   }
 
   const input =
-    "w-full rounded-xl border border-line bg-ink px-4 py-3 text-paper placeholder:text-muted/60 outline-none transition focus:border-volt";
+    "w-full rounded-xl border border-line bg-ink px-4 py-3 text-paper placeholder:text-muted outline-none transition focus:border-volt";
 
   return (
     <form onSubmit={onSubmit} className="space-y-3">

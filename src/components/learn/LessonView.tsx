@@ -806,7 +806,7 @@ function Exercise({
         <p className="mt-2 rounded-lg bg-white/70 p-3 text-sm text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300">🔎 {block.hint2}</p>
       )}
       {result && (
-        <p className={`mt-2 text-sm font-semibold ${result.ok ? "text-emerald-600" : "text-red-600"}`}>
+        <p className={`mt-2 text-sm font-semibold ${result.ok ? "text-emerald-700" : "text-red-700"}`}>
           {result.ok ? "✅ Зөв! Даалгавар биеллээ." : `💡 ${result.message}`}
         </p>
       )}
