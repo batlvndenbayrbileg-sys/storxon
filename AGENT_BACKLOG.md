@@ -154,7 +154,7 @@ React/JS/DOM код зөвхөн sandbox iframe дотор, React нь `createEl
 - [x] Хичээлийн том контентыг `dynamic import`-оор код хуваах
 - [x] Бүх зурагт тодорхой `width/height` (layout shift/CLS багасгах)
 - [x] `prefers-reduced-motion`-г бүх анимэйшнд хүндэтгэх
-- [ ] Бүх интерактив элементэд keyboard навигаци + modal/drawer-т focus trap
+- [x] Бүх интерактив элементэд keyboard навигаци + modal/drawer-т focus trap
 - [ ] Өнгөний контраст (WCAG AA) нягталж засах
 - [ ] Learn/playground хуудсанд JSON-LD (Course/LearningResource) structured data
 

@@ -64,13 +64,46 @@ function Sidebar({
   onClose: () => void;
 }) {
   const [query, setQuery] = useState("");
+  const navRef = useRef<HTMLElement>(null);
   useEffect(() => {
     if (!open) return;
+    // lg+ дээр sidebar модал биш — focus trap хэрэггүй, зөвхөн Esc.
+    const isDrawer = !window.matchMedia("(min-width: 1024px)").matches;
+    const previouslyFocused = document.activeElement as HTMLElement | null;
+    const focusables = () =>
+      Array.from(
+        navRef.current?.querySelectorAll<HTMLElement>(
+          'a[href], button:not([disabled]), input:not([disabled]), [tabindex]:not([tabindex="-1"])',
+        ) ?? [],
+      ).filter((el) => el.offsetParent !== null);
+    if (isDrawer) focusables()[0]?.focus();
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
+      if (e.key === "Escape") {
+        onClose();
+        return;
+      }
+      if (e.key !== "Tab" || !isDrawer) return;
+      const items = focusables();
+      if (items.length === 0) return;
+      const first = items[0];
+      const last = items[items.length - 1];
+      const active = document.activeElement;
+      if (!navRef.current?.contains(active)) {
+        e.preventDefault();
+        first.focus();
+      } else if (e.shiftKey && active === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && active === last) {
+        e.preventDefault();
+        first.focus();
+      }
     };
     window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      if (isDrawer) previouslyFocused?.focus();
+    };
   }, [open, onClose]);
   const q = query.trim().toLowerCase();
   const visible = q ? lessons.filter((l) => l.title.toLowerCase().includes(q)) : lessons;
@@ -87,6 +120,7 @@ function Sidebar({
         />
       )}
     <nav
+      ref={navRef}
       id="lesson-sidebar"
       aria-label="Хичээлийн жагсаалт"
       className={`fixed inset-y-0 left-0 z-50 w-72 max-w-[85vw] shrink-0 overflow-y-auto bg-zinc-50 p-3 shadow-xl transition-transform duration-200 motion-reduce:transition-none dark:bg-zinc-950 ${
