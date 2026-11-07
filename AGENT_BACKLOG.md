@@ -149,7 +149,7 @@ React/JS/DOM код зөвхөн sandbox iframe дотор, React нь `createEl
 - [x] "Өнөөдрийн зорилго: 1 хичээл" маягийн жижиг идэвхжүүлэгч самбар
 
 ## F. Гүйцэтгэл · SEO · хүртээмж
-- [ ] Хичээл бүрт тусдаа `metadata` (title/description) — `/playground/[id]` дээр
+- [x] Хичээл бүрт тусдаа `metadata` (title/description) — `/playground/[id]` дээр
 - [ ] Playground iframe-г viewport-д ороход lazy ачаалах (IntersectionObserver)
 - [ ] Хичээлийн том контентыг `dynamic import`-оор код хуваах
 - [ ] Бүх зурагт тодорхой `width/height` (layout shift/CLS багасгах)
