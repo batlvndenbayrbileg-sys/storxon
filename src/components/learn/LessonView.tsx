@@ -313,22 +313,38 @@ export default function LessonView({
       </button>
       <header className="mb-6">
         {lessons.length > 0 && (
-          <div className="mb-4 rounded-xl border border-zinc-200 bg-white p-3 dark:border-zinc-800 dark:bg-zinc-900">
-            <div className="flex items-center justify-between text-sm font-semibold text-zinc-700 dark:text-zinc-300">
-              <span>Нийт явц</span>
-              <span>
-                {finishedLessons}/{lessons.length} хичээл дууссан
-              </span>
-            </div>
+          <div className="mb-4 flex items-center gap-4 rounded-xl border border-zinc-200 bg-white p-3 dark:border-zinc-800 dark:bg-zinc-900">
             <div
               role="progressbar"
               aria-label="Нийт хичээлийн явц"
               aria-valuemin={0}
               aria-valuemax={lessons.length}
               aria-valuenow={finishedLessons}
-              className="mt-2 h-2 overflow-hidden rounded-full bg-zinc-100 dark:bg-zinc-800"
+              className="relative h-16 w-16 shrink-0"
             >
-              <div className="h-full rounded-full bg-violet-600 transition-all" style={{ width: `${overallPct}%` }} />
+              <svg viewBox="0 0 36 36" className="h-16 w-16 -rotate-90" aria-hidden="true">
+                <circle cx="18" cy="18" r="15.9155" fill="none" strokeWidth="3.5" className="stroke-zinc-100 dark:stroke-zinc-800" />
+                <circle
+                  cx="18"
+                  cy="18"
+                  r="15.9155"
+                  fill="none"
+                  strokeWidth="3.5"
+                  strokeLinecap="round"
+                  pathLength={100}
+                  strokeDasharray={`${overallPct} 100`}
+                  className="stroke-violet-600 motion-safe:transition-[stroke-dasharray] motion-safe:duration-500"
+                />
+              </svg>
+              <span className="absolute inset-0 flex items-center justify-center text-sm font-extrabold text-zinc-800 dark:text-zinc-100">
+                {Math.round(overallPct)}%
+              </span>
+            </div>
+            <div className="text-sm font-semibold text-zinc-700 dark:text-zinc-300">
+              <div>Нийт явц</div>
+              <div className="font-medium text-zinc-500">
+                {finishedLessons}/{lessons.length} хичээл дууссан
+              </div>
             </div>
           </div>
         )}
