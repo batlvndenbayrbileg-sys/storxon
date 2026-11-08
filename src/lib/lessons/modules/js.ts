@@ -1411,3 +1411,103 @@ main();`,
     },
   ],
 };
+
+export const JS_FETCH_JSON: Lesson = {
+  id: "js-fetch-json",
+  module: 3,
+  title: "JS — fetch ба JSON",
+  objectives: [
+    "JSON гэж юу болохыг, JSON.parse/JSON.stringify-ийг ойлгох",
+    "fetch-ээр өгөгдөл татаж, await response.json()-оор уншиж сурах",
+    "Татсан өгөгдлийг хуудсанд харуулах",
+  ],
+  blocks: [
+    {
+      kind: "theory",
+      title: "JSON ба fetch гэж юу вэ?",
+      html: `<p><strong>JSON</strong> нь өгөгдлийг текст хэлбэрээр дамжуулах нийтлэг формат. JavaScript-ийн объект, массивтай маш төстэй боловч түлхүүр нь заавал давхар хашилттай байна.</p>
+             <ul>
+               <li><code>JSON.stringify(obj)</code> — объектыг JSON текст болгоно.</li>
+               <li><code>JSON.parse(text)</code> — JSON текстийг буцаагаад объект болгоно.</li>
+               <li><code>fetch(url)</code> — өгөгдөл татах хүсэлт илгээж, <strong>Promise</strong> буцаана.</li>
+               <li><code>await response.json()</code> — хариуг JSON-оос шууд объект болгон уншина.</li>
+             </ul>
+             <p>Энэ хичээлд бодит сүлжээгүйгээр ажиллахын тулд жижиг JSON-г <code>data:</code> хаяг руу <code>fetch</code> хийнэ — бодит API-тай яг адил ажиллана.</p>`,
+    },
+    {
+      kind: "code",
+      title: "Жишээ код",
+      lang: "js",
+      code: `// JSON текст <-> объект
+const text = '{"name":"Сараа","age":20}';
+const user = JSON.parse(text);
+console.log(user.name);               // Сараа
+console.log(JSON.stringify(user));    // {"name":"Сараа","age":20}
+
+// fetch + async/await
+async function load() {
+  const res = await fetch('data:application/json,{"title":"Сайн уу"}');
+  const data = await res.json();
+  console.log(data.title);
+}
+load();`,
+    },
+    {
+      kind: "playground",
+      title: "Туршиж үз",
+      height: 280,
+      starter: {
+        html: `<h1>fetch ба JSON</h1>\n<ul id="list"></ul>`,
+        css: `body { font-family: system-ui; padding: 16px; }\nli { margin: 4px 0; }`,
+        js: `const url = 'data:application/json,' + encodeURIComponent(JSON.stringify([\n  { id: 1, title: "HTML сурах" },\n  { id: 2, title: "CSS сурах" },\n  { id: 3, title: "JS сурах" }\n]));\n\nasync function showTasks() {\n  const res = await fetch(url);\n  const tasks = await res.json();\n  console.log("Нийт:", tasks.length);\n  const list = document.querySelector("#list");\n  tasks.forEach((t) => {\n    const li = document.createElement("li");\n    li.textContent = t.id + ". " + t.title;\n    list.appendChild(li);\n  });\n}\nshowTasks();`,
+      },
+    },
+    {
+      kind: "exercise",
+      title: "JSON татаж харуул",
+      prompt: "`url` руу `fetch` хийж, `await res.json()`-оор өгөгдлийг уншаад `data.name`-ийг `console.log`-оор хэвлэ. Функцээ `async function load()` гэж нэрлээд эцэст нь дууд.",
+      starter: {
+        html: `<p>Консолыг шалгана уу.</p>`,
+        css: `body { font-family: system-ui; padding: 16px; }`,
+        js: `const url = 'data:application/json,' + encodeURIComponent(JSON.stringify({ name: "Storxon" }));\n\n// async function load() энд бич\n`,
+      },
+      hint: "const res = await fetch(url); const data = await res.json();",
+      hint2: "Дараа нь console.log(data.name); бичиж, функцийн гадна load(); гэж дууд.",
+      solution: {
+        html: `<p>Консолыг шалгана уу.</p>`,
+        css: `body { font-family: system-ui; padding: 16px; }`,
+        js: `const url = 'data:application/json,' + encodeURIComponent(JSON.stringify({ name: "Storxon" }));\n\nasync function load() {\n  const res = await fetch(url);\n  const data = await res.json();\n  console.log(data.name);\n}\nload();`,
+      },
+      check: {
+        type: "allOf",
+        checks: [
+          { type: "jsIncludes", pattern: "async\\s+function\\s+load\\s*\\(", message: "`async function load()` олдсонгүй." },
+          { type: "jsIncludes", pattern: "await\\s+fetch\\s*\\(", message: "`await fetch(...)` ашигла." },
+          { type: "jsIncludes", pattern: "\\.json\\s*\\(\\s*\\)", message: "`res.json()`-оор өгөгдлийг унш." },
+          { type: "jsIncludes", pattern: "console\\.log\\s*\\(", message: "`console.log(...)`-оор хэвлэ." },
+          { type: "jsIncludes", pattern: "(^|[^\\w.])load\\s*\\(\\s*\\)\\s*;?\\s*$", message: "Хамгийн сүүлд `load()`-ийг дууд." },
+        ],
+      },
+    },
+    {
+      kind: "quiz",
+      question: "`JSON.parse(text)` юу хийдэг вэ?",
+      options: [
+        "Объектыг JSON текст болгоно",
+        "JSON текстийг JavaScript объект болгоно",
+        "Сүлжээнээс өгөгдөл татна",
+        "Хуудсыг дахин ачаална",
+      ],
+      answer: 1,
+      explain: "`JSON.parse` нь JSON текстийг объект болгоно; эсрэгээр нь `JSON.stringify` хийнэ.",
+      more: [
+        {
+          question: "`fetch(url)` юу буцаадаг вэ?",
+          options: ["Шууд объект", "Promise", "Массив", "Юу ч буцаадаггүй"],
+          answer: 1,
+          explain: "`fetch` нь Promise буцаана — тиймээс `await` эсвэл `.then()`-ээр хүлээнэ.",
+        },
+      ],
+    },
+  ],
+};
