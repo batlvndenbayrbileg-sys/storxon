@@ -1216,3 +1216,96 @@ console.log(next(), next(), next()); // 1 2 3`,
     },
   ],
 };
+
+export const JS_MAP_FILTER_REDUCE: Lesson = {
+  id: "js-map-filter-reduce",
+  module: 3,
+  title: "JS — map, filter, reduce гүнзгий",
+  objectives: [
+    "map-аар массивын элемент бүрийг хувиргах",
+    "filter-ээр нөхцөлд таарсныг үлдээх",
+    "reduce-ээр массивыг нэг утга болгож нэгтгэх",
+    "Гурвыг гинжлэн (chain) ашиглах",
+  ],
+  blocks: [
+    {
+      kind: "theory",
+      title: "Гурван үндсэн арга",
+      html: `<ul>
+               <li><strong>map</strong> — элемент бүрийг хувиргаж <em>ижил урттай</em> шинэ массив буцаана.</li>
+               <li><strong>filter</strong> — нөхцөлд <code>true</code> гарсан элементүүдийг л үлдээнэ.</li>
+               <li><strong>reduce</strong> — массивыг нэг утга (нийлбэр, объект г.м.) болгож нэгтгэнэ. <code>reduce((нийлбэр, элемент) =&gt; ..., эхлэлийнУтга)</code></li>
+             </ul>
+             <p>Гурвуулаа анхны массивыг <strong>өөрчлөхгүй</strong>; үр дүнг буцаана. Тиймээс <code>.filter(...).map(...).reduce(...)</code> гэж гинжилж болно.</p>`,
+    },
+    {
+      kind: "code",
+      title: "Жишээ код",
+      lang: "js",
+      code: `const prices = [1200, 5000, 800, 3500];
+
+const withTax = prices.map((p) => p * 1.1);
+const expensive = prices.filter((p) => p >= 1000);
+const total = prices.reduce((sum, p) => sum + p, 0);
+
+console.log(withTax);
+console.log(expensive); // [1200, 5000, 3500]
+console.log(total);     // 10500
+
+// Гинжлэх: 1000-аас дээшийн нийлбэр
+const bigTotal = prices.filter((p) => p >= 1000).reduce((s, p) => s + p, 0);
+console.log(bigTotal);  // 9700`,
+    },
+    {
+      kind: "playground",
+      title: "Туршиж үз",
+      height: 260,
+      starter: {
+        html: `<h1>map / filter / reduce</h1>\n<p>Консолыг харна уу.</p>`,
+        css: `body { font-family: system-ui; padding: 16px; }`,
+        js: `const nums = [1, 2, 3, 4, 5, 6];\nconsole.log(nums.map((n) => n * n));\nconsole.log(nums.filter((n) => n % 2 === 0));\nconsole.log(nums.reduce((a, n) => a + n, 0));`,
+      },
+    },
+    {
+      kind: "exercise",
+      title: "Тэгш тооны нийлбэр",
+      prompt: "`nums` массиваас `filter`-ээр тэгш тоонуудыг шүүгээд, `reduce`-ээр нийлбэрийг нь ол. Үр дүнг `console.log`-оор хэвлэ.",
+      starter: {
+        html: `<p>Консолыг шалгана уу.</p>`,
+        css: `body { font-family: system-ui; padding: 16px; }`,
+        js: `const nums = [1, 2, 3, 4, 5, 6];\n// filter ба reduce ашиглан тэгш тооны нийлбэрийг ол\n`,
+      },
+      hint: "nums.filter((n) => n % 2 === 0) нь [2, 4, 6] буцаана.",
+      hint2: "Үүний араас .reduce((sum, n) => sum + n, 0) гэж гинжил.",
+      solution: {
+        html: `<p>Консолыг шалгана уу.</p>`,
+        css: `body { font-family: system-ui; padding: 16px; }`,
+        js: `const nums = [1, 2, 3, 4, 5, 6];\nconst total = nums.filter((n) => n % 2 === 0).reduce((sum, n) => sum + n, 0);\nconsole.log(total); // 12`,
+      },
+      check: {
+        type: "allOf",
+        checks: [
+          { type: "jsIncludes", pattern: "\\.filter\\s*\\(", message: "`.filter(...)` ашигла." },
+          { type: "jsIncludes", pattern: "\\.reduce\\s*\\(", message: "`.reduce(...)` ашигла." },
+          { type: "jsIncludes", pattern: "%\\s*2", message: "Тэгш эсэхийг `% 2`-оор шалга." },
+          { type: "jsIncludes", pattern: "console\\.log", message: "Үр дүнг `console.log`-оор хэвлэ." },
+        ],
+      },
+    },
+    {
+      kind: "quiz",
+      question: "`[1, 2, 3].map((n) => n * 2)` юу буцаах вэ?",
+      options: ["6", "[2, 4, 6]", "[1, 2, 3]", "[2, 3]"],
+      answer: 1,
+      explain: "map нь элемент бүрийг хувиргаж ижил урттай шинэ массив буцаана: [2, 4, 6].",
+      more: [
+        {
+          question: "`[1, 2, 3, 4].reduce((a, n) => a + n, 0)` юу буцаах вэ?",
+          options: ["4", "[1, 2, 3, 4]", "10", "0"],
+          answer: 2,
+          explain: "reduce нь 0-оос эхлээд бүх элементийг нэмнэ: 1+2+3+4 = 10.",
+        },
+      ],
+    },
+  ],
+};
