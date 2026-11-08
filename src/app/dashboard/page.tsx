@@ -109,7 +109,8 @@ function Ring({ pct, size = 120 }: { pct: number; size?: number }) {
 
 const NAV = [
   { label: "Самбар", href: "/dashboard", icon: "M3 11l9-8 9 8M5 10v10h14V10", active: true },
-  { label: "Сургалт", href: "/learn", icon: "M4 6h16M4 12h16M4 18h10" },
+  { label: "Видео хичээл", href: "/learn", icon: "M4 6h16M4 12h16M4 18h10" },
+  { label: "Интерактив дасгал", href: "/playground", icon: "M8 9l-3 3 3 3M16 9l3 3-3 3" },
   { label: "Үнэ", href: "/#pricing", icon: "M12 1v22M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6" },
 ];
 
@@ -251,6 +252,18 @@ export default function Dashboard() {
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src="/kit/wave.webp" alt="" width={390} height={442} aria-hidden className="animate-float pointer-events-none absolute -right-4 -bottom-3 hidden w-40 select-none sm:block md:w-48" />
             </section>
+
+            {/* interactive playground — distinct from the video course, free to practice */}
+            <a href="/playground" className="group flex items-center gap-4 rounded-3xl border border-violet-300 bg-gradient-to-br from-violet-50 to-blue-50 p-6 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
+              <span className="grid size-12 shrink-0 place-items-center rounded-2xl bg-brand text-white shadow-md shadow-violet-500/30">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className="size-6"><path d="M8 9l-3 3 3 3M16 9l3 3-3 3" /></svg>
+              </span>
+              <span className="min-w-0 flex-1">
+                <span className="block text-lg font-black">Интерактив хичээл — өөрөө код бич</span>
+                <span className="mt-0.5 block text-sm text-muted">HTML, CSS, JavaScript, React-ийг браузер дотор бичиж, шууд ажиллуулж сур.</span>
+              </span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" className="size-6 shrink-0 text-violet-600 transition group-hover:translate-x-0.5"><path d="M9 6l6 6-6 6" /></svg>
+            </a>
 
             {/* how it works — so a first-timer understands the whole thing at a glance */}
             <section className="grid gap-3 sm:grid-cols-3">
