@@ -172,3 +172,84 @@ React/JS/DOM код зөвхөн sandbox iframe дотор, React нь `createEl
 - [x] Footer-ийг цэгцлэх (холбоос, нийгмийн сүлжээ, зохиогчийн эрх)
 - [x] 404/not-found хуудсыг брэндэд нийцүүлэн сайжруулах
 - [x] Landing-д "Яагаад Storxon" давуу талын секц (3–4 карт)
+
+---
+
+# 🧪 Sprint 3 — Дэвшилтэт сэдэв, төсөл ба гэрчилгээ
+
+Storxon-г **анхан → дунд → төсөл бүтээх** түвшинд хүргэнэ: дэвшилтэт JS/CSS/React,
+олон алхамт удирдамжтай төслүүд, хэвлэх гэрчилгээ, платформын 2-р шатны боломжууд.
+Дүрэм өөрчлөгдөөгүй: нэг удаад ганц ажил, `next build` exit 0 бол шууд main-д push.
+**Хориотой бүс:** төлбөр, нэвтрэлт, env, Vercel, `supabase/schema.sql`,
+`src/lib/lessons/progress.ts`-ийн **бичих** зам (унших зүгээр). Шинэ хичээл `data.ts`/JSON-оор;
+код зөвхөн sandbox iframe дотор, React нь `createElement`-only; аливаа хадгалалт зөвхөн
+**localStorage** (DB биш, progress.ts-ийн DB зам руу бичихгүй).
+
+## A. Дэвшилтэт JavaScript
+- [ ] JS: ES6 — template literal, arrow function, destructuring хичээл
+- [ ] JS: Хувьсагчийн scope ба closure хичээл
+- [ ] JS: map/filter/reduce гүнзгий хичээл (`allOf` дасгал)
+- [ ] JS: Promise ба async/await хичээл (sandbox дотор setTimeout жишээ)
+- [ ] JS: fetch ба JSON хичээл (CORS-той нийтийн API эсвэл mock)
+- [ ] JS: Алдаа барих (try/catch/finally) хичээл
+- [ ] JS: localStorage-той ажиллах хичээл (sandbox дотор)
+- [ ] JS: setTimeout/setInterval ба таймер хичээл
+
+## B. Дэвшилтэт CSS
+- [ ] CSS: Position (relative/absolute/fixed/sticky) хичээл
+- [ ] CSS: Transform ба @keyframes анимэйшн хичээл
+- [ ] CSS: Custom properties (хувьсагч) хичээл
+- [ ] CSS: Pseudo-class/element (:hover, ::before/::after) хичээл
+- [ ] CSS: Gradient ба shadow хичээл
+- [ ] CSS: Grid дэвшилтэт (areas, auto-fit/minmax) хичээл
+
+## C. Дэвшилтэт React (createElement-only, sandbox)
+- [ ] React: useEffect ба амьдралын мөчлөг хичээл
+- [ ] React: Форм ба controlled input хичээл
+- [ ] React: Нөхцөлт render ба жагсаалтын `key` хичээл
+- [ ] React: Компонент задлах ба дахин ашиглах хичээл
+- [ ] React: useRef ба DOM хандалт хичээл
+- [ ] React: Энгийн custom hook хичээл
+
+## D. Удирдамжтай төслүүд (олон алхамт, бодит бүтээл)
+- [ ] Төсөл: "Миний танилцуулга хуудас" (HTML+CSS, алхам алхмаар)
+- [ ] Төсөл: "Тооны машин" (JS — UI + логик)
+- [ ] Төсөл: "To-do жагсаалт" (JS + localStorage)
+- [ ] Төсөл: "Тоглоом: асуулт хариулт (quiz)" (JS)
+- [ ] Төсөл: "Цаг/таймер апп" (JS)
+- [ ] Төсөл: "Жижиг React тоолуур/тоглуулагч" (createElement)
+- [ ] Төсөл бүрийн төгсгөлд "дараагийн алхам" өргөтгөх санаанууд
+
+## E. Шинэ платформ боломжууд (UI / зөвхөн localStorage)
+- [ ] Хэвлэх боломжтой "Гэрчилгээ" (нэр оруулах, localStorage, `@media print`)
+- [ ] Хичээл хадгалах (bookmark) — sidebar-т одоор тэмдэглэх (`sx-fav`)
+- [ ] "Үргэлжлүүлэх" — сүүлд үзсэн хичээл рүү үсрэх товч (`sx-last`)
+- [ ] Бүх явцыг JSON export/import (зөвхөн localStorage, DB руу бичихгүй)
+- [ ] Кодыг URL-д encode хийж хуваалцах холбоос (query param, backend-гүй)
+- [ ] Хичээлийн хүндийн зэрэг badge (хялбар/дунд/хүнд)
+- [ ] Курсын дуусгалтын хувь + "X хичээл үлдлээ" самбар
+- [ ] Keyboard shortcut тусламжийн панел (`?` товчоор нээх)
+- [ ] Хэвлэхэд ээлтэй хичээлийн харагдац (`@media print`)
+- [ ] Бүрэн dark/light toggle (гараар, `sx-theme` localStorage)
+
+## F. Playground хөдөлгүүр — 2-р шат
+- [ ] Кодыг цэгцлэх (format/indent) энгийн товч (dependency-гүй)
+- [ ] Алдааны мөрийг editor-т улаанаар тодруулах
+- [ ] Preview хэмжээг responsive (утас/таблет/дэлгэц) харах toggle
+- [ ] Console-д `console.table` энгийн дэмжлэг
+- [ ] Зураг/asset-г data URL-ээр нэмэх туршилт
+- [ ] Хадгалсан ноорог байвал "сэргээх" дохио (зөвхөн localStorage draft)
+
+## G. Контентын чанар
+- [ ] Хичээл бүрт "гол санаа" (summary) блок
+- [ ] Нэр томьёоны толь (glossary) хуудас
+- [ ] Хичээлүүдэд "түгээмэл алдаа/зөвлөмж" блок
+- [ ] Дасгалын шийдлийн "яагаад" тайлбар
+- [ ] Хичээлийн төгсгөлд "хэр хэцүү байсан" санал асуулга (localStorage)
+
+## H. Perf / SEO / чанар — 2-р шат
+- [ ] sitemap-д бүх /playground хичээлийг оруулах
+- [ ] Хичээл бүрт OpenGraph зураг (статик эсвэл динамик)
+- [ ] Шинэ util-уудад vitest тест нэмж хамралт өсгөх
+- [ ] Performance polish (ашиглагдаагүй CSS, font-display: swap)
+- [ ] Playground-д алдааны хил (error boundary) нэмэх
