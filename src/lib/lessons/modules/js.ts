@@ -1707,3 +1707,97 @@ console.log(saved.name);`,
     },
   ],
 };
+
+export const JS_TIMERS: Lesson = {
+  id: "js-timers",
+  module: 3,
+  title: "JS — setTimeout, setInterval ба таймер",
+  objectives: [
+    "setTimeout-аар үйлдлийг хойшлуулан ажиллуулах",
+    "setInterval-аар үйлдлийг давтан ажиллуулах",
+    "clearInterval-аар таймерыг зогсоох",
+  ],
+  blocks: [
+    {
+      kind: "theory",
+      title: "Таймер гэж юу вэ?",
+      html: `<p>JavaScript-д кодыг <strong>хэсэг хугацааны дараа</strong> эсвэл <strong>тодорхой завсарлагатай давтан</strong> ажиллуулах хоёр функц бий. Хугацаа нь <em>миллисекунд</em> (1000 мс = 1 секунд).</p>
+             <ul>
+               <li><code>setTimeout(функц, мс)</code> — нэг удаа, хойшлуулан ажиллуулна.</li>
+               <li><code>setInterval(функц, мс)</code> — мс тутамд дахин дахин ажиллуулна.</li>
+               <li><code>clearTimeout(id)</code> / <code>clearInterval(id)</code> — таймерыг зогсооно. <code>id</code> нь <code>setTimeout</code>/<code>setInterval</code>-ийн буцаасан утга.</li>
+             </ul>
+             <p><strong>Анхаар:</strong> <code>setInterval</code>-ийг зогсоохгүй бол үүрд ажиллана. Тиймээс <code>id</code>-г хувьсагчид хадгалаад хэрэгтэй үедээ <code>clearInterval</code> дууд.</p>`,
+    },
+    {
+      kind: "code",
+      title: "Жишээ код",
+      lang: "js",
+      code: `// 1 секундийн дараа нэг удаа
+setTimeout(() => {
+  console.log("1 секунд өнгөрлөө");
+}, 1000);
+
+// 500 мс тутамд, 3 удаа
+let n = 0;
+const id = setInterval(() => {
+  n = n + 1;
+  console.log("Тик", n);
+  if (n === 3) {
+    clearInterval(id);
+    console.log("Зогслоо");
+  }
+}, 500);`,
+    },
+    {
+      kind: "playground",
+      title: "Туршиж үз",
+      height: 300,
+      starter: {
+        html: `<h1>Буцаан тоолол</h1>\n<p id="out">5</p>\n<button id="start">Эхлэх</button>`,
+        css: `body { font-family: system-ui; padding: 16px; }\n#out { font-size: 48px; font-weight: 700; }\nbutton { padding: 8px 16px; }`,
+        js: `const out = document.querySelector("#out");\nlet left = 5;\nlet id = null;\n\ndocument.querySelector("#start").addEventListener("click", () => {\n  if (id !== null) return; // давхар эхлүүлэхгүй\n  left = 5;\n  out.textContent = left;\n  id = setInterval(() => {\n    left = left - 1;\n    out.textContent = left;\n    if (left === 0) {\n      clearInterval(id);\n      id = null;\n      out.textContent = "Дууслаа!";\n      console.log("Тоолол дууслаа");\n    }\n  }, 1000);\n});`,
+      },
+    },
+    {
+      kind: "exercise",
+      title: "Таймер ажиллуул",
+      prompt: "`setInterval`-аар 300 мс тутамд тоолуурыг нэмэгдүүлж `console.log` хий. Тоолуур 3 болоход `clearInterval`-аар зогсоо.",
+      starter: {
+        html: `<p>Консолыг шалгана уу.</p>`,
+        css: `body { font-family: system-ui; padding: 16px; }`,
+        js: `// let n = 0;\n// const id = setInterval(() => { ... }, 300);\n`,
+      },
+      hint: "const id = setInterval(() => { n = n + 1; console.log(n); }, 300);",
+      hint2: "if (n === 3) { clearInterval(id); } гэж callback дотроо нөхцөл шалга.",
+      solution: {
+        html: `<p>Консолыг шалгана уу.</p>`,
+        css: `body { font-family: system-ui; padding: 16px; }`,
+        js: `let n = 0;\nconst id = setInterval(() => {\n  n = n + 1;\n  console.log(n);\n  if (n === 3) {\n    clearInterval(id);\n  }\n}, 300);`,
+      },
+      check: {
+        type: "allOf",
+        checks: [
+          { type: "jsIncludes", pattern: "setInterval\\s*\\(", message: "`setInterval(...)` ашигла." },
+          { type: "jsIncludes", pattern: "clearInterval\\s*\\(", message: "`clearInterval(...)`-аар таймерыг зогсоо." },
+          { type: "jsIncludes", pattern: "console\\.log", message: "`console.log`-оор тоог хэвлэ." },
+        ],
+      },
+    },
+    {
+      kind: "quiz",
+      question: "`setTimeout(fn, 2000)` хэдий хугацааны дараа fn-ийг ажиллуулах вэ?",
+      options: ["2 миллисекунд", "2 секунд", "20 секунд", "Тэр дор нь"],
+      answer: 1,
+      explain: "Хугацаа миллисекундээр өгдөг тул 2000 мс = 2 секунд.",
+      more: [
+        {
+          question: "Давтагдаж буй `setInterval`-ийг юугаар зогсоох вэ?",
+          options: ["stopInterval(id)", "clearInterval(id)", "removeInterval(id)", "return"],
+          answer: 1,
+          explain: "`setInterval`-ийн буцаасан id-г `clearInterval(id)`-д өгч зогсооно.",
+        },
+      ],
+    },
+  ],
+};
