@@ -54,7 +54,6 @@ function Nav() {
         <nav aria-label="Үндсэн цэс" className="hidden gap-7 text-sm text-muted md:flex">
           <a href="#about" className="hover:text-paper">Сургалтын тухай</a>
           <a href="#modules" className="hover:text-paper">Хөтөлбөр</a>
-          <a href="#teacher" className="hover:text-paper">Багш</a>
           <a href="#pricing" className="hover:text-paper">Үнэ</a>
           <a href="#faq" className="hover:text-paper">FAQ</a>
           <a href="/playground" className="font-semibold text-paper hover:opacity-80">Хичээл</a>
@@ -275,55 +274,6 @@ function Modules() {
             </li>
           ))}
         </ol>
-      </div>
-    </section>
-  );
-}
-
-function Teacher() {
-  const points = [
-    "Сурах бичгийн жишээ биш, бодит бизнест ажиллаж буй код",
-    "Анхлан суралцагчдад заасан их сургуулийн туршлага",
-    "QPay интеграцийг алхам алхмаар заадаг цөөн сургалтын нэг",
-  ];
-  return (
-    <section id="teacher" className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20">
-      <div className="grid items-center gap-12 md:grid-cols-2">
-        <div className="reveal relative aspect-[4/3] w-full overflow-hidden rounded-3xl bg-brand p-8 shadow-xl shadow-violet-500/20">
-          <div aria-hidden className="pointer-events-none absolute -left-10 -top-10 size-56 rounded-full border border-white/15" />
-          <div aria-hidden className="pointer-events-none absolute -left-4 -top-4 size-40 rounded-full border border-white/20" />
-          <div
-            aria-hidden
-            className="absolute left-8 top-8 grid size-24 place-items-center rounded-full bg-white/15 text-5xl font-black text-white shadow-lg ring-4 ring-white/30 backdrop-blur sm:size-28 sm:text-6xl"
-          >
-            Д
-          </div>
-          <div className="flex h-full flex-col justify-end">
-            <p className="text-3xl font-black">Д. Бямбадолгор</p>
-            <p className="mt-1 text-white/80">Багш · Хөгжүүлэгч · Botxon</p>
-          </div>
-          <Sprite name="tablet" className="absolute -bottom-2 right-6 w-[34%]" />
-          <span className="glass absolute right-5 top-5 rounded-2xl px-4 py-3 text-sm font-semibold text-violet-700 shadow-md">
-            AI · Next.js · QPay
-          </span>
-        </div>
-        <div className="reveal" data-d="120ms">
-          <p className="mb-4 inline-block rounded-full bg-violet-50 px-3 py-1 text-xs font-medium text-violet-700">Багшийн тухай</p>
-          <h2 className="text-3xl font-black tracking-tight sm:text-4xl">Бодит туршлагатай, ойлгомжтой заана</h2>
-          <p className="mt-5 text-muted">
-            Өдөр нь банкны зээлийн системийг хөгжүүлж, орой нь өөрийн AI бүтээгдэхүүн болох Botxon-ыг хөгжүүлдэг.
-            Их сургуульд интернэт болон мобайл программчлал заадаг. Клиентэд e-commerce платформ бүтээж,
-            өөрийн SaaS-ыг QPay-тэй холбож хэрэглэгчидтэй болгосон туршлагаа энэ сургалтад шингээсэн.
-          </p>
-          <ul className="mt-6 space-y-3">
-            {points.map((p) => (
-              <li key={p} className="flex gap-3">
-                <CheckCircle2 className="mt-0.5 size-5 shrink-0 text-blue-600" />
-                <span>{p}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
       </div>
     </section>
   );
@@ -581,7 +531,6 @@ export default function Home() {
         <Audience />
         <HowItWorks />
         <Modules />
-        <Teacher />
         <Testimonials />
         <WorkGallery />
         <Pricing />

@@ -6,7 +6,6 @@ import { Menu, X } from "lucide-react";
 const LINKS = [
   { href: "#about", label: "Сургалтын тухай" },
   { href: "#modules", label: "Хөтөлбөр" },
-  { href: "#teacher", label: "Багш" },
   { href: "#pricing", label: "Үнэ" },
   { href: "#faq", label: "FAQ" },
   { href: "/playground", label: "Хичээл" },
