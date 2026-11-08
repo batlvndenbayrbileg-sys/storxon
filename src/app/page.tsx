@@ -18,6 +18,7 @@ import FloatingCta from "@/components/FloatingCta";
 import BackToTop from "@/components/BackToTop";
 import HowItWorks from "@/components/HowItWorks";
 import WorkGallery from "@/components/WorkGallery";
+import WhyStorxon from "@/components/WhyStorxon";
 import { PRESALE, audiences, faqs, fmt, modules, plans } from "@/lib/content";
 import { isPresale, priceList } from "@/lib/pricing";
 
@@ -576,6 +577,7 @@ export default function Home() {
         <CheckStrip />
         <Hero />
         <Stack />
+        <WhyStorxon />
         <Audience />
         <HowItWorks />
         <Modules />
