@@ -192,7 +192,7 @@ Storxon-г **анхан → дунд → төсөл бүтээх** түвшин�
 - [x] JS: Promise ба async/await хичээл (sandbox дотор setTimeout жишээ)
 - [x] JS: fetch ба JSON хичээл (CORS-той нийтийн API эсвэл mock)
 - [x] JS: Алдаа барих (try/catch/finally) хичээл
-- [ ] JS: localStorage-той ажиллах хичээл (sandbox дотор)
+- [x] JS: localStorage-той ажиллах хичээл (sandbox дотор)
 - [ ] JS: setTimeout/setInterval ба таймер хичээл
 
 ## B. Дэвшилтэт CSS

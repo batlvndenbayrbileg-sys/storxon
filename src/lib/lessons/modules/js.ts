@@ -1610,3 +1610,100 @@ console.log(parseUser("эвдэрсэн json"));`,
     },
   ],
 };
+
+export const JS_LOCALSTORAGE: Lesson = {
+  id: "js-localstorage",
+  module: 3,
+  title: "JS — localStorage-той ажиллах",
+  objectives: [
+    "localStorage юу хадгалдгийг, хаана хадгалагддагийг ойлгох",
+    "setItem / getItem / removeItem ашиглах",
+    "JSON.stringify / JSON.parse-оор объект хадгалах",
+  ],
+  blocks: [
+    {
+      kind: "theory",
+      title: "localStorage гэж юу вэ?",
+      html: `<p><strong>localStorage</strong> нь хөтөч дотор жижиг мэдээллийг <em>хуудсыг хаасан ч</em> хадгалдаг түлхүүр–утгын сав юм. Утга нь үргэлж <strong>string</strong>.</p>
+             <ul>
+               <li><code>localStorage.setItem("key", "утга")</code> — хадгална.</li>
+               <li><code>localStorage.getItem("key")</code> — уншина (байхгүй бол <code>null</code>).</li>
+               <li><code>localStorage.removeItem("key")</code> — устгана.</li>
+               <li>Объект/массивыг <code>JSON.stringify</code>-аар текст болгож хадгалаад, <code>JSON.parse</code>-аар буцаана.</li>
+             </ul>
+             <p><strong>Анхаар:</strong> аюулгүй байдлын үүднээс манай playground тусгаарлагдсан (sandbox) тул энд localStorage хаалттай байж болно. Тиймээс доорх жишээнд <code>try/catch</code> ашиглаж, ажиллахгүй бол санах ойд хадгалдаг.</p>`,
+    },
+    {
+      kind: "code",
+      title: "Жишээ код",
+      lang: "js",
+      code: `// Тоолуурыг хадгалж, дахин уншина
+let count = Number(localStorage.getItem("count")) || 0;
+count = count + 1;
+localStorage.setItem("count", String(count));
+
+// Объект хадгалах
+const user = { name: "Бат", level: 2 };
+localStorage.setItem("user", JSON.stringify(user));
+
+const saved = JSON.parse(localStorage.getItem("user"));
+console.log(saved.name);`,
+    },
+    {
+      kind: "playground",
+      title: "Туршиж үз",
+      height: 300,
+      starter: {
+        html: `<h1>Хадгалагдсан тоолуур</h1>\n<p id="out"></p>\n<button id="add">+1</button>`,
+        css: `body { font-family: system-ui; padding: 16px; }\n#out { font-size: 24px; font-weight: 700; }\nbutton { padding: 8px 16px; }`,
+        js: `// Sandbox-д localStorage хаалттай байж болох тул санах ойгоор нөөцөлнө\nconst memory = {};\nfunction load(key) {\n  try { return localStorage.getItem(key); }\n  catch (err) { return memory[key] || null; }\n}\nfunction save(key, value) {\n  try { localStorage.setItem(key, value); }\n  catch (err) { memory[key] = value; }\n}\n\nlet count = Number(load("count")) || 0;\nconst out = document.querySelector("#out");\nout.textContent = count;\n\ndocument.querySelector("#add").addEventListener("click", () => {\n  count = count + 1;\n  save("count", String(count));\n  out.textContent = count;\n  console.log("Хадгаллаа:", count);\n});`,
+      },
+    },
+    {
+      kind: "exercise",
+      title: "Нэр хадгал",
+      prompt: "`localStorage.setItem`-ээр `\"name\"` түлхүүрт нэрээ хадгалж, `localStorage.getItem`-ээр буцааж уншаад `console.log` хий. `try/catch`-ээр хамгаал.",
+      starter: {
+        html: `<p>Консолыг шалгана уу.</p>`,
+        css: `body { font-family: system-ui; padding: 16px; }`,
+        js: `// try { ... } catch (err) { ... } дотор setItem ба getItem ашигла\n`,
+      },
+      hint: "localStorage.setItem(\"name\", \"Бат\"); const v = localStorage.getItem(\"name\");",
+      hint2: "Бүгдийг try { ... } catch (err) { console.log(err.message); } дотор бич.",
+      solution: {
+        html: `<p>Консолыг шалгана уу.</p>`,
+        css: `body { font-family: system-ui; padding: 16px; }`,
+        js: `try {\n  localStorage.setItem("name", "Бат");\n  const v = localStorage.getItem("name");\n  console.log(v);\n} catch (err) {\n  console.log("Хаалттай:", err.message);\n}`,
+      },
+      check: {
+        type: "allOf",
+        checks: [
+          { type: "jsIncludes", pattern: "localStorage\\.setItem\\s*\\(", message: "`localStorage.setItem(...)`-ээр утга хадгал." },
+          { type: "jsIncludes", pattern: "localStorage\\.getItem\\s*\\(", message: "`localStorage.getItem(...)`-ээр буцааж унш." },
+          { type: "jsIncludes", pattern: "console\\.log", message: "`console.log`-оор үр дүнг хэвлэ." },
+          { type: "jsIncludes", pattern: "try\\s*\\{", message: "`try { ... }` блокоор хамгаал." },
+        ],
+      },
+    },
+    {
+      kind: "quiz",
+      question: "localStorage-д объект хадгалахдаа юу хийх вэ?",
+      options: [
+        "Шууд setItem-д объектоо өгнө",
+        "JSON.stringify-аар текст болгож хадгална",
+        "Зөвхөн тоо хадгалж болно",
+        "Объект хадгалах боломжгүй",
+      ],
+      answer: 1,
+      explain: "localStorage зөвхөн string хадгалдаг тул объектыг `JSON.stringify`-аар текст болгож, уншихдаа `JSON.parse`-аар буцаана.",
+      more: [
+        {
+          question: "Байхгүй түлхүүрийг `getItem`-ээр уншвал юу буцаах вэ?",
+          options: ["undefined", "0", "null", "\"\""],
+          answer: 2,
+          explain: "Түлхүүр байхгүй бол `getItem` нь `null` буцаана.",
+        },
+      ],
+    },
+  ],
+};
