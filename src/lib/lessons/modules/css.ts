@@ -1131,3 +1131,84 @@ export const CSS_CUSTOM_PROPERTIES: Lesson = {
     },
   ],
 };
+
+export const CSS_PSEUDO: Lesson = {
+  id: "css-pseudo",
+  module: 2,
+  title: "CSS — Pseudo-class ба pseudo-element (:hover, ::before, ::after)",
+  objectives: [
+    "`:hover`, `:focus`, `:first-child` зэрэг pseudo-class-аар элементийн төлөвт стиль өгөх",
+    "`::before`, `::after`-аар HTML нэмэлгүйгээр чимэглэл нэмэх",
+    "`content` шинж чанар заавал хэрэгтэйг ойлгох",
+  ],
+  blocks: [
+    {
+      kind: "theory",
+      title: "Pseudo-class ба pseudo-element",
+      html: `<p><strong>Pseudo-class</strong> (нэг <code>:</code>) нь элемент тодорхой <em>төлөвт</em> байх үед стиль өгнө. <strong>Pseudo-element</strong> (хоёр <code>::</code>) нь элементийн тодорхой <em>хэсэгт</em> стиль өгнө.</p>
+             <ul>
+               <li><code>:hover</code> — хулгана дээгүүр байх үед</li>
+               <li><code>:focus</code> — товч/талбар сонгогдсон үед</li>
+               <li><code>:first-child</code>, <code>:last-child</code> — эхний/сүүлийн хүүхэд</li>
+               <li><code>::before</code>, <code>::after</code> — элементийн өмнө/ард виртуал агуулга нэмнэ</li>
+             </ul>
+             <p><code>::before</code>/<code>::after</code> нь <code>content</code> шинж чанаргүйгээр харагдахгүй. Хоосон бол <code>content: "";</code> гэж бичнэ.</p>`,
+    },
+    {
+      kind: "code",
+      title: "Жишээ код",
+      lang: "css",
+      code: `.btn:hover {
+  background: #7c3aed;
+}
+
+li:first-child {
+  font-weight: bold;
+}
+
+.title::after {
+  content: " ✨";
+}`,
+    },
+    {
+      kind: "playground",
+      title: "Туршиж үз",
+      height: 260,
+      starter: {
+        html: `<button class="btn">Дээр хулгана аваачаарай</button>\n<ul>\n  <li>Нэг</li>\n  <li>Хоёр</li>\n  <li>Гурав</li>\n</ul>\n<h2 class="title">Гарчиг</h2>`,
+        css: `body { font-family: system-ui; padding: 24px; }\n.btn {\n  background: #e5e7eb;\n  border: 0;\n  padding: 10px 18px;\n  border-radius: 8px;\n  cursor: pointer;\n}\n.btn:hover { background: #7c3aed; color: white; }\nli:first-child { font-weight: bold; }\n.title::before { content: "★ "; color: #f59e0b; }`,
+        js: ``,
+      },
+    },
+    {
+      kind: "exercise",
+      title: "Hover ба ::after нэм",
+      prompt: "`.link:hover`-д `color: tomato` өг, мөн `.link::after`-д `content: \" →\"` нэм.",
+      starter: {
+        html: `<a class="link" href="#">Дэлгэрэнгүй</a>`,
+        css: `body { font-family: system-ui; padding: 24px; }\n.link {\n  color: #2563eb;\n  text-decoration: none;\n}\n/* Энд .link:hover ба .link::after нэм */`,
+        js: ``,
+      },
+      hint: ".link:hover { color: tomato; } .link::after { content: \" →\"; }",
+      solution: {
+        html: `<a class="link" href="#">Дэлгэрэнгүй</a>`,
+        css: `body { font-family: system-ui; padding: 24px; }\n.link {\n  color: #2563eb;\n  text-decoration: none;\n}\n.link:hover { color: tomato; }\n.link::after { content: " →"; }`,
+        js: ``,
+      },
+      check: {
+        type: "allOf",
+        checks: [
+          { type: "cssIncludes", pattern: "\\.link:hover\\s*\\{[^}]*color\\s*:\\s*tomato", flags: "i", message: "`.link:hover`-д `color: tomato` өгөөрэй." },
+          { type: "cssIncludes", pattern: "\\.link::after\\s*\\{[^}]*content\\s*:", flags: "i", message: "`.link::after`-д `content` шинж чанар нэмээрэй." },
+        ],
+      },
+    },
+    {
+      kind: "quiz",
+      question: "`::before` эсвэл `::after` харагдахын тулд заавал юу хэрэгтэй вэ?",
+      options: ["display: block", "content шинж чанар", "position: absolute", "z-index"],
+      answer: 1,
+      explain: "Pseudo-element нь `content` шинж чанаргүй бол үүсэхгүй. Хоосон байлгах бол `content: \"\";` гэж бичнэ.",
+    },
+  ],
+};
