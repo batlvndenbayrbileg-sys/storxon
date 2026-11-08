@@ -860,3 +860,110 @@ export const CSS_HOVER_TRANSITION: Lesson = {
     },
   ],
 };
+
+export const CSS_POSITION: Lesson = {
+  id: "css-position",
+  module: 2,
+  title: "CSS — Position (relative/absolute/fixed/sticky)",
+  objectives: [
+    "position-ы 4 үндсэн утгыг ялгаж ойлгох",
+    "relative эцэг дотор absolute элементийг байрлуулах",
+    "fixed ба sticky-г ашиглан хөвөгч товч, наалддаг толгой хийх",
+  ],
+  blocks: [
+    {
+      kind: "theory",
+      title: "position гэж юу вэ",
+      html: `<p>Элемент ердийн үед дээрээс доош дарааллаараа урсдаг. <code>position</code> нь үүнийг өөрчилж, элементийг <code>top</code>, <code>right</code>, <code>bottom</code>, <code>left</code>-ээр нарийн байрлуулах боломж олгоно.</p>
+             <ul>
+               <li><code>relative</code> — өөрийн ердийн байрнаас харьцангуй шилжинэ; мөн доторх <code>absolute</code> элементийн "лавлах цэг" болно</li>
+               <li><code>absolute</code> — хамгийн ойрын <code>position</code>-той эцэг элементээс хэмжиж байрлана, урсгалаас гарна</li>
+               <li><code>fixed</code> — дэлгэцэнд хөвж, гүйлгэхэд хөдөлдөггүй</li>
+               <li><code>sticky</code> — гүйлгэж очоод заасан байранд хүрмэгц наалдана</li>
+             </ul>`,
+    },
+    {
+      kind: "code",
+      title: "Жишээ код",
+      lang: "css",
+      code: `.card {
+  position: relative;   /* absolute-ийн лавлах цэг */
+}
+
+.badge {
+  position: absolute;   /* картын булан руу */
+  top: 8px;
+  right: 8px;
+}
+
+.header {
+  position: sticky;     /* гүйлгэхэд дээд талд наалдана */
+  top: 0;
+}`,
+    },
+    {
+      kind: "playground",
+      title: "Туршиж үз",
+      height: 260,
+      starter: {
+        html: `<div class="card">Карт<span class="badge">Шинэ</span></div>`,
+        css: `body { font-family: system-ui; padding: 24px; }\n.card {\n  position: relative;\n  background: #e9d5ff;\n  padding: 32px;\n  border-radius: 12px;\n}\n.badge {\n  position: absolute;\n  top: 8px;\n  right: 8px;\n  background: #7c3aed;\n  color: #fff;\n  padding: 2px 10px;\n  border-radius: 999px;\n  font-size: 12px;\n}`,
+        js: ``,
+      },
+    },
+    {
+      kind: "exercise",
+      title: "Тэмдгийг картын буланд байрлуул",
+      prompt: "`.card`-д `position: relative`, `.badge`-д `position: absolute` өгч, `top` ба `right` тохируул. Дараа нь Шалгах дээр дар.",
+      starter: {
+        html: `<div class="card">Карт<span class="badge">Шинэ</span></div>`,
+        css: `body { font-family: system-ui; padding: 24px; }\n.card {\n  background: #e9d5ff;\n  padding: 32px;\n  border-radius: 12px;\n  /* Энд position нэм */\n}\n.badge {\n  background: #7c3aed;\n  color: #fff;\n  padding: 2px 10px;\n  border-radius: 999px;\n  /* Энд position, top, right нэм */\n}`,
+        js: ``,
+      },
+      hint: ".card { position: relative; } .badge { position: absolute; top: 8px; right: 8px; }",
+      solution: {
+        html: `<div class="card">Карт<span class="badge">Шинэ</span></div>`,
+        css: `body { font-family: system-ui; padding: 24px; }\n.card {\n  position: relative;\n  background: #e9d5ff;\n  padding: 32px;\n  border-radius: 12px;\n}\n.badge {\n  position: absolute;\n  top: 8px;\n  right: 8px;\n  background: #7c3aed;\n  color: #fff;\n  padding: 2px 10px;\n  border-radius: 999px;\n}`,
+        js: ``,
+      },
+      check: {
+        type: "allOf",
+        checks: [
+          { type: "cssIncludes", pattern: "\\.card\\s*\\{[^}]*position\\s*:\\s*relative", flags: "i", message: "`.card` дотор `position: relative` олдсонгүй." },
+          { type: "cssIncludes", pattern: "\\.badge\\s*\\{[^}]*position\\s*:\\s*absolute", flags: "i", message: "`.badge` дотор `position: absolute` олдсонгүй." },
+          { type: "cssIncludes", pattern: "\\.badge\\s*\\{[^}]*(top|right)\\s*:", flags: "i", message: "`.badge`-д `top` эсвэл `right` нэмээрэй." },
+        ],
+      },
+    },
+    {
+      kind: "exercise",
+      title: "Наалддаг толгой хий",
+      prompt: "`.header`-г гүйлгэхэд дээд талд наалддаг болго: `position: sticky` ба `top: 0`.",
+      starter: {
+        html: `<div class="header">Толгой</div>\n<p>Контент 1</p><p>Контент 2</p><p>Контент 3</p>`,
+        css: `body { font-family: system-ui; padding: 0 16px; }\n.header {\n  background: #7c3aed;\n  color: #fff;\n  padding: 12px;\n}`,
+        js: ``,
+      },
+      hint: ".header { position: sticky; top: 0; }",
+      solution: {
+        html: `<div class="header">Толгой</div>\n<p>Контент 1</p><p>Контент 2</p><p>Контент 3</p>`,
+        css: `body { font-family: system-ui; padding: 0 16px; }\n.header {\n  position: sticky;\n  top: 0;\n  background: #7c3aed;\n  color: #fff;\n  padding: 12px;\n}`,
+        js: ``,
+      },
+      check: {
+        type: "allOf",
+        checks: [
+          { type: "cssIncludes", pattern: "position\\s*:\\s*sticky", flags: "i", message: "`position: sticky` олдсонгүй." },
+          { type: "cssIncludes", pattern: "top\\s*:\\s*0", flags: "i", message: "`top: 0` олдсонгүй." },
+        ],
+      },
+    },
+    {
+      kind: "quiz",
+      question: "`position: absolute` элементийг ямар элементээс хэмжиж байрлуулдаг вэ?",
+      options: ["Үргэлж body-оос", "Хамгийн ойрын position-той эцэг элементээс", "Дэлгэцийн төвөөс", "Өмнөх элементээс"],
+      answer: 1,
+      explain: "absolute нь хамгийн ойрын `position`-той (static биш) өвөг элементээс хэмждэг. Тийм нь байхгүй бол хуудсын эхлэлээс хэмжинэ. Тиймээс эцэгт нь `position: relative` өгдөг.",
+    },
+  ],
+};

@@ -196,7 +196,7 @@ Storxon-г **анхан → дунд → төсөл бүтээх** түвшин�
 - [x] JS: setTimeout/setInterval ба таймер хичээл
 
 ## B. Дэвшилтэт CSS
-- [ ] CSS: Position (relative/absolute/fixed/sticky) хичээл
+- [x] CSS: Position (relative/absolute/fixed/sticky) хичээл
 - [ ] CSS: Transform ба @keyframes анимэйшн хичээл
 - [ ] CSS: Custom properties (хувьсагч) хичээл
 - [ ] CSS: Pseudo-class/element (:hover, ::before/::after) хичээл
