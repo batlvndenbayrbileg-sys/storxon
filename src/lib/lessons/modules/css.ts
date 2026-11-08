@@ -1050,3 +1050,84 @@ export const CSS_TRANSFORM_KEYFRAMES: Lesson = {
     },
   ],
 };
+
+export const CSS_CUSTOM_PROPERTIES: Lesson = {
+  id: "css-custom-properties",
+  module: 2,
+  title: "CSS — Custom properties (хувьсагч)",
+  objectives: [
+    "`--нэр` хэлбэрээр CSS хувьсагч зарлах",
+    "`var(--нэр)`-ээр хувьсагчийг ашиглах, нөөц утга өгөх",
+    "`:root`-д нийтлэг өнгө, зайг төвлөрүүлж нэг дор удирдах",
+  ],
+  blocks: [
+    {
+      kind: "theory",
+      title: "Custom property гэж юу вэ",
+      html: `<p><strong>Custom property</strong> (CSS хувьсагч) нь утгыг нэг удаа зарлаад олон газар дахин ашиглах боломж олгоно. Өнгөө нэг газраас солихад бүх хуудас шинэчлэгдэнэ.</p>
+             <ul>
+               <li><code>--brand: #7c3aed;</code> — хувьсагч зарлана (нэр заавал <code>--</code>-ээр эхэлнэ)</li>
+               <li><code>var(--brand)</code> — хувьсагчийн утгыг авна</li>
+               <li><code>var(--brand, blue)</code> — хувьсагч байхгүй бол нөөц утга</li>
+               <li><code>:root { ... }</code> — бүх хуудсанд хүчинтэй нийтлэг хувьсагч</li>
+             </ul>
+             <p>Хувьсагч нь өвлөгддөг: элемент дотор дахин зарласан бол зөвхөн тэр элемент ба үр удамд нь өөр утгатай болно.</p>`,
+    },
+    {
+      kind: "code",
+      title: "Жишээ код",
+      lang: "css",
+      code: `:root {
+  --brand: #7c3aed;
+  --radius: 12px;
+}
+
+.btn {
+  background: var(--brand);
+  border-radius: var(--radius);
+  color: var(--text, white);
+}`,
+    },
+    {
+      kind: "playground",
+      title: "Туршиж үз",
+      height: 240,
+      starter: {
+        html: `<button class="btn">Товч</button>\n<button class="btn alt">Өөр товч</button>`,
+        css: `:root {\n  --brand: #7c3aed;\n  --radius: 12px;\n}\nbody { font-family: system-ui; padding: 24px; }\n.btn {\n  background: var(--brand);\n  color: white;\n  border: 0;\n  padding: 10px 18px;\n  border-radius: var(--radius);\n}\n.alt { --brand: #0ea5e9; }`,
+        js: ``,
+      },
+    },
+    {
+      kind: "exercise",
+      title: "Өнгөний хувьсагч зарла",
+      prompt: "`:root` дотор `--accent` хувьсагч зарла (дурын өнгө), дараа нь `.card`-ийн `border-color` болон `h2`-ийн `color`-д `var(--accent)` ашигла.",
+      starter: {
+        html: `<div class="card">\n  <h2>Гарчиг</h2>\n  <p>Өнгийг нэг газраас удирдая.</p>\n</div>`,
+        css: `body { font-family: system-ui; padding: 24px; }\n/* Энд :root { --accent: ... } нэм */\n.card {\n  border: 3px solid black;\n  padding: 16px;\n  border-radius: 12px;\n}\nh2 { color: black; }`,
+        js: ``,
+      },
+      hint: ":root { --accent: #7c3aed; } .card { border: 3px solid var(--accent); } h2 { color: var(--accent); }",
+      solution: {
+        html: `<div class="card">\n  <h2>Гарчиг</h2>\n  <p>Өнгийг нэг газраас удирдая.</p>\n</div>`,
+        css: `:root { --accent: #7c3aed; }\nbody { font-family: system-ui; padding: 24px; }\n.card {\n  border: 3px solid var(--accent);\n  padding: 16px;\n  border-radius: 12px;\n}\nh2 { color: var(--accent); }`,
+        js: ``,
+      },
+      check: {
+        type: "allOf",
+        checks: [
+          { type: "cssIncludes", pattern: "--accent\\s*:", flags: "i", message: "`--accent` хувьсагчийг зарлаагүй байна." },
+          { type: "cssIncludes", pattern: "var\\(\\s*--accent", flags: "i", message: "`var(--accent)` ашиглаарай." },
+          { type: "cssIncludes", pattern: "h2\\s*\\{[^}]*color\\s*:\\s*var\\(\\s*--accent", flags: "i", message: "`h2`-ийн `color`-д `var(--accent)` өгөөрэй." },
+        ],
+      },
+    },
+    {
+      kind: "quiz",
+      question: "Зарласан `--brand` хувьсагчийг хэрхэн ашиглах вэ?",
+      options: ["$brand", "var(--brand)", "get(--brand)", "--brand()"],
+      answer: 1,
+      explain: "CSS хувьсагчийг `var(--нэр)` функцээр уншина. Хоёр дахь аргументаар нөөц утга өгч болно: `var(--brand, blue)`.",
+    },
+  ],
+};

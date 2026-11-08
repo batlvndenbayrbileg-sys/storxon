@@ -198,7 +198,7 @@ Storxon-г **анхан → дунд → төсөл бүтээх** түвшин�
 ## B. Дэвшилтэт CSS
 - [x] CSS: Position (relative/absolute/fixed/sticky) хичээл
 - [x] CSS: Transform ба @keyframes анимэйшн хичээл
-- [ ] CSS: Custom properties (хувьсагч) хичээл
+- [x] CSS: Custom properties (хувьсагч) хичээл
 - [ ] CSS: Pseudo-class/element (:hover, ::before/::after) хичээл
 - [ ] CSS: Gradient ба shadow хичээл
 - [ ] CSS: Grid дэвшилтэт (areas, auto-fit/minmax) хичээл
