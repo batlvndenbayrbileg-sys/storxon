@@ -495,14 +495,46 @@ function Register() {
 }
 
 function Footer() {
+  const linkCls = "hover:text-paper focus-visible:text-paper";
   return (
     <footer className="border-t border-line/70">
-      <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-4 py-8 text-sm text-muted sm:flex-row sm:px-6">
-        <p>© 2026 Storxon</p>
-        <div className="flex gap-6">
-          <a href="https://instagram.com/storxon" className="hover:text-paper" target="_blank" rel="noreferrer">Instagram</a>
-          <a href="#faq" className="hover:text-paper">FAQ</a>
+      <div className="mx-auto grid max-w-6xl gap-8 px-4 py-10 text-sm text-muted sm:grid-cols-2 sm:px-6 lg:grid-cols-4">
+        <div className="lg:col-span-2">
+          <a href="#" className="flex items-center gap-2 font-bold tracking-tight text-paper">
+            <span className="grid size-8 place-items-center rounded-xl bg-brand text-sm text-white shadow-md shadow-violet-500/30">S</span>
+            Storxon
+          </a>
+          <p className="mt-3 max-w-sm">
+            Код бичиж, шууд ажиллуулж, дасгал хийж суралцдаг интерактив сургалтын платформ.
+          </p>
         </div>
+        <nav aria-label="Хуудасны холбоос">
+          <h2 className="font-semibold text-paper">Хуудас</h2>
+          <ul className="mt-3 space-y-2">
+            <li><a href="#about" className={linkCls}>Сургалтын тухай</a></li>
+            <li><a href="#modules" className={linkCls}>Хөтөлбөр</a></li>
+            <li><a href="#pricing" className={linkCls}>Үнэ</a></li>
+            <li><a href="#faq" className={linkCls}>FAQ</a></li>
+          </ul>
+        </nav>
+        <nav aria-label="Суралцах">
+          <h2 className="font-semibold text-paper">Суралцах</h2>
+          <ul className="mt-3 space-y-2">
+            <li><a href="/playground" className={linkCls}>Хичээлүүд</a></li>
+            <li><a href="/login" className={linkCls}>Нэвтрэх</a></li>
+            <li><a href="/signup" className={linkCls}>Бүртгүүлэх</a></li>
+            <li>
+              <a href="https://instagram.com/storxon" className={linkCls} target="_blank" rel="noreferrer">
+                Instagram<span className="sr-only"> (шинэ цонхонд нээгдэнэ)</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+      <div className="border-t border-line/70">
+        <p className="mx-auto max-w-6xl px-4 py-5 text-center text-xs text-muted sm:px-6 sm:text-left">
+          © 2026 Storxon. Бүх эрх хуулиар хамгаалагдсан.
+        </p>
       </div>
     </footer>
   );
