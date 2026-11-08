@@ -97,7 +97,7 @@ export default function LessonSidebar({
       aria-label="Хичээлийн жагсаалт"
       className={`fixed inset-y-0 left-0 z-50 w-72 max-w-[85vw] shrink-0 overflow-y-auto bg-zinc-50 p-3 shadow-xl transition-transform duration-200 motion-reduce:transition-none dark:bg-zinc-950 ${
         open ? "translate-x-0" : "-translate-x-full"
-      } lg:sticky lg:top-6 lg:z-auto lg:w-64 lg:max-w-none lg:translate-x-0 lg:self-start lg:overflow-visible lg:bg-transparent lg:p-0 lg:shadow-none dark:lg:bg-transparent`}
+      } lg:sticky lg:top-20 lg:z-auto lg:w-64 lg:max-w-none lg:translate-x-0 lg:self-start lg:overflow-visible lg:bg-transparent lg:p-0 lg:shadow-none dark:lg:bg-transparent`}
     >
       <div className="rounded-2xl border border-zinc-200 bg-white p-3 dark:border-zinc-800 dark:bg-zinc-900">
         <button
