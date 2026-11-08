@@ -187,7 +187,7 @@ Storxon-г **анхан → дунд → төсөл бүтээх** түвшин�
 
 ## A. Дэвшилтэт JavaScript
 - [x] JS: ES6 — template literal, arrow function, destructuring хичээл
-- [ ] JS: Хувьсагчийн scope ба closure хичээл
+- [x] JS: Хувьсагчийн scope ба closure хичээл
 - [ ] JS: map/filter/reduce гүнзгий хичээл (`allOf` дасгал)
 - [ ] JS: Promise ба async/await хичээл (sandbox дотор setTimeout жишээ)
 - [ ] JS: fetch ба JSON хичээл (CORS-той нийтийн API эсвэл mock)

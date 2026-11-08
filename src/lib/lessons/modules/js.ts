@@ -1109,3 +1109,110 @@ console.log(first, second); // 10 20`,
     },
   ],
 };
+
+export const JS_SCOPE_CLOSURE: Lesson = {
+  id: "js-scope-closure",
+  module: 3,
+  title: "JS — Хувьсагчийн scope ба closure",
+  objectives: [
+    "Global, function, block scope-ийн ялгааг ойлгох",
+    "let/const нь блок дотор үлдэж, var нь функц дотор үлдэхийг мэдэх",
+    "Closure-оор функц өөрийн гаднах хувьсагчийг санахыг ашиглах",
+  ],
+  blocks: [
+    {
+      kind: "theory",
+      title: "Scope гэж юу вэ?",
+      html: `<p><strong>Scope</strong> нь хувьсагчийг кодын аль хэсгээс харж болохыг заана.</p>
+             <ul>
+               <li><strong>Global</strong> — файлын дээд түвшинд зарласан, хаанаас ч харагдана.</li>
+               <li><strong>Function scope</strong> — функц дотор зарласан хувьсагч зөвхөн тэр функц дотор харагдана.</li>
+               <li><strong>Block scope</strong> — <code>let</code> ба <code>const</code> нь <code>{ }</code> блок дотор л харагдана.</li>
+             </ul>
+             <p><strong>Closure</strong> гэдэг нь функц өөрийгөө үүсгэсэн гаднах хувьсагчдыг, гаднах функц дууссаны дараа ч <em>санаж</em> байдаг чадвар юм.</p>`,
+    },
+    {
+      kind: "code",
+      title: "Жишээ код",
+      lang: "js",
+      code: `const globalName = "Бүгдэд харагдана";
+
+function demo() {
+  const local = "Зөвхөн функц дотор";
+  if (true) {
+    let inBlock = "Зөвхөн блок дотор";
+    console.log(globalName, local, inBlock);
+  }
+  // console.log(inBlock); // ReferenceError!
+}
+demo();
+
+// Closure: counter нь count-ыг санана
+function makeCounter() {
+  let count = 0;
+  return function () {
+    count++;
+    return count;
+  };
+}
+const next = makeCounter();
+console.log(next(), next(), next()); // 1 2 3`,
+    },
+    {
+      kind: "playground",
+      title: "Туршиж үз",
+      height: 260,
+      starter: {
+        html: `<h1>Closure</h1>\n<p>Консолыг харна уу.</p>`,
+        css: `body { font-family: system-ui; padding: 16px; }`,
+        js: `function makeAdder(x) {\n  return function (y) {\n    return x + y;\n  };\n}\nconst add5 = makeAdder(5);\nconsole.log(add5(2)); // 7\nconsole.log(add5(10)); // 15`,
+      },
+    },
+    {
+      kind: "exercise",
+      title: "Closure бүхий тоолуур",
+      prompt: "`makeCounter` функц бич: дотроо `count` хувьсагч зарлаад, дуудах бүрт `count`-ыг 1-ээр нэмж буцаадаг функц буцаа. Дараа нь `console.log`-оор дуудаж үз.",
+      starter: {
+        html: `<p>Консолыг шалгана уу.</p>`,
+        css: `body { font-family: system-ui; padding: 16px; }`,
+        js: `// makeCounter функцийг энд бич\n`,
+      },
+      hint: "function makeCounter() { let count = 0; return function () { ... }; }",
+      hint2: "Буцаах функц дотор count++; return count; гэж бич.",
+      solution: {
+        html: `<p>Консолыг шалгана уу.</p>`,
+        css: `body { font-family: system-ui; padding: 16px; }`,
+        js: `function makeCounter() {\n  let count = 0;\n  return function () {\n    count++;\n    return count;\n  };\n}\nconst next = makeCounter();\nconsole.log(next(), next());`,
+      },
+      check: {
+        type: "allOf",
+        checks: [
+          { type: "jsIncludes", pattern: "function\\s+makeCounter\\s*\\(", message: "`function makeCounter()` олдсонгүй." },
+          { type: "jsIncludes", pattern: "let\\s+count\\s*=", message: "`let count = ...` хувьсагч зарла." },
+          { type: "jsIncludes", pattern: "return\\s+function|return\\s*\\(?[^)]*\\)?\\s*=>", message: "Дотроос нь функц буцаа (`return function`)." },
+          { type: "jsIncludes", pattern: "count\\s*(\\+\\+|\\+=\\s*1)|\\+\\+\\s*count", message: "`count`-ыг 1-ээр нэм." },
+        ],
+      },
+    },
+    {
+      kind: "quiz",
+      question: "`if (true) { let a = 1; }` -ийн дараа `console.log(a)` юу болох вэ?",
+      options: ["1 хэвлэнэ", "undefined хэвлэнэ", "ReferenceError", "null хэвлэнэ"],
+      answer: 2,
+      explain: "`let` нь блок scope-той тул `{ }`-ээс гадуур `a` байхгүй — ReferenceError гарна.",
+      more: [
+        {
+          question: "Closure гэж юу вэ?",
+          options: [
+            "Файлыг хаах функц",
+            "Функц өөрийн гаднах хувьсагчийг санах чадвар",
+            "Алдаа барих блок",
+            "Массив эрэмбэлэх арга",
+          ],
+          answer: 1,
+          explain: "Closure нь дотоод функц гаднах функцийн хувьсагчийг, тэр функц дууссаны дараа ч ашигладаг байхыг хэлнэ.",
+        },
+      ],
+    },
+  ],
+};
