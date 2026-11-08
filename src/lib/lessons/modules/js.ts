@@ -1309,3 +1309,105 @@ console.log(bigTotal);  // 9700`,
     },
   ],
 };
+
+export const JS_ASYNC_PROMISE: Lesson = {
+  id: "js-async-promise",
+  module: 3,
+  title: "JS — Promise ба async/await",
+  objectives: [
+    "Асинхрон (хүлээлттэй) кодын санааг ойлгох",
+    "Promise үүсгэж, then/catch-ээр үр дүнг авах",
+    "async/await-аар Promise-ийг уншигдахуйц бичих",
+  ],
+  blocks: [
+    {
+      kind: "theory",
+      title: "Асинхрон код гэж юу вэ?",
+      html: `<p>Зарим ажил хугацаа шаарддаг (таймер, сүлжээний хүсэлт). Программ тэр үед зогсохгүй, <strong>үргэлжлэн ажиллаад</strong> дууссан үед нь үр дүнг авдаг — үүнийг <strong>асинхрон</strong> гэнэ.</p>
+             <ul>
+               <li><strong>Promise</strong> — "дараа үр дүн өгнө" гэсэн амлалт. Төлөв: <em>pending</em> → <em>fulfilled</em> эсвэл <em>rejected</em>.</li>
+               <li><code>.then()</code> — амжилттай бол, <code>.catch()</code> — алдаа гарвал ажиллана.</li>
+               <li><code>async</code> функц дотор <code>await</code> нь Promise дуусахыг хүлээж, үр дүнг шууд өгнө.</li>
+             </ul>
+             <p>Жишээ нь <code>setTimeout</code>-ыг Promise болгон ороож хүлээлт хийж болно.</p>`,
+    },
+    {
+      kind: "code",
+      title: "Жишээ код",
+      lang: "js",
+      code: `// setTimeout-ыг Promise болгох
+function wait(ms) {
+  return new Promise((resolve) => {
+    setTimeout(() => resolve("Дууслаа!"), ms);
+  });
+}
+
+// then ашиглах
+wait(500).then((msg) => console.log(msg));
+
+// async/await ашиглах
+async function main() {
+  console.log("Эхэллээ");
+  const msg = await wait(1000);
+  console.log(msg);
+}
+main();`,
+    },
+    {
+      kind: "playground",
+      title: "Туршиж үз",
+      height: 260,
+      starter: {
+        html: `<h1>Promise</h1>\n<p>Консолыг харна уу.</p>`,
+        css: `body { font-family: system-ui; padding: 16px; }`,
+        js: `function wait(ms) {\n  return new Promise((resolve) => setTimeout(resolve, ms));\n}\n\nasync function run() {\n  console.log("1");\n  await wait(500);\n  console.log("2 (0.5 сек дараа)");\n  await wait(500);\n  console.log("3 (1 сек дараа)");\n}\nrun();`,
+      },
+    },
+    {
+      kind: "exercise",
+      title: "async функц бич",
+      prompt: "`wait(ms)` нь Promise буцаадаг. `async function greet()` бич: дотроо `await wait(300)` хийгээд дараа нь `console.log`-оор мэндчилгээ хэвлэ. Эцэст нь `greet()`-ийг дууд.",
+      starter: {
+        html: `<p>Консолыг шалгана уу.</p>`,
+        css: `body { font-family: system-ui; padding: 16px; }`,
+        js: `function wait(ms) {\n  return new Promise((resolve) => setTimeout(resolve, ms));\n}\n\n// async function greet() энд бич\n`,
+      },
+      hint: "async function greet() { await wait(300); console.log(...); }",
+      hint2: "Функцийн гадна `greet();` гэж дуудахаа бүү март.",
+      solution: {
+        html: `<p>Консолыг шалгана уу.</p>`,
+        css: `body { font-family: system-ui; padding: 16px; }`,
+        js: `function wait(ms) {\n  return new Promise((resolve) => setTimeout(resolve, ms));\n}\n\nasync function greet() {\n  await wait(300);\n  console.log("Сайн уу!");\n}\ngreet();`,
+      },
+      check: {
+        type: "allOf",
+        checks: [
+          { type: "jsIncludes", pattern: "async\\s+function\\s+greet\\s*\\(", message: "`async function greet()` олдсонгүй." },
+          { type: "jsIncludes", pattern: "await\\s+wait\\s*\\(", message: "`await wait(...)` ашигла." },
+          { type: "jsIncludes", pattern: "console\\.log\\s*\\(", message: "`console.log(...)`-оор хэвлэ." },
+          { type: "jsIncludes", pattern: "(^|[^\\w.])greet\\s*\\(\\s*\\)\\s*;?\\s*$", message: "Хамгийн сүүлд `greet()`-ийг дууд." },
+        ],
+      },
+    },
+    {
+      kind: "quiz",
+      question: "`await` үгийг хаана ашиглаж болох вэ?",
+      options: [
+        "Ямар ч функц дотор",
+        "Зөвхөн `async` функц дотор (болон модулийн дээд түвшинд)",
+        "Зөвхөн for давталт дотор",
+        "Зөвхөн CSS дотор",
+      ],
+      answer: 1,
+      explain: "`await` нь `async` функц дотор Promise дуустал хүлээж, үр дүнг буцаана.",
+      more: [
+        {
+          question: "Promise алдаатай дууссан үед аль нь барих вэ?",
+          options: [".then()", ".catch()", ".finally() заавал", "await"],
+          answer: 1,
+          explain: "`.catch()` (эсвэл async дотор try/catch) нь rejected Promise-ийн алдааг барина.",
+        },
+      ],
+    },
+  ],
+};
