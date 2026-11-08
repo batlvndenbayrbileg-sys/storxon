@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { fmt } from "@/lib/content";
+import PageSkeleton from "@/components/PageSkeleton";
 
 type Preorder = { id: string; name: string; phone: string; plan: string; segment: string; status: string; created_at: string };
 type Order = { id: string; email: string; name: string; phone: string; plan: string; amount: number; status: string; created_at: string; paid_at: string | null };
@@ -98,7 +99,7 @@ export default function Admin() {
   }
 
   if (!data) {
-    return <main className="soft-bg grid min-h-screen place-items-center px-4 text-muted">Ачаалж байна…</main>;
+    return <div className="min-h-screen bg-ink-2"><PageSkeleton label="Ачаалж байна…" /></div>;
   }
 
   const paidCount = data.orders.filter((o) => o.status === "paid").length;

@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { modules, PRESALE } from "@/lib/content";
+import PageSkeleton from "@/components/PageSkeleton";
 
 type Me = { email: string; name: string | null; plan: string | null; enrolled: boolean; isAdmin: boolean };
 
@@ -175,7 +176,7 @@ export default function Dashboard() {
   }
 
   if (!me) {
-    return <main className="grid min-h-screen place-items-center bg-ink-2 px-4 text-muted">Ачаалж байна…</main>;
+    return <div className="min-h-screen bg-ink-2"><PageSkeleton label="Самбар ачаалж байна…" /></div>;
   }
 
   const pct = Math.round((Math.min(done, TOTAL_LESSONS) / TOTAL_LESSONS) * 100);
