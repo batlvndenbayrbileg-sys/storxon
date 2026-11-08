@@ -45,7 +45,7 @@ export const plans = [
     id: "standard" as const,
     name: "Стандарт",
     price: 290000,
-    presale: 145000,
+    presale: 50000,
     features: [
       "10 модуль, ~20 цаг видео",
       "Бүрэн эх код",
