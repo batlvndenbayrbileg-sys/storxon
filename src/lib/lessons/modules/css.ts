@@ -967,3 +967,86 @@ export const CSS_POSITION: Lesson = {
     },
   ],
 };
+
+export const CSS_TRANSFORM_KEYFRAMES: Lesson = {
+  id: "css-transform-keyframes",
+  module: 2,
+  title: "CSS — Transform ба @keyframes анимэйшн",
+  objectives: [
+    "transform-оор элементийг шилжүүлэх, эргүүлэх, томруулах",
+    "@keyframes-ээр өөрийн анимэйшн зарлах",
+    "animation шинж чанаруудыг (duration, iteration-count, timing) тохируулах",
+  ],
+  blocks: [
+    {
+      kind: "theory",
+      title: "transform ба animation гэж юу вэ",
+      html: `<p><code>transform</code> нь элементийн байрлах зайг өөрчлөхгүйгээр дүр төрхийг нь хувиргана. <code>@keyframes</code> нь анимэйшний алхмуудыг тодорхойлж, <code>animation</code> шинж чанараар элемент дээр ажиллуулна.</p>
+             <ul>
+               <li><code>translate(x, y)</code> — шилжүүлнэ</li>
+               <li><code>rotate(45deg)</code> — эргүүлнэ</li>
+               <li><code>scale(1.2)</code> — томруулна/жижигрүүлнэ</li>
+               <li><code>@keyframes нэр { from {...} to {...} }</code> — анимэйшний алхмууд</li>
+               <li><code>animation: нэр 2s infinite</code> — нэр, үргэлжлэх хугацаа, давталт</li>
+             </ul>`,
+    },
+    {
+      kind: "code",
+      title: "Жишээ код",
+      lang: "css",
+      code: `.box {
+  transform: rotate(10deg) scale(1.1);
+}
+
+@keyframes pulse {
+  from { transform: scale(1); }
+  to   { transform: scale(1.2); }
+}
+
+.dot {
+  animation: pulse 1s ease-in-out infinite alternate;
+}`,
+    },
+    {
+      kind: "playground",
+      title: "Туршиж үз",
+      height: 260,
+      starter: {
+        html: `<div class="dot"></div>`,
+        css: `body { font-family: system-ui; padding: 48px; }\n.dot {\n  width: 60px;\n  height: 60px;\n  background: #7c3aed;\n  border-radius: 50%;\n  animation: pulse 1s ease-in-out infinite alternate;\n}\n@keyframes pulse {\n  from { transform: scale(1); }\n  to { transform: scale(1.4); }\n}`,
+        js: ``,
+      },
+    },
+    {
+      kind: "exercise",
+      title: "Эргэдэг дүрс хий",
+      prompt: "`@keyframes spin` зарла (`from` дээр `rotate(0deg)`, `to` дээр `rotate(360deg)`), дараа нь `.loader`-т `animation` өгч үргэлж эргүүл.",
+      starter: {
+        html: `<div class="loader"></div>`,
+        css: `body { font-family: system-ui; padding: 48px; }\n.loader {\n  width: 48px;\n  height: 48px;\n  border: 6px solid #e9d5ff;\n  border-top-color: #7c3aed;\n  border-radius: 50%;\n  /* Энд animation нэм */\n}\n/* Энд @keyframes spin нэм */`,
+        js: ``,
+      },
+      hint: "@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } } .loader { animation: spin 1s linear infinite; }",
+      solution: {
+        html: `<div class="loader"></div>`,
+        css: `body { font-family: system-ui; padding: 48px; }\n.loader {\n  width: 48px;\n  height: 48px;\n  border: 6px solid #e9d5ff;\n  border-top-color: #7c3aed;\n  border-radius: 50%;\n  animation: spin 1s linear infinite;\n}\n@keyframes spin {\n  from { transform: rotate(0deg); }\n  to { transform: rotate(360deg); }\n}`,
+        js: ``,
+      },
+      check: {
+        type: "allOf",
+        checks: [
+          { type: "cssIncludes", pattern: "@keyframes\\s+spin", flags: "i", message: "`@keyframes spin` олдсонгүй." },
+          { type: "cssIncludes", pattern: "rotate\\s*\\(", flags: "i", message: "`transform: rotate(...)` ашиглаарай." },
+          { type: "cssIncludes", pattern: "\\.loader\\s*\\{[^}]*animation\\s*:[^;}]*spin", flags: "i", message: "`.loader`-т `animation: spin ...` өгөөрэй." },
+        ],
+      },
+    },
+    {
+      kind: "quiz",
+      question: "Анимэйшнийг тодорхойлсны дараа элемент дээр ажиллуулахад аль шинж чанарыг ашигладаг вэ?",
+      options: ["transition", "animation", "transform-origin", "@media"],
+      answer: 1,
+      explain: "`@keyframes` нь зөвхөн алхмуудыг зарлана. Тэр нэрийг элемент дээр `animation: нэр хугацаа ...` гэж өгснөөр ажиллана.",
+    },
+  ],
+};
