@@ -11,6 +11,7 @@ import {
   School,
   ShoppingBag,
 } from "lucide-react";
+import Logo from "@/components/Logo";
 import PreorderForm from "@/components/PreorderForm";
 import ScrollFX from "@/components/ScrollFX";
 import MobileNav from "@/components/MobileNav";
@@ -48,7 +49,7 @@ function Nav() {
     <header className="glass sticky top-0 z-40 border-b border-line/70">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 sm:px-6">
         <a href="#" className="flex items-center gap-2 font-bold tracking-tight">
-          <Image src="/kit/head.webp" alt="" width={32} height={32} aria-hidden className="size-8 shrink-0 select-none object-contain" />
+          <Logo className="size-10" />
           Storxon
         </a>
         <nav aria-label="Үндсэн цэс" className="hidden gap-7 text-sm text-muted md:flex">
@@ -139,7 +140,7 @@ function Hero() {
       <div className="relative mx-auto grid max-w-6xl items-center gap-10 px-4 py-16 sm:px-6 md:grid-cols-[1fr_1.05fr] md:py-20">
         <div className="reveal">
           <div className="mb-6 inline-flex items-center gap-2.5 rounded-full border border-line bg-white/70 px-4 py-2 shadow-sm backdrop-blur">
-            <Image src="/kit/head.webp" alt="Storxon" width={28} height={28} className="size-7 shrink-0 select-none object-contain" />
+            <Logo className="size-9" />
             <span className="text-sm font-black tracking-tight">Storxon</span>
           </div>
           <h2 className="text-[clamp(3rem,8vw,5.5rem)] font-black leading-[0.95] tracking-tight">
@@ -456,7 +457,7 @@ function Footer() {
       <div className="mx-auto grid max-w-6xl gap-8 px-4 py-10 text-sm text-muted sm:grid-cols-2 sm:px-6 lg:grid-cols-4">
         <div className="lg:col-span-2">
           <a href="#" className="flex items-center gap-2 font-bold tracking-tight text-paper">
-            <span className="grid size-8 place-items-center rounded-xl bg-brand text-sm text-white shadow-md shadow-violet-500/30">S</span>
+            <Logo className="size-10" />
             Storxon
           </a>
           <p className="mt-3 max-w-sm">

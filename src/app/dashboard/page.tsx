@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { modules, PRESALE } from "@/lib/content";
 import PageSkeleton from "@/components/PageSkeleton";
+import Logo from "@/components/Logo";
 
 type Me = { email: string; name: string | null; plan: string | null; enrolled: boolean; isAdmin: boolean };
 
@@ -191,7 +192,7 @@ export default function Dashboard() {
       {/* sidebar (desktop) */}
       <aside className="fixed inset-y-0 left-0 hidden w-60 flex-col border-r border-line bg-ink p-4 lg:flex">
         <a href="/" className="flex items-center gap-2 px-2 py-1 font-black tracking-tight">
-          <span className="grid size-9 place-items-center rounded-xl bg-brand text-sm shadow-md shadow-violet-500/30">S</span>
+          <Logo className="size-10" />
           Storxon
         </a>
         <nav className="mt-6 flex flex-col gap-1">
@@ -212,7 +213,7 @@ export default function Dashboard() {
         {/* top bar */}
         <header className="sticky top-0 z-20 flex items-center justify-between gap-3 border-b border-line bg-ink/85 px-4 py-3 backdrop-blur sm:px-6">
           <a href="/" className="flex items-center gap-2 font-black tracking-tight lg:hidden">
-            <span className="grid size-8 place-items-center rounded-xl bg-brand text-sm">S</span>
+            <Logo className="size-9" />
             Storxon
           </a>
           <span className="hidden text-sm font-semibold text-muted lg:block">Сурагчийн самбар</span>

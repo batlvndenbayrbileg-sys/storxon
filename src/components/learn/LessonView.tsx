@@ -6,6 +6,7 @@ import Link from "next/link";
 import dynamic from "next/dynamic";
 import HighlightedCode from "@/components/learn/HighlightedCode";
 import LessonSidebar, { gradeableIds } from "@/components/learn/LessonSidebar";
+import Logo from "@/components/Logo";
 import { LESSONS } from "@/lib/lessons/data";
 import { loadProgress, markComplete } from "@/lib/lessons/progress";
 import { getStreak, touchStreak } from "@/lib/lessons/streak";
@@ -202,7 +203,7 @@ export default function LessonView({
             </button>
           )}
           <Link href="/" aria-label="Нүүр хуудас" className="flex shrink-0 items-center gap-2 font-black tracking-tight text-zinc-900 dark:text-zinc-50">
-            <span className="grid size-7 place-items-center rounded-lg bg-violet-600 text-sm text-white shadow-sm shadow-violet-600/30">S</span>
+            <Logo className="size-9" />
             <span className="hidden sm:inline">Storxon</span>
           </Link>
           {hrefFor && (

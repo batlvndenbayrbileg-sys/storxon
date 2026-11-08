@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { supabaseBrowser } from "@/lib/supabase/client";
+import Logo from "@/components/Logo";
 
 /** Only a same-site path is an acceptable post-login destination. */
 function safeNext() {
@@ -33,7 +34,7 @@ export default function Login() {
     <main className="soft-bg grid min-h-screen place-items-center px-4 py-16">
       <div className="glass w-full max-w-md rounded-3xl border border-white p-8 shadow-xl shadow-violet-500/10">
         <a href="/" className="flex items-center gap-2 font-bold tracking-tight">
-          <span className="grid size-8 place-items-center rounded-xl bg-brand text-sm shadow-md shadow-violet-500/30">S</span>
+          <Logo className="size-10" />
           Storxon
         </a>
         <form onSubmit={submit} className="mt-8 space-y-4">
