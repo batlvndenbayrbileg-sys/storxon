@@ -186,7 +186,7 @@ Storxon-г **анхан → дунд → төсөл бүтээх** түвшин�
 **localStorage** (DB биш, progress.ts-ийн DB зам руу бичихгүй).
 
 ## A. Дэвшилтэт JavaScript
-- [ ] JS: ES6 — template literal, arrow function, destructuring хичээл
+- [x] JS: ES6 — template literal, arrow function, destructuring хичээл
 - [ ] JS: Хувьсагчийн scope ба closure хичээл
 - [ ] JS: map/filter/reduce гүнзгий хичээл (`allOf` дасгал)
 - [ ] JS: Promise ба async/await хичээл (sandbox дотор setTimeout жишээ)

@@ -991,3 +991,121 @@ export const JS_ARRAY_METHODS: Lesson = {
     },
   ],
 };
+
+export const JS_ES6: Lesson = {
+  id: "js-es6",
+  module: 3,
+  title: "JS — ES6: template literal, arrow function, destructuring",
+  objectives: [
+    "Template literal-аар текст ба хувьсагчийг нэгтгэх",
+    "Arrow function (=>) бичих",
+    "Destructuring-оор объект, массиваас утга салгаж авах",
+  ],
+  blocks: [
+    {
+      kind: "theory",
+      title: "ES6 гэж юу вэ?",
+      html: `<p><strong>ES6</strong> (2015) нь JavaScript-д кодыг богино, тод болгодог шинэ бичиглэлүүдийг авчирсан. Өнөөдөр бараг бүх код үүнийг ашигладаг.</p>
+             <ul>
+               <li><strong>Template literal</strong> — арагш хаалт (backtick) дотор <code>\${хувьсагч}</code> бичиж текстэд шууд оруулна.</li>
+               <li><strong>Arrow function</strong> — <code>(a, b) =&gt; a + b</code> гэж функцийг товчоор бичнэ.</li>
+               <li><strong>Destructuring</strong> — <code>const { нэр, нас } = хүн</code> гэж объектоос утгыг шууд салгаж авна.</li>
+             </ul>`,
+    },
+    {
+      kind: "code",
+      title: "Жишээ код",
+      lang: "js",
+      code: `const name = "Бат";
+const age = 20;
+
+// 1. Template literal
+console.log(\`Намайг \${name} гэдэг, \${age} настай.\`);
+
+// 2. Arrow function
+const double = (n) => n * 2;
+console.log(double(5)); // 10
+
+// 3. Destructuring
+const user = { name: "Сараа", city: "УБ" };
+const { name: userName, city } = user;
+console.log(userName, city); // Сараа УБ
+
+const [first, second] = [10, 20];
+console.log(first, second); // 10 20`,
+    },
+    {
+      kind: "playground",
+      title: "Туршиж үз",
+      height: 260,
+      starter: {
+        html: `<h1>ES6</h1>\n<p>Консолыг харна уу.</p>`,
+        css: `body { font-family: system-ui; padding: 16px; }`,
+        js: `const product = { title: "Дэвтэр", price: 2500 };\nconst { title, price } = product;\n\nconst withTax = (p) => p * 1.1;\nconsole.log(\`\${title}: \${withTax(price)}₮\`);`,
+      },
+    },
+    {
+      kind: "exercise",
+      title: "Template literal ашигла",
+      prompt: "`hello` нэртэй хувьсагчид арагш хаалт (backtick) ба `${...}` ашиглан `\"Сайн уу, \" + name` маягийн мэндчилгээ хийж, `console.log`-оор хэвл.",
+      starter: {
+        html: `<p>Консолыг шалгана уу.</p>`,
+        css: `body { font-family: system-ui; padding: 16px; }`,
+        js: `const name = "Сараа";\n// hello хувьсагчийг template literal-аар энд бич\n`,
+      },
+      hint: "Арагш хаалт ашигла: const hello = `Сайн уу, ${name}!`;",
+      hint2: "Дараа нь console.log(hello); гэж хэвлэ.",
+      solution: {
+        html: `<p>Консолыг шалгана уу.</p>`,
+        css: `body { font-family: system-ui; padding: 16px; }`,
+        js: `const name = "Сараа";\nconst hello = \`Сайн уу, \${name}!\`;\nconsole.log(hello);`,
+      },
+      check: {
+        type: "allOf",
+        checks: [
+          { type: "jsIncludes", pattern: "(const|let)\\s+hello\\s*=\\s*`[^`]*\\$\\{\\s*name\\s*\\}[^`]*`", message: "`hello` хувьсагчийг `${name}`-тэй template literal-аар зарла." },
+          { type: "jsIncludes", pattern: "console\\.log\\s*\\(\\s*hello", message: "`console.log(hello)` олдсонгүй." },
+        ],
+      },
+    },
+    {
+      kind: "exercise",
+      title: "Arrow function ба destructuring",
+      prompt: "`square` нэртэй arrow function бичиж тоог квадрат зэрэгт дэвшүүл. Мөн `const { x, y } = point` маягаар destructuring хий.",
+      starter: {
+        html: "",
+        css: "body { font-family: system-ui; padding: 16px; }",
+        js: "const point = { x: 3, y: 4 };\n// square arrow function ба destructuring-ийг энд бич\n",
+      },
+      hint: "const square = (n) => n * n;  ба  const { x, y } = point;",
+      hint2: "Эцэст нь console.log(square(x), y); гэж шалгаж болно.",
+      solution: {
+        html: "",
+        css: "body { font-family: system-ui; padding: 16px; }",
+        js: "const point = { x: 3, y: 4 };\nconst square = (n) => n * n;\nconst { x, y } = point;\nconsole.log(square(x), y);",
+      },
+      check: {
+        type: "allOf",
+        checks: [
+          { type: "jsIncludes", pattern: "(const|let)\\s+square\\s*=\\s*\\(?\\s*\\w+\\s*\\)?\\s*=>", message: "`square` arrow function (=>) олдсонгүй." },
+          { type: "jsIncludes", pattern: "(const|let)\\s*\\{[^}]*\\bx\\b[^}]*\\}\\s*=\\s*point", message: "`const { x, y } = point` destructuring олдсонгүй." },
+        ],
+      },
+    },
+    {
+      kind: "quiz",
+      question: "`const { a } = { a: 5, b: 6 };` дараа `a` юу вэ?",
+      options: ["undefined", "5", "6", "{ a: 5 }"],
+      answer: 1,
+      explain: "Destructuring нь объектоос `a` түлхүүрийн утгыг салгаж авдаг тул `a` = 5.",
+      more: [
+        {
+          question: "`const f = (n) => n + 1; f(2)` юу буцаах вэ?",
+          options: ["2", "3", "n + 1", "undefined"],
+          answer: 1,
+          explain: "Arrow function нь `n + 1`-ийг шууд буцаадаг тул 2 + 1 = 3.",
+        },
+      ],
+    },
+  ],
+};
