@@ -1511,3 +1511,102 @@ load();`,
     },
   ],
 };
+
+export const JS_TRY_CATCH: Lesson = {
+  id: "js-try-catch",
+  module: 3,
+  title: "JS — Алдаа барих (try/catch/finally)",
+  objectives: [
+    "Програм яагаад алдаа заадгийг, алдаа барих хэрэгтэйг ойлгох",
+    "try / catch / finally блокийг зөв бичиж сурах",
+    "throw-оор өөрийн алдаа үүсгэх",
+  ],
+  blocks: [
+    {
+      kind: "theory",
+      title: "Алдаа барих гэж юу вэ?",
+      html: `<p>Код ажиллах үед алдаа гарвал програм зогсчихдог. <strong>try/catch</strong> ашигласнаар алдааг "барьж", програмаа үргэлжлүүлэн ажиллуулж болно.</p>
+             <ul>
+               <li><code>try { ... }</code> — алдаа гарч магадгүй кодыг энд бичнэ.</li>
+               <li><code>catch (err) { ... }</code> — алдаа гарвал энд орно; <code>err.message</code> нь тайлбар.</li>
+               <li><code>finally { ... }</code> — алдаа гарсан ч, гараагүй ч <strong>үргэлж</strong> ажиллана.</li>
+               <li><code>throw new Error("тайлбар")</code> — өөрөө алдаа үүсгэнэ.</li>
+             </ul>`,
+    },
+    {
+      kind: "code",
+      title: "Жишээ код",
+      lang: "js",
+      code: `function parseUser(text) {
+  try {
+    const user = JSON.parse(text);
+    return user.name;
+  } catch (err) {
+    console.log("Алдаа:", err.message);
+    return "Тодорхойгүй";
+  } finally {
+    console.log("Шалгалт дууслаа");
+  }
+}
+
+console.log(parseUser('{"name":"Бат"}'));
+console.log(parseUser("эвдэрсэн json"));`,
+    },
+    {
+      kind: "playground",
+      title: "Туршиж үз",
+      height: 280,
+      starter: {
+        html: `<h1>Алдаа барих</h1>\n<p id="out"></p>`,
+        css: `body { font-family: system-ui; padding: 16px; }\n#out { font-weight: 600; }`,
+        js: `function divide(a, b) {\n  if (b === 0) {\n    throw new Error("0-д хуваах боломжгүй");\n  }\n  return a / b;\n}\n\nconst out = document.querySelector("#out");\ntry {\n  out.textContent = "Хариу: " + divide(10, 0);\n} catch (err) {\n  out.textContent = "Алдаа: " + err.message;\n} finally {\n  console.log("Тооцоолол дууслаа");\n}`,
+      },
+    },
+    {
+      kind: "exercise",
+      title: "Алдааг бари",
+      prompt: "`JSON.parse(bad)`-ийг `try` блок дотор дуудаж, алдаа гарвал `catch (err)` дотор `console.log(err.message)` хэвлэ. Мөн `finally` блок нэм.",
+      starter: {
+        html: `<p>Консолыг шалгана уу.</p>`,
+        css: `body { font-family: system-ui; padding: 16px; }`,
+        js: `const bad = "{эвдэрсэн";\n\n// try / catch / finally энд бич\n`,
+      },
+      hint: "try { JSON.parse(bad); } catch (err) { ... } finally { ... }",
+      hint2: "catch дотор console.log(err.message); finally дотор ямар нэг мессеж хэвлэ.",
+      solution: {
+        html: `<p>Консолыг шалгана уу.</p>`,
+        css: `body { font-family: system-ui; padding: 16px; }`,
+        js: `const bad = "{эвдэрсэн";\n\ntry {\n  JSON.parse(bad);\n} catch (err) {\n  console.log(err.message);\n} finally {\n  console.log("Дууслаа");\n}`,
+      },
+      check: {
+        type: "allOf",
+        checks: [
+          { type: "jsIncludes", pattern: "try\\s*\\{", message: "`try { ... }` блок бич." },
+          { type: "jsIncludes", pattern: "catch\\s*\\(\\s*\\w+\\s*\\)", message: "`catch (err)` блок нэм." },
+          { type: "jsIncludes", pattern: "err\\w*\\.message|\\.message", message: "`err.message`-ийг ашигла." },
+          { type: "jsIncludes", pattern: "finally\\s*\\{", message: "`finally { ... }` блок нэм." },
+        ],
+      },
+    },
+    {
+      kind: "quiz",
+      question: "`finally` блок хэзээ ажилладаг вэ?",
+      options: [
+        "Зөвхөн алдаа гарсан үед",
+        "Зөвхөн алдаа гараагүй үед",
+        "Алдаа гарсан ч, гараагүй ч үргэлж",
+        "Хэзээ ч ажилладаггүй",
+      ],
+      answer: 2,
+      explain: "`finally` нь үр дүнгээс үл хамааран үргэлж ажиллана — цэвэрлэгээ хийхэд тохиромжтой.",
+      more: [
+        {
+          question: "Өөрөө алдаа үүсгэх түлхүүр үг аль нь вэ?",
+          options: ["catch", "throw", "return", "finally"],
+          answer: 1,
+          explain: "`throw new Error(\"тайлбар\")` нь алдаа үүсгэж, ойролцоох `catch` руу шилжүүлнэ.",
+        },
+      ],
+    },
+  ],
+};
