@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { modules, PRESALE } from "@/lib/content";
 import PageSkeleton from "@/components/PageSkeleton";
 
@@ -255,7 +256,7 @@ export default function Dashboard() {
             </section>
 
             {/* interactive playground — distinct from the video course, free to practice */}
-            <a href="/playground" className="group flex items-center gap-4 rounded-3xl border border-violet-300 bg-gradient-to-br from-violet-50 to-blue-50 p-6 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
+            <Link href="/playground" className="group flex items-center gap-4 rounded-3xl border border-violet-300 bg-gradient-to-br from-violet-50 to-blue-50 p-6 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
               <span className="grid size-12 shrink-0 place-items-center rounded-2xl bg-brand text-white shadow-md shadow-violet-500/30">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className="size-6"><path d="M8 9l-3 3 3 3M16 9l3 3-3 3" /></svg>
               </span>
@@ -264,7 +265,7 @@ export default function Dashboard() {
                 <span className="mt-0.5 block text-sm text-muted">HTML, CSS, JavaScript, React-ийг браузер дотор бичиж, шууд ажиллуулж сур.</span>
               </span>
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" className="size-6 shrink-0 text-violet-600 transition group-hover:translate-x-0.5"><path d="M9 6l6 6-6 6" /></svg>
-            </a>
+            </Link>
 
             {/* how it works — so a first-timer understands the whole thing at a glance */}
             <section className="grid gap-3 sm:grid-cols-3">

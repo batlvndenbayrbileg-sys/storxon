@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
 import { DAILY_GOAL } from "@/lib/lessons/daily";
 import type { Lesson } from "@/lib/lessons/types";
 
@@ -193,9 +194,9 @@ export default function LessonSidebar({
                   return (
                     <li key={l.id}>
                       {hrefFor ? (
-                        <a href={hrefFor(l.id)} aria-current={active ? "page" : undefined} className={cls}>
+                        <Link href={hrefFor(l.id)} aria-current={active ? "page" : undefined} className={cls} onClick={onClose}>
                           {inner}
-                        </a>
+                        </Link>
                       ) : (
                         <div aria-current={active ? "page" : undefined} className={cls}>
                           {inner}

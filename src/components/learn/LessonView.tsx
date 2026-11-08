@@ -224,12 +224,12 @@ export default function LessonView({
           {hrefFor && (
             <div className="flex items-center gap-1">
               {prev ? (
-                <a href={hrefFor(prev.id)} aria-label={`Өмнөх хичээл: ${prev.title}`} title={`← ${prev.title}`} className="grid size-9 place-items-center rounded-lg border border-zinc-200 bg-white text-xl leading-none text-zinc-700 hover:border-violet-400 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-200">‹</a>
+                <Link href={hrefFor(prev.id)} aria-label={`Өмнөх хичээл: ${prev.title}`} title={`← ${prev.title}`} className="grid size-9 place-items-center rounded-lg border border-zinc-200 bg-white text-xl leading-none text-zinc-700 hover:border-violet-400 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-200">‹</Link>
               ) : (
                 <span aria-hidden className="grid size-9 place-items-center rounded-lg border border-zinc-100 text-xl leading-none text-zinc-300 dark:border-zinc-900 dark:text-zinc-700">‹</span>
               )}
               {next ? (
-                <a href={hrefFor(next.id)} aria-label={`Дараах хичээл: ${next.title}`} title={`${next.title} →`} className="grid size-9 place-items-center rounded-lg bg-violet-600 text-xl leading-none text-white hover:bg-violet-700">›</a>
+                <Link href={hrefFor(next.id)} aria-label={`Дараах хичээл: ${next.title}`} title={`${next.title} →`} className="grid size-9 place-items-center rounded-lg bg-violet-600 text-xl leading-none text-white hover:bg-violet-700">›</Link>
               ) : (
                 <span aria-hidden className="grid size-9 place-items-center rounded-lg border border-zinc-100 text-xl leading-none text-zinc-300 dark:border-zinc-900 dark:text-zinc-700">›</span>
               )}
@@ -370,7 +370,7 @@ export default function LessonView({
 
       <div className="space-y-8">
         {lesson.blocks.map((block, i) => (
-          <Block key={i} block={block} taskId={`${lesson.id}:${i}`} done={doneIds.has(`${lesson.id}:${i}`)} onDone={markDone} />
+          <Block key={`${lesson.id}:${i}`} block={block} taskId={`${lesson.id}:${i}`} done={doneIds.has(`${lesson.id}:${i}`)} onDone={markDone} />
         ))}
       </div>
 
@@ -379,18 +379,18 @@ export default function LessonView({
       {hrefFor && (prev || next) && (
         <nav aria-label="Хичээл хоорондын навигаци" className="mt-10 flex items-stretch justify-between gap-3">
           {prev ? (
-            <a
+            <Link
               href={hrefFor(prev.id)}
               className="flex-1 rounded-xl border border-zinc-200 bg-white px-4 py-3 text-sm hover:border-violet-400 dark:border-zinc-800 dark:bg-zinc-900"
             >
               <span className="block text-xs text-zinc-500">← Өмнөх</span>
               <span className="font-semibold text-zinc-900 dark:text-zinc-100">{prev.title}</span>
-            </a>
+            </Link>
           ) : (
             <span className="flex-1" />
           )}
           {next ? (
-            <a
+            <Link
               href={hrefFor(next.id)}
               className="flex-1 rounded-xl border border-violet-300 bg-violet-50 px-4 py-3 text-right text-sm hover:border-violet-500 dark:border-violet-900/50 dark:bg-violet-950/30"
             >
@@ -404,7 +404,7 @@ export default function LessonView({
                   ))}
                 </span>
               )}
-            </a>
+            </Link>
           ) : (
             <span className="flex-1" />
           )}
