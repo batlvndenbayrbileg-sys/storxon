@@ -48,7 +48,7 @@ function Nav() {
     <header className="glass sticky top-0 z-40 border-b border-line/70">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 sm:px-6">
         <a href="#" className="flex items-center gap-2 font-bold tracking-tight">
-          <span className="grid size-8 place-items-center rounded-xl bg-brand text-sm shadow-md shadow-violet-500/30">S</span>
+          <Image src="/kit/head.webp" alt="" width={32} height={32} aria-hidden className="size-8 shrink-0 select-none object-contain" />
           Storxon
         </a>
         <nav aria-label="Үндсэн цэс" className="hidden gap-7 text-sm text-muted md:flex">
@@ -138,6 +138,10 @@ function Hero() {
       <div data-parallax data-speed="0.12" className="pointer-events-none absolute -right-40 top-10 size-[38rem] rounded-full bg-violet-200/40 blur-3xl" />
       <div className="relative mx-auto grid max-w-6xl items-center gap-10 px-4 py-16 sm:px-6 md:grid-cols-[1fr_1.05fr] md:py-20">
         <div className="reveal">
+          <div className="mb-6 inline-flex items-center gap-2.5 rounded-full border border-line bg-white/70 px-4 py-2 shadow-sm backdrop-blur">
+            <Image src="/kit/head.webp" alt="Storxon" width={28} height={28} className="size-7 shrink-0 select-none object-contain" />
+            <span className="text-sm font-black tracking-tight">Storxon</span>
+          </div>
           <h2 className="text-[clamp(3rem,8vw,5.5rem)] font-black leading-[0.95] tracking-tight">
             Hello,
             <span className="ml-2 inline-block align-top text-[0.45em] text-amber-400">✦</span>
