@@ -26,6 +26,36 @@ type Tab = "html" | "css" | "js";
 
 const TAB_LABEL: Record<Tab, string> = { html: "HTML", css: "CSS", js: "JS" };
 
+// --- Share link: code travels in the URL (?sx=...), no backend involved. ---
+const SHARE_PARAM = "sx";
+const SHARE_MAX = 6000;
+
+function b64urlEncode(str: string): string {
+  const bytes = new TextEncoder().encode(str);
+  let bin = "";
+  bytes.forEach((b) => (bin += String.fromCharCode(b)));
+  return btoa(bin).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+}
+
+function b64urlDecode(s: string): string {
+  const b64 = s.replace(/-/g, "+").replace(/_/g, "/");
+  const bin = atob(b64 + "=".repeat((4 - (b64.length % 4)) % 4));
+  return new TextDecoder().decode(Uint8Array.from(bin, (c) => c.charCodeAt(0)));
+}
+
+function readSharedFiles(id: string): PlaygroundFiles | null {
+  try {
+    const raw = new URLSearchParams(window.location.search).get(SHARE_PARAM);
+    if (!raw) return null;
+    const d = JSON.parse(b64urlDecode(raw)) as { p?: unknown; h?: unknown; c?: unknown; j?: unknown };
+    if (d.p !== id) return null;
+    if (typeof d.h !== "string" || typeof d.c !== "string" || typeof d.j !== "string") return null;
+    return { html: d.h, css: d.c, js: d.j };
+  } catch {
+    return null;
+  }
+}
+
 // Visible keyboard focus ring shared by every interactive control.
 const FONT_KEY = "storxon:editor-font";
 const FONT_MIN = 11;
@@ -169,10 +199,13 @@ export default function Playground({
     if (!persistId) return;
     let alive = true;
     loadWorkspace(persistId).then((saved) => {
-      if (!alive || !saved) return;
-      setFiles(saved);
-      onFilesChange?.(saved);
-      setSrcDoc(buildSrcDoc(saved));
+      // A shared link (?sx=...) for this exact exercise wins over saved code.
+      const shared = readSharedFiles(persistId);
+      const next = shared ?? saved;
+      if (!alive || !next) return;
+      setFiles(next);
+      onFilesChange?.(next);
+      setSrcDoc(buildSrcDoc(next));
     });
     return () => {
       alive = false;
@@ -243,6 +276,26 @@ export default function Playground({
     setCopied(ok ? "ok" : "fail");
     setToast(ok ? "Хуулсан ✓" : "Хуулж чадсангүй");
   }, [files, tab]);
+
+  // Build a link carrying the current code in a query param and copy it.
+  const shareLink = useCallback(async () => {
+    if (!persistId) return;
+    const payload = b64urlEncode(JSON.stringify({ p: persistId, h: files.html, c: files.css, j: files.js }));
+    if (payload.length > SHARE_MAX) {
+      setToast("Код хэт урт тул холбоос үүсгэж чадсангүй");
+      return;
+    }
+    const url = new URL(window.location.href);
+    url.search = "";
+    url.hash = "";
+    url.searchParams.set(SHARE_PARAM, payload);
+    let ok = false;
+    try {
+      await navigator.clipboard.writeText(url.toString());
+      ok = true;
+    } catch {}
+    setToast(ok ? "Холбоос хуулагдлаа ✓" : "Холбоос хуулж чадсангүй");
+  }, [files, persistId]);
 
   const downloadHtml = useCallback(() => {
     const blob = new Blob([buildStandaloneDoc(files)], { type: "text/html;charset=utf-8" });
@@ -410,6 +463,16 @@ export default function Playground({
               >
                 {copied === "ok" ? "Хуулсан ✓" : copied === "fail" ? "Амжилтгүй" : "Хуулах"}
               </button>
+              {persistId && (
+                <button
+                  type="button"
+                  onClick={shareLink}
+                  aria-label="Кодыг хуваалцах холбоос хуулах"
+                  className={`rounded-md px-2 py-1 text-xs font-medium text-zinc-400 hover:text-white ${FOCUS}`}
+                >
+                  Хуваалцах
+                </button>
+              )}
               <button
                 type="button"
                 onClick={downloadHtml}
