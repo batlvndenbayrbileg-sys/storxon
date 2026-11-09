@@ -206,7 +206,7 @@ Storxon-г **анхан → дунд → төсөл бүтээх** түвшин�
 ## C. Дэвшилтэт React (createElement-only, sandbox)
 - [x] React: useEffect ба амьдралын мөчлөг хичээл
 - [x] React: Форм ба controlled input хичээл
-- [ ] React: Нөхцөлт render ба жагсаалтын `key` хичээл
+- [x] React: Нөхцөлт render ба жагсаалтын `key` хичээл
 - [ ] React: Компонент задлах ба дахин ашиглах хичээл
 - [ ] React: useRef ба DOM хандалт хичээл
 - [ ] React: Энгийн custom hook хичээл

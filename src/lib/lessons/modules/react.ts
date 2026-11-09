@@ -729,3 +729,126 @@ ReactDOM.createRoot(document.getElementById("root")).render(h(App));`,
     },
   ],
 };
+
+export const REACT_CONDITIONAL_KEY: Lesson = {
+  id: "react-conditional-key",
+  module: 9,
+  title: "React — Нөхцөлт render ба жагсаалтын key",
+  objectives: [
+    "`&&` ба гурвалсан (`? :`) оператороор элементийг нөхцөлтэй харуулах",
+    "Харуулахгүй байх үед `null` буцаах",
+    "Жагсаалтын элемент бүрт тогтвортой `key` өгөх (индекс биш `id`)",
+  ],
+  blocks: [
+    {
+      kind: "theory",
+      title: "Нөхцөлт render",
+      html: `<p>React-д <code>if</code>-ийг JSX/createElement-ийн <em>дотор</em> бичихийн оронд энгийн JavaScript илэрхийлэл ашиглана:</p>
+             <ul>
+               <li><code>show &amp;&amp; h("p", null, "Харагдана")</code> — <code>show</code> үнэн үед л элемент гарна.</li>
+               <li><code>ok ? h("b", null, "Тийм") : h("i", null, "Үгүй")</code> — хоёр сонголтын нэгийг харуулна.</li>
+               <li>Юу ч харуулахгүй бол <code>null</code> буцаана.</li>
+             </ul>
+             <p><strong>key</strong>: жагсаалтыг <code>.map()</code>-ээр гаргахад элемент бүр <code>key</code>-тэй байх ёстой. Ингэснээр React аль элемент нэмэгдэж, устсаныг зөв танина. Тогтвортой <code>id</code>-г ашигла; массивын индексийг зөвхөн жагсаалт өөрчлөгддөггүй үед хэрэглэ.</p>`,
+    },
+    {
+      kind: "playground",
+      title: "Нууц үг харуулах/нуух",
+      height: 320,
+      starter: {
+        html: REACT_CDN + `<div id="root"></div>`,
+        css: `body { font-family: system-ui; padding: 16px; }\nbutton { padding: 6px 14px; font-size: 16px; }\nli { margin: 4px 0; }`,
+        js: `const h = React.createElement;
+
+const TODOS = [
+  { id: 1, text: "HTML сурах", done: true },
+  { id: 2, text: "CSS сурах", done: true },
+  { id: 3, text: "React сурах", done: false },
+];
+
+function App() {
+  const [show, setShow] = React.useState(false);
+  return h("div", null,
+    h("button", { onClick: () => setShow(!show) }, show ? "Нуух" : "Харуулах"),
+    show && h("p", null, "Энэ мэдээлэл товч дарсны дараа гарч ирнэ."),
+    h("ul", null,
+      TODOS.map((t) => h("li", { key: t.id }, (t.done ? "✅ " : "⬜ ") + t.text))
+    )
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(h(App));`,
+      },
+    },
+    {
+      kind: "exercise",
+      title: "Дууссан даалгаврыг нуу",
+      prompt: "`TODOS.filter(...)`-ээр зөвхөн дуусаагүй (`!t.done`) даалгаврыг жагсаалтад үлдээ. `key`-ээ `t.id` хэвээр байлга.",
+      starter: {
+        html: REACT_CDN + `<div id="root"></div>`,
+        css: `body { font-family: system-ui; padding: 16px; }`,
+        js: `const h = React.createElement;
+
+const TODOS = [
+  { id: 1, text: "HTML сурах", done: true },
+  { id: 2, text: "CSS сурах", done: true },
+  { id: 3, text: "React сурах", done: false },
+];
+
+function App() {
+  return h("ul", null,
+    TODOS.map((t) => h("li", { key: t.id }, t.text))
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(h(App));`,
+      },
+      hint: "`TODOS.map(...)`-ын өмнө `TODOS.filter((t) => !t.done)` нэм: `TODOS.filter((t) => !t.done).map(...)`.",
+      solution: {
+        html: REACT_CDN + `<div id="root"></div>`,
+        css: `body { font-family: system-ui; padding: 16px; }`,
+        js: `const h = React.createElement;
+
+const TODOS = [
+  { id: 1, text: "HTML сурах", done: true },
+  { id: 2, text: "CSS сурах", done: true },
+  { id: 3, text: "React сурах", done: false },
+];
+
+function App() {
+  return h("ul", null,
+    TODOS.filter((t) => !t.done).map((t) => h("li", { key: t.id }, t.text))
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(h(App));`,
+      },
+      check: {
+        type: "allOf",
+        checks: [
+          { type: "jsIncludes", pattern: "\\.filter\\s*\\(", message: "`.filter(...)` ашиглаарай." },
+          { type: "jsIncludes", pattern: "key\\s*:\\s*t\\.id", message: "`key: t.id` хэвээр байлга." },
+        ],
+      },
+    },
+    {
+      kind: "quiz",
+      question: "Элементийг нөхцөлтэй харуулахгүй байхын тулд компонент юу буцааж болох вэ?",
+      options: ["null", "undefined гэсэн текст", "\"hide\"", "false гэсэн функц"],
+      answer: 0,
+      explain: "`null` буцаавал React юу ч render хийхгүй.",
+    },
+    {
+      kind: "quiz",
+      question: "Жагсаалтын `key`-д ямар утга хамгийн тохиромжтой вэ?",
+      options: [
+        "Элемент бүрийн тогтвортой өвөрмөц id",
+        "Math.random()",
+        "Бүх элементэд ижил тоо",
+        "Элементийн өнгө",
+      ],
+      answer: 0,
+      explain: "Тогтвортой id нь дахин render хийхэд React элемент бүрийг зөв таних боломжийг өгнө. Math.random() бүр дахин үүсэж, шинэчлэлийг дэмий болгоно.",
+    },
+  ],
+};
