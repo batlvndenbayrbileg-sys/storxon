@@ -286,6 +286,11 @@ export default function LessonView({
               <div className="font-medium text-zinc-500">
                 {finishedLessons}/{lessons.length} хичээл дууссан
               </div>
+              {hrefBase === "/playground" && finishedLessons === lessons.length && (
+                <Link href="/playground/certificate" className="mt-1 inline-block text-xs font-bold text-violet-600 hover:underline">
+                  Гэрчилгээ авах →
+                </Link>
+              )}
             </div>
           </div>
         )}
