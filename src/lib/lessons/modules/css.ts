@@ -1293,3 +1293,97 @@ h1 {
     },
   ],
 };
+
+export const CSS_GRID_ADVANCED: Lesson = {
+  id: "css-grid-advanced",
+  module: 2,
+  title: "CSS — Grid дэвшилтэт (grid-template-areas, auto-fit, minmax)",
+  objectives: [
+    "`grid-template-areas`-аар хуудасны бүтцийг нэрлэж зураглах",
+    "`repeat(auto-fit, minmax())`-ээр медиа query-гүй уян хатан сүлжээ хийх",
+    "`grid-area`-аар элементийг нэрлэсэн талбарт байрлуулах",
+  ],
+  blocks: [
+    {
+      kind: "theory",
+      title: "Нэрлэсэн талбар ба уян хатан багана",
+      html: `<p>Grid-ийн үндсийг мэддэг бол одоо хоёр хүчтэй арга үлдсэн:</p>
+             <ul>
+               <li><code>grid-template-areas</code> — хуудасны бүтцийг үгээр "зурна": <code>"header header" "sidebar main"</code></li>
+               <li><code>grid-area: header</code> — элементийг тухайн нэртэй талбарт оруулна</li>
+               <li><code>minmax(200px, 1fr)</code> — багана хамгийн багадаа 200px, хамгийн ихдээ үлдсэн зайг эзэлнэ</li>
+               <li><code>repeat(auto-fit, minmax(200px, 1fr))</code> — дэлгэцийн өргөнд таарах хэмжээний багана өөрөө үүсгэнэ</li>
+             </ul>
+             <p><code>auto-fit</code> ашиглавал картууд багтахгүй болоход автоматаар дараагийн мөр рүү шилжинэ — <code>@media</code> шаардлагагүй.</p>`,
+    },
+    {
+      kind: "code",
+      title: "Жишээ код",
+      lang: "css",
+      code: `.layout {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  grid-template-areas:
+    "header header"
+    "sidebar main";
+  gap: 12px;
+}
+.header  { grid-area: header; }
+.sidebar { grid-area: sidebar; }
+.main    { grid-area: main; }
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 12px;
+}`,
+    },
+    {
+      kind: "playground",
+      title: "Туршиж үз",
+      height: 320,
+      starter: {
+        html: `<div class="cards">\n  <div class="card">1</div>\n  <div class="card">2</div>\n  <div class="card">3</div>\n  <div class="card">4</div>\n  <div class="card">5</div>\n</div>`,
+        css: `body { font-family: system-ui; padding: 16px; }\n.cards {\n  display: grid;\n  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));\n  gap: 12px;\n}\n.card { background: #7c3aed; color: #fff; padding: 24px; border-radius: 8px; text-align: center; }`,
+        js: ``,
+      },
+    },
+    {
+      kind: "exercise",
+      title: "Хуудасны бүтцийг areas-аар зур",
+      prompt: "`.layout`-д `grid-template-areas`-аар header дээд мөрийг бүтнээр, доор нь sidebar ба main-г байрлуул. Элемент бүрт `grid-area` өг.",
+      starter: {
+        html: `<div class="layout">\n  <div class="header">Header</div>\n  <div class="sidebar">Sidebar</div>\n  <div class="main">Main</div>\n</div>`,
+        css: `body { font-family: system-ui; padding: 16px; }\n.layout {\n  display: grid;\n  grid-template-columns: 160px 1fr;\n  gap: 12px;\n}\n.layout div { background: #ede9fe; padding: 16px; border-radius: 8px; }\n/* grid-template-areas нэмж, .header/.sidebar/.main-д grid-area өг */`,
+        js: ``,
+      },
+      hint: `.layout { grid-template-areas: "header header" "sidebar main"; } .header { grid-area: header; } гэх мэтээр бич.`,
+      solution: {
+        html: `<div class="layout">\n  <div class="header">Header</div>\n  <div class="sidebar">Sidebar</div>\n  <div class="main">Main</div>\n</div>`,
+        css: `body { font-family: system-ui; padding: 16px; }\n.layout {\n  display: grid;\n  grid-template-columns: 160px 1fr;\n  grid-template-areas:\n    "header header"\n    "sidebar main";\n  gap: 12px;\n}\n.layout div { background: #ede9fe; padding: 16px; border-radius: 8px; }\n.header { grid-area: header; }\n.sidebar { grid-area: sidebar; }\n.main { grid-area: main; }`,
+        js: ``,
+      },
+      check: {
+        type: "allOf",
+        checks: [
+          { type: "cssIncludes", pattern: "grid-template-areas\\s*:", flags: "i", message: "`.layout`-д `grid-template-areas` нэмээрэй." },
+          { type: "cssIncludes", pattern: "\\.header\\s*\\{[^}]*grid-area\\s*:\\s*header", flags: "i", message: "`.header`-д `grid-area: header` өгөөрэй." },
+          { type: "cssIncludes", pattern: "\\.sidebar\\s*\\{[^}]*grid-area\\s*:\\s*sidebar", flags: "i", message: "`.sidebar`-д `grid-area: sidebar` өгөөрэй." },
+          { type: "cssIncludes", pattern: "\\.main\\s*\\{[^}]*grid-area\\s*:\\s*main", flags: "i", message: "`.main`-д `grid-area: main` өгөөрэй." },
+        ],
+      },
+    },
+    {
+      kind: "quiz",
+      question: "`repeat(auto-fit, minmax(200px, 1fr))` юу хийдэг вэ?",
+      options: [
+        "Үргэлж яг 200px өргөнтэй 1 багана үүсгэнэ",
+        "Дэлгэцэнд багтах хэмжээний багана үүсгэж, багтахгүй бол дараагийн мөр рүү шилжүүлнэ",
+        "Зөвхөн мөрийн өндрийг тохируулна",
+        "Элементүүдийг нуух",
+      ],
+      answer: 1,
+      explain: "`auto-fit` нь боломжит зайд багтах баганын тоог өөрөө тооцдог бөгөөд `minmax(200px, 1fr)` нь багана бүр 200px-ээс бага болохгүй, үлдсэн зайг тэгш хуваана гэсэн үг.",
+    },
+  ],
+};
