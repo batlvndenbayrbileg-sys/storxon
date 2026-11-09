@@ -605,3 +605,127 @@ ReactDOM.createRoot(document.getElementById("root")).render(h(App));`,
     },
   ],
 };
+
+export const REACT_FORMS: Lesson = {
+  id: "react-forms",
+  module: 9,
+  title: "React — Форм ба controlled input",
+  objectives: [
+    "Input-ийн утгыг `useState`-ээр удирдах (controlled input)",
+    "`value` ба `onChange` хослолыг зөв бичих",
+    "Form-ын `onSubmit` дотор `preventDefault()` ашиглах",
+  ],
+  blocks: [
+    {
+      kind: "theory",
+      title: "Controlled input гэж юу вэ?",
+      html: `<p><strong>Controlled input</strong> гэдэг нь input-ийн утгыг браузер биш <strong>React-ийн state</strong> эзэмшиж байгаа хэлбэр юм.</p>
+             <ul>
+               <li><code>value: name</code> — input үргэлж state-ийн утгыг харуулна</li>
+               <li><code>onChange</code> — бичих бүрт <code>e.target.value</code>-г state-д хадгална</li>
+               <li>Form-д <code>onSubmit</code> өгч, дотор нь <code>e.preventDefault()</code> дуудвал хуудас дахин ачаалагдахгүй</li>
+             </ul>
+             <p>Ингэснээр бичсэн утгыг бодит цагт харуулах, шалгах, цэвэрлэх нь амархан болдог.</p>`,
+    },
+    {
+      kind: "playground",
+      title: "Нэрээ бичихэд мэндчилгээ шинэчлэгдэнэ",
+      height: 300,
+      starter: {
+        html: REACT_CDN + `<div id="root"></div>`,
+        css: `body { font-family: system-ui; padding: 16px; }\ninput { padding: 8px 10px; border-radius: 8px; border: 1px solid #ccc; }`,
+        js: `const h = React.createElement;
+
+function Greeting() {
+  const [name, setName] = React.useState("");
+
+  return h("div", null,
+    h("input", {
+      value: name,
+      placeholder: "Нэрээ бич",
+      onChange: function (e) { setName(e.target.value); }
+    }),
+    h("p", null, name ? "Сайн уу, " + name + "!" : "Нэрээ оруулна уу")
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(h(Greeting));`,
+      },
+    },
+    {
+      kind: "exercise",
+      title: "Controlled input холбо",
+      prompt: "Input-д `value: text` өгч, `onChange` дотор `setText(e.target.value)` дуудаж controlled input болго.",
+      starter: {
+        html: REACT_CDN + `<div id="root"></div>`,
+        css: `body { font-family: system-ui; padding: 16px; }\ninput { padding: 8px 10px; border-radius: 8px; border: 1px solid #ccc; }`,
+        js: `const h = React.createElement;
+
+function App() {
+  const [text, setText] = React.useState("");
+
+  return h("div", null,
+    // Энд input-д value болон onChange нэм
+    h("input", { placeholder: "Юм бич" }),
+    h("p", null, "Урт: " + text.length)
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(h(App));`,
+      },
+      hint: "h(\"input\", { value: text, onChange: function (e) { setText(e.target.value); } })",
+      solution: {
+        html: REACT_CDN + `<div id="root"></div>`,
+        css: `body { font-family: system-ui; padding: 16px; }\ninput { padding: 8px 10px; border-radius: 8px; border: 1px solid #ccc; }`,
+        js: `const h = React.createElement;
+
+function App() {
+  const [text, setText] = React.useState("");
+
+  return h("div", null,
+    h("input", {
+      placeholder: "Юм бич",
+      value: text,
+      onChange: function (e) { setText(e.target.value); }
+    }),
+    h("p", null, "Урт: " + text.length)
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(h(App));`,
+      },
+      check: {
+        type: "allOf",
+        checks: [
+          { type: "jsIncludes", pattern: "value\\s*:\\s*text", message: "Input-д `value: text` өгөөрэй." },
+          { type: "jsIncludes", pattern: "onChange\\s*:", message: "Input-д `onChange` бичээрэй." },
+          { type: "jsIncludes", pattern: "setText\\s*\\(\\s*e\\.target\\.value", message: "`setText(e.target.value)` дуудаарай." },
+        ],
+      },
+    },
+    {
+      kind: "quiz",
+      question: "Controlled input гэж юу вэ?",
+      options: [
+        "Утгыг нь React state удирддаг input",
+        "Өнгөө солих боломжгүй input",
+        "Зөвхөн унших боломжтой input",
+        "Автоматаар хадгалагддаг input",
+      ],
+      answer: 0,
+      explain: "Controlled input нь `value`-г state-ээс авч, `onChange`-ээр state-ийг шинэчилдэг тул утгын эх сурвалж нэг л газар (state) байна.",
+    },
+    {
+      kind: "quiz",
+      question: "Form илгээхэд хуудас дахин ачаалагдахаас сэргийлэх нь аль нь вэ?",
+      options: [
+        "e.stopPropagation()",
+        "e.preventDefault()",
+        "e.target.reset()",
+        "setState(null)",
+      ],
+      answer: 1,
+      explain: "`onSubmit` дотор `e.preventDefault()` дуудвал браузерын анхдагч submit (хуудас дахин ачаалах) зогсч, та өөрийн логикоо ажиллуулна.",
+    },
+  ],
+};
