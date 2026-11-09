@@ -1099,3 +1099,135 @@ ReactDOM.createRoot(document.getElementById("root")).render(h(App));`,
     },
   ],
 };
+
+export const REACT_CUSTOM_HOOK: Lesson = {
+  id: "react-custom-hook",
+  module: 9,
+  title: "React — Энгийн custom hook",
+  objectives: [
+    "Давтагдсан state логикийг `use...` нэртэй функц болгон салгах",
+    "Custom hook-ээс утга ба функц буцаах",
+    "Нэг hook-ийг олон компонентод бие даасан state-тэй ашиглах",
+  ],
+  blocks: [
+    {
+      kind: "theory",
+      title: "Custom hook — логикоо дахин ашиглах",
+      html: `<p>Хоёр компонент ижил state логик хэрэглэж байвал хуулж бичихийн оронд <strong>custom hook</strong> болгон салгаж болно.</p>
+             <ul>
+               <li>Custom hook бол нэр нь <code>use</code>-ээр эхэлдэг энгийн функц: <code>function useCounter() { ... }</code>.</li>
+               <li>Дотроо <code>React.useState</code>, <code>React.useEffect</code> гэх мэт hook-уудыг дуудаж болно.</li>
+               <li>Утга, функцээ массив эсвэл объектоор буцаана: <code>return { count, increment };</code></li>
+               <li>Hook-ийг дуудах бүрт <strong>өөрийн state</strong> үүснэ — state хуваалцахгүй, зөвхөн логик хуваалцана.</li>
+             </ul>
+             <p>Дүрэм: hook-ийг зөвхөн компонент эсвэл өөр hook-ийн дээд түвшинд дууд (if/for дотор биш).</p>`,
+    },
+    {
+      kind: "playground",
+      title: "useCounter hook",
+      height: 300,
+      starter: {
+        html: REACT_CDN + `<div id="root"></div>`,
+        css: `body { font-family: system-ui; padding: 16px; }\nbutton { margin-right: 6px; padding: 4px 10px; }\n.box { margin-bottom: 10px; }`,
+        js: `const h = React.createElement;
+
+function useCounter(start) {
+  const [count, setCount] = React.useState(start);
+  const increment = () => setCount(count + 1);
+  const reset = () => setCount(start);
+  return { count, increment, reset };
+}
+
+function Counter(props) {
+  const c = useCounter(props.start);
+  return h("div", { className: "box" },
+    h("span", null, props.label + ": " + c.count + " "),
+    h("button", { onClick: c.increment }, "+1"),
+    h("button", { onClick: c.reset }, "Reset")
+  );
+}
+
+function App() {
+  return h("div", null,
+    h(Counter, { label: "A", start: 0 }),
+    h(Counter, { label: "B", start: 10 })
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(h(App));`,
+      },
+    },
+    {
+      kind: "exercise",
+      title: "useToggle hook бич",
+      prompt: "`useToggle` нэртэй custom hook бич: `React.useState(false)` ашиглан `on` утга болон `toggle` функц буцаа. Дараа нь `App` дотор ашигла.",
+      starter: {
+        html: REACT_CDN + `<div id="root"></div>`,
+        css: `body { font-family: system-ui; padding: 16px; }\nbutton { padding: 6px 12px; }`,
+        js: `const h = React.createElement;
+
+// Энд useToggle hook бич
+
+function App() {
+  // const t = useToggle();
+  return h("div", null,
+    h("button", null, "Асаах/Унтраах"),
+    h("p", null, "Төлөв: ?")
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(h(App));`,
+      },
+      hint: "`function useToggle() { const [on, setOn] = React.useState(false); const toggle = () => setOn(!on); return { on, toggle }; }` — дараа нь `const t = useToggle();` гэж дууд.",
+      solution: {
+        html: REACT_CDN + `<div id="root"></div>`,
+        css: `body { font-family: system-ui; padding: 16px; }\nbutton { padding: 6px 12px; }`,
+        js: `const h = React.createElement;
+
+function useToggle() {
+  const [on, setOn] = React.useState(false);
+  const toggle = () => setOn(!on);
+  return { on, toggle };
+}
+
+function App() {
+  const t = useToggle();
+  return h("div", null,
+    h("button", { onClick: t.toggle }, "Асаах/Унтраах"),
+    h("p", null, "Төлөв: " + (t.on ? "Асаалттай" : "Унтарсан"))
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(h(App));`,
+      },
+      check: {
+        type: "allOf",
+        checks: [
+          { type: "jsIncludes", pattern: "function\\s+useToggle\\s*\\(", message: "`function useToggle()` гэж hook зарла." },
+          { type: "jsIncludes", pattern: "useState\\s*\\(\\s*false\\s*\\)", message: "Hook дотор `React.useState(false)` ашигла." },
+          { type: "jsIncludes", pattern: "return\\s*[{\\[]", message: "Hook-оос `on` ба `toggle`-ийг буцаа." },
+          { type: "jsIncludes", pattern: "=\\s*useToggle\\s*\\(", message: "`App` дотор `useToggle()`-ийг дууд." },
+        ],
+      },
+    },
+    {
+      kind: "quiz",
+      question: "Custom hook-ийн нэр яаж эхлэх ёстой вэ?",
+      options: ["`use`-ээр", "`hook`-оор", "Том үсгээр", "Ямар ч нэр болно"],
+      answer: 0,
+      explain: "Нэр нь `use`-ээр эхэлснээр React болон linter үүнийг hook гэж таньж, hook-ийн дүрмийг шалгадаг.",
+    },
+    {
+      kind: "quiz",
+      question: "Нэг custom hook-ийг хоёр компонент дуудвал state яах вэ?",
+      options: [
+        "Компонент бүр өөрийн тусдаа state-тэй болно",
+        "Хоёулаа нэг state хуваалцана",
+        "Хоёр дахь нь алдаа заана",
+        "State үүсэхгүй",
+      ],
+      answer: 0,
+      explain: "Custom hook нь зөвхөн логикийг хуваалцдаг. Дуудах бүрт шинэ, бие даасан state үүснэ.",
+    },
+  ],
+};
