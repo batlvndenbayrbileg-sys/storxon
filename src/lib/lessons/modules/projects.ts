@@ -518,3 +518,264 @@ export const PROJECT_TODO: Lesson = {
     },
   ],
 };
+
+const QUIZ_HTML = `<div class="quiz">
+  <h2>Мини шалгалт</h2>
+  <p id="progress">Асуулт 1</p>
+  <p id="question">Асуулт энд гарна</p>
+  <div id="options"></div>
+  <p id="result" aria-live="polite"></p>
+</div>`;
+
+const QUIZ_CSS = `body { font-family: system-ui; padding: 16px; background: #f5f3ff; }
+.quiz { max-width: 380px; padding: 20px; background: white; border-radius: 16px; box-shadow: 0 8px 24px rgba(0,0,0,.12); }
+.quiz h2 { margin: 0 0 8px; }
+#progress { margin: 0; color: #666; font-size: 14px; }
+#question { font-size: 18px; font-weight: 700; }
+#options { display: grid; gap: 8px; }
+#options button { padding: 10px; font-size: 16px; text-align: left; border: 2px solid #ddd; border-radius: 10px; background: white; cursor: pointer; }
+#options button.right { border-color: #16a34a; background: #dcfce7; }
+#options button.wrong { border-color: #dc2626; background: #fee2e2; }
+#result { margin: 12px 0 0; font-size: 18px; font-weight: 700; }`;
+
+const QUIZ_JS_STEP2 = `const progress = document.getElementById("progress");
+const questionEl = document.getElementById("question");
+const optionsEl = document.getElementById("options");
+const result = document.getElementById("result");
+
+const questions = [
+  { q: "HTML-ийн гарчгийн хамгийн том tag аль вэ?", options: ["<h1>", "<h6>", "<p>"], answer: 0 },
+  { q: "CSS-ээр өнгө өөрчлөх property аль вэ?", options: ["size", "color", "href"], answer: 1 },
+  { q: "JS-д хувьсагч зарлах түлхүүр үг аль вэ?", options: ["let", "paint", "tag"], answer: 0 },
+];
+
+let index = 0;
+
+function render() {
+  const item = questions[index];
+  progress.textContent = "Асуулт " + (index + 1) + " / " + questions.length;
+  questionEl.textContent = item.q;
+  optionsEl.innerHTML = "";
+  item.options.forEach((text, i) => {
+    const btn = document.createElement("button");
+    btn.textContent = text;
+    optionsEl.appendChild(btn);
+  });
+}
+
+render();`;
+
+const QUIZ_JS_STEP3 = `const progress = document.getElementById("progress");
+const questionEl = document.getElementById("question");
+const optionsEl = document.getElementById("options");
+const result = document.getElementById("result");
+
+const questions = [
+  { q: "HTML-ийн гарчгийн хамгийн том tag аль вэ?", options: ["<h1>", "<h6>", "<p>"], answer: 0 },
+  { q: "CSS-ээр өнгө өөрчлөх property аль вэ?", options: ["size", "color", "href"], answer: 1 },
+  { q: "JS-д хувьсагч зарлах түлхүүр үг аль вэ?", options: ["let", "paint", "tag"], answer: 0 },
+];
+
+let index = 0;
+let score = 0;
+
+function render() {
+  const item = questions[index];
+  progress.textContent = "Асуулт " + (index + 1) + " / " + questions.length;
+  questionEl.textContent = item.q;
+  optionsEl.innerHTML = "";
+  item.options.forEach((text, i) => {
+    const btn = document.createElement("button");
+    btn.textContent = text;
+    btn.addEventListener("click", () => choose(i));
+    optionsEl.appendChild(btn);
+  });
+}
+
+function choose(i) {
+  if (i === questions[index].answer) {
+    score++;
+    result.textContent = "Зөв! Оноо: " + score;
+  } else {
+    result.textContent = "Буруу. Оноо: " + score;
+  }
+}
+
+render();`;
+
+const QUIZ_JS_STEP4 = `const progress = document.getElementById("progress");
+const questionEl = document.getElementById("question");
+const optionsEl = document.getElementById("options");
+const result = document.getElementById("result");
+
+const questions = [
+  { q: "HTML-ийн гарчгийн хамгийн том tag аль вэ?", options: ["<h1>", "<h6>", "<p>"], answer: 0 },
+  { q: "CSS-ээр өнгө өөрчлөх property аль вэ?", options: ["size", "color", "href"], answer: 1 },
+  { q: "JS-д хувьсагч зарлах түлхүүр үг аль вэ?", options: ["let", "paint", "tag"], answer: 0 },
+];
+
+let index = 0;
+let score = 0;
+
+function render() {
+  const item = questions[index];
+  progress.textContent = "Асуулт " + (index + 1) + " / " + questions.length;
+  questionEl.textContent = item.q;
+  optionsEl.innerHTML = "";
+  item.options.forEach((text, i) => {
+    const btn = document.createElement("button");
+    btn.textContent = text;
+    btn.addEventListener("click", () => choose(i));
+    optionsEl.appendChild(btn);
+  });
+}
+
+function choose(i) {
+  if (i === questions[index].answer) {
+    score++;
+    result.textContent = "Зөв! Оноо: " + score;
+  } else {
+    result.textContent = "Буруу. Оноо: " + score;
+  }
+  index++;
+  setTimeout(() => {
+    result.textContent = "";
+    if (index < questions.length) {
+      render();
+    } else {
+      showFinal();
+    }
+  }, 700);
+}
+
+function showFinal() {
+  progress.textContent = "Дууслаа";
+  questionEl.textContent = "Таны оноо: " + score + " / " + questions.length;
+  optionsEl.innerHTML = "";
+  const again = document.createElement("button");
+  again.textContent = "Дахин эхлэх";
+  again.addEventListener("click", () => {
+    index = 0;
+    score = 0;
+    render();
+  });
+  optionsEl.appendChild(again);
+}
+
+render();`;
+
+export const PROJECT_QUIZ: Lesson = {
+  id: "project-quiz",
+  module: 10,
+  title: "Төсөл: Асуулт хариулт (quiz) тоглоом",
+  objectives: [
+    "Асуултуудыг объектын массивт хадгалж, нэг нэгээр нь үзүүлэх",
+    "Сонголт дарахад хариуг шалгаж оноо тооцох",
+    "Бүх асуулт дууссаны дараа эцсийн оноог гаргаж, дахин эхлүүлэх",
+  ],
+  blocks: [
+    {
+      kind: "theory",
+      title: "Бид юу бүтээх вэ?",
+      html: `<p>Энэ төсөлд <strong>асуулт хариулт тоглоом</strong>-ыг 4 алхамд бүтээнэ:</p><ol><li><strong>Интерфэйс (HTML):</strong> асуулт, сонголтууд, үр дүнгийн хэсэг.</li><li><strong>Асуулт үзүүлэх (JS):</strong> асуултуудыг массивт хийж <code>render()</code>-ээр зурах.</li><li><strong>Хариу шалгах:</strong> сонголт дарахад зөв эсэхийг шалгаж оноо нэмэх.</li><li><strong>Дуусгах:</strong> эцсийн оноо, «Дахин эхлэх» товч.</li></ol><p>Асуулт бүр <code>{ q, options, answer }</code> хэлбэртэй объект бөгөөд <code>answer</code> нь зөв сонголтын индекс (0-ээс эхэлнэ).</p>`,
+    },
+    {
+      kind: "exercise",
+      title: "Алхам 1 — Интерфэйс",
+      prompt:
+        "HTML хэсэгт `id=\"question\"` `<p>`, `id=\"options\"` `<div>` (сонголтын товчнууд энд орно) болон `id=\"result\"` `<p>` бич. Дараа нь Шалгах дээр дар.",
+      starter: {
+        html: `<!-- Энд бич -->\n`,
+        css: QUIZ_CSS,
+        js: ``,
+      },
+      hint: "Эхлээд <p id=\"question\"></p> бич.",
+      hint2: "<p id=\"question\"></p> <div id=\"options\"></div> <p id=\"result\"></p>",
+      solution: { html: QUIZ_HTML, css: QUIZ_CSS, js: `` },
+      check: {
+        type: "allOf",
+        checks: [
+          { type: "htmlIncludes", pattern: "<p[^>]*id\\s*=\\s*[\"']question[\"']", flags: "i", message: "`id=\"question\"` `<p>` олдсонгүй." },
+          { type: "htmlIncludes", pattern: "<div[^>]*id\\s*=\\s*[\"']options[\"']", flags: "i", message: "`id=\"options\"` `<div>` олдсонгүй." },
+          { type: "htmlIncludes", pattern: "<p[^>]*id\\s*=\\s*[\"']result[\"']", flags: "i", message: "`id=\"result\"` `<p>` олдсонгүй." },
+        ],
+      },
+    },
+    {
+      kind: "exercise",
+      title: "Алхам 2 — Асуулт үзүүлэх",
+      prompt:
+        "`questions` массивт `{ q, options, answer }` бүтэцтэй асуултууд зарла, `let index = 0;` хий. `render()` функц бич: асуултыг `question.textContent`-д гаргаад `options`-г цэвэрлэж, сонголт бүрт `document.createElement(\"button\")` үүсгэж нэм.",
+      starter: {
+        html: QUIZ_HTML,
+        css: QUIZ_CSS,
+        js: `const progress = document.getElementById("progress");\nconst questionEl = document.getElementById("question");\nconst optionsEl = document.getElementById("options");\nconst result = document.getElementById("result");\n\n// Энд questions массив, index, render() бич\n`,
+      },
+      hint: "const questions = [{ q: \"...\", options: [\"a\", \"b\"], answer: 0 }]; гэж эхэл.",
+      hint2: "function render() { const item = questions[index]; questionEl.textContent = item.q; optionsEl.innerHTML = \"\"; item.options.forEach((text) => { const btn = document.createElement(\"button\"); btn.textContent = text; optionsEl.appendChild(btn); }); }",
+      solution: { html: QUIZ_HTML, css: QUIZ_CSS, js: QUIZ_JS_STEP2 },
+      check: {
+        type: "allOf",
+        checks: [
+          { type: "jsIncludes", pattern: "(let|const|var)\\s+questions\\s*=\\s*\\[", flags: "", message: "`questions` массив зарла." },
+          { type: "jsIncludes", pattern: "answer\\s*:", flags: "", message: "Асуулт бүрт `answer:` (зөв сонголтын индекс) нэм." },
+          { type: "jsIncludes", pattern: "function\\s+render\\s*\\(", flags: "", message: "`render()` функц олдсонгүй." },
+          { type: "jsIncludes", pattern: "createElement\\s*\\(\\s*[\"']button[\"']", flags: "", message: "Сонголт бүрт `createElement(\"button\")` ашигла." },
+          { type: "jsIncludes", pattern: "\\.forEach\\s*\\(", flags: "", message: "Сонголтуудаар `forEach`-ээр гүй." },
+        ],
+      },
+    },
+    {
+      kind: "exercise",
+      title: "Алхам 3 — Хариу шалгах ба оноо",
+      prompt:
+        "`let score = 0;` нэм. Сонголтын товчинд `click` холбож `choose(i)` дууд. `choose(i)` дотор `i === questions[index].answer` эсэхийг шалгаж, зөв бол `score++` хийгээд `result.textContent`-д «Зөв!» / «Буруу.» мессеж гарга.",
+      starter: { html: QUIZ_HTML, css: QUIZ_CSS, js: QUIZ_JS_STEP2 },
+      hint: "btn.addEventListener(\"click\", () => choose(i)); гэж render() дотор холбо.",
+      hint2: "function choose(i) { if (i === questions[index].answer) { score++; result.textContent = \"Зөв!\"; } else { result.textContent = \"Буруу.\"; } }",
+      solution: { html: QUIZ_HTML, css: QUIZ_CSS, js: QUIZ_JS_STEP3 },
+      check: {
+        type: "allOf",
+        checks: [
+          { type: "jsIncludes", pattern: "(let|var)\\s+score\\s*=\\s*0", flags: "", message: "`let score = 0;` зарла." },
+          { type: "jsIncludes", pattern: "function\\s+choose\\s*\\(", flags: "", message: "`choose(i)` функц олдсонгүй." },
+          { type: "jsIncludes", pattern: "addEventListener\\s*\\(\\s*[\"']click[\"']", flags: "", message: "Товчинд `click` event холбо." },
+          { type: "jsIncludes", pattern: "===\\s*questions\\s*\\[\\s*index\\s*\\]\\.answer", flags: "", message: "`i === questions[index].answer` гэж зөв хариуг шалга." },
+          { type: "jsIncludes", pattern: "score\\s*(\\+\\+|\\+=\\s*1)", flags: "", message: "Зөв үед `score++` хий." },
+        ],
+      },
+    },
+    {
+      kind: "exercise",
+      title: "Алхам 4 — Дараагийн асуулт ба эцсийн оноо",
+      prompt:
+        "`choose()` дотор `index++` хийж, `setTimeout`-оор богино хүлээгээд `index < questions.length` бол `render()`, үгүй бол `showFinal()` дууд. `showFinal()` нь `Таны оноо: score / questions.length` гаргаж, «Дахин эхлэх» товч үүсгэн `index` ба `score`-г 0 болгоно.",
+      starter: { html: QUIZ_HTML, css: QUIZ_CSS, js: QUIZ_JS_STEP3 },
+      hint: "choose() төгсгөлд index++; setTimeout(() => { ... }, 700); гэж бич.",
+      hint2: "if (index < questions.length) { render(); } else { showFinal(); } — showFinal()-д index = 0; score = 0; render(); гэж дахин эхлүүл.",
+      solution: { html: QUIZ_HTML, css: QUIZ_CSS, js: QUIZ_JS_STEP4 },
+      check: {
+        type: "allOf",
+        checks: [
+          { type: "jsIncludes", pattern: "index\\s*(\\+\\+|\\+=\\s*1)", flags: "", message: "Дараагийн асуулт руу `index++` хий." },
+          { type: "jsIncludes", pattern: "index\\s*<\\s*questions\\.length", flags: "", message: "`index < questions.length` гэж асуулт үлдсэн эсэхийг шалга." },
+          { type: "jsIncludes", pattern: "function\\s+showFinal\\s*\\(", flags: "", message: "`showFinal()` функц бич." },
+          { type: "jsIncludes", pattern: "setTimeout\\s*\\(", flags: "", message: "`setTimeout`-оор богино хүлээж дараагийн асуултыг үзүүл." },
+          { type: "jsIncludes", pattern: "score\\s*=\\s*0", flags: "", message: "Дахин эхлэхэд `score = 0` болго." },
+        ],
+      },
+    },
+    {
+      kind: "quiz",
+      question: "Асуулт бүрийн `answer: 1` гэдэг юу илэрхийлэх вэ?",
+      options: [
+        "Зөв сонголт нь options массивын 1 индекстэй (хоёр дахь) элемент",
+        "Асуулт нэг оноотой",
+        "Хэрэглэгч нэг удаа хариулна",
+        "Зөв сонголт нь 1 тэмдэгттэй",
+      ],
+      answer: 0,
+      explain: "Массивын индекс 0-ээс эхэлдэг тул `answer: 1` нь `options[1]` буюу хоёр дахь сонголтыг зөв гэж заана.",
+    },
+  ],
+};
