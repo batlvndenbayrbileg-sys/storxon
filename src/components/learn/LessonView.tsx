@@ -10,6 +10,7 @@ import Logo from "@/components/Logo";
 import { LESSONS } from "@/lib/lessons/data";
 import { loadProgress, markComplete } from "@/lib/lessons/progress";
 import { getStreak, touchStreak } from "@/lib/lessons/streak";
+import { readLast, saveLast } from "@/lib/lessons/last";
 import { DAILY_GOAL, getDailyCount, recordLessonToday } from "@/lib/lessons/daily";
 import { computeXp, getXp, saveXp } from "@/lib/lessons/xp";
 import { runCheck, type ExerciseCheck, type Lesson, type LessonBlock, type PlaygroundFiles } from "@/lib/lessons/types";
@@ -84,6 +85,15 @@ export default function LessonView({
 
   const [storedXp, setStoredXp] = useState(0);
   const [progressLoaded, setProgressLoaded] = useState(false);
+
+  const [lastId, setLastId] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (hrefBase) {
+      setLastId(readLast());
+      saveLast(lesson.id);
+    }
+  }, [hrefBase, lesson.id]);
 
   useEffect(() => {
     setStreak(getStreak());
@@ -216,6 +226,14 @@ export default function LessonView({
           )}
         </div>
         <div className="flex shrink-0 items-center gap-1.5">
+          {hrefFor && lastId && lastId !== lesson.id && lessons.some((l) => l.id === lastId) && (
+            <Link
+              href={hrefFor(lastId)}
+              className="rounded-lg bg-violet-600 px-3 py-1.5 text-sm font-semibold text-white hover:bg-violet-500"
+            >
+              ▶ Үргэлжлүүлэх
+            </Link>
+          )}
           <Link
             href="/dashboard"
             className="rounded-lg border border-zinc-200 bg-white px-3 py-1.5 text-sm font-semibold text-zinc-700 hover:border-violet-400 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-200"
