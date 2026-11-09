@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { DAILY_GOAL } from "@/lib/lessons/daily";
+import { readFavs, toggleFav } from "@/lib/lessons/favs";
 import type { Lesson } from "@/lib/lessons/types";
 
 export function gradeableIds(l: Lesson): string[] {
@@ -37,6 +38,10 @@ export default function LessonSidebar({
   onClose: () => void;
 }) {
   const [query, setQuery] = useState("");
+  const [favs, setFavs] = useState<Set<string>>(() => new Set());
+  useEffect(() => {
+    setFavs(readFavs());
+  }, []);
   const navRef = useRef<HTMLElement>(null);
   useEffect(() => {
     if (!open) return;
@@ -177,6 +182,7 @@ export default function LessonSidebar({
                   const ids = gradeableIds(l);
                   const finished = ids.length > 0 && ids.every((id) => doneIds.has(id));
                   const active = l.id === activeId;
+                  const faved = favs.has(l.id);
                   const cls = `flex items-center gap-2 rounded-lg px-2 py-1.5 text-sm ${
                     active
                       ? "bg-violet-100 font-semibold text-violet-800 dark:bg-violet-950/50 dark:text-violet-200"
@@ -192,16 +198,33 @@ export default function LessonSidebar({
                     </>
                   );
                   return (
-                    <li key={l.id}>
+                    <li key={l.id} className="flex items-center gap-1">
                       {hrefFor ? (
-                        <Link href={hrefFor(l.id)} aria-current={active ? "page" : undefined} className={cls} onClick={onClose}>
+                        <Link
+                          href={hrefFor(l.id)}
+                          aria-current={active ? "page" : undefined}
+                          className={`${cls} min-w-0 flex-1`}
+                          onClick={onClose}
+                        >
                           {inner}
                         </Link>
                       ) : (
-                        <div aria-current={active ? "page" : undefined} className={cls}>
+                        <div aria-current={active ? "page" : undefined} className={`${cls} min-w-0 flex-1`}>
                           {inner}
                         </div>
                       )}
+                      <button
+                        type="button"
+                        onClick={() => setFavs(toggleFav(l.id))}
+                        aria-pressed={faved}
+                        aria-label={faved ? `${l.title} — хадгалснаас хасах` : `${l.title} — хадгалах`}
+                        title={faved ? "Хадгалснаас хасах" : "Хадгалах"}
+                        className={`shrink-0 rounded-md px-1.5 py-1 text-base leading-none hover:bg-zinc-100 dark:hover:bg-zinc-800 ${
+                          faved ? "text-amber-500" : "text-zinc-300 dark:text-zinc-600"
+                        }`}
+                      >
+                        <span aria-hidden>{faved ? "★" : "☆"}</span>
+                      </button>
                     </li>
                   );
                 })}

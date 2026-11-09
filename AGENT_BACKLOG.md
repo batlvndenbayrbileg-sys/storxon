@@ -222,7 +222,7 @@ Storxon-г **анхан → дунд → төсөл бүтээх** түвшин�
 
 ## E. Шинэ платформ боломжууд (UI / зөвхөн localStorage)
 - [x] Хэвлэх боломжтой "Гэрчилгээ" (нэр оруулах, localStorage, `@media print`)
-- [ ] Хичээл хадгалах (bookmark) — sidebar-т одоор тэмдэглэх (`sx-fav`)
+- [x] Хичээл хадгалах (bookmark) — sidebar-т одоор тэмдэглэх (`sx-fav`)
 - [ ] "Үргэлжлүүлэх" — сүүлд үзсэн хичээл рүү үсрэх товч (`sx-last`)
 - [ ] Бүх явцыг JSON export/import (зөвхөн localStorage, DB руу бичихгүй)
 - [ ] Кодыг URL-д encode хийж хуваалцах холбоос (query param, backend-гүй)
