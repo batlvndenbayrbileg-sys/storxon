@@ -204,7 +204,7 @@ Storxon-г **анхан → дунд → төсөл бүтээх** түвшин�
 - [x] CSS: Grid дэвшилтэт (areas, auto-fit/minmax) хичээл
 
 ## C. Дэвшилтэт React (createElement-only, sandbox)
-- [ ] React: useEffect ба амьдралын мөчлөг хичээл
+- [x] React: useEffect ба амьдралын мөчлөг хичээл
 - [ ] React: Форм ба controlled input хичээл
 - [ ] React: Нөхцөлт render ба жагсаалтын `key` хичээл
 - [ ] React: Компонент задлах ба дахин ашиглах хичээл

@@ -480,3 +480,128 @@ ReactDOM.createRoot(document.getElementById("root")).render(h(FoodList));`,
     },
   ],
 };
+
+export const REACT_EFFECT: Lesson = {
+  id: "react-effect",
+  module: 9,
+  title: "React — useEffect ба амьдралын мөчлөг",
+  objectives: [
+    "Компонент зурагдсаны дараа `useEffect`-ээр тал талын үйлдэл хийх",
+    "Dependency массив (`[]`, `[count]`) ямар үед effect ажиллахыг тодорхойлохыг ойлгох",
+    "Cleanup функцээр таймер зэргийг цэвэрлэх",
+  ],
+  blocks: [
+    {
+      kind: "theory",
+      title: "Effect — зурагдсаны дараах үйлдэл",
+      html: `<p><code>useEffect</code> нь компонент дэлгэцэнд <strong>зурагдсаны дараа</strong> ажиллах кодыг бичих газар юм (таймер, гарчиг солих, өгөгдөл татах гэх мэт).</p>
+             <ul>
+               <li><code>React.useEffect(fn, [])</code> — зөвхөн анх зурагдахад <strong>нэг удаа</strong></li>
+               <li><code>React.useEffect(fn, [count])</code> — <code>count</code> өөрчлөгдөх бүрт</li>
+               <li><code>fn</code> дотроос функц буцаавал энэ нь <strong>cleanup</strong> — компонент устахад эсвэл effect дахин ажиллахын өмнө дуудагдана</li>
+             </ul>
+             <p>Dependency массивыг орхивол effect <em>render болгоны дараа</em> ажиллана — ихэнхдээ хэрэггүй.</p>`,
+    },
+    {
+      kind: "playground",
+      title: "Секунд тоологч",
+      height: 300,
+      starter: {
+        html: REACT_CDN + `<div id="root"></div>`,
+        css: `body { font-family: system-ui; padding: 16px; }`,
+        js: `const h = React.createElement;
+
+function Timer() {
+  const [seconds, setSeconds] = React.useState(0);
+
+  React.useEffect(function () {
+    const id = setInterval(function () {
+      setSeconds(function (s) { return s + 1; });
+    }, 1000);
+    return function () { clearInterval(id); }; // cleanup
+  }, []);
+
+  return h("p", null, "Өнгөрсөн секунд: " + seconds);
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(h(Timer));`,
+      },
+    },
+    {
+      kind: "exercise",
+      title: "Гарчиг шинэчил",
+      prompt: "`count` өөрчлөгдөх бүрт `document.title`-г \"Тоо: ...\" болгодог `useEffect` нэм. Dependency массивт `[count]` өг.",
+      starter: {
+        html: REACT_CDN + `<div id="root"></div>`,
+        css: `body { font-family: system-ui; padding: 16px; }\nbutton { padding: 6px 14px; border-radius: 8px; border: 1px solid #ccc; cursor: pointer; }`,
+        js: `const h = React.createElement;
+
+function App() {
+  const [count, setCount] = React.useState(0);
+
+  // Энд useEffect нэм: count өөрчлөгдөх бүрт document.title шинэчил
+
+  return h("div", null,
+    h("p", null, "Тоо: " + count),
+    h("button", { onClick: function () { setCount(count + 1); } }, "Нэмэх")
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(h(App));`,
+      },
+      hint: 'React.useEffect(function () { document.title = "Тоо: " + count; }, [count]);',
+      solution: {
+        html: REACT_CDN + `<div id="root"></div>`,
+        css: `body { font-family: system-ui; padding: 16px; }\nbutton { padding: 6px 14px; border-radius: 8px; border: 1px solid #ccc; cursor: pointer; }`,
+        js: `const h = React.createElement;
+
+function App() {
+  const [count, setCount] = React.useState(0);
+
+  React.useEffect(function () {
+    document.title = "Тоо: " + count;
+  }, [count]);
+
+  return h("div", null,
+    h("p", null, "Тоо: " + count),
+    h("button", { onClick: function () { setCount(count + 1); } }, "Нэмэх")
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(h(App));`,
+      },
+      check: {
+        type: "allOf",
+        checks: [
+          { type: "jsIncludes", pattern: "useEffect\\s*\\(", message: "`React.useEffect(...)` олдсонгүй." },
+          { type: "jsIncludes", pattern: "document\\.title\\s*=", message: "Effect дотор `document.title = ...` гэж оноогоорой." },
+          { type: "jsIncludes", pattern: "\\[\\s*count\\s*\\]", message: "Dependency массивт `[count]` өгөөрэй." },
+        ],
+      },
+    },
+    {
+      kind: "quiz",
+      question: "`React.useEffect(fn, [])` — fn хэзээ ажиллах вэ?",
+      options: [
+        "Render болгоны дараа",
+        "Зөвхөн компонент анх зурагдсаны дараа нэг удаа",
+        "Хэзээ ч ажиллахгүй",
+        "Товч дарагдах бүрт",
+      ],
+      answer: 1,
+      explain: "Хоосон dependency массив `[]` нь хамаарах утгагүй гэсэн үг тул effect зөвхөн анхны render-ийн дараа нэг удаа ажилладаг.",
+    },
+    {
+      kind: "quiz",
+      question: "Effect-ээс буцаасан функц (cleanup) юунд хэрэгтэй вэ?",
+      options: [
+        "Компонентийг хурдан болгох",
+        "Таймер, event listener зэргийг устгаж, алдаа/зөрөөс сэргийлэх",
+        "Төлөвийг шууд өөрчлөх",
+        "Dependency массивыг орлох",
+      ],
+      answer: 1,
+      explain: "Cleanup нь компонент устах эсвэл effect дахин ажиллахын өмнө дуудагдаж, `clearInterval` зэргээр өмнөх үйлдлийг цэвэрлэнэ.",
+    },
+  ],
+};
