@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import HighlightedCode from "@/components/learn/HighlightedCode";
+import KeyboardHelp from "@/components/learn/KeyboardHelp";
 import LessonSidebar, { gradeableIds } from "@/components/learn/LessonSidebar";
 import Logo from "@/components/Logo";
 import { LESSONS } from "@/lib/lessons/data";
@@ -196,6 +197,7 @@ export default function LessonView({
 
   return (
     <>
+    <KeyboardHelp />
     {/* Sticky top bar — always a way out (home / list / dashboard) and quick lesson jumps */}
     <div className="sticky top-0 z-30 -mx-4 mb-6 border-b border-zinc-200/80 bg-zinc-50/85 px-4 backdrop-blur dark:border-zinc-800/80 dark:bg-zinc-950/85">
       <div className="mx-auto flex max-w-5xl items-center justify-between gap-2 py-2.5">
