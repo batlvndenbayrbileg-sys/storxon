@@ -200,7 +200,7 @@ Storxon-г **анхан → дунд → төсөл бүтээх** түвшин�
 - [x] CSS: Transform ба @keyframes анимэйшн хичээл
 - [x] CSS: Custom properties (хувьсагч) хичээл
 - [x] CSS: Pseudo-class/element (:hover, ::before/::after) хичээл
-- [ ] CSS: Gradient ба shadow хичээл
+- [x] CSS: Gradient ба shadow хичээл
 - [ ] CSS: Grid дэвшилтэт (areas, auto-fit/minmax) хичээл
 
 ## C. Дэвшилтэт React (createElement-only, sandbox)

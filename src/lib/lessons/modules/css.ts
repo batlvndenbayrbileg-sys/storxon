@@ -1212,3 +1212,84 @@ li:first-child {
     },
   ],
 };
+
+export const CSS_GRADIENT_SHADOW: Lesson = {
+  id: "css-gradient-shadow",
+  module: 2,
+  title: "CSS — Gradient ба shadow (linear-gradient, box-shadow)",
+  objectives: [
+    "`linear-gradient()`-ээр өнгө хоорондын шилжилттэй дэвсгэр хийх",
+    "`box-shadow`-ийн 4 утгыг (x, y, blur, өнгө) ойлгох",
+    "`text-shadow`-оор бичвэрт сүүдэр нэмэх",
+  ],
+  blocks: [
+    {
+      kind: "theory",
+      title: "Gradient ба сүүдэр",
+      html: `<p><strong>Gradient</strong> нь хоёр ба түүнээс олон өнгийг жигд шилжүүлнэ. Энэ нь зураг тул <code>background</code> (эсвэл <code>background-image</code>)-д бичнэ, <code>background-color</code>-д биш.</p>
+             <ul>
+               <li><code>linear-gradient(90deg, red, blue)</code> — өнцгөөр чиглэсэн шилжилт</li>
+               <li><code>radial-gradient(circle, #fff, #000)</code> — төвөөс гадагш</li>
+               <li><code>box-shadow: 0 8px 24px rgba(0,0,0,.2)</code> — x, y, blur, өнгө</li>
+               <li><code>text-shadow: 2px 2px 4px #999</code> — бичвэрийн сүүдэр</li>
+             </ul>
+             <p>Зөөлөн, бага тунгалаг сүүдэр нь картыг "хөвж байгаа" мэт харагдуулдаг.</p>`,
+    },
+    {
+      kind: "code",
+      title: "Жишээ код",
+      lang: "css",
+      code: `.hero {
+  background: linear-gradient(135deg, #7c3aed, #2563eb);
+}
+
+.card {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+h1 {
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}`,
+    },
+    {
+      kind: "playground",
+      title: "Туршиж үз",
+      height: 280,
+      starter: {
+        html: `<div class="hero">\n  <div class="card">Gradient дэвсгэр дээрх карт</div>\n</div>`,
+        css: `body { font-family: system-ui; margin: 0; }\n.hero {\n  padding: 40px 24px;\n  background: linear-gradient(135deg, #7c3aed, #2563eb);\n}\n.card {\n  background: white;\n  padding: 24px;\n  border-radius: 12px;\n  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);\n}`,
+        js: ``,
+      },
+    },
+    {
+      kind: "exercise",
+      title: "Gradient ба сүүдэр нэм",
+      prompt: "`.banner`-д `linear-gradient` дэвсгэр, `.box`-д `box-shadow` өг.",
+      starter: {
+        html: `<div class="banner">\n  <div class="box">Сайн байна уу</div>\n</div>`,
+        css: `body { font-family: system-ui; margin: 0; }\n.banner { padding: 32px; }\n.box {\n  background: white;\n  padding: 20px;\n  border-radius: 10px;\n}\n/* .banner-д linear-gradient, .box-д box-shadow нэм */`,
+        js: ``,
+      },
+      hint: ".banner { background: linear-gradient(90deg, #f59e0b, #ef4444); } .box { box-shadow: 0 6px 18px rgba(0,0,0,.2); }",
+      solution: {
+        html: `<div class="banner">\n  <div class="box">Сайн байна уу</div>\n</div>`,
+        css: `body { font-family: system-ui; margin: 0; }\n.banner {\n  padding: 32px;\n  background: linear-gradient(90deg, #f59e0b, #ef4444);\n}\n.box {\n  background: white;\n  padding: 20px;\n  border-radius: 10px;\n  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);\n}`,
+        js: ``,
+      },
+      check: {
+        type: "allOf",
+        checks: [
+          { type: "cssIncludes", pattern: "\\.banner\\s*\\{[^}]*linear-gradient\\(", flags: "i", message: "`.banner`-д `linear-gradient(...)` дэвсгэр өгөөрэй." },
+          { type: "cssIncludes", pattern: "\\.box\\s*\\{[^}]*box-shadow\\s*:", flags: "i", message: "`.box`-д `box-shadow` нэмээрэй." },
+        ],
+      },
+    },
+    {
+      kind: "quiz",
+      question: "`linear-gradient()`-ийг аль шинж чанарт бичих вэ?",
+      options: ["background-color", "background (эсвэл background-image)", "color", "border-color"],
+      answer: 1,
+      explain: "Gradient нь өнгө биш зураг төрлийн утга тул `background` эсвэл `background-image`-д бичнэ; `background-color` хүлээн авахгүй.",
+    },
+  ],
+};
