@@ -5,6 +5,7 @@ import Link from "next/link";
 import { DAILY_GOAL } from "@/lib/lessons/daily";
 import { readFavs, toggleFav } from "@/lib/lessons/favs";
 import type { Lesson } from "@/lib/lessons/types";
+import BackupPanel from "@/components/learn/BackupPanel";
 
 export function gradeableIds(l: Lesson): string[] {
   const ids: string[] = [];
@@ -231,6 +232,7 @@ export default function LessonSidebar({
             </ul>
           </div>
         ))}
+        <BackupPanel />
       </div>
     </nav>
     </>
