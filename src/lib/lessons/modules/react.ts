@@ -852,3 +852,120 @@ ReactDOM.createRoot(document.getElementById("root")).render(h(App));`,
     },
   ],
 };
+
+export const REACT_COMPOSITION: Lesson = {
+  id: "react-composition",
+  module: 9,
+  title: "React — Компонент задлах ба дахин ашиглах",
+  objectives: [
+    "Том UI-г жижиг, нэг үүрэгтэй компонентуудад хуваах",
+    "Нэг компонентыг өөр өөр props-оор олон удаа дахин ашиглах",
+    "`children` prop-оор компонентын дотор агуулга дамжуулах",
+  ],
+  blocks: [
+    {
+      kind: "theory",
+      title: "Жижиг компонент, олон удаа ашиглалт",
+      html: `<p>Нэг том функцэд бүх UI-г бичихийн оронд <strong>жижиг компонентод</strong> хуваа. Компонент бүр нэг л зүйлийг хийвэл унших, засахад хялбар.</p>
+             <ul>
+               <li>Давтагдаж буй хэсгийг (жишээ нь карт) тусдаа компонент болгоод <code>props</code>-оор өөр өөр өгөгдөл өг.</li>
+               <li>Компонентыг <code>h(Card, { title: "..." })</code> хэлбэрээр хэдэн ч удаа дуудаж болно.</li>
+               <li><code>children</code> — <code>h(Box, null, "текст")</code> гэж дамжуулсан агуулга <code>props.children</code>-д ирнэ.</li>
+             </ul>
+             <p>Дүрэм: компонентын нэр <strong>том үсгээр</strong> эхэлнэ (<code>Card</code>), эс тэгвээс React үүнийг энгийн HTML tag гэж ойлгоно.</p>`,
+    },
+    {
+      kind: "playground",
+      title: "Карт компонентыг дахин ашиглах",
+      height: 320,
+      starter: {
+        html: REACT_CDN + `<div id="root"></div>`,
+        css: `body { font-family: system-ui; padding: 16px; }\n.card { border: 1px solid #ccc; border-radius: 8px; padding: 12px; margin: 8px 0; }\n.card h3 { margin: 0 0 4px; }`,
+        js: `const h = React.createElement;
+
+function Card(props) {
+  return h("div", { className: "card" },
+    h("h3", null, props.title),
+    h("div", null, props.children)
+  );
+}
+
+function App() {
+  return h("div", null,
+    h(Card, { title: "HTML" }, "Вэбийн бүтэц"),
+    h(Card, { title: "CSS" }, "Загвар, өнгө"),
+    h(Card, { title: "JS" }, "Үйлдэл, логик")
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(h(App));`,
+      },
+    },
+    {
+      kind: "exercise",
+      title: "Badge компонент гарга",
+      prompt: "`Badge` нэртэй компонент үүсгэ: `props.text`-ийг `<span>`-д харуулна. Дараа нь `App` дотор `Badge`-ийг өөр өөр текстээр 2 удаа дууд.",
+      starter: {
+        html: REACT_CDN + `<div id="root"></div>`,
+        css: `body { font-family: system-ui; padding: 16px; }\nspan { background: #eef; padding: 2px 10px; border-radius: 12px; margin-right: 6px; }`,
+        js: `const h = React.createElement;
+
+// Энд Badge компонентыг бич
+
+function App() {
+  return h("div", null,
+    // Badge-ийг 2 удаа дууд
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(h(App));`,
+      },
+      hint: "`function Badge(props) { return h(\"span\", null, props.text); }` бичээд `App` дотор `h(Badge, { text: \"Шинэ\" })` гэж дууд.",
+      solution: {
+        html: REACT_CDN + `<div id="root"></div>`,
+        css: `body { font-family: system-ui; padding: 16px; }\nspan { background: #eef; padding: 2px 10px; border-radius: 12px; margin-right: 6px; }`,
+        js: `const h = React.createElement;
+
+function Badge(props) {
+  return h("span", null, props.text);
+}
+
+function App() {
+  return h("div", null,
+    h(Badge, { text: "Шинэ" }),
+    h(Badge, { text: "Алдартай" })
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(h(App));`,
+      },
+      check: {
+        type: "allOf",
+        checks: [
+          { type: "jsIncludes", pattern: "function\\s+Badge\\s*\\(", message: "`function Badge(props)` компонент зарла." },
+          { type: "jsIncludes", pattern: "props\\.text", message: "`props.text`-ийг ашигла." },
+          { type: "jsIncludes", pattern: "h\\s*\\(\\s*Badge[\\s\\S]*h\\s*\\(\\s*Badge", message: "`Badge`-ийг 2 удаа дууд." },
+        ],
+      },
+    },
+    {
+      kind: "quiz",
+      question: "Өөрийн компонентын нэр яагаад том үсгээр эхлэх ёстой вэ?",
+      options: [
+        "Эс тэгвээс React үүнийг энгийн HTML tag гэж ойлгоно",
+        "Зөвхөн гоё харагдуулахын тулд",
+        "Жижиг үсэг алдаа заадаг учраас",
+        "Том үсэг хурдан ажилладаг",
+      ],
+      answer: 0,
+      explain: "Том үсгээр эхэлсэн нэрийг React компонент, жижиг үсгээр эхэлснийг HTML tag гэж ялгадаг.",
+    },
+    {
+      kind: "quiz",
+      question: "`h(Box, null, \"Сайн уу\")` дахь \"Сайн уу\" компонентод хаана ирэх вэ?",
+      options: ["props.children", "props.text", "props.title", "state"],
+      answer: 0,
+      explain: "Гурав дахь аргументаас хойших агуулга `props.children` болж ирнэ.",
+    },
+  ],
+};
