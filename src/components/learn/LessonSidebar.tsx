@@ -4,8 +4,15 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { DAILY_GOAL } from "@/lib/lessons/daily";
 import { readFavs, toggleFav } from "@/lib/lessons/favs";
+import { DIFFICULTY_LABEL, difficultyOf, type Difficulty } from "@/lib/lessons/difficulty";
 import type { Lesson } from "@/lib/lessons/types";
 import BackupPanel from "@/components/learn/BackupPanel";
+
+const DIFFICULTY_CLS: Record<Difficulty, string> = {
+  easy: "bg-emerald-100 text-emerald-800 dark:bg-emerald-950/50 dark:text-emerald-200",
+  medium: "bg-amber-100 text-amber-800 dark:bg-amber-950/50 dark:text-amber-200",
+  hard: "bg-rose-100 text-rose-800 dark:bg-rose-950/50 dark:text-rose-200",
+};
 
 export function gradeableIds(l: Lesson): string[] {
   const ids: string[] = [];
@@ -195,6 +202,13 @@ export default function LessonSidebar({
                         {finished ? "✓" : "○"}
                       </span>
                       <span className="min-w-0 flex-1">{l.title}</span>
+                      <span
+                        className={`shrink-0 rounded-full px-1.5 py-0.5 text-[10px] font-semibold leading-none ${DIFFICULTY_CLS[difficultyOf(l)]}`}
+                        title="Хичээлийн хүндийн зэрэг"
+                      >
+                        <span className="sr-only">Хүндийн зэрэг: </span>
+                        {DIFFICULTY_LABEL[difficultyOf(l)]}
+                      </span>
                       {finished && <span className="sr-only">Дууссан</span>}
                     </>
                   );
