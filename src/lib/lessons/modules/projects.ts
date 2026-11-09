@@ -248,3 +248,273 @@ export const PROJECT_CALCULATOR: Lesson = {
     },
   ],
 };
+
+const TODO_HTML = `<div class="todo">
+  <h2>Миний ажлууд</h2>
+  <form id="form">
+    <input id="task" type="text" placeholder="Шинэ ажил..." aria-label="Шинэ ажил">
+    <button type="submit">Нэмэх</button>
+  </form>
+  <ul id="list"></ul>
+</div>`;
+
+const TODO_CSS = `body { font-family: system-ui; padding: 16px; background: #f5f3ff; }
+.todo { max-width: 380px; padding: 20px; background: white; border-radius: 16px; box-shadow: 0 8px 24px rgba(0,0,0,.12); }
+.todo h2 { margin: 0 0 12px; }
+#form { display: flex; gap: 8px; }
+#task { flex: 1; padding: 8px; font-size: 16px; }
+#form button { padding: 8px 14px; font-size: 16px; }
+#list { list-style: none; padding: 0; margin: 12px 0 0; }
+#list li { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #eee; cursor: pointer; }
+#list li.done span { text-decoration: line-through; color: #999; }
+#list li button { border: 0; background: none; color: #c00; font-size: 18px; cursor: pointer; }`;
+
+const TODO_JS_STEP2 = `const form = document.getElementById("form");
+const input = document.getElementById("task");
+const list = document.getElementById("list");
+
+let tasks = [];
+
+function render() {
+  list.innerHTML = "";
+  tasks.forEach((t) => {
+    const li = document.createElement("li");
+    const span = document.createElement("span");
+    span.textContent = t.text;
+    li.appendChild(span);
+    list.appendChild(li);
+  });
+}
+
+form.addEventListener("submit", (e) => {
+  e.preventDefault();
+  const text = input.value.trim();
+  if (!text) return;
+  tasks.push({ text: text, done: false });
+  input.value = "";
+  render();
+});
+
+render();`;
+
+const TODO_JS_STEP3 = `const form = document.getElementById("form");
+const input = document.getElementById("task");
+const list = document.getElementById("list");
+
+let tasks = [];
+
+function render() {
+  list.innerHTML = "";
+  tasks.forEach((t, i) => {
+    const li = document.createElement("li");
+    if (t.done) li.classList.add("done");
+    const span = document.createElement("span");
+    span.textContent = t.text;
+    li.appendChild(span);
+    li.addEventListener("click", () => {
+      tasks[i].done = !tasks[i].done;
+      render();
+    });
+    const del = document.createElement("button");
+    del.textContent = "×";
+    del.setAttribute("aria-label", "Устгах");
+    del.addEventListener("click", (e) => {
+      e.stopPropagation();
+      tasks.splice(i, 1);
+      render();
+    });
+    li.appendChild(del);
+    list.appendChild(li);
+  });
+}
+
+form.addEventListener("submit", (e) => {
+  e.preventDefault();
+  const text = input.value.trim();
+  if (!text) return;
+  tasks.push({ text: text, done: false });
+  input.value = "";
+  render();
+});
+
+render();`;
+
+const TODO_JS_STEP4 = `const form = document.getElementById("form");
+const input = document.getElementById("task");
+const list = document.getElementById("list");
+
+const KEY = "sx-todo";
+let memory = null; // localStorage ажиллахгүй үед санах ойд хадгална
+
+function load() {
+  try {
+    const raw = localStorage.getItem(KEY);
+    return raw ? JSON.parse(raw) : [];
+  } catch (err) {
+    return memory || [];
+  }
+}
+
+function save() {
+  try {
+    localStorage.setItem(KEY, JSON.stringify(tasks));
+  } catch (err) {
+    memory = tasks;
+  }
+}
+
+let tasks = load();
+
+function render() {
+  list.innerHTML = "";
+  tasks.forEach((t, i) => {
+    const li = document.createElement("li");
+    if (t.done) li.classList.add("done");
+    const span = document.createElement("span");
+    span.textContent = t.text;
+    li.appendChild(span);
+    li.addEventListener("click", () => {
+      tasks[i].done = !tasks[i].done;
+      save();
+      render();
+    });
+    const del = document.createElement("button");
+    del.textContent = "×";
+    del.setAttribute("aria-label", "Устгах");
+    del.addEventListener("click", (e) => {
+      e.stopPropagation();
+      tasks.splice(i, 1);
+      save();
+      render();
+    });
+    li.appendChild(del);
+    list.appendChild(li);
+  });
+}
+
+form.addEventListener("submit", (e) => {
+  e.preventDefault();
+  const text = input.value.trim();
+  if (!text) return;
+  tasks.push({ text: text, done: false });
+  input.value = "";
+  save();
+  render();
+});
+
+render();`;
+
+export const PROJECT_TODO: Lesson = {
+  id: "project-todo",
+  module: 10,
+  title: "Төсөл: To-do жагсаалт",
+  objectives: [
+    "Форм ба жагсаалтаар To-do аппын интерфэйсийг босгох",
+    "Массивт ажил нэмж, `render()` функцээр DOM-ыг дахин зурах",
+    "Ажил дуусгах/устгах, мөн localStorage-д хадгалах (алдаанаас хамгаалсан)",
+  ],
+  blocks: [
+    {
+      kind: "theory",
+      title: "Бид юу бүтээх вэ?",
+      html: `<p>Энэ төсөлд <strong>To-do жагсаалт</strong>-ыг 4 алхамд бүтээнэ:</p><ol><li><strong>Интерфэйс (HTML):</strong> форм, текст input, жагсаалт.</li><li><strong>Нэмэх (JS):</strong> ажлуудыг массивт хадгалж <code>render()</code>-ээр зурах.</li><li><strong>Дуусгах ба устгах:</strong> дарахад дууссан гэж тэмдэглэх, × товчоор устгах.</li><li><strong>Хадгалах:</strong> <code>localStorage</code>-д хадгалах.</li></ol><p>Гол санаа: <em>өгөгдөл (массив) → render() → DOM</em>. Өгөгдлөө өөрчлөөд <code>render()</code>-ийг дахин дуудахад дэлгэц шинэчлэгдэнэ.</p><p><strong>Анхаар:</strong> манай playground тусгаарлагдсан (sandbox) тул <code>localStorage</code> энд хаалттай байж болно. Тиймээс <code>try/catch</code> ашиглана.</p>`,
+    },
+    {
+      kind: "exercise",
+      title: "Алхам 1 — Интерфэйс",
+      prompt:
+        "HTML хэсэгт `id=\"form\"` `<form>`, түүн дотор `id=\"task\"` `<input type=\"text\">` ба `<button>`, мөн `id=\"list\"` `<ul>` бич. Дараа нь Шалгах дээр дар.",
+      starter: {
+        html: `<!-- Энд бич -->\n`,
+        css: TODO_CSS,
+        js: ``,
+      },
+      hint: "Эхлээд <form id=\"form\"> дотор <input id=\"task\" type=\"text\"> ба <button type=\"submit\"> бич.",
+      hint2: "<form id=\"form\"><input id=\"task\" type=\"text\"><button type=\"submit\">Нэмэх</button></form> <ul id=\"list\"></ul>",
+      solution: { html: TODO_HTML, css: TODO_CSS, js: `` },
+      check: {
+        type: "allOf",
+        checks: [
+          { type: "htmlIncludes", pattern: "<form[^>]*id\\s*=\\s*[\"']form[\"']", flags: "i", message: "`id=\"form\"` form олдсонгүй." },
+          { type: "htmlIncludes", pattern: "<input[^>]*id\\s*=\\s*[\"']task[\"']", flags: "i", message: "`id=\"task\"` input олдсонгүй." },
+          { type: "htmlIncludes", pattern: "<button", flags: "i", message: "«Нэмэх» `<button>` нэм." },
+          { type: "htmlIncludes", pattern: "<ul[^>]*id\\s*=\\s*[\"']list[\"']", flags: "i", message: "`id=\"list\"` `<ul>` олдсонгүй." },
+        ],
+      },
+    },
+    {
+      kind: "exercise",
+      title: "Алхам 2 — Ажил нэмэх",
+      prompt:
+        "`tasks` массив зарлаж, `render()` функц бич (жагсаалтыг цэвэрлээд ажил бүрт `<li>` үүсгэнэ). Формын `submit` үед `e.preventDefault()` дуудаж, шинэ ажлыг `tasks.push(...)`-ээр нэмээд `render()` дуудна.",
+      starter: {
+        html: TODO_HTML,
+        css: TODO_CSS,
+        js: `const form = document.getElementById("form");\nconst input = document.getElementById("task");\nconst list = document.getElementById("list");\n\n// Энд tasks массив, render(), submit логик бич\n`,
+      },
+      hint: "let tasks = []; function render() { list.innerHTML = \"\"; tasks.forEach(...) } гэж эхэл.",
+      hint2: "form.addEventListener(\"submit\", (e) => { e.preventDefault(); tasks.push({ text: input.value, done: false }); render(); });",
+      solution: { html: TODO_HTML, css: TODO_CSS, js: TODO_JS_STEP2 },
+      check: {
+        type: "allOf",
+        checks: [
+          { type: "jsIncludes", pattern: "(let|const|var)\\s+tasks\\s*=\\s*\\[", flags: "", message: "`tasks` массив зарла." },
+          { type: "jsIncludes", pattern: "function\\s+render\\s*\\(", flags: "", message: "`render()` функц олдсонгүй." },
+          { type: "jsIncludes", pattern: "addEventListener\\s*\\(\\s*[\"']submit[\"']", flags: "", message: "Формын `submit` event-д холбо." },
+          { type: "jsIncludes", pattern: "preventDefault\\s*\\(", flags: "", message: "Хуудас дахин ачаалахаас сэргийлж `e.preventDefault()` дууд." },
+          { type: "jsIncludes", pattern: "tasks\\.push\\s*\\(", flags: "", message: "Шинэ ажлыг `tasks.push(...)`-ээр нэм." },
+        ],
+      },
+    },
+    {
+      kind: "exercise",
+      title: "Алхам 3 — Дуусгах ба устгах",
+      prompt:
+        "`<li>`-д `click` холбож `tasks[i].done`-г эсрэгээр нь болго (`!`), `done` үед `done` класс нэм. Мөн × товч үүсгэж `tasks.splice(i, 1)`-ээр устга. Өөрчлөлт бүрийн дараа `render()` дууд.",
+      starter: { html: TODO_HTML, css: TODO_CSS, js: TODO_JS_STEP2 },
+      hint: "tasks.forEach((t, i) => { ... }) болгож индекс `i`-г ав.",
+      hint2: "li.addEventListener(\"click\", () => { tasks[i].done = !tasks[i].done; render(); }); устгахад: tasks.splice(i, 1);",
+      solution: { html: TODO_HTML, css: TODO_CSS, js: TODO_JS_STEP3 },
+      check: {
+        type: "allOf",
+        checks: [
+          { type: "jsIncludes", pattern: "\\.done\\s*=\\s*!", flags: "", message: "`done`-г эсрэгээр нь болго (`tasks[i].done = !tasks[i].done`)." },
+          { type: "jsIncludes", pattern: "splice\\s*\\(", flags: "", message: "Устгахдаа `tasks.splice(i, 1)` ашигла." },
+          { type: "jsIncludes", pattern: "classList\\.(add|toggle)\\s*\\(", flags: "", message: "Дууссан ажилд `classList.add(\"done\")` ашигла." },
+        ],
+      },
+    },
+    {
+      kind: "exercise",
+      title: "Алхам 4 — localStorage-д хадгалах",
+      prompt:
+        "`save()` функц бич: `localStorage.setItem(KEY, JSON.stringify(tasks))`. `load()` функц: `JSON.parse(localStorage.getItem(KEY))`. Хоёуланг `try/catch`-д ороо (sandbox-д localStorage хаалттай байж болно). `tasks`-ийг `load()`-оор эхлүүл, өөрчлөлт бүрийн дараа `save()` дууд.",
+      starter: { html: TODO_HTML, css: TODO_CSS, js: TODO_JS_STEP3 },
+      hint: "const KEY = \"sx-todo\"; function save() { try { ... } catch (err) { ... } } гэж эхэл.",
+      hint2: "let tasks = load(); — мөн нэмэх, дуусгах, устгах бүрийн дараа save(); render(); гэж дууд.",
+      solution: { html: TODO_HTML, css: TODO_CSS, js: TODO_JS_STEP4 },
+      check: {
+        type: "allOf",
+        checks: [
+          { type: "jsIncludes", pattern: "localStorage\\.setItem\\s*\\(", flags: "", message: "`localStorage.setItem(...)`-ээр хадгал." },
+          { type: "jsIncludes", pattern: "localStorage\\.getItem\\s*\\(", flags: "", message: "`localStorage.getItem(...)`-ээр уншаарай." },
+          { type: "jsIncludes", pattern: "JSON\\.stringify\\s*\\(", flags: "", message: "Массивыг `JSON.stringify`-аар текст болго." },
+          { type: "jsIncludes", pattern: "JSON\\.parse\\s*\\(", flags: "", message: "Уншихдаа `JSON.parse`-аар буцаан массив болго." },
+          { type: "jsIncludes", pattern: "try\\s*\\{[\\s\\S]*catch", flags: "", message: "`try/catch`-ээр хамгаал (sandbox-д localStorage хаалттай байж болно)." },
+        ],
+      },
+    },
+    {
+      kind: "quiz",
+      question: "Массивт ажил нэмсний дараа дэлгэц шинэчлэгдэхийн тулд юу хийх ёстой вэ?",
+      options: [
+        "render()-ийг дахин дуудна",
+        "Хуудсыг гараар refresh хийнэ",
+        "CSS-д display: block нэмнэ",
+        "console.log хийнэ",
+      ],
+      answer: 0,
+      explain: "Өгөгдөл (массив) өөрчлөгдөхөд DOM өөрөө шинэчлэгдэхгүй. `render()` нь массивын одоогийн төлөвөөр жагсаалтыг дахин зурна.",
+    },
+  ],
+};
