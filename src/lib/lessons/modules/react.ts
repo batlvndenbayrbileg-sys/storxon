@@ -969,3 +969,133 @@ ReactDOM.createRoot(document.getElementById("root")).render(h(App));`,
     },
   ],
 };
+
+export const REACT_USEREF: Lesson = {
+  id: "react-useref",
+  module: 9,
+  title: "React — useRef ба DOM хандалт",
+  objectives: [
+    "`useRef`-ээр DOM элемент рүү шууд хандах",
+    "`ref.current`-ээр элементийн `focus()` гэх мэт үйлдэл дуудах",
+    "`useRef` утга өөрчлөгдөхөд дахин render хийдэггүйг ойлгох",
+  ],
+  blocks: [
+    {
+      kind: "theory",
+      title: "ref — DOM руу шууд хандах хаалга",
+      html: `<p>Заримдаа элемент рүү шууд хандах хэрэгтэй болдог: input-д <code>focus()</code> хийх, хэмжээг нь уншихад гэх мэт. Үүнд <strong><code>useRef</code></strong> хэрэгтэй.</p>
+             <ul>
+               <li><code>const inputRef = React.useRef(null);</code> — ref объект үүсгэнэ.</li>
+               <li>Элементэд <code>ref: inputRef</code> prop-оор холбоно: <code>h("input", { ref: inputRef })</code>.</li>
+               <li>Render хийгдсэний дараа <code>inputRef.current</code> нь жинхэнэ DOM элемент болно.</li>
+               <li><code>ref.current</code>-ийг өөрчлөхөд компонент <strong>дахин render хийгдэхгүй</strong> (state-ээс ялгаа).</li>
+             </ul>
+             <p>Дүрэм: render хийх үед биш, <em>event handler</em> эсвэл <code>useEffect</code> дотор <code>ref.current</code>-ийг ашигла.</p>`,
+    },
+    {
+      kind: "playground",
+      title: "Товч дарахад input-д focus хийх",
+      height: 280,
+      starter: {
+        html: REACT_CDN + `<div id="root"></div>`,
+        css: `body { font-family: system-ui; padding: 16px; }\ninput { padding: 6px; margin-right: 8px; }`,
+        js: `const h = React.createElement;
+
+function App() {
+  const inputRef = React.useRef(null);
+
+  function focusInput() {
+    inputRef.current.focus();
+  }
+
+  return h("div", null,
+    h("input", { ref: inputRef, placeholder: "Энд бич..." }),
+    h("button", { onClick: focusInput }, "Focus хий")
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(h(App));`,
+      },
+    },
+    {
+      kind: "exercise",
+      title: "Input-г цэвэрлээд focus хий",
+      prompt: "`Цэвэрлэх` товч дарахад input-ийн утгыг хоосолж (`value = \"\"`), дараа нь `focus()` хий. `useRef`-ийг ашигла.",
+      starter: {
+        html: REACT_CDN + `<div id="root"></div>`,
+        css: `body { font-family: system-ui; padding: 16px; }\ninput { padding: 6px; margin-right: 8px; }`,
+        js: `const h = React.createElement;
+
+function App() {
+  // Энд useRef үүсгэ
+
+  function clearInput() {
+    // Энд утгыг хоосолж, focus хий
+  }
+
+  return h("div", null,
+    h("input", { placeholder: "Энд бич..." }),
+    h("button", { onClick: clearInput }, "Цэвэрлэх")
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(h(App));`,
+      },
+      hint: "`const ref = React.useRef(null);` үүсгээд input-д `ref: ref` өг. Handler дотор `ref.current.value = \"\"; ref.current.focus();` бич.",
+      solution: {
+        html: REACT_CDN + `<div id="root"></div>`,
+        css: `body { font-family: system-ui; padding: 16px; }\ninput { padding: 6px; margin-right: 8px; }`,
+        js: `const h = React.createElement;
+
+function App() {
+  const ref = React.useRef(null);
+
+  function clearInput() {
+    ref.current.value = "";
+    ref.current.focus();
+  }
+
+  return h("div", null,
+    h("input", { ref: ref, placeholder: "Энд бич..." }),
+    h("button", { onClick: clearInput }, "Цэвэрлэх")
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(h(App));`,
+      },
+      check: {
+        type: "allOf",
+        checks: [
+          { type: "jsIncludes", pattern: "useRef\\s*\\(", message: "`React.useRef(null)` ашигла." },
+          { type: "jsIncludes", pattern: "ref\\s*:", message: "Input-д `ref` prop өг." },
+          { type: "jsIncludes", pattern: "\\.current\\.value\\s*=", message: "`ref.current.value = \"\"` гэж утгыг хоосол." },
+          { type: "jsIncludes", pattern: "\\.current\\.focus\\s*\\(", message: "`ref.current.focus()` дуудаж focus хий." },
+        ],
+      },
+    },
+    {
+      kind: "quiz",
+      question: "`ref.current`-ийг өөрчлөхөд юу болох вэ?",
+      options: [
+        "Компонент дахин render хийгдэхгүй",
+        "Компонент заавал дахин render хийгдэнэ",
+        "Алдаа заана",
+        "State автоматаар шинэчлэгдэнэ",
+      ],
+      answer: 0,
+      explain: "`useRef` нь state-ээс ялгаатай — `current` өөрчлөгдөхөд React дахин render хийдэггүй.",
+    },
+    {
+      kind: "quiz",
+      question: "Элементийн DOM node `ref.current`-д хэзээ орох вэ?",
+      options: [
+        "Render хийгдэж DOM-д орсны дараа",
+        "Компонент зарлах үед шууд",
+        "Зөвхөн CSS ачаалсны дараа",
+        "Хэзээ ч орохгүй",
+      ],
+      answer: 0,
+      explain: "Эхэндээ `null` байх ба mount хийгдсэний дараа жинхэнэ DOM элемент болно, тиймээс event handler эсвэл useEffect дотор ашиглана.",
+    },
+  ],
+};
