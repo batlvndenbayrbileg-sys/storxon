@@ -779,3 +779,241 @@ export const PROJECT_QUIZ: Lesson = {
     },
   ],
 };
+
+const TIMER_HTML = `<div class="timer">
+  <h2>Секундомер</h2>
+  <p id="display" aria-live="off">00:00</p>
+  <div class="row">
+    <button id="toggle">Эхлүүлэх</button>
+    <button id="reset">Шинэчлэх</button>
+  </div>
+</div>`;
+
+const TIMER_CSS = `body { font-family: system-ui; padding: 16px; background: #f5f3ff; }
+.timer { max-width: 320px; padding: 20px; background: white; border-radius: 16px; box-shadow: 0 8px 24px rgba(0,0,0,.12); text-align: center; }
+.timer h2 { margin: 0 0 8px; }
+#display { margin: 8px 0 16px; font-size: 48px; font-weight: 800; font-variant-numeric: tabular-nums; }
+.row { display: flex; gap: 8px; justify-content: center; }
+.row button { padding: 10px 16px; font-size: 16px; border: 0; border-radius: 10px; background: #6d28d9; color: white; cursor: pointer; }
+#reset { background: #e5e7eb; color: #111; }`;
+
+const TIMER_JS_STEP2 = `const display = document.getElementById("display");
+const toggle = document.getElementById("toggle");
+const reset = document.getElementById("reset");
+
+let seconds = 0;
+
+function pad(n) {
+  return String(n).padStart(2, "0");
+}
+
+function format(total) {
+  const m = Math.floor(total / 60);
+  const s = total % 60;
+  return pad(m) + ":" + pad(s);
+}
+
+function show() {
+  display.textContent = format(seconds);
+}
+
+show();`;
+
+const TIMER_JS_STEP3 = `const display = document.getElementById("display");
+const toggle = document.getElementById("toggle");
+const reset = document.getElementById("reset");
+
+let seconds = 0;
+let timerId = null;
+
+function pad(n) {
+  return String(n).padStart(2, "0");
+}
+
+function format(total) {
+  const m = Math.floor(total / 60);
+  const s = total % 60;
+  return pad(m) + ":" + pad(s);
+}
+
+function show() {
+  display.textContent = format(seconds);
+}
+
+toggle.addEventListener("click", () => {
+  if (timerId === null) {
+    timerId = setInterval(() => {
+      seconds++;
+      show();
+    }, 1000);
+    toggle.textContent = "Түр зогсоох";
+  } else {
+    clearInterval(timerId);
+    timerId = null;
+    toggle.textContent = "Үргэлжлүүлэх";
+  }
+});
+
+show();`;
+
+const TIMER_JS_STEP4 = `const display = document.getElementById("display");
+const toggle = document.getElementById("toggle");
+const reset = document.getElementById("reset");
+
+let seconds = 0;
+let timerId = null;
+
+function pad(n) {
+  return String(n).padStart(2, "0");
+}
+
+function format(total) {
+  const m = Math.floor(total / 60);
+  const s = total % 60;
+  return pad(m) + ":" + pad(s);
+}
+
+function show() {
+  display.textContent = format(seconds);
+}
+
+toggle.addEventListener("click", () => {
+  if (timerId === null) {
+    timerId = setInterval(() => {
+      seconds++;
+      show();
+    }, 1000);
+    toggle.textContent = "Түр зогсоох";
+  } else {
+    clearInterval(timerId);
+    timerId = null;
+    toggle.textContent = "Үргэлжлүүлэх";
+  }
+});
+
+reset.addEventListener("click", () => {
+  clearInterval(timerId);
+  timerId = null;
+  seconds = 0;
+  toggle.textContent = "Эхлүүлэх";
+  show();
+});
+
+show();`;
+
+export const PROJECT_TIMER: Lesson = {
+  id: "project-timer",
+  module: 10,
+  title: "Төсөл: Цаг/таймер апп (секундомер)",
+  objectives: [
+    "Секундыг мм:сс хэлбэрт форматлан дэлгэцэнд гаргах",
+    "setInterval-аар секунд тоолж, clearInterval-аар зогсоох",
+    "Эхлүүлэх/түр зогсоох товч болон шинэчлэх товчийг хэрэгжүүлэх",
+  ],
+  blocks: [
+    {
+      kind: "theory",
+      title: "Бид юу бүтээх вэ?",
+      html: `<p>Энэ төсөлд <strong>секундомер</strong>-ыг 4 алхамд бүтээнэ:</p><ol><li><strong>Интерфэйс (HTML):</strong> цаг харуулах хэсэг, хоёр товч.</li><li><strong>Формат (JS):</strong> секундийг <code>мм:сс</code> болгох <code>format()</code> функц.</li><li><strong>Тоолуур:</strong> <code>setInterval</code>-аар секунд бүр нэмж, <code>clearInterval</code>-аар зогсоох.</li><li><strong>Шинэчлэх:</strong> тоолуурыг 0 болгож, төлөвийг анхны байдалд оруулах.</li></ol><p>Санамж: <code>setInterval</code> нь <em>id</em> буцаадаг. Тэр id-г хувьсагчид хадгалж байж л <code>clearInterval(id)</code>-ээр зогсоож чадна.</p>`,
+    },
+    {
+      kind: "exercise",
+      title: "Алхам 1 — Интерфэйс",
+      prompt:
+        "HTML хэсэгт цаг харуулах `id=\"display\"` `<p>`, мөн `id=\"toggle\"` ба `id=\"reset\"` гэсэн хоёр `<button>` бич. Дараа нь Шалгах дээр дар.",
+      starter: {
+        html: `<!-- Энд бич -->\n`,
+        css: TIMER_CSS,
+        js: ``,
+      },
+      hint: "Эхлээд <p id=\"display\">00:00</p> бич.",
+      hint2: "<p id=\"display\">00:00</p> <button id=\"toggle\">Эхлүүлэх</button> <button id=\"reset\">Шинэчлэх</button>",
+      solution: { html: TIMER_HTML, css: TIMER_CSS, js: `` },
+      check: {
+        type: "allOf",
+        checks: [
+          { type: "htmlIncludes", pattern: "<p[^>]*id\\s*=\\s*[\"']display[\"']", flags: "i", message: "`id=\"display\"` `<p>` олдсонгүй." },
+          { type: "htmlIncludes", pattern: "<button[^>]*id\\s*=\\s*[\"']toggle[\"']", flags: "i", message: "`id=\"toggle\"` товч олдсонгүй." },
+          { type: "htmlIncludes", pattern: "<button[^>]*id\\s*=\\s*[\"']reset[\"']", flags: "i", message: "`id=\"reset\"` товч олдсонгүй." },
+        ],
+      },
+    },
+    {
+      kind: "exercise",
+      title: "Алхам 2 — Цаг форматлах",
+      prompt:
+        "`let seconds = 0;` зарла. `format(total)` функц бич: минут = `Math.floor(total / 60)`, секунд = `total % 60`, хоёуланг нь `padStart(2, \"0\")`-ээр хоёр оронтой болгож `мм:сс` буцаа. `show()` нь `display.textContent`-д `format(seconds)`-г онооно.",
+      starter: {
+        html: TIMER_HTML,
+        css: TIMER_CSS,
+        js: `const display = document.getElementById("display");\nconst toggle = document.getElementById("toggle");\nconst reset = document.getElementById("reset");\n\n// Энд seconds, format(), show() бич\n`,
+      },
+      hint: "function format(total) { const m = Math.floor(total / 60); const s = total % 60; ... } гэж эхэл.",
+      hint2: "return String(m).padStart(2, \"0\") + \":\" + String(s).padStart(2, \"0\");",
+      solution: { html: TIMER_HTML, css: TIMER_CSS, js: TIMER_JS_STEP2 },
+      check: {
+        type: "allOf",
+        checks: [
+          { type: "jsIncludes", pattern: "(let|var)\\s+seconds\\s*=\\s*0", flags: "", message: "`let seconds = 0;` зарла." },
+          { type: "jsIncludes", pattern: "function\\s+format\\s*\\(", flags: "", message: "`format(total)` функц олдсонгүй." },
+          { type: "jsIncludes", pattern: "Math\\.floor\\s*\\(", flags: "", message: "Минутыг `Math.floor(total / 60)`-аар ол." },
+          { type: "jsIncludes", pattern: "%\\s*60", flags: "", message: "Секундийг `total % 60`-аар ол." },
+          { type: "jsIncludes", pattern: "padStart\\s*\\(\\s*2", flags: "", message: "`padStart(2, \"0\")`-ээр хоёр оронтой болго." },
+          { type: "jsIncludes", pattern: "display\\.textContent\\s*=", flags: "", message: "Цагийг `display.textContent`-д онооно." },
+        ],
+      },
+    },
+    {
+      kind: "exercise",
+      title: "Алхам 3 — Эхлүүлэх ба түр зогсоох",
+      prompt:
+        "`let timerId = null;` нэм. «toggle» товчинд `click` холбо: `timerId === null` бол `setInterval`-аар 1000 мс тутам `seconds++` хийж `show()` дууд; үгүй бол `clearInterval(timerId)` хийгээд `timerId = null` болго.",
+      starter: { html: TIMER_HTML, css: TIMER_CSS, js: TIMER_JS_STEP2 },
+      hint: "toggle.addEventListener(\"click\", () => { if (timerId === null) { ... } else { ... } });",
+      hint2: "timerId = setInterval(() => { seconds++; show(); }, 1000); — зогсоохдоо clearInterval(timerId); timerId = null;",
+      solution: { html: TIMER_HTML, css: TIMER_CSS, js: TIMER_JS_STEP3 },
+      check: {
+        type: "allOf",
+        checks: [
+          { type: "jsIncludes", pattern: "(let|var)\\s+timerId\\s*=\\s*null", flags: "", message: "`let timerId = null;` зарла." },
+          { type: "jsIncludes", pattern: "addEventListener\\s*\\(\\s*[\"']click[\"']", flags: "", message: "Товчинд `click` event холбо." },
+          { type: "jsIncludes", pattern: "setInterval\\s*\\(", flags: "", message: "`setInterval`-аар секунд тоол." },
+          { type: "jsIncludes", pattern: "1000", flags: "", message: "Интервалыг `1000` мс (1 секунд) болго." },
+          { type: "jsIncludes", pattern: "seconds\\s*(\\+\\+|\\+=\\s*1)", flags: "", message: "Секунд бүр `seconds++` хий." },
+          { type: "jsIncludes", pattern: "clearInterval\\s*\\(\\s*timerId", flags: "", message: "`clearInterval(timerId)`-ээр зогсоо." },
+        ],
+      },
+    },
+    {
+      kind: "exercise",
+      title: "Алхам 4 — Шинэчлэх товч",
+      prompt:
+        "«reset» товчинд `click` холбож: `clearInterval(timerId)`, `timerId = null`, `seconds = 0` болгоод «toggle» товчны текстийг «Эхлүүлэх» болгож `show()` дууд.",
+      starter: { html: TIMER_HTML, css: TIMER_CSS, js: TIMER_JS_STEP3 },
+      hint: "reset.addEventListener(\"click\", () => { ... }) бич.",
+      hint2: "clearInterval(timerId); timerId = null; seconds = 0; toggle.textContent = \"Эхлүүлэх\"; show();",
+      solution: { html: TIMER_HTML, css: TIMER_CSS, js: TIMER_JS_STEP4 },
+      check: {
+        type: "allOf",
+        checks: [
+          { type: "jsIncludes", pattern: "reset\\.addEventListener\\s*\\(\\s*[\"']click[\"']", flags: "", message: "`reset` товчинд `click` холбо." },
+          { type: "jsIncludes", pattern: "seconds\\s*=\\s*0", flags: "", message: "Шинэчлэхэд `seconds = 0` болго." },
+          { type: "jsIncludes", pattern: "timerId\\s*=\\s*null[\\s\\S]*seconds\\s*=\\s*0|seconds\\s*=\\s*0[\\s\\S]*timerId\\s*=\\s*null", flags: "", message: "`timerId = null` болгохыг мартав." },
+          { type: "jsIncludes", pattern: "toggle\\.textContent\\s*=", flags: "", message: "Товчны текстийг буцааж «Эхлүүлэх» болго." },
+        ],
+      },
+    },
+    {
+      kind: "quiz",
+      question: "Яагаад `setInterval`-ийн буцаасан id-г хувьсагчид хадгалах ёстой вэ?",
+      options: [
+        "Дараа нь clearInterval(id)-ээр тэр тоолуурыг зогсоохын тулд",
+        "Интервалыг хурдасгахын тулд",
+        "Тоог форматлахын тулд",
+        "id байхгүй бол setInterval ажиллахгүй",
+      ],
+      answer: 0,
+      explain: "`setInterval` нь id буцаадаг. `clearInterval(id)`-д тэр id-г өгөөд л тоолуурыг зогсооно. Хадгалаагүй бол зогсоох боломжгүй.",
+    },
+  ],
+};
