@@ -1017,3 +1017,158 @@ export const PROJECT_TIMER: Lesson = {
     },
   ],
 };
+
+// ---------------------------------------------------------------------------
+// Project: small React counter (createElement-only, runs in the sandbox)
+// ---------------------------------------------------------------------------
+const RCOUNTER_CDN =
+  `<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>\n` +
+  `<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>\n`;
+
+const RCOUNTER_HTML = RCOUNTER_CDN + `<div id="root"></div>`;
+
+const RCOUNTER_CSS = `body { font-family: system-ui; padding: 16px; background: #f5f3ff; }
+.counter { max-width: 320px; padding: 20px; background: white; border-radius: 16px; box-shadow: 0 8px 24px rgba(0,0,0,.12); text-align: center; }
+.counter h2 { margin: 0 0 8px; }
+.value { margin: 8px 0 16px; font-size: 56px; font-weight: 800; font-variant-numeric: tabular-nums; }
+.row { display: flex; gap: 8px; justify-content: center; }
+.row button { padding: 10px 16px; font-size: 18px; border: 0; border-radius: 10px; background: #6d28d9; color: white; cursor: pointer; }
+.row button:disabled { opacity: .4; cursor: not-allowed; }
+.row .ghost { background: #e5e7eb; color: #111; }`;
+
+const RCOUNTER_JS_STEP1 = `const h = React.createElement;
+
+function Counter() {
+  return h("div", { className: "counter" },
+    h("h2", null, "Тоолуур"),
+    h("p", { className: "value" }, 0)
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(h(Counter));`;
+
+const RCOUNTER_JS_STEP2 = `const h = React.createElement;
+
+function Counter() {
+  const [count, setCount] = React.useState(0);
+
+  return h("div", { className: "counter" },
+    h("h2", null, "Тоолуур"),
+    h("p", { className: "value" }, count),
+    h("div", { className: "row" },
+      h("button", { onClick: () => setCount(count - 1) }, "−"),
+      h("button", { onClick: () => setCount(count + 1) }, "+")
+    )
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(h(Counter));`;
+
+const RCOUNTER_JS_STEP3 = `const h = React.createElement;
+
+function Counter() {
+  const [count, setCount] = React.useState(0);
+
+  return h("div", { className: "counter" },
+    h("h2", null, "Тоолуур"),
+    h("p", { className: "value" }, count),
+    h("div", { className: "row" },
+      h("button", { disabled: count === 0, onClick: () => setCount((c) => c - 1) }, "−"),
+      h("button", { onClick: () => setCount((c) => c + 1) }, "+"),
+      h("button", { className: "ghost", onClick: () => setCount(0) }, "Шинэчлэх")
+    )
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(h(Counter));`;
+
+export const PROJECT_REACT_COUNTER: Lesson = {
+  id: "project-react-counter",
+  module: 10,
+  title: "Төсөл: Жижиг React тоолуур",
+  objectives: [
+    "React.createElement-ээр компонент босгож дэлгэцэнд гаргах",
+    "useState-ээр тоог хадгалж, товчоор нэмэх/хасах",
+    "Функциональ шинэчлэлт, disabled товч, шинэчлэх товч нэмэх",
+  ],
+  blocks: [
+    {
+      kind: "theory",
+      title: "Бид юу бүтээх вэ?",
+      html: `<p>Энэ төсөлд <strong>React тоолуур</strong>-ыг 3 алхамд бүтээнэ (JSX биш, зөвхөн <code>React.createElement</code>):</p><ol><li><strong>Компонент:</strong> <code>Counter</code> функц, гарчиг, тоо харуулах хэсэг.</li><li><strong>Төлөв:</strong> <code>useState</code> ба «+» «−» товч.</li><li><strong>Сайжруулалт:</strong> функциональ шинэчлэлт, 0 дээр «−»-г идэвхгүй болгох, «Шинэчлэх» товч.</li></ol><p>React сан sandbox дотор бэлэн ачаалагдсан тул <code>React</code> ба <code>ReactDOM</code>-ийг шууд ашиглана. Гацвал <em>зөвлөгөө</em>, хамгийн сүүлд <em>хариулт</em>-ыг ашигла.</p>`,
+    },
+    {
+      kind: "exercise",
+      title: "Алхам 1 — Counter компонент",
+      prompt:
+        "`function Counter()` бич: `h(\"div\", { className: \"counter\" }, ...)` дотор `h(\"h2\", null, \"Тоолуур\")` болон `className: \"value\"`-тай `<p>` (одоогоор `0` гарга) хий. Төгсгөлд `ReactDOM.createRoot(...).render(h(Counter))`-аар дэлгэцэнд гарга.",
+      starter: {
+        html: RCOUNTER_HTML,
+        css: RCOUNTER_CSS,
+        js: `const h = React.createElement;\n\n// Энд Counter компонентыг бич\n`,
+      },
+      hint: "function Counter() { return h(\"div\", { className: \"counter\" }, ...хүүхдүүд); } гэж эхэл.",
+      hint2: "Төгсгөлд: ReactDOM.createRoot(document.getElementById(\"root\")).render(h(Counter));",
+      solution: { html: RCOUNTER_HTML, css: RCOUNTER_CSS, js: RCOUNTER_JS_STEP1 },
+      check: {
+        type: "allOf",
+        checks: [
+          { type: "jsIncludes", pattern: "function\\s+Counter\\s*\\(", flags: "", message: "`function Counter()` олдсонгүй." },
+          { type: "jsIncludes", pattern: "(createElement|\\bh)\\s*\\(\\s*[\"']h2[\"']", flags: "", message: "`h2` гарчиг үүсгээгүй байна." },
+          { type: "jsIncludes", pattern: "className\\s*:\\s*[\"']value[\"']", flags: "", message: "Тоог `className: \"value\"` бүхий элементэд гарга." },
+          { type: "jsIncludes", pattern: "createRoot\\s*\\([\\s\\S]*\\)\\s*\\.render\\s*\\(", flags: "", message: "`ReactDOM.createRoot(...).render(...)`-аар дэлгэцэнд гарга." },
+        ],
+      },
+    },
+    {
+      kind: "exercise",
+      title: "Алхам 2 — useState ба товчнууд",
+      prompt:
+        "`Counter` дотор `const [count, setCount] = React.useState(0)` нэм. `0`-ийн оронд `count`-ыг гарга, мөн `className: \"row\"` div дотор «−» ба «+» гэсэн хоёр товч хий: `onClick`-д `setCount(...)` дууд.",
+      starter: { html: RCOUNTER_HTML, css: RCOUNTER_CSS, js: RCOUNTER_JS_STEP1 },
+      hint: "Товч: h(\"button\", { onClick: () => setCount(count + 1) }, \"+\")",
+      hint2: "h(\"div\", { className: \"row\" }, h(\"button\", { onClick: () => setCount(count - 1) }, \"−\"), h(\"button\", { onClick: () => setCount(count + 1) }, \"+\"))",
+      solution: { html: RCOUNTER_HTML, css: RCOUNTER_CSS, js: RCOUNTER_JS_STEP2 },
+      check: {
+        type: "allOf",
+        checks: [
+          { type: "jsIncludes", pattern: "\\[\\s*count\\s*,\\s*setCount\\s*\\]\\s*=\\s*React\\.useState\\s*\\(", flags: "", message: "`const [count, setCount] = React.useState(0)` нэм." },
+          { type: "jsIncludes", pattern: "onClick\\s*:[\\s\\S]*setCount\\s*\\(", flags: "", message: "Товчны `onClick` дотор `setCount(...)` дууд." },
+          { type: "jsIncludes", pattern: "[\"']button[\"'][\\s\\S]*[\"']button[\"']", flags: "", message: "«−» ба «+» гэсэн 2 товч хэрэгтэй." },
+          { type: "jsIncludes", pattern: "className\\s*:\\s*[\"']value[\"']\\s*\\}\\s*,\\s*count", flags: "", message: "`0`-ийн оронд `count`-ыг гарга." },
+        ],
+      },
+    },
+    {
+      kind: "exercise",
+      title: "Алхам 3 — Сайжруулалт",
+      prompt:
+        "1) `setCount`-д функц дамжуул: `setCount((c) => c + 1)`. 2) «−» товчинд `disabled: count === 0` нэм. 3) `className: \"ghost\"`-той «Шинэчлэх» товч нэмж `setCount(0)` дууд.",
+      starter: { html: RCOUNTER_HTML, css: RCOUNTER_CSS, js: RCOUNTER_JS_STEP2 },
+      hint: "setCount(count + 1)-ийн оронд setCount((c) => c + 1) гэж бич — өмнөх утгаас найдвартай тооцно.",
+      hint2: "h(\"button\", { className: \"ghost\", onClick: () => setCount(0) }, \"Шинэчлэх\")",
+      solution: { html: RCOUNTER_HTML, css: RCOUNTER_CSS, js: RCOUNTER_JS_STEP3 },
+      check: {
+        type: "allOf",
+        checks: [
+          { type: "jsIncludes", pattern: "setCount\\s*\\(\\s*\\(?\\s*\\w+\\s*\\)?\\s*=>", flags: "", message: "Функциональ шинэчлэл ашигла: `setCount((c) => c + 1)`." },
+          { type: "jsIncludes", pattern: "disabled\\s*:\\s*count\\s*===?\\s*0", flags: "", message: "«−» товчинд `disabled: count === 0` нэм." },
+          { type: "jsIncludes", pattern: "setCount\\s*\\(\\s*0\\s*\\)", flags: "", message: "«Шинэчлэх» товч `setCount(0)` дуудах ёстой." },
+          { type: "jsIncludes", pattern: "Шинэчлэх", flags: "", message: "Товчны текст «Шинэчлэх» байна." },
+        ],
+      },
+    },
+    {
+      kind: "quiz",
+      question: "Яагаад `setCount((c) => c + 1)` гэж функц дамжуулах нь `setCount(count + 1)`-ээс найдвартай вэ?",
+      options: [
+        "Функц нь React-ийн хадгалсан хамгийн сүүлийн утгыг авдаг тул дараалсан шинэчлэлт алдагдахгүй",
+        "Функц ашиглавал компонент дахин зурагдахгүй",
+        "Энгийн тоо дамжуулбал React алдаа заадаг",
+        "Ямар ч ялгаагүй, зөвхөн хэв маяг",
+      ],
+      answer: 0,
+      explain: "`count` нь тухайн render-ийн хуучин хуулбар байж болно. `(c) => c + 1` нь React-ийн хамгийн сүүлийн төлвийг `c`-д өгдөг тул нэг дор олон шинэчлэл хийсэн ч зөв ажиллана.",
+    },
+  ],
+};
