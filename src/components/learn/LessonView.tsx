@@ -405,6 +405,22 @@ export default function LessonView({
         ))}
       </div>
 
+      {lesson.tips && lesson.tips.length > 0 && (
+        <aside
+          aria-label="Түгээмэл алдаа ба зөвлөмж"
+          className="mt-8 rounded-xl border border-rose-200 bg-rose-50 p-4 dark:border-rose-900/40 dark:bg-rose-950/30"
+        >
+          <div className="text-xs font-bold uppercase tracking-wide text-rose-700 dark:text-rose-300">
+            ⚠️ Түгээмэл алдаа ба зөвлөмж
+          </div>
+          <ul className="mt-2 list-inside list-disc space-y-1 text-sm text-zinc-700 dark:text-zinc-300">
+            {lesson.tips.map((t, i) => (
+              <li key={i}>{t}</li>
+            ))}
+          </ul>
+        </aside>
+      )}
+
       {(lesson.summary || lesson.objectives.length > 0) && (
         <aside
           aria-label="Гол санаа"

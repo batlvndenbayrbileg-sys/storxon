@@ -75,6 +75,8 @@ export type Lesson = {
   objectives: string[];
   /** Optional "гол санаа" recap shown at the end; falls back to the objectives when absent. */
   summary?: string;
+  /** Optional "түгээмэл алдаа / зөвлөмж" list shown after the blocks. */
+  tips?: string[];
   blocks: LessonBlock[];
 };
 
