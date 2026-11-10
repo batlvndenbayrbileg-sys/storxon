@@ -1,5 +1,6 @@
 "use client";
 
+import { formatCode } from "@/lib/formatCode";
 import { useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
 import type { PlaygroundFiles } from "@/lib/lessons/types";
 import { loadWorkspace, saveWorkspace } from "@/lib/lessons/progress";
@@ -333,6 +334,11 @@ export default function Playground({
   const editorValue = files[tab];
   const lineCount = useMemo(() => editorValue.split("\n").length, [editorValue]);
   const onEdit = (v: string) => update({ ...files, [tab]: v });
+  const formatTab = () => {
+    const next = formatCode(tab, editorValue);
+    if (next !== editorValue) onEdit(next);
+    setToast("Код цэгцлэгдлээ");
+  };
 
   // Tab key inserts two spaces instead of leaving the editor.
   // Ctrl/Cmd+Enter runs the code.
@@ -454,6 +460,14 @@ export default function Playground({
                 }`}
               >
                 Авто {autoRun ? "асаалттай" : "унтраалттай"}
+              </button>
+              <button
+                type="button"
+                onClick={formatTab}
+                aria-label={`${TAB_LABEL[tab]} кодыг цэгцлэх`}
+                className={`rounded-md px-2 py-1 text-xs font-medium text-zinc-400 hover:text-white ${FOCUS}`}
+              >
+                Цэгцлэх
               </button>
               <button
                 type="button"

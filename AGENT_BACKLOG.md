@@ -233,7 +233,7 @@ Storxon-г **анхан → дунд → төсөл бүтээх** түвшин�
 - [x] Бүрэн dark/light toggle (гараар, `sx-theme` localStorage)
 
 ## F. Playground хөдөлгүүр — 2-р шат
-- [ ] Кодыг цэгцлэх (format/indent) энгийн товч (dependency-гүй)
+- [x] Кодыг цэгцлэх (format/indent) энгийн товч (dependency-гүй)
 - [ ] Алдааны мөрийг editor-т улаанаар тодруулах
 - [ ] Preview хэмжээг responsive (утас/таблет/дэлгэц) харах toggle
 - [ ] Console-д `console.table` энгийн дэмжлэг
