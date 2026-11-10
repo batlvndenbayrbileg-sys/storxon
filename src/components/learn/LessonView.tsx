@@ -1,5 +1,6 @@
 "use client";
 
+import DifficultyFeedback from "@/components/learn/DifficultyFeedback";
 import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -440,6 +441,8 @@ export default function LessonView({
       )}
 
       {gradeable > 0 && <SummaryCard lesson={lesson} doneIds={doneIds} />}
+
+      <DifficultyFeedback lessonId={lesson.id} />
 
       {hrefFor && (prev || next) && (
         <nav aria-label="Хичээл хоорондын навигаци" className="print:hidden mt-10 flex items-stretch justify-between gap-3">
