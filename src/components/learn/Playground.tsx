@@ -355,6 +355,37 @@ export default function Playground({
     setToast("Код цэгцлэгдлээ");
   };
 
+  // Experiment: embed a small local image as a data URL <img> in the HTML tab.
+  // Stays inside the sandboxed preview; size-capped so the editor stays usable.
+  const imageInputRef = useRef<HTMLInputElement | null>(null);
+  const onPickImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    e.target.value = "";
+    if (!file) return;
+    if (!file.type.startsWith("image/")) {
+      setToast("Зөвхөн зураг сонгоно уу");
+      return;
+    }
+    if (file.size > 100 * 1024) {
+      setToast("Зураг 100KB-аас жижиг байх ёстой");
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = () => {
+      const url = String(reader.result);
+      const tag = `<img src="${url}" alt="Миний зураг" />`;
+      const html = files.html;
+      const i = html.lastIndexOf("</body>");
+      const next =
+        i >= 0 ? html.slice(0, i) + tag + "\n" + html.slice(i) : html + "\n" + tag;
+      update({ ...files, html: next });
+      setTab("html");
+      setToast("Зураг нэмэгдлээ");
+    };
+    reader.onerror = () => setToast("Зургийг уншиж чадсангүй");
+    reader.readAsDataURL(file);
+  };
+
   // Tab key inserts two spaces instead of leaving the editor.
   // Ctrl/Cmd+Enter runs the code.
   const onKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -483,6 +514,22 @@ export default function Playground({
                 className={`rounded-md px-2 py-1 text-xs font-medium text-zinc-400 hover:text-white ${FOCUS}`}
               >
                 Цэгцлэх
+              </button>
+              <input
+                ref={imageInputRef}
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={onPickImage}
+                aria-label="Зураг сонгох"
+              />
+              <button
+                type="button"
+                onClick={() => imageInputRef.current?.click()}
+                aria-label="Зураг нэмэх (data URL)"
+                className={`rounded-md px-2 py-1 text-xs font-medium text-zinc-400 hover:text-white ${FOCUS}`}
+              >
+                Зураг
               </button>
               <button
                 type="button"
