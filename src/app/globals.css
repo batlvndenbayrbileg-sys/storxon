@@ -205,6 +205,15 @@ html.fx .reveal.in {
   color: #fafafa;
 }
 
+/* lesson theory content: highlighted inline code (light mode) */
+.prose-sx code {
+  border-radius: 6px;
+  padding: 0.1em 0.35em;
+  font-size: 0.9em;
+  background: rgba(124, 58, 237, 0.09);
+  color: #6d28d9;
+}
+
 /* lesson theory content: readable inline code / emphasis in dark mode */
 .dark .prose-sx code {
   border-radius: 6px;
