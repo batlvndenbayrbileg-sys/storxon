@@ -132,6 +132,8 @@ export default function Playground({
   const [autoRun, setAutoRun] = useState(false);
   const [fontSize, setFontSize] = useState(13);
   const [toast, setToast] = useState<string | null>(null);
+  // True when a previously saved draft (not a shared link) was restored on load.
+  const [restored, setRestored] = useState(false);
   // Preview width toggle: responsive check at phone / tablet / full width.
   const [device, setDevice] = useState<"full" | "tablet" | "phone">("full");
   // Lazy-load the preview iframe: only attach srcDoc once it nears the viewport.
@@ -217,6 +219,9 @@ export default function Playground({
       setFiles(next);
       onFilesChange?.(next);
       setSrcDoc(buildSrcDoc(next));
+      if (!shared && saved && (saved.html !== starter.html || saved.css !== starter.css || saved.js !== starter.js)) {
+        setRestored(true);
+      }
     });
     return () => {
       alive = false;
@@ -257,6 +262,7 @@ export default function Playground({
   const reset = useCallback(() => {
     if (!window.confirm("Одоогийн кодыг устгаад эхлэлийн кодоор солих уу?")) return;
     update(starter);
+    setRestored(false);
     setLogs([]);
     setSrcDoc(buildSrcDoc(starter));
   }, [starter, update]);
@@ -595,6 +601,33 @@ export default function Playground({
               </button>
             </div>
           </div>
+          {restored && (
+            <div
+              role="status"
+              className="flex items-center justify-between gap-2 border-b border-amber-500/30 bg-amber-500/10 px-3 py-1.5 text-xs text-amber-200"
+            >
+              <span>
+                <span aria-hidden="true">↺ </span>Хадгалсан ноорог сэргээгдлээ
+              </span>
+              <span className="flex items-center gap-1">
+                <button
+                  type="button"
+                  onClick={reset}
+                  className={`rounded-md px-2 py-0.5 font-medium text-amber-100 hover:text-white ${FOCUS}`}
+                >
+                  Эхлэлээс эхлэх
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setRestored(false)}
+                  aria-label="Сэргээсэн мэдэгдлийг хаах"
+                  className={`rounded-md px-2 py-0.5 hover:text-white ${FOCUS}`}
+                >
+                  ×
+                </button>
+              </span>
+            </div>
+          )}
           <div className="flex min-h-0 flex-1 overflow-hidden">
             <div
               ref={gutterRef}
