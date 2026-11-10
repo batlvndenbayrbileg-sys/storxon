@@ -251,7 +251,7 @@ Storxon-г **анхан → дунд → төсөл бүтээх** түвшин�
 - [x] sitemap-д бүх /playground хичээлийг оруулах
 - [x] Хичээл бүрт OpenGraph зураг (статик эсвэл динамик)
 - [x] Шинэ util-уудад vitest тест нэмж хамралт өсгөх
-- [ ] Performance polish (ашиглагдаагүй CSS, font-display: swap)
+- [x] Performance polish (ашиглагдаагүй CSS, font-display: swap)
 - [ ] Playground-д алдааны хил (error boundary) нэмэх
 
 ## I. Дизайн ба UX polish (хичээл/playground харагдац)
