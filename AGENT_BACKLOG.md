@@ -249,7 +249,7 @@ Storxon-г **анхан → дунд → төсөл бүтээх** түвшин�
 
 ## H. Perf / SEO / чанар — 2-р шат
 - [x] sitemap-д бүх /playground хичээлийг оруулах
-- [ ] Хичээл бүрт OpenGraph зураг (статик эсвэл динамик)
+- [x] Хичээл бүрт OpenGraph зураг (статик эсвэл динамик)
 - [ ] Шинэ util-уудад vitest тест нэмж хамралт өсгөх
 - [ ] Performance polish (ашиглагдаагүй CSS, font-display: swap)
 - [ ] Playground-д алдааны хил (error boundary) нэмэх
