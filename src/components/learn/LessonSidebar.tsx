@@ -193,7 +193,7 @@ export default function LessonSidebar({
                   const faved = favs.has(l.id);
                   const cls = `flex items-center gap-2 rounded-lg px-2 py-1.5 text-sm ${
                     active
-                      ? "bg-violet-100 font-semibold text-violet-800 dark:bg-violet-950/50 dark:text-violet-200"
+                      ? "border-l-4 border-violet-600 bg-violet-100 pl-1 font-semibold text-violet-900 dark:border-violet-400 dark:bg-violet-900/40 dark:text-violet-100"
                       : "text-zinc-700 hover:bg-zinc-50 dark:text-zinc-300 dark:hover:bg-zinc-800"
                   }`;
                   const inner = (
