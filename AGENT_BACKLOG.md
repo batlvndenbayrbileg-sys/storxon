@@ -248,7 +248,7 @@ Storxon-г **анхан → дунд → төсөл бүтээх** түвшин�
 - [x] Хичээлийн төгсгөлд "хэр хэцүү байсан" санал асуулга (localStorage)
 
 ## H. Perf / SEO / чанар — 2-р шат
-- [ ] sitemap-д бүх /playground хичээлийг оруулах
+- [x] sitemap-д бүх /playground хичээлийг оруулах
 - [ ] Хичээл бүрт OpenGraph зураг (статик эсвэл динамик)
 - [ ] Шинэ util-уудад vitest тест нэмж хамралт өсгөх
 - [ ] Performance polish (ашиглагдаагүй CSS, font-display: swap)
