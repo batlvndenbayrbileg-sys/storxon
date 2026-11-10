@@ -1,7 +1,7 @@
 "use client";
 
 import DifficultyFeedback from "@/components/learn/DifficultyFeedback";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import dynamic from "next/dynamic";
@@ -193,9 +193,11 @@ export default function LessonView({
     }
     prevModuleComplete.current = moduleComplete;
   }, [moduleComplete, progressLoaded]);
-  const idx = lessons.findIndex((l) => l.id === lesson.id);
-  const prev = idx > 0 ? lessons[idx - 1] : undefined;
-  const next = idx >= 0 && idx < lessons.length - 1 ? lessons[idx + 1] : undefined;
+  // Same order as the sidebar: grouped by module (ascending), lesson order kept within a module.
+  const ordered = useMemo(() => [...lessons].sort((a, b) => a.module - b.module), [lessons]);
+  const idx = ordered.findIndex((l) => l.id === lesson.id);
+  const prev = idx > 0 ? ordered[idx - 1] : undefined;
+  const next = idx >= 0 && idx < ordered.length - 1 ? ordered[idx + 1] : undefined;
 
   return (
     <>
