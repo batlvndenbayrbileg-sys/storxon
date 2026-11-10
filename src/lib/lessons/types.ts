@@ -35,6 +35,8 @@ export type LessonBlock =
       // Optional stronger second-level hint, unlocked after the first.
       hint2?: string;
       solution?: PlaygroundFiles;
+      /** Optional "яагаад" explanation of why the solution works; shown after success or once the solution is revealed. */
+      why?: string;
       check: ExerciseCheck;
     }
   // Link to a recorded film/lecture in the gated course player (/learn). Only a

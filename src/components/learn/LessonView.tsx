@@ -713,6 +713,12 @@ function Exercise({
           {result.ok ? "✅ Зөв! Даалгавар биеллээ." : `💡 ${result.message}`}
         </p>
       )}
+      {block.why && (solShown || result?.ok) && (
+        <div className="mt-2 rounded-lg border border-emerald-200 bg-emerald-50/70 p-3 text-sm text-zinc-700 dark:border-emerald-900/40 dark:bg-emerald-950/20 dark:text-zinc-300">
+          <p className="font-semibold text-emerald-700 dark:text-emerald-400">🧠 Яагаад ингэж ажилладаг вэ?</p>
+          <p className="mt-1">{block.why}</p>
+        </div>
+      )}
     </section>
   );
 }

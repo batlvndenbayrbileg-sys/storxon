@@ -90,6 +90,7 @@ export function lessonFromJson(input: unknown): Lesson {
             hint: raw.hint === undefined ? undefined : str(raw.hint, `${p}.hint`),
             hint2: raw.hint2 === undefined ? undefined : str(raw.hint2, `${p}.hint2`),
             solution: raw.solution === undefined ? undefined : files(raw.solution, `${p}.solution`),
+            why: raw.why === undefined ? undefined : str(raw.why, `${p}.why`),
             check: check(raw.check, `${p}.check`),
           };
         case "film": {
