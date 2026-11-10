@@ -236,7 +236,7 @@ Storxon-г **анхан → дунд → төсөл бүтээх** түвшин�
 - [x] Кодыг цэгцлэх (format/indent) энгийн товч (dependency-гүй)
 - [x] Алдааны мөрийг editor-т улаанаар тодруулах
 - [x] Preview хэмжээг responsive (утас/таблет/дэлгэц) харах toggle
-- [ ] Console-д `console.table` энгийн дэмжлэг
+- [x] Console-д `console.table` энгийн дэмжлэг
 - [ ] Зураг/asset-г data URL-ээр нэмэх туршилт
 - [ ] Хадгалсан ноорог байвал "сэргээх" дохио (зөвхөн localStorage draft)
 
