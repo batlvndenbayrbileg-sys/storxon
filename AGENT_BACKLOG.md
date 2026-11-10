@@ -235,7 +235,7 @@ Storxon-г **анхан → дунд → төсөл бүтээх** түвшин�
 ## F. Playground хөдөлгүүр — 2-р шат
 - [x] Кодыг цэгцлэх (format/indent) энгийн товч (dependency-гүй)
 - [x] Алдааны мөрийг editor-т улаанаар тодруулах
-- [ ] Preview хэмжээг responsive (утас/таблет/дэлгэц) харах toggle
+- [x] Preview хэмжээг responsive (утас/таблет/дэлгэц) харах toggle
 - [ ] Console-д `console.table` энгийн дэмжлэг
 - [ ] Зураг/asset-г data URL-ээр нэмэх туршилт
 - [ ] Хадгалсан ноорог байвал "сэргээх" дохио (зөвхөн localStorage draft)

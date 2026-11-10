@@ -129,6 +129,8 @@ export default function Playground({
   const [autoRun, setAutoRun] = useState(false);
   const [fontSize, setFontSize] = useState(13);
   const [toast, setToast] = useState<string | null>(null);
+  // Preview width toggle: responsive check at phone / tablet / full width.
+  const [device, setDevice] = useState<"full" | "tablet" | "phone">("full");
   // Lazy-load the preview iframe: only attach srcDoc once it nears the viewport.
   const [inView, setInView] = useState(false);
   const uid = useId();
@@ -581,15 +583,47 @@ export default function Playground({
 
         {/* Preview + console */}
         <div className="flex min-h-0 flex-col overflow-hidden rounded-xl border border-zinc-300 bg-white dark:border-zinc-700 dark:bg-zinc-900">
-          <div className="border-b border-zinc-200 bg-zinc-50 px-3 py-1.5 text-xs font-semibold text-zinc-500 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-400">Үр дүн</div>
-          <iframe
-            ref={iframeRef}
-            title="Кодын урьдчилан харалт"
-            sandbox="allow-scripts"
-            srcDoc={inView ? srcDoc : ""}
-            className="w-full flex-1 bg-white"
-            style={{ height: full ? undefined : height, minHeight: 120 }}
-          />
+          <div className="flex items-center justify-between border-b border-zinc-200 bg-zinc-50 px-3 py-1.5 text-xs font-semibold text-zinc-500 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-400">
+            <span>Үр дүн</span>
+            <div role="group" aria-label="Preview-н хэмжээ" className="flex gap-1">
+              {(
+                [
+                  ["phone", "Утас", "Утасны хэмжээ (375px)"],
+                  ["tablet", "Таблет", "Таблетын хэмжээ (768px)"],
+                  ["full", "Дэлгэц", "Бүтэн өргөн"],
+                ] as const
+              ).map(([id, label, aria]) => (
+                <button
+                  key={id}
+                  type="button"
+                  onClick={() => setDevice(id)}
+                  aria-pressed={device === id}
+                  aria-label={aria}
+                  className={`rounded-md px-2 py-0.5 text-[11px] font-medium ${FOCUS} ${
+                    device === id
+                      ? "bg-violet-600 text-white"
+                      : "text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white"
+                  }`}
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
+          </div>
+          <div className="flex flex-1 justify-center overflow-auto bg-zinc-100 dark:bg-zinc-950">
+            <iframe
+              ref={iframeRef}
+              title="Кодын урьдчилан харалт"
+              sandbox="allow-scripts"
+              srcDoc={inView ? srcDoc : ""}
+              className="max-w-full bg-white"
+              style={{
+                width: device === "phone" ? 375 : device === "tablet" ? 768 : "100%",
+                height: full ? "100%" : height,
+                minHeight: 120,
+              }}
+            />
+          </div>
           <div
             role="log"
             aria-label="Console гаралт"
