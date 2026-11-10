@@ -252,7 +252,7 @@ Storxon-г **анхан → дунд → төсөл бүтээх** түвшин�
 - [x] Хичээл бүрт OpenGraph зураг (статик эсвэл динамик)
 - [x] Шинэ util-уудад vitest тест нэмж хамралт өсгөх
 - [x] Performance polish (ашиглагдаагүй CSS, font-display: swap)
-- [ ] Playground-д алдааны хил (error boundary) нэмэх
+- [x] Playground-д алдааны хил (error boundary) нэмэх
 
 ## I. Дизайн ба UX polish (хичээл/playground харагдац)
 - [ ] prev/next навигацийг sidebar-тай адил **модулийн дарааллаар** явуулах (одоо LESSONS эрэмбээр үсэрдэг)
