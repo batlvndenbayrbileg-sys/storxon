@@ -199,7 +199,7 @@ export default function LessonView({
     <>
     <KeyboardHelp />
     {/* Sticky top bar — always a way out (home / list / dashboard) and quick lesson jumps */}
-    <div className="sticky top-0 z-30 -mx-4 mb-6 border-b border-zinc-200/80 bg-zinc-50/85 px-4 backdrop-blur dark:border-zinc-800/80 dark:bg-zinc-950/85">
+    <div className="sticky top-0 z-30 print:hidden -mx-4 mb-6 border-b border-zinc-200/80 bg-zinc-50/85 px-4 backdrop-blur dark:border-zinc-800/80 dark:bg-zinc-950/85">
       <div className="mx-auto flex max-w-5xl items-center justify-between gap-2 py-2.5">
         <div className="flex min-w-0 items-center gap-1">
           {lessons.length > 0 && (
@@ -406,7 +406,7 @@ export default function LessonView({
       {gradeable > 0 && <SummaryCard lesson={lesson} doneIds={doneIds} />}
 
       {hrefFor && (prev || next) && (
-        <nav aria-label="Хичээл хоорондын навигаци" className="mt-10 flex items-stretch justify-between gap-3">
+        <nav aria-label="Хичээл хоорондын навигаци" className="print:hidden mt-10 flex items-stretch justify-between gap-3">
           {prev ? (
             <Link
               href={hrefFor(prev.id)}

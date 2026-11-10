@@ -188,3 +188,42 @@ html.fx .reveal.in {
     color: #fafafa;
   }
 }
+
+/* print-friendly lesson view: hide chrome, keep content on white */
+@media print {
+  #lesson-sidebar,
+  #lesson-sidebar + *[role="presentation"],
+  [aria-label="Хичээлүүдийн жагсаалт"],
+  [role="progressbar"] {
+    display: none !important;
+  }
+  body {
+    background: #fff !important;
+    color: #000 !important;
+  }
+  article {
+    max-width: 100% !important;
+  }
+  article * {
+    box-shadow: none !important;
+    animation: none !important;
+  }
+  article pre,
+  article code {
+    white-space: pre-wrap !important;
+    word-break: break-word;
+    background: #f4f4f5 !important;
+    color: #000 !important;
+  }
+  article h1,
+  article h2,
+  article h3,
+  article pre {
+    break-inside: avoid;
+    break-after: avoid;
+  }
+  a {
+    color: inherit !important;
+    text-decoration: none !important;
+  }
+}
