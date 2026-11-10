@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+/* dark: хувилбарыг <html class="dark">-аар удирдана (системийн тохиргоо + гараар toggle) */
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
   /* surfaces (light) */
   --color-ink: #ffffff;
@@ -43,6 +46,9 @@
 
 html {
   color-scheme: light;
+}
+html.dark {
+  color-scheme: dark;
 }
 
 body {
@@ -177,16 +183,14 @@ html.fx .reveal.in {
 }
 
 /* lesson theory content: readable inline code / emphasis in dark mode */
-@media (prefers-color-scheme: dark) {
-  .prose-sx code {
-    border-radius: 6px;
-    padding: 0.1em 0.35em;
-    background: rgba(167, 139, 250, 0.16);
-    color: #e4dcff;
-  }
-  .prose-sx strong {
-    color: #fafafa;
-  }
+.dark .prose-sx code {
+  border-radius: 6px;
+  padding: 0.1em 0.35em;
+  background: rgba(167, 139, 250, 0.16);
+  color: #e4dcff;
+}
+.dark .prose-sx strong {
+  color: #fafafa;
 }
 
 /* print-friendly lesson view: hide chrome, keep content on white */

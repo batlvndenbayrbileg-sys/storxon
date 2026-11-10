@@ -6,6 +6,7 @@ import Link from "next/link";
 import dynamic from "next/dynamic";
 import HighlightedCode from "@/components/learn/HighlightedCode";
 import KeyboardHelp from "@/components/learn/KeyboardHelp";
+import ThemeToggle from "@/components/learn/ThemeToggle";
 import LessonSidebar, { gradeableIds } from "@/components/learn/LessonSidebar";
 import Logo from "@/components/Logo";
 import { LESSONS } from "@/lib/lessons/data";
@@ -236,6 +237,7 @@ export default function LessonView({
               ▶ Үргэлжлүүлэх
             </Link>
           )}
+          <ThemeToggle />
           <Link
             href="/dashboard"
             className="rounded-lg border border-zinc-200 bg-white px-3 py-1.5 text-sm font-semibold text-zinc-700 hover:border-violet-400 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-200"

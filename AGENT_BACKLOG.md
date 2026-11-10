@@ -230,7 +230,7 @@ Storxon-г **анхан → дунд → төсөл бүтээх** түвшин�
 - [x] Курсын дуусгалтын хувь + "X хичээл үлдлээ" самбар
 - [x] Keyboard shortcut тусламжийн панел (`?` товчоор нээх)
 - [x] Хэвлэхэд ээлтэй хичээлийн харагдац (`@media print`)
-- [ ] Бүрэн dark/light toggle (гараар, `sx-theme` localStorage)
+- [x] Бүрэн dark/light toggle (гараар, `sx-theme` localStorage)
 
 ## F. Playground хөдөлгүүр — 2-р шат
 - [ ] Кодыг цэгцлэх (format/indent) энгийн товч (dependency-гүй)
