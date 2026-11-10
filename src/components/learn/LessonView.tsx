@@ -405,6 +405,24 @@ export default function LessonView({
         ))}
       </div>
 
+      {(lesson.summary || lesson.objectives.length > 0) && (
+        <aside
+          aria-label="Гол санаа"
+          className="mt-8 rounded-xl border border-amber-200 bg-amber-50 p-4 dark:border-amber-900/40 dark:bg-amber-950/30"
+        >
+          <div className="text-xs font-bold uppercase tracking-wide text-amber-700 dark:text-amber-300">💡 Гол санаа</div>
+          {lesson.summary ? (
+            <p className="mt-2 text-sm text-zinc-700 dark:text-zinc-300">{lesson.summary}</p>
+          ) : (
+            <ul className="mt-2 list-inside list-disc space-y-1 text-sm text-zinc-700 dark:text-zinc-300">
+              {lesson.objectives.map((o, i) => (
+                <li key={i}>{o}</li>
+              ))}
+            </ul>
+          )}
+        </aside>
+      )}
+
       {gradeable > 0 && <SummaryCard lesson={lesson} doneIds={doneIds} />}
 
       {hrefFor && (prev || next) && (

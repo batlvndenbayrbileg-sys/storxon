@@ -55,6 +55,7 @@ export function lessonFromJson(input: unknown): Lesson {
     module: mod,
     title: str(title, "$.title"),
     objectives: objectives.map((o, i) => str(o, `$.objectives[${i}]`)),
+    ...(input.summary === undefined ? {} : { summary: str(input.summary, "$.summary") }),
     blocks: blocks.map((raw, i): Lesson["blocks"][number] => {
       const p = `$.blocks[${i}]`;
       if (!isObj(raw)) return fail(p, "объект хүлээгдсэн");

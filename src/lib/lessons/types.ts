@@ -73,6 +73,8 @@ export type Lesson = {
   module: number;
   title: string;
   objectives: string[];
+  /** Optional "гол санаа" recap shown at the end; falls back to the objectives when absent. */
+  summary?: string;
   blocks: LessonBlock[];
 };
 
