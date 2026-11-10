@@ -22,7 +22,7 @@ import { loadWorkspace, saveWorkspace } from "@/lib/lessons/progress";
  * future lesson type (e.g. arbitrary npm packages) is safe — only HTML/CSS/JS.
  */
 
-type ConsoleLine = { level: "log" | "info" | "warn" | "error"; text: string };
+type ConsoleLine = { level: "log" | "info" | "warn" | "error"; text: string; line?: number };
 type Tab = "html" | "css" | "js";
 
 const TAB_LABEL: Record<Tab, string> = { html: "HTML", css: "CSS", js: "JS" };
@@ -69,13 +69,18 @@ function buildSrcDoc(f: PlaygroundFiles): string {
   const shim = `
     (function () {
       function ser(a){ try { if (a instanceof Error) return a.name + ": " + a.message; if (typeof a === "undefined") return "undefined"; if (typeof a === "function") return String(a); if (typeof a === "object" && a !== null) { var j = JSON.stringify(a, null, 2); return j === undefined ? String(a) : j; } return String(a); } catch (e) { return String(a); } }
-      function send(level, args){ parent.postMessage({ __sx_pg: true, level: level, text: Array.prototype.map.call(args, ser).join(" ") }, "*"); }
+      function send(level, args, line){ parent.postMessage({ __sx_pg: true, level: level, line: line, text: Array.prototype.map.call(args, ser).join(" ") }, "*"); }
+      function ul(n){ n = Number(n) - __SX_OFFSET__; return n >= 1 ? n : undefined; }
+      window.__sxCatch = function(e){ var m = /srcdoc:(\d+):\d+/.exec(e && e.stack || ""); send("error", [(e && e.message) || String(e)], m ? ul(m[1]) : undefined); };
       ["log","info","warn","error"].forEach(function(l){ var o = console[l]; console[l] = function(){ send(l, arguments); try { o.apply(console, arguments); } catch(e){} }; });
-      window.addEventListener("error", function(e){ send("error", [e.message + (e.filename ? " (" + e.lineno + ":" + e.colno + ")" : "")]); });
+      window.addEventListener("error", function(e){ send("error", [e.message + (e.filename ? " (" + e.lineno + ":" + e.colno + ")" : "")], e.lineno ? ul(e.lineno) : undefined); });
       window.addEventListener("unhandledrejection", function(e){ send("error", ["Unhandled: " + ser(e.reason)]); });
     })();
   `;
-  return `<!doctype html><html><head><meta charset="utf-8"><style>${f.css}</style></head><body>${f.html}<script>${shim}</script><script>try{\n${f.js}\n}catch(e){console.error(e && e.message || e);}</script></body></html>`;
+  const head = `<!doctype html><html><head><meta charset="utf-8"><style>${f.css}</style></head><body>${f.html}<script>${shim}</script><script>try{\n`;
+  // User JS starts on the line after `try{`, so its line N is document line N + (newlines in head).
+  const offset = head.split("\n").length - 1;
+  return (head + `${f.js}\n}catch(e){ window.__sxCatch ? window.__sxCatch(e) : console.error(e && e.message || e); }</script></body></html>`).replace("__SX_OFFSET__", String(offset));
 }
 
 // Clean standalone page for download: same user code, no console-relay shim.
@@ -218,9 +223,9 @@ export default function Playground({
   useEffect(() => {
     function onMsg(e: MessageEvent) {
       if (e.source !== iframeRef.current?.contentWindow) return;
-      const d = e.data as { __sx_pg?: boolean; level?: ConsoleLine["level"]; text?: string };
+      const d = e.data as { __sx_pg?: boolean; level?: ConsoleLine["level"]; text?: string; line?: number };
       if (!d || d.__sx_pg !== true) return;
-      setLogs((prev) => [...prev.slice(-49), { level: d.level || "log", text: d.text || "" }]);
+      setLogs((prev) => [...prev.slice(-49), { level: d.level || "log", text: d.text || "", line: typeof d.line === "number" ? d.line : undefined }]);
     }
     window.addEventListener("message", onMsg);
     return () => window.removeEventListener("message", onMsg);
@@ -330,6 +335,11 @@ export default function Playground({
   }, [toast]);
 
   const errorCount = logs.filter((l) => l.level === "error").length;
+  // Line (1-based) of the latest JS error, shown in red in the JS editor gutter.
+  const errorLine = useMemo(() => {
+    const hit = [...logs].reverse().find((l) => l.level === "error" && l.line);
+    return hit?.line;
+  }, [logs]);
 
   const editorValue = files[tab];
   const lineCount = useMemo(() => editorValue.split("\n").length, [editorValue]);
@@ -540,9 +550,18 @@ export default function Playground({
               className="select-none overflow-hidden bg-zinc-950/60 py-3 pl-2 pr-2 text-right font-mono leading-relaxed text-zinc-600"
               style={{ height: full ? undefined : height, fontSize }}
             >
-              {Array.from({ length: lineCount }, (_, i) => (
-                <div key={i}>{i + 1}</div>
-              ))}
+              {Array.from({ length: lineCount }, (_, i) => {
+                const bad = tab === "js" && errorLine === i + 1;
+                return (
+                  <div
+                    key={i}
+                    className={bad ? "-ml-2 -mr-2 bg-red-600/40 pl-2 pr-2 font-bold text-red-300" : undefined}
+                    title={bad ? "Алдаа энэ мөрөнд байна" : undefined}
+                  >
+                    {i + 1}
+                  </div>
+                );
+              })}
             </div>
             <textarea
               value={editorValue}
