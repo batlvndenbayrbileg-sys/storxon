@@ -263,3 +263,22 @@ html.fx .reveal.in {
     text-decoration: none !important;
   }
 }
+
+/* Skeleton shimmer — soft brand-tinted sweep over loading placeholders */
+@keyframes sx-shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+.sx-skeleton {
+  background-image: linear-gradient(
+    100deg,
+    transparent 30%,
+    color-mix(in srgb, var(--color-brand-to) 12%, transparent) 50%,
+    transparent 70%
+  );
+  background-size: 200% 100%;
+  animation: sx-shimmer 1.8s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .sx-skeleton { animation: none; background-image: none; }
+}

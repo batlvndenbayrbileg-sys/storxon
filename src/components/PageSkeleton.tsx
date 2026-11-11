@@ -2,7 +2,7 @@
 // skeleton of the real layout (hero, cards, list + aside) instead of a bare
 // "loading…" line. Used by route-level loading.tsx and client pages' initial state.
 export default function PageSkeleton({ label = "Ачаалж байна…" }: { label?: string }) {
-  const pulse = "animate-pulse rounded-2xl border border-line bg-ink-3 motion-reduce:animate-none";
+  const pulse = "sx-skeleton animate-pulse rounded-2xl border border-line bg-ink-3 motion-reduce:animate-none";
   return (
     <main className="mx-auto max-w-6xl px-4 py-8 sm:px-6" role="status" aria-busy="true" aria-live="polite">
       <span className="sr-only">{label}</span>
