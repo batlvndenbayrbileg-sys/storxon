@@ -499,12 +499,36 @@ export default function LessonView({
         </nav>
       )}
       </article>
+      {hrefFor && (prev || next) && (
+        <>
+          <div className="h-20 lg:hidden print:hidden" aria-hidden="true" />
+          <nav
+            aria-label="Хичээл хоорондын хурдан навигаци"
+            className="fixed inset-x-0 bottom-0 z-30 flex gap-2 border-t border-zinc-200 bg-white/95 px-3 py-2 backdrop-blur lg:hidden print:hidden dark:border-zinc-800 dark:bg-zinc-950/95"
+          >
+            {prev ? (
+              <Link href={hrefFor(prev.id)} className="flex min-h-12 flex-1 items-center justify-center rounded-xl border border-zinc-300 bg-white text-sm font-semibold text-zinc-800 active:bg-zinc-100 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100">
+                ‹ Өмнөх
+              </Link>
+            ) : (
+              <span className="flex-1" />
+            )}
+            {next ? (
+              <Link href={hrefFor(next.id)} className="flex min-h-12 flex-1 items-center justify-center rounded-xl bg-violet-600 text-sm font-semibold text-white active:bg-violet-700">
+                Дараах ›
+              </Link>
+            ) : (
+              <span className="flex-1" />
+            )}
+          </nav>
+        </>
+      )}
       {showTop && (
         <button
           type="button"
           onClick={scrollToTop}
           aria-label="Хичээлийн эхлэл рүү буцах"
-          className="fixed bottom-5 right-5 z-30 inline-flex items-center gap-1.5 rounded-full border border-violet-300 bg-white px-4 py-2 text-sm font-semibold text-violet-700 shadow-lg hover:border-violet-500 dark:border-violet-800 dark:bg-zinc-900 dark:text-violet-300"
+          className="fixed bottom-20 right-5 z-30 inline-flex lg:bottom-5 items-center gap-1.5 rounded-full border border-violet-300 bg-white px-4 py-2 text-sm font-semibold text-violet-700 shadow-lg hover:border-violet-500 dark:border-violet-800 dark:bg-zinc-900 dark:text-violet-300"
         >
           ↑ Эхлэл рүү
         </button>
