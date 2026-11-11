@@ -708,7 +708,7 @@ function Exercise({
   };
 
   return (
-    <section className="rounded-2xl border border-amber-200 bg-amber-50/60 p-4 dark:border-amber-900/40 dark:bg-amber-950/20">
+    <section className={`rounded-2xl border-2 p-4 ${done ? "border-emerald-300 bg-emerald-50/50 dark:border-emerald-800 dark:bg-emerald-950/20" : "border-amber-200 bg-amber-50/60 dark:border-amber-900/40 dark:bg-amber-950/20"}`}>
       <div className="flex items-center gap-2">
         <span className="rounded-md bg-amber-500 px-2 py-0.5 text-xs font-bold uppercase tracking-wide text-white">Даалгавар</span>
         <h2 className="text-lg font-bold text-zinc-900 dark:text-zinc-100">{block.title}</h2>
@@ -756,9 +756,16 @@ function Exercise({
         <p className="mt-2 rounded-lg bg-white/70 p-3 text-sm text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300">🔎 {block.hint2}</p>
       )}
       {result && (
-        <p className={`mt-2 text-sm font-semibold ${result.ok ? "text-emerald-700" : "text-red-700"}`}>
+        <div
+          role="status"
+          className={`mt-3 rounded-lg border-l-4 border px-3 py-2 text-sm font-semibold ${
+            result.ok
+              ? "border-emerald-400 border-l-emerald-500 bg-emerald-50 text-emerald-800 dark:border-emerald-800 dark:border-l-emerald-500 dark:bg-emerald-950/40 dark:text-emerald-200"
+              : "border-red-300 border-l-red-500 bg-red-50 text-red-800 dark:border-red-800 dark:border-l-red-500 dark:bg-red-950/40 dark:text-red-200"
+          }`}
+        >
           {result.ok ? "✅ Зөв! Даалгавар биеллээ." : `💡 ${result.message}`}
-        </p>
+        </div>
       )}
       {block.why && (solShown || result?.ok) && (
         <div className="mt-2 rounded-lg border border-emerald-200 bg-emerald-50/70 p-3 text-sm text-zinc-700 dark:border-emerald-900/40 dark:bg-emerald-950/20 dark:text-zinc-300">
@@ -791,7 +798,7 @@ function Quiz({
   }
 
   return (
-    <section className="rounded-2xl border border-zinc-200 bg-white p-4 dark:border-zinc-800 dark:bg-zinc-900">
+    <section className={`rounded-2xl border-2 p-4 ${done ? "border-emerald-300 bg-emerald-50/50 dark:border-emerald-800 dark:bg-emerald-950/20" : "border-sky-200 bg-white dark:border-sky-900/50 dark:bg-zinc-900"}`}>
       <div className="flex items-center gap-2">
         <span className="rounded-md bg-sky-500 px-2 py-0.5 text-xs font-bold uppercase tracking-wide text-white">Асуулт</span>
         {done && <span className="ml-auto text-sm font-semibold text-emerald-600">✅</span>}
