@@ -67,6 +67,15 @@ function estimateMinutes(l: Lesson): number {
   return Math.max(1, Math.round(min));
 }
 
+const MODULE_ACCENTS = [
+  { border: "border-violet-500", text: "text-violet-600", bar: "bg-violet-500" },
+  { border: "border-orange-500", text: "text-orange-600", bar: "bg-orange-500" },
+  { border: "border-sky-500", text: "text-sky-600", bar: "bg-sky-500" },
+  { border: "border-amber-500", text: "text-amber-600", bar: "bg-amber-500" },
+  { border: "border-emerald-500", text: "text-emerald-600", bar: "bg-emerald-500" },
+  { border: "border-rose-500", text: "text-rose-600", bar: "bg-rose-500" },
+];
+
 export default function LessonView({
   lesson,
   lessons = LESSONS,
@@ -178,6 +187,7 @@ export default function LessonView({
     }
     if (count >= 0) setDaily(count);
   }, [doneIds, lessons, progressLoaded]);
+  const accent = MODULE_ACCENTS[(Math.max(1, lesson.module) - 1) % MODULE_ACCENTS.length];
   const moduleLessons = lessons.filter((l) => l.module === lesson.module);
   const moduleFinished = moduleLessons.filter((l) => {
     const ids = gradeableIds(l);
@@ -303,7 +313,7 @@ export default function LessonView({
         onClose={closeDrawer}
       />
       <article className="min-w-0 max-w-3xl flex-1">
-      <header className="mb-6">
+      <header className={`mb-6 border-l-4 pl-4 ${accent.border}`}>
         {lessons.length > 0 && (
           <div className="mb-4 flex items-center gap-4 rounded-xl border border-zinc-200 bg-white p-3 dark:border-zinc-800 dark:bg-zinc-900">
             <div
@@ -348,7 +358,7 @@ export default function LessonView({
             </div>
           </div>
         )}
-        <nav aria-label="Breadcrumb" className="text-xs font-semibold uppercase tracking-wider text-violet-600">
+        <nav aria-label="Breadcrumb" className={`text-xs font-semibold uppercase tracking-wider ${accent.text}`}>
           <ol className="flex flex-wrap items-center gap-1.5">
             <li>
               {hrefFor ? (
@@ -380,7 +390,7 @@ export default function LessonView({
               aria-valuenow={moduleFinished}
               className="h-1.5 w-28 overflow-hidden rounded-full bg-zinc-100 dark:bg-zinc-800"
             >
-              <div className="h-full rounded-full bg-violet-500 transition-all" style={{ width: `${modulePct}%` }} />
+              <div className={`h-full rounded-full transition-all ${accent.bar}`} style={{ width: `${modulePct}%` }} />
             </div>
           </div>
         )}
