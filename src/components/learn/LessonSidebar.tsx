@@ -122,6 +122,25 @@ export default function LessonSidebar({
         >
           ✕ Хаах
         </button>
+        {doneIds.size === 0 && xp === 0 && lessons.length > 0 && (
+          <div className="mb-3 rounded-lg border border-violet-200 bg-gradient-to-br from-violet-50 to-fuchsia-50 px-3 py-3 text-sm dark:border-violet-900 dark:from-violet-950/40 dark:to-fuchsia-950/30">
+            <p className="font-bold text-violet-800 dark:text-violet-200">
+              <span aria-hidden>🚀</span> Эхний алхмаа хийцгээе!
+            </p>
+            <p className="mt-1 text-xs text-zinc-600 dark:text-zinc-400">
+              Явц 0% байна. Эхний хичээлээ дуусгаад оноо, streak цуглуулж эхэл.
+            </p>
+            {hrefFor && (
+              <Link
+                href={hrefFor(lessons[0].id)}
+                onClick={onClose}
+                className="mt-2 inline-block rounded-lg bg-violet-600 px-3 py-1.5 text-xs font-semibold text-white hover:bg-violet-700"
+              >
+                Эхний хичээлээс эхлэх →
+              </Link>
+            )}
+          </div>
+        )}
         {streak > 0 && (
           <div
             className="mb-3 flex items-center gap-2 rounded-lg bg-amber-50 px-3 py-1.5 text-sm font-semibold text-amber-800 dark:bg-amber-950/40 dark:text-amber-200"
