@@ -461,7 +461,12 @@ export default function Playground({
         {/* Editor */}
         <div className="flex min-h-0 flex-col overflow-hidden rounded-xl border border-zinc-700 bg-zinc-900">
           <div className="flex flex-wrap items-center gap-1 border-b border-zinc-800 px-2 py-1.5">
-            <div role="tablist" aria-label="Кодын файлууд" className="flex items-center gap-1">
+            <div role="tablist" aria-label="Кодын файлууд" className="relative grid grid-cols-3 items-center gap-0 rounded-md bg-zinc-800/60 p-0.5">
+            <span
+              aria-hidden="true"
+              className="pointer-events-none absolute inset-y-0.5 left-0.5 w-[calc((100%-0.25rem)/3)] rounded-md bg-violet-600 shadow-sm shadow-violet-900/50 ring-1 ring-violet-300/60 transition-transform duration-200 ease-out motion-reduce:transition-none"
+              style={{ transform: `translateX(${["html", "css", "js"].indexOf(tab) * 100}%)` }}
+            />
             {(["html", "css", "js"] as Tab[]).map((t) => (
               <button
                 key={t}
@@ -472,10 +477,10 @@ export default function Playground({
                 tabIndex={tab === t ? 0 : -1}
                 onClick={() => setTab(t)}
                 onKeyDown={onTabKey}
-                className={`rounded-md px-2.5 py-1 text-xs font-semibold transition ${FOCUS} ${
+                className={`relative z-10 rounded-md px-3 py-1 text-center text-xs font-semibold transition-colors duration-200 motion-reduce:transition-none ${FOCUS} ${
                   tab === t
-                    ? "bg-violet-600 text-white ring-1 ring-violet-300/60"
-                    : "text-zinc-400 hover:text-white"
+                    ? "text-white"
+                    : "text-zinc-400 hover:bg-zinc-700/50 hover:text-white"
                 }`}
               >
                 {TAB_LABEL[t]}
