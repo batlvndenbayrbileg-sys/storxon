@@ -263,6 +263,24 @@ export default function LessonView({
           )}
         </div>
       </div>
+      {lessons.length > 0 && (
+        <div className="mx-auto max-w-5xl pb-2.5 lg:hidden">
+          <button
+            type="button"
+            onClick={() => setDrawerOpen(true)}
+            aria-controls="lesson-sidebar"
+            aria-expanded={drawerOpen}
+            aria-label={`Одоогийн хичээл: ${lesson.title}. Жагсаалтыг нээх`}
+            className="flex w-full min-w-0 items-center gap-2 rounded-lg border border-violet-200 bg-violet-50 px-3 py-2 text-left text-sm font-semibold text-violet-900 hover:border-violet-400 dark:border-violet-500/30 dark:bg-violet-500/10 dark:text-violet-200"
+          >
+            <span aria-hidden className="shrink-0 text-xs opacity-70">
+              {idx >= 0 ? `${idx + 1}/${ordered.length}` : "•"}
+            </span>
+            <span className="min-w-0 flex-1 truncate">{lesson.title}</span>
+            <span aria-hidden className="shrink-0 opacity-60">▾</span>
+          </button>
+        </div>
+      )}
     </div>
     <div className="mx-auto flex max-w-5xl flex-col gap-6 lg:flex-row">
       <LessonSidebar
