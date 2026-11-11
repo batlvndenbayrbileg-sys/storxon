@@ -198,8 +198,15 @@ export default function LessonSidebar({
                   }`;
                   const inner = (
                     <>
-                      <span aria-hidden className={finished ? "text-emerald-600" : "text-zinc-300 dark:text-zinc-600"}>
-                        {finished ? "✓" : "○"}
+                      <span
+                        aria-hidden
+                        className={`inline-flex h-4 w-4 shrink-0 items-center justify-center rounded-full text-[10px] font-bold leading-none ${
+                          finished
+                            ? "bg-emerald-500 text-white"
+                            : "border-2 border-zinc-300 dark:border-zinc-600"
+                        }`}
+                      >
+                        {finished ? "✓" : null}
                       </span>
                       <span className="min-w-0 flex-1">{l.title}</span>
                       <span
