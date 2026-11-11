@@ -634,9 +634,24 @@ function Block({
       return (
         <section>
           {block.title && <h2 className="mb-2 text-lg font-bold text-zinc-900 dark:text-zinc-100">{block.title}</h2>}
-          <pre className="overflow-auto rounded-xl bg-zinc-900 p-4 font-mono text-[13px] leading-relaxed text-zinc-100">
-            <HighlightedCode code={block.code} lang={block.lang} />
-          </pre>
+          <div
+            className={`overflow-hidden rounded-xl border-l-4 bg-zinc-900 ${
+              block.lang === "html" ? "border-orange-500" : block.lang === "css" ? "border-sky-500" : "border-yellow-400"
+            }`}
+          >
+            <div className="flex items-center justify-between border-b border-zinc-700 px-4 py-1.5">
+              <span
+                className={`rounded px-2 py-0.5 text-[11px] font-bold uppercase tracking-wide text-zinc-900 ${
+                  block.lang === "html" ? "bg-orange-400" : block.lang === "css" ? "bg-sky-400" : "bg-yellow-300"
+                }`}
+              >
+                {block.lang === "js" ? "JavaScript" : block.lang.toUpperCase()}
+              </span>
+            </div>
+            <pre className="overflow-auto p-4 font-mono text-[13px] leading-relaxed text-zinc-100">
+              <HighlightedCode code={block.code} lang={block.lang} />
+            </pre>
+          </div>
         </section>
       );
     case "playground":
