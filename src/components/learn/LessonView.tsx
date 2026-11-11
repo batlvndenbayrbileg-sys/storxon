@@ -83,6 +83,7 @@ export default function LessonView({
   const [drawerOpen, setDrawerOpen] = useState(false);
   const closeDrawer = useCallback(() => setDrawerOpen(false), []);
   const [showTop, setShowTop] = useState(false);
+  const [readPct, setReadPct] = useState(0);
   const [streak, setStreak] = useState(0);
   const [daily, setDaily] = useState(0);
 
@@ -105,7 +106,11 @@ export default function LessonView({
   }, []);
 
   useEffect(() => {
-    const onScroll = () => setShowTop(window.scrollY > 600);
+    const onScroll = () => {
+      setShowTop(window.scrollY > 600);
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      setReadPct(max > 0 ? Math.min(100, Math.max(0, (window.scrollY / max) * 100)) : 0);
+    };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -204,6 +209,9 @@ export default function LessonView({
     <KeyboardHelp />
     {/* Sticky top bar — always a way out (home / list / dashboard) and quick lesson jumps */}
     <div className="sticky top-0 z-30 print:hidden -mx-4 mb-6 border-b border-zinc-200/80 bg-zinc-50/85 px-4 backdrop-blur dark:border-zinc-800/80 dark:bg-zinc-950/85">
+      <div aria-hidden className="absolute inset-x-0 top-0 h-0.5">
+        <div className="h-full bg-violet-600 transition-[width] duration-150 motion-reduce:transition-none" style={{ width: `${readPct}%` }} />
+      </div>
       <div className="mx-auto flex max-w-5xl items-center justify-between gap-2 py-2.5">
         <div className="flex min-w-0 items-center gap-1">
           {lessons.length > 0 && (
